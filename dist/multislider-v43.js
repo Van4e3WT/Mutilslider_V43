@@ -1,0 +1,1 @@
+(()=>{"use strict";$("a[name=downlist]").click((function(){$("#downlist").slideToggle(500)})),alert("Test")})();
