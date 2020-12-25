@@ -1,5 +1,4 @@
 const path = require('path');
-// const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -30,10 +29,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //   '$': 'jquery',
-    //   jQuery: 'jquery',
-    // }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'multislider-v43.css',
