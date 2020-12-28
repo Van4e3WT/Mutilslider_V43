@@ -7,6 +7,7 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/style.scss":
@@ -15,7 +16,6 @@
   \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://multislider-v43/./src/style.scss?");
 
 /***/ }),
@@ -26,18 +26,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extr
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.scss */ \"./src/style.scss\");\n/* harmony import */ var _mainJQuery_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mainJQuery.ts */ \"./src/mainJQuery.ts\");\n/* harmony import */ var _mainJQuery_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mainJQuery_ts__WEBPACK_IMPORTED_MODULE_1__);\n\r\n\r\n\n\n//# sourceURL=webpack://multislider-v43/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.scss */ \"./src/style.scss\");\n/* harmony import */ var _init_mainJQuery_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./init/mainJQuery.ts */ \"./src/init/mainJQuery.ts\");\n\r\n\r\n$('.multislider-v43').multislider({\r\n    sliderType: 'double'\r\n});\r\n\n\n//# sourceURL=webpack://multislider-v43/./src/index.ts?");
 
 /***/ }),
 
-/***/ "./src/mainJQuery.ts":
-/*!***************************!*\
-  !*** ./src/mainJQuery.ts ***!
-  \***************************/
-/***/ (() => {
+/***/ "./src/init/mainJQuery.ts":
+/*!********************************!*\
+  !*** ./src/init/mainJQuery.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("/*\r\n* свойство scaleOfValues должно обеспечивать возможности перехода по этим меткам путём щелчка мыши\r\n* сам слайдер должен быть отзывчивым\r\n* возможность изменения значения value должно быть легким и с помощью JS\r\n* значит в первую очередь, надо создать метод/аксессор, реализующий связь value с положением бегунка\r\n* один из вариантов реализации это задание свойства для плагина таким образом: $.fn.multislider.value\r\n*/\r\n(function ($) {\r\n    $.fn.multislider = function (cfg) {\r\n        if (cfg === void 0) { cfg = {\r\n            minValue: 0,\r\n            maxValue: 1000,\r\n            step: 10,\r\n            orientation: 'horizontal',\r\n            sliderType: 'solo',\r\n            popUpOfValue: true,\r\n            scaleOfValues: true,\r\n            isProgressBar: true,\r\n        }; }\r\n        // инициализация, генерация слайдера на базе конфигурации (создание элементов через TypeScript (если такое вообще есть) и добавление в родительский элемент, который вызвал это свойство)\r\n        alert('none');\r\n        return this;\r\n    };\r\n})(jQuery);\r\n\n\n//# sourceURL=webpack://multislider-v43/./src/mainJQuery.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/*\r\n* свойство scaleOfValues должно обеспечивать возможности перехода по этим меткам путём щелчка мыши\r\n* сам слайдер должен быть отзывчивым\r\n* возможность изменения значения value должно быть легким и с помощью JS\r\n* значит в первую очередь, надо создать метод/аксессор, реализующий связь value с положением бегунка\r\n* один из вариантов реализации это задание свойства для плагина таким образом: $.fn.multislider.value\r\n*/\r\n// import * as Model from './modules/model';\r\n// import * as Control from './modules/control';\r\n(function ($) {\r\n    $.fn.multislider = function (cfg) {\r\n        if (cfg === void 0) { cfg = {\r\n            minValue: 0,\r\n            maxValue: 1000,\r\n            step: 10,\r\n            orientation: 'horizontal',\r\n            sliderType: 'solo',\r\n            popUpOfValue: true,\r\n            scaleOfValues: true,\r\n            isProgressBar: true,\r\n        }; }\r\n        Array.from(this).forEach(function (el, i) {\r\n            el.innerHTML = 'TEST FOR DIV BLOCK' + i;\r\n        });\r\n    };\r\n})(jQuery);\r\n\r\n\n\n//# sourceURL=webpack://multislider-v43/./src/init/mainJQuery.ts?");
 
 /***/ })
 
@@ -67,35 +66,6 @@ eval("/*\r\n* свойство scaleOfValues должно обеспечиват
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => module['default'] :
-/******/ 				() => module;
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports

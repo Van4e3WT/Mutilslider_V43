@@ -6,6 +6,11 @@
 * один из вариантов реализации это задание свойства для плагина таким образом: $.fn.multislider.value
 */
 
+import { isArray } from 'jquery';
+import * as View from './modules/view';
+// import * as Model from './modules/model';
+// import * as Control from './modules/control';
+
 (function($) {
   type Config = {
     minValue: number,
@@ -32,10 +37,8 @@
     scaleOfValues: true,
     isProgressBar: true,
   }) {
-    // инициализация, генерация слайдера на базе конфигурации (создание элементов через TypeScript (если такое вообще есть) и добавление в родительский элемент, который вызвал это свойство)
-    alert('none');
-
-    return this;
-
+    Array.from(this).forEach((el: HTMLElement, i: number) => {
+      el.innerHTML = 'TEST FOR DIV BLOCK #' + i;
+    });
   };
 })(jQuery);

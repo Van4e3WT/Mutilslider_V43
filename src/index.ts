@@ -1,2 +1,6 @@
 import './style.scss';
-import './mainJQuery.ts';
+import './init/mainJQuery.ts';
+
+$('.multislider-v43').multislider({
+  sliderType: 'double'
+});
