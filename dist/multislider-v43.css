@@ -1,3 +1,16 @@
-body {
-  color: red; }
+.multislider-v43 {
+  width: 100%;
+  background-color: bisque;
+  font-family: sans-serif; }
+  .multislider-v43__description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: rgba(31, 32, 65, 0.5); }
+  .multislider-v43__header {
+    font-weight: bold; }
+  .multislider-v43 input {
+    margin: 0;
+    width: 100%; }
 
