@@ -1,4 +1,4 @@
-class EventEmitter {
+export default class EventEmitter {
 
   _events: {[key: string]: Array<Function>};
 
