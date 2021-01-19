@@ -11,6 +11,7 @@ $gradientColor: linear-gradient(to top, #8BA4F9, $Purple);
 $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
 
 .multislider-v43 {
+  min-height: 38px;
   width: 100%;
   background-color: bisque;
   font-family: sans-serif;
@@ -24,10 +25,58 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   &__header {
     font-weight: bold;
   }
-  input {
+  &__slider {
+    position: relative;
+    height: 20px;
+  }
+  input[type='range'] {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0;
     width: 100%;
-    // writing-mode: bt-lr; /* IE */
-    // -webkit-appearance: slider-vertical; /* WebKit */
+    $height: 6px;
+    height: $height;
+    pointer-events: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid $DarkShade25;
+    border-radius: $height;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    width: 30px;
+    height: 30px;
+    pointer-events: all;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    border: 0 none;
+    background-color: red;
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    pointer-events: all;
+    appearance: none;
+    -moz-appearance: none;
+    border-radius: 0;
+    border: 0 none;
+    background-color: red;
+  }
+  input[type='range']::-ms-thumb {
+    width: 30px;
+    height: 30px;
+    pointer-events: all;
+    appearance: none;
+    border-radius: 0;
+    border: 0 none;
+    background-color: red;
+  }
+  &.vertical {
+    input[type='range'] {
+      position: relative;
+      transform: rotate(-90deg);
+    }
   }
 }
