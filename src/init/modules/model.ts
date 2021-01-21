@@ -1,25 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import EventEmitter from './eventEmitter';
-
-type Thumb = {
-  min: number,
-  max: number,
-  step: number,
-  value: number,
-};
-
-// ======================================
-//              Interface
-// ======================================
-
-interface ISliderModel {
-
-  thumbs: Array<Thumb>;
-
-  getValue(): Array<number>;
-  setValue(values: { val1: number, val2?: number }): ISliderModel;
-
-}
+import type { Thumb } from './customTypes';
+import ISliderModel from './modelInterface';
 
 function swap(a: any, b: any): Array<any> {
   return [b, a];

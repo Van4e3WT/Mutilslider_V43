@@ -16,7 +16,7 @@ $('.multislider-v43.slider-1').multislider({
 
   description: 'Range slider',
 });
-$('.multislider-v43').each(function (i) {
+$('.multislider-v43').each(function f(i) {
   $(this).multislider({
     minValue: 0,
     maxValue: 1000,
