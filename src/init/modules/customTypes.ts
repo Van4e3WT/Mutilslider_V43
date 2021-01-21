@@ -18,5 +18,13 @@ export type Config = {
   scaleOfValues: boolean,
   isProgressBar: boolean,
 
-  description?: string
+  description?: string,
+};
+
+export type ModelConfig = {
+  min: number,
+  max: number,
+  step: number,
+  value1: number,
+  value2?: number,
 };
