@@ -1,7 +1,10 @@
 /* eslint-disable max-classes-per-file */
 import EventEmitter from './eventEmitter';
 import type { Thumb } from './customTypes';
-import ISliderModel from './modelInterface';
+import { ISliderModel } from './interfaces';
+import { ModelConfig } from './customTypes';
+
+export { DoubleSliderModel, SoloSliderModel };
 
 function swap(a: any, b: any): Array<any> {
   return [b, a];
@@ -15,13 +18,7 @@ function swap(a: any, b: any): Array<any> {
 class DoubleSliderModel extends EventEmitter implements ISliderModel {
   thumbs: Array<Thumb>;
 
-  constructor(cfg: {
-    min: number,
-    max: number,
-    step: number,
-    value1: number,
-    value2: number
-  }) {
+  constructor(cfg: ModelConfig) {
     super();
 
     if (cfg.value1 > cfg.value2) { // eslint-disable-next-line no-param-reassign
@@ -46,7 +43,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 
   getValue() {
-    return [this.thumbs[0].value, this.thumbs[1].value];
+    return this.thumbs;
   }
 
   setValue(values: { val1: number, val2: number }) {
@@ -77,12 +74,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 class SoloSliderModel extends EventEmitter implements ISliderModel {
   thumbs: Array<Thumb>;
 
-  constructor(cfg: {
-    min: number,
-    max: number,
-    step: number,
-    value: number,
-  }) {
+  constructor(cfg: ModelConfig) {
     super();
 
     this.thumbs = [];
@@ -91,12 +83,12 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
       min: cfg.min,
       max: cfg.max,
       step: cfg.step,
-      value: cfg.value,
+      value: cfg.value1,
     });
   }
 
   getValue() {
-    return [this.thumbs[0].value];
+    return this.thumbs;
   }
 
   setValue(values: { val1: number }) {
