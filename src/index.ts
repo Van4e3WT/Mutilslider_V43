@@ -32,5 +32,5 @@ $('.multislider-v43.slider-1').multislider({
   scaleOfValues: true,
   isProgressBar: true,
 
-  description: 'Range slider',
+  description: 'Слайдер',
 });

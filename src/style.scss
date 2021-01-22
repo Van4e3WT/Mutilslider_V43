@@ -21,6 +21,11 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   width: 100%;
   background-color: bisque;
   font-family: sans-serif;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
   &.vertical {
     height: 100%;
     min-width: 38px;

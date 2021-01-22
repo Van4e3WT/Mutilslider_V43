@@ -5,7 +5,6 @@ import type { Config } from './customTypes';
 // ======================================
 //              Double Slider
 // ======================================
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default class SliderView extends EventEmitter implements ISliderView {
   model: ISliderModel;
 
@@ -34,7 +33,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     const sliderDescription = document.createElement('div');
     sliderDescription.classList.add('multislider-v43-header__description');
-    sliderDescription.innerText = cfg.description ?? '';
+    sliderDescription.innerText = cfg.description;
     sliderHeader.appendChild(sliderDescription);
 
     const sliderOutput = document.createElement('div');
@@ -89,16 +88,18 @@ export default class SliderView extends EventEmitter implements ISliderView {
   update() {
     const thumbsValues = this.model.getValue();
 
-    this.sliderThumbs[0].style.bottom = `${this.parentThumbs.getBoundingClientRect().height * ((thumbsValues[0].value - thumbsValues[0].min) / (thumbsValues[0].max - thumbsValues[0].min))}px`;
+    this.sliderThumbs[0].style.bottom = `${this.parentThumbs.getBoundingClientRect().height
+      * ((thumbsValues[0].value - thumbsValues[0].min) / (thumbsValues[0].max - thumbsValues[0].min))}px`;
     this.outputValues[0].innerText = `${thumbsValues[0].value}`;
     // надо будет еще добавить ограничители значения присвоения value в пределах от 0px, до val1px;
 
-    this.sliderThumbs[1].style.bottom = `${(this.parentThumbs.getBoundingClientRect().height * ((thumbsValues[1].value - thumbsValues[1].min) / (thumbsValues[1].max - thumbsValues[1].min)) - 30)}px`;
+    this.sliderThumbs[1].style.bottom = `${(this.parentThumbs.getBoundingClientRect().height
+      * ((thumbsValues[1].value - thumbsValues[1].min) / (thumbsValues[1].max - thumbsValues[1].min)) - 30)}px`;
     this.outputValues[1].innerText = `${thumbsValues[1].value}`;
+    // eslint-disable-next-line max-len
+    // надо будет еще добавить ограничители значения присвоения value в пределах от bottom val0, до высоты родительского блока;
     // в дальнейшем можно [axis], где axis: string = 'top' | 'bottom'
     // сюда же можно сделать вычисление с учетом step, а вместо деления нацело юзать ~~
-    // здесь необходимо обратиться к модели, получить данные текущих значений бегунков
-    // после этого обновить блоки output value и задать новое положение бегункам,
-    // а также пересчитать размер и положение прогресс-бара
+    // здесь будет расчет отображения высоты/ширины и положения прогресс-бара
   }
 }
