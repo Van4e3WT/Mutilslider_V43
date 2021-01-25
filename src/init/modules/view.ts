@@ -6,6 +6,8 @@ import type { Config } from './customTypes';
 //              Double Slider
 // ======================================
 export default class SliderView extends EventEmitter implements ISliderView {
+  private THUMB_SIZE: number = 30;
+
   private model: ISliderModel;
 
   private sliderRange: HTMLDivElement;
@@ -82,16 +84,18 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.update();
   }
 
+  public GET_THUMB_SIZE() {
+    return this.THUMB_SIZE;
+  }
+
   public update() {
     const thumbsValues = this.model.getValue();
+    const maxPixelValue = this.parentThumbs.getBoundingClientRect().height - this.THUMB_SIZE;
 
-    this.sliderThumbs[0].style.bottom = `${this.parentThumbs.getBoundingClientRect().height
-      * ((thumbsValues[0].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
-    this.outputValues[0].innerText = `${thumbsValues[0].value}`;
-
-    this.sliderThumbs[1].style.bottom = `${(this.parentThumbs.getBoundingClientRect().height
-      * ((thumbsValues[1].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin())) - 30)}px`;
-    this.outputValues[1].innerText = `${thumbsValues[1].value}`;
+    this.sliderThumbs.forEach((item, i) => {
+      this.sliderThumbs[i].style.bottom = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
+      this.outputValues[i].innerText = `${thumbsValues[i].value}`;
+    });
     // в дальнейшем можно [axis], где axis: string = 'top' | 'bottom'
     // здесь будет расчет отображения высоты/ширины и положения прогресс-бара
   }

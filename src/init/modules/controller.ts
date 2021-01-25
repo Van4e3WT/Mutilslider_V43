@@ -25,10 +25,10 @@ export default class SliderController extends EventEmitter {
 
     document.addEventListener('mousemove', mouseMoving = (ev) => {
       const pos1 = ev.pageY;
-      const { min, max } = this.model.getValue()[0];
       // eslint-disable-next-line no-bitwise
-      const value = ~~(((pos0 - pos1) / this.view.parentThumbs.getBoundingClientRect().height)
-        * (max - min))
+      const value = ~~(((pos0 - pos1)
+        / (this.view.parentThumbs.getBoundingClientRect().height - this.view.GET_THUMB_SIZE()))
+        * (this.model.getMax() - this.model.getMin()))
         + value0;
 
       if (i === 0) {
