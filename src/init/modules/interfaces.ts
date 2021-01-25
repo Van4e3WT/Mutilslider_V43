@@ -2,16 +2,11 @@ import type { Thumb } from './customTypes';
 import EventEmitter from './eventEmitter';
 
 export interface ISliderModel extends EventEmitter {
-  thumbs: Array<Thumb>;
-
   getValue(): Array<Thumb>;
-  setValue(values: { val1: number, val2?: number }): ISliderModel;
+  setValue(values: { val1: number, val2?: number }): void;
 }
 
 export interface ISliderView extends EventEmitter {
-  model: ISliderModel;
-  outputValues: Array<HTMLDivElement>;
   sliderThumbs: Array<HTMLDivElement>;
-  sliderRange: HTMLDivElement;
   parentThumbs: HTMLDivElement;
 }

@@ -14,55 +14,57 @@ function swap(a: any, b: any): Array<any> {
 //            Double Slider
 // ======================================
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class DoubleSliderModel extends EventEmitter implements ISliderModel {
-  thumbs: Array<Thumb>;
+  private thumbs: Array<Thumb>;
 
   constructor(cfg: ModelConfig) {
     super();
 
-    if (cfg.value1 > cfg.value2) { // eslint-disable-next-line no-param-reassign
-      [cfg.value1, cfg.value2] = swap(cfg.value1, cfg.value2);
+    let { value1, value2 } = cfg;
+
+    if (value1 > value2) {
+      [value1, value2] = swap(value1, value2);
     }
 
     this.thumbs = [];
 
     this.thumbs.push({
       min: cfg.min,
-      max: cfg.value2,
+      max: value2,
       step: cfg.step,
-      value: cfg.value1,
+      value: value1,
     });
 
     this.thumbs.push({
-      min: cfg.value1,
+      min: value1,
       max: cfg.max,
       step: cfg.step,
-      value: cfg.value2,
+      value: value2,
     });
   }
 
-  getValue() {
+  public getValue() {
     return this.thumbs;
   }
 
-  setValue(values: { val1: number, val2: number }) {
-    if (values.val1 > values.val2) { // eslint-disable-next-line no-param-reassign
-      [values.val1, values.val2] = swap(values.val1, values.val2);
+  public setValue(values: { val1: number, val2?: number }) {
+    let { val1 } = values;
+    let val2 = values.val2 ?? this.thumbs[1].value;
+
+    if (val1 > val2) {
+      [val1, val2] = swap(val1, val2);
     }
 
-    this.thumbs[0].value = values.val1;
-    this.thumbs[0].max = values.val2;
+    this.thumbs[0].value = val1;
+    this.thumbs[0].max = val2;
 
-    this.thumbs[1].value = values.val2;
-    this.thumbs[1].min = values.val1;
+    this.thumbs[1].value = val2;
+    this.thumbs[1].min = val1;
 
     this.emit('valueChanged', {
-      value1: values.val1,
-      value2: values.val2,
+      value1: val1,
+      value2: val2,
     });
-
-    return this;
   }
 }
 
@@ -70,9 +72,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 //             Solo Slider
 // ======================================
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class SoloSliderModel extends EventEmitter implements ISliderModel {
-  thumbs: Array<Thumb>;
+  private thumbs: Array<Thumb>;
 
   constructor(cfg: ModelConfig) {
     super();
@@ -87,15 +88,14 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     });
   }
 
-  getValue() {
+  public getValue() {
     return this.thumbs;
   }
 
-  setValue(values: { val1: number }) {
+  public setValue(values: { val1: number }) {
     this.thumbs[0].value = values.val1;
     this.emit('valueChanged', {
       value1: values.val1,
     });
-    return this;
   }
 }
