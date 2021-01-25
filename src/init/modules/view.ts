@@ -77,6 +77,8 @@ export default class SliderView extends EventEmitter implements ISliderView {
       sliderBody.appendChild(sliderRange);
     }
 
+    this.model.on('valueChanged', this.update.bind(this));
+
     this.update();
   }
 
@@ -84,15 +86,13 @@ export default class SliderView extends EventEmitter implements ISliderView {
     const thumbsValues = this.model.getValue();
 
     this.sliderThumbs[0].style.bottom = `${this.parentThumbs.getBoundingClientRect().height
-      * ((thumbsValues[0].value - thumbsValues[0].min) / (thumbsValues[0].max - thumbsValues[0].min))}px`;
+      * ((thumbsValues[0].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
     this.outputValues[0].innerText = `${thumbsValues[0].value}`;
-    // не надо добавлять ограничители значения в пределах от 0px, до val1px; не надо, они в модели
 
     this.sliderThumbs[1].style.bottom = `${(this.parentThumbs.getBoundingClientRect().height
-      * ((thumbsValues[1].value - thumbsValues[1].min) / (thumbsValues[1].max - thumbsValues[1].min)) - 30)}px`;
+      * ((thumbsValues[1].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin())) - 30)}px`;
     this.outputValues[1].innerText = `${thumbsValues[1].value}`;
     // в дальнейшем можно [axis], где axis: string = 'top' | 'bottom'
-    // сюда же можно сделать вычисление с учетом step, а вместо деления нацело юзать ~~
     // здесь будет расчет отображения высоты/ширины и положения прогресс-бара
   }
 }

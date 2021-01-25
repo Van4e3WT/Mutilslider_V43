@@ -17,10 +17,17 @@ function swap(a: any, b: any): Array<any> {
 class DoubleSliderModel extends EventEmitter implements ISliderModel {
   private thumbs: Array<Thumb>;
 
+  private min: number;
+
+  private max: number;
+
   constructor(cfg: ModelConfig) {
     super();
 
     let { value1, value2 } = cfg;
+
+    this.min = cfg.min;
+    this.max = cfg.max;
 
     if (value1 > value2) {
       [value1, value2] = swap(value1, value2);
@@ -29,7 +36,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     this.thumbs = [];
 
     this.thumbs.push({
-      min: cfg.min,
+      min: this.min,
       max: value2,
       step: cfg.step,
       value: value1,
@@ -37,10 +44,18 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 
     this.thumbs.push({
       min: value1,
-      max: cfg.max,
+      max: this.max,
       step: cfg.step,
       value: value2,
     });
+  }
+
+  public getMin() {
+    return this.min;
+  }
+
+  public getMax() {
+    return this.max;
   }
 
   public getValue() {
@@ -48,12 +63,17 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public setValue(values: { val1: number, val2?: number }) {
-    let { val1 } = values;
-    let val2 = values.val2 ?? this.thumbs[1].value;
+    // сюда же можно сделать вычисление с учетом step, а вместо деления нацело юзать ~~
+    // добавить ограничители диапазона
+    let { val1, val2 } = values;
+    val2 = val2 ?? this.thumbs[1].value;
 
     if (val1 > val2) {
       [val1, val2] = swap(val1, val2);
     }
+
+    val1 = val1 < this.min ? this.min : val1;
+    val2 = val2 > this.max ? this.max : val2;
 
     this.thumbs[0].value = val1;
     this.thumbs[0].max = val2;
@@ -86,6 +106,14 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
       step: cfg.step,
       value: cfg.value1,
     });
+  }
+
+  public getMin() {
+    return this.thumbs[0].min;
+  }
+
+  public getMax() {
+    return this.thumbs[0].max;
   }
 
   public getValue() {
