@@ -23,7 +23,7 @@ $('.multislider-v43.slider-1').multislider({
   minValue: 5000,
   maxValue: 15000,
   step: 100,
-  value: 5440,
+  value: 7500,
 
   orientation: 'vertical',
   sliderType: 'double',
@@ -32,5 +32,20 @@ $('.multislider-v43.slider-1').multislider({
   scaleOfValues: true,
   isProgressBar: true,
 
-  description: 'Слайдер',
+  description: 'Вертикальный слайдер',
+});
+$('.multislider-v43.slider-2').multislider({
+  minValue: 5000,
+  maxValue: 15000,
+  step: 100,
+  value: 6000,
+
+  orientation: 'horizontal',
+  sliderType: 'double',
+
+  popUpOfValue: true,
+  scaleOfValues: true,
+  isProgressBar: true,
+
+  description: 'Горизонтальный слайдер',
 });

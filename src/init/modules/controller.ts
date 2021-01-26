@@ -8,11 +8,31 @@ export default class SliderController extends EventEmitter {
 
   private view: ISliderView;
 
+  private axis: {
+    eventAxis: 'pageX' | 'pageY',
+    sizeParent: 'width' | 'height',
+    dPos: -1 | 1;
+  };
+
   constructor(model: ISliderModel, view: ISliderView) {
     super();
 
     this.model = model;
     this.view = view;
+
+    if (view.getAxis() === 'Y') {
+      this.axis = {
+        eventAxis: 'pageY',
+        sizeParent: 'height',
+        dPos: -1,
+      };
+    } else {
+      this.axis = {
+        eventAxis: 'pageX',
+        sizeParent: 'width',
+        dPos: 1,
+      };
+    }
 
     view.sliderThumbs.forEach((item, i) => {
       view.sliderThumbs[i].addEventListener('mousedown', (e) => this.addMouseListener(i, e));
@@ -20,14 +40,15 @@ export default class SliderController extends EventEmitter {
   }
 
   private addMouseListener(i: number, e: MouseEvent) {
-    const pos0 = e.pageY;
+    const pos0 = e[this.axis.eventAxis];
     const value0 = this.model.getValue()[i].value;
 
     document.addEventListener('mousemove', mouseMoving = (ev) => {
-      const pos1 = ev.pageY;
+      const pos1 = ev[this.axis.eventAxis];
       // eslint-disable-next-line no-bitwise
-      const value = ~~(((pos0 - pos1)
-        / (this.view.parentThumbs.getBoundingClientRect().height - this.view.GET_THUMB_SIZE()))
+      const value = ~~((((pos1 - pos0) * this.axis.dPos)
+        / (this.view.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
+          - this.view.GET_THUMB_SIZE()))
         * (this.model.getMax() - this.model.getMin()))
         + value0;
 

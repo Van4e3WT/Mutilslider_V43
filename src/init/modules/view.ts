@@ -14,6 +14,11 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
   private outputValues: Array<HTMLDivElement>;
 
+  private axis: {
+    sizeParent: 'height' | 'width',
+    styleSelector: 'bottom' | 'left'
+  };
+
   public sliderThumbs: Array<HTMLDivElement>;
 
   public parentThumbs: HTMLDivElement;
@@ -27,6 +32,15 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     if (cfg.orientation === 'vertical') {
       parent.classList.add('vertical');
+      this.axis = {
+        sizeParent: 'height',
+        styleSelector: 'bottom',
+      };
+    } else {
+      this.axis = {
+        sizeParent: 'width',
+        styleSelector: 'left',
+      };
     }
 
     const sliderHeader = document.createElement('div');
@@ -88,15 +102,19 @@ export default class SliderView extends EventEmitter implements ISliderView {
     return this.THUMB_SIZE;
   }
 
+  public getAxis() {
+    return this.axis.sizeParent === 'height' ? 'Y' : 'X';
+  }
+
   public update() {
     const thumbsValues = this.model.getValue();
-    const maxPixelValue = this.parentThumbs.getBoundingClientRect().height - this.THUMB_SIZE;
+    const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
+      - this.THUMB_SIZE;
 
     this.sliderThumbs.forEach((item, i) => {
-      this.sliderThumbs[i].style.bottom = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
+      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
       this.outputValues[i].innerText = `${thumbsValues[i].value}`;
     });
-    // в дальнейшем можно [axis], где axis: string = 'top' | 'bottom'
     // здесь будет расчет отображения высоты/ширины и положения прогресс-бара
   }
 }
