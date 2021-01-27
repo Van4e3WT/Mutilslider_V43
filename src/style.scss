@@ -19,7 +19,7 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   align-items: center;
   min-height: 38px;
   width: 100%;
-  background-color: bisque;
+  background-color: #C0F9B0;
   font-family: sans-serif;
   user-select: none;
   -ms-user-select: none;
@@ -48,10 +48,10 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
     border-radius: 10px;
     &__thumb {
       position: absolute;
-      bottom: -10px;
+      bottom: -9px;
       left: 0px;
-      height: 26px;
-      width: 26px;
+      height: 24px;
+      width: 24px;
       background-color: #00733c;
       border: 3px solid white;
       border-radius: 50%;
@@ -60,10 +60,10 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
     }
     &__range {
       position: absolute;
-      bottom: 0;
-      left: -1px;
-      width: 8px;
-      height: 0px;
+      bottom: -1px;
+      left: 0;
+      width: 0px;
+      height: 8px;
       background-color: #46a229;
     }
   }
@@ -76,7 +76,13 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
         width: 10px;
         &__thumb {
           bottom: 0px;
-          left: -10px;
+          left: -9px;
+        }
+        &__range {
+          bottom: 0;
+          left: -1px;
+          width: 8px;
+          height: 0px;
         }
       }
     }

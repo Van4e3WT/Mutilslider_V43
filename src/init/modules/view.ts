@@ -6,7 +6,7 @@ import type { Config } from './customTypes';
 //              Double Slider
 // ======================================
 export default class SliderView extends EventEmitter implements ISliderView {
-  private THUMB_SIZE: number = 30;
+  private THUMB_SIZE: number = 24;
 
   private model: ISliderModel;
 
@@ -88,9 +88,9 @@ export default class SliderView extends EventEmitter implements ISliderView {
     }
 
     if (cfg.isProgressBar) {
-      const sliderRange = document.createElement('div');
-      sliderRange.classList.add('multislider-v43-body__range');
-      sliderBody.appendChild(sliderRange);
+      this.sliderRange = document.createElement('div');
+      this.sliderRange.classList.add('multislider-v43-body__range');
+      sliderBody.appendChild(this.sliderRange);
     }
 
     this.model.on('valueChanged', this.update.bind(this));
@@ -112,9 +112,13 @@ export default class SliderView extends EventEmitter implements ISliderView {
       - this.THUMB_SIZE;
 
     this.sliderThumbs.forEach((item, i) => {
-      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin()))}px`;
+      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin())) - (this.THUMB_SIZE / 10)}px`;
       this.outputValues[i].innerText = `${thumbsValues[i].value}`;
     });
-    // здесь будет расчет отображения высоты/ширины и положения прогресс-бара
+
+    if (this.sliderRange) {
+      this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10) + (this.THUMB_SIZE / 2)}px`;
+      this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10) - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+    }
   }
 }

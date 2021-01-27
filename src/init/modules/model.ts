@@ -64,7 +64,6 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 
   public setValue(values: { val1: number, val2?: number }) {
     // сюда же можно сделать вычисление с учетом step, а вместо деления нацело юзать ~~
-    // добавить ограничители диапазона
     let { val1, val2 } = values;
     val2 = val2 ?? this.thumbs[1].value;
 
