@@ -72,8 +72,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       [val1, val2] = swap(val1, val2);
     }
 
-    val1 = ~~(val1 / this.step) * this.step;
-    val2 = ~~(val2 / this.step) * this.step;
+    val1 = (~~(val1 / this.step) / (1 / this.step)); // 200 IQ move
+    val2 = (~~(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
 
     val1 = val1 < this.min ? this.min : val1;
     val2 = val2 > this.max ? this.max : val2;

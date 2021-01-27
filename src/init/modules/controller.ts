@@ -46,7 +46,7 @@ export default class SliderController extends EventEmitter {
     document.addEventListener('mousemove', mouseMoving = (ev) => {
       const pos1 = ev[this.axis.eventAxis];
       // eslint-disable-next-line no-bitwise
-      const value = ~~((((pos1 - pos0) * this.axis.dPos)
+      const value = ((((pos1 - pos0) * this.axis.dPos)
         / (this.view.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
           - this.view.GET_THUMB_SIZE()))
         * (this.model.getMax() - this.model.getMin()))

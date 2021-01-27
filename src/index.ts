@@ -35,10 +35,10 @@ $('.multislider-v43.slider-1').multislider({
   description: 'Вертикальный слайдер',
 });
 $('.multislider-v43.slider-2').multislider({
-  minValue: 5000,
-  maxValue: 15000,
-  step: 100,
-  value: 6000,
+  minValue: -1,
+  maxValue: 1,
+  step: 0.0001,
+  value: 0.1,
 
   orientation: 'horizontal',
   sliderType: 'double',
