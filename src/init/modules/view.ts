@@ -95,6 +95,8 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     this.model.on('valueChanged', this.update.bind(this));
 
+    window.addEventListener('resize', this.update.bind(this));
+
     this.update();
   }
 
