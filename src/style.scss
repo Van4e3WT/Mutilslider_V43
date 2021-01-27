@@ -19,7 +19,10 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   align-items: center;
   min-height: 38px;
   width: 100%;
+  padding-bottom: 30px;
   background-color: #C0F9B0;
+  border: 2px solid gray;
+  border-radius: 5px;
   font-family: sans-serif;
   user-select: none;
   -ms-user-select: none;
@@ -66,6 +69,29 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       height: 8px;
       background-color: #46a229;
     }
+    &__scale {
+      height: 100%;
+      width: 100%;
+    }
+    &__scale-division {
+      position: absolute;
+      height: 18px;
+      bottom: -30px;
+      transform: translateX(-50%);
+      &::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        height: 10px;
+        width: 2px;
+        transform: translateX(-50%);
+        background-color: #1f1f1f;
+      }
+      &:first-child::before, &:last-child::before {
+        content: none;
+      }
+    }
   }
   &.vertical {
     height: 100%;
@@ -83,6 +109,23 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
           left: -1px;
           width: 8px;
           height: 0px;
+        }
+        &__scale-division {
+          left: 20px;
+          transform: translateY(50%);
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -22px;
+            height: 2px;
+            width: 10px;
+            transform: translateY(-50%);
+            background-color: black;
+          }
+          &:first-child::before, &:last-child::before {
+            content: none;
+          }
         }
       }
     }

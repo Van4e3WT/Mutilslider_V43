@@ -14,7 +14,7 @@ export type Config = {
   sliderType: 'solo' | 'double',
 
   popUpOfValue: boolean,
-  scaleOfValues: boolean,
+  scaleOfValues: number,
   isProgressBar: boolean,
 
   description?: string,

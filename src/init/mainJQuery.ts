@@ -23,7 +23,7 @@ import SliderController from './modules/controller';
     sliderType: 'solo',
 
     popUpOfValue: false,
-    scaleOfValues: false,
+    scaleOfValues: 0,
     isProgressBar: true,
 
     description: 'Range Slider',

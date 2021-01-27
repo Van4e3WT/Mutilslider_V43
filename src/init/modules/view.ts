@@ -6,7 +6,7 @@ import type { Config } from './customTypes';
 //              Double Slider
 // ======================================
 export default class SliderView extends EventEmitter implements ISliderView {
-  private THUMB_SIZE: number = 24;
+  private thumbSize: number;
 
   private model: ISliderModel;
 
@@ -18,6 +18,8 @@ export default class SliderView extends EventEmitter implements ISliderView {
     sizeParent: 'height' | 'width',
     styleSelector: 'bottom' | 'left'
   };
+
+  public sliderScale: Array<HTMLDivElement>;
 
   public sliderThumbs: Array<HTMLDivElement>;
 
@@ -87,21 +89,32 @@ export default class SliderView extends EventEmitter implements ISliderView {
       this.sliderThumbs.push(sliderThumbFirst);
     }
 
+    this.thumbSize = parseInt(getComputedStyle(this.sliderThumbs[0]).width, 10);
+
     if (cfg.isProgressBar) {
       this.sliderRange = document.createElement('div');
       this.sliderRange.classList.add('multislider-v43-body__range');
       sliderBody.appendChild(this.sliderRange);
     }
 
+    if (cfg.scaleOfValues) {
+      const sliderScale = document.createElement('div');
+      sliderScale.classList.add('multislider-v43-body__scale');
+      sliderBody.appendChild(sliderScale);
+      this.sliderScale = [];
+      this.renderScale(cfg.scaleOfValues, sliderScale);
+    }
+
     this.model.on('valueChanged', this.update.bind(this));
 
     window.addEventListener('resize', this.update.bind(this));
+    window.addEventListener('resize', this.updateScale.bind(this));
 
     this.update();
   }
 
-  public GET_THUMB_SIZE() {
-    return this.THUMB_SIZE;
+  public getThumbSize() {
+    return this.thumbSize;
   }
 
   public getAxis() {
@@ -111,16 +124,44 @@ export default class SliderView extends EventEmitter implements ISliderView {
   public update() {
     const thumbsValues = this.model.getValue();
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
-      - this.THUMB_SIZE;
+      - this.thumbSize;
 
     this.sliderThumbs.forEach((item, i) => {
-      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue * ((thumbsValues[i].value - this.model.getMin()) / (this.model.getMax() - this.model.getMin())) - (this.THUMB_SIZE / 10)}px`;
+      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue
+        * ((thumbsValues[i].value - this.model.getMin())
+          / (this.model.getMax() - this.model.getMin()))
+        - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10)}px`;
       this.outputValues[i].innerText = `${thumbsValues[i].value}`;
     });
 
     if (this.sliderRange) {
-      this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10) + (this.THUMB_SIZE / 2)}px`;
-      this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10) - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+      this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
+        + (this.thumbSize / 2)}px`;
+      this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10)
+        - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+    }
+  }
+
+  private renderScale(n: number, parent: HTMLDivElement) {
+    for (let i = 0; i < n; i += 1) {
+      const scaleElement = document.createElement('div');
+
+      scaleElement.classList.add('multislider-v43-body__scale-division');
+      this.sliderScale.push(scaleElement);
+      parent.appendChild(scaleElement);
+    }
+    this.updateScale();
+  }
+
+  private updateScale() {
+    const n = this.sliderScale.length;
+
+    for (let i = 0; i < n; i += 1) {
+      this.sliderScale[i].style[this.axis.styleSelector] = `${(i / (n - 1))
+        * (this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent] - this.thumbSize)
+        + ((this.thumbSize / 2) - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10))}px`;
+      this.sliderScale[i].innerHTML = `${(this.model.getMax() - this.model.getMin())
+        * (i / (n - 1)) + this.model.getMin()}`;
     }
   }
 }

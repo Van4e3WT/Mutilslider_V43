@@ -37,6 +37,9 @@ export default class SliderController extends EventEmitter {
     view.sliderThumbs.forEach((item, i) => {
       view.sliderThumbs[i].addEventListener('mousedown', (e) => this.addMouseListener(i, e));
     });
+
+    // view.sliderScale.forEach();
+    // написать логику для кликабельных делений шкалы
   }
 
   private addMouseListener(i: number, e: MouseEvent) {
@@ -45,10 +48,10 @@ export default class SliderController extends EventEmitter {
 
     document.addEventListener('mousemove', mouseMoving = (ev) => {
       const pos1 = ev[this.axis.eventAxis];
-      // eslint-disable-next-line no-bitwise
+
       const value = ((((pos1 - pos0) * this.axis.dPos)
         / (this.view.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
-          - this.view.GET_THUMB_SIZE()))
+          - this.view.getThumbSize()))
         * (this.model.getMax() - this.model.getMin()))
         + value0;
 

@@ -29,7 +29,7 @@ $('.multislider-v43.slider-1').multislider({
   sliderType: 'double',
 
   popUpOfValue: true,
-  scaleOfValues: true,
+  scaleOfValues: 11,
   isProgressBar: true,
 
   description: 'Вертикальный слайдер',
@@ -44,7 +44,7 @@ $('.multislider-v43.slider-2').multislider({
   sliderType: 'double',
 
   popUpOfValue: true,
-  scaleOfValues: true,
+  scaleOfValues: 9,
   isProgressBar: true,
 
   description: 'Горизонтальный слайдер',

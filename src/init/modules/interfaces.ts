@@ -11,6 +11,7 @@ export interface ISliderModel extends EventEmitter {
 export interface ISliderView extends EventEmitter {
   sliderThumbs: Array<HTMLDivElement>;
   parentThumbs: HTMLDivElement;
-  GET_THUMB_SIZE(): number;
+  sliderScale: Array<HTMLDivElement>;
+  getThumbSize(): number;
   getAxis(): 'X' | 'Y';
 }
