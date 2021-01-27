@@ -1,7 +1,6 @@
 export type Thumb = {
   min: number,
   max: number,
-  step: number,
   value: number,
 };
 

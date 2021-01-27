@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 import EventEmitter from './eventEmitter';
 import type { Thumb } from './customTypes';
@@ -21,6 +22,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 
   private max: number;
 
+  private step: number;
+
   constructor(cfg: ModelConfig) {
     super();
 
@@ -28,6 +31,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 
     this.min = cfg.min;
     this.max = cfg.max;
+    this.step = cfg.step;
 
     if (value1 > value2) {
       [value1, value2] = swap(value1, value2);
@@ -38,14 +42,12 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     this.thumbs.push({
       min: this.min,
       max: value2,
-      step: cfg.step,
       value: value1,
     });
 
     this.thumbs.push({
       min: value1,
       max: this.max,
-      step: cfg.step,
       value: value2,
     });
   }
@@ -63,13 +65,15 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public setValue(values: { val1: number, val2?: number }) {
-    // сюда же можно сделать вычисление с учетом step, а вместо деления нацело юзать ~~
     let { val1, val2 } = values;
     val2 = val2 ?? this.thumbs[1].value;
 
     if (val1 > val2) {
       [val1, val2] = swap(val1, val2);
     }
+
+    val1 = ~~(val1 / this.step) * this.step;
+    val2 = ~~(val2 / this.step) * this.step;
 
     val1 = val1 < this.min ? this.min : val1;
     val2 = val2 > this.max ? this.max : val2;
@@ -102,7 +106,6 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     this.thumbs.push({
       min: cfg.min,
       max: cfg.max,
-      step: cfg.step,
       value: cfg.value1,
     });
   }
