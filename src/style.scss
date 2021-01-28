@@ -76,12 +76,19 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
     &__scale-division {
       position: absolute;
       height: 18px;
-      bottom: -30px;
+      bottom: -12px;
+      padding-top: 20px;
       transform: translateX(-50%);
+      cursor: pointer;
+      &:hover {
+        color: #00733c;
+        text-shadow: #46a229 0px 0px 4px;
+        transition: 0.3s;
+      }
       &::before {
         content: '';
         position: absolute;
-        top: -20px;
+        top: 0px;
         left: 50%;
         height: 10px;
         width: 2px;
@@ -111,13 +118,15 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
           height: 0px;
         }
         &__scale-division {
-          left: 20px;
+          left: -2px;
           transform: translateY(50%);
+          padding-top: 0;
+          padding-left: 20px;
           &::before {
             content: '';
             position: absolute;
             top: 50%;
-            left: -22px;
+            left: 0px;
             height: 2px;
             width: 10px;
             transform: translateY(-50%);
