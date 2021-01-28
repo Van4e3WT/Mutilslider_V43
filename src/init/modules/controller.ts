@@ -43,10 +43,7 @@ export default class SliderController extends EventEmitter {
         const scaleDivisionValue = +(item.innerText);
         if (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
           < Math.abs(scaleDivisionValue - this.model.getValue()[0].value)) {
-          this.model.setValue({
-            val1: this.model.getValue()[0].value,
-            val2: scaleDivisionValue,
-          });
+          this.model.setValue({ val2: scaleDivisionValue });
         } else {
           this.model.setValue({ val1: scaleDivisionValue });
         }
@@ -70,7 +67,7 @@ export default class SliderController extends EventEmitter {
       if (i === 0) {
         this.model.setValue({ val1: value });
       } else if (i === 1) {
-        this.model.setValue({ val1: this.model.getValue()[0].value, val2: value });
+        this.model.setValue({ val2: value });
       }
     });
 

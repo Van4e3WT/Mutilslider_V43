@@ -64,8 +64,10 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     return this.thumbs;
   }
 
-  public setValue(values: { val1: number, val2?: number }) {
+  public setValue(values: { val1?: number, val2?: number }) {
     let { val1, val2 } = values;
+
+    val1 = val1 ?? this.thumbs[0].value;
     val2 = val2 ?? this.thumbs[1].value;
 
     if (val1 > val2) {

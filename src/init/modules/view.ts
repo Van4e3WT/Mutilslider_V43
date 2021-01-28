@@ -19,6 +19,8 @@ export default class SliderView extends EventEmitter implements ISliderView {
     styleSelector: 'bottom' | 'left'
   };
 
+  private isPopUp: boolean;
+
   public sliderScale: Array<HTMLDivElement>;
 
   public sliderThumbs: Array<HTMLDivElement>;
@@ -31,6 +33,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.model = model;
     this.outputValues = [];
     this.sliderThumbs = [];
+    this.isPopUp = cfg.popUpOfValue;
 
     if (cfg.orientation === 'vertical') {
       parent.classList.add('vertical');
@@ -54,27 +57,29 @@ export default class SliderView extends EventEmitter implements ISliderView {
     sliderDescription.innerText = cfg.description;
     sliderHeader.appendChild(sliderDescription);
 
-    const sliderOutput = document.createElement('div');
-    sliderOutput.classList.add('multislider-v43-header__output');
-    sliderHeader.appendChild(sliderOutput);
+    if (!this.isPopUp) {
+      const sliderOutput = document.createElement('div');
+      sliderOutput.classList.add('multislider-v43-header__output');
+      sliderHeader.appendChild(sliderOutput);
 
-    const sliderValueFirst = document.createElement('div');
-    sliderValueFirst.classList.add('multislider-v43-header__value');
-    sliderValueFirst.innerText = `${cfg.minValue}`;
-    sliderOutput.appendChild(sliderValueFirst);
-    this.outputValues.push(sliderValueFirst);
+      const sliderValueFirst = document.createElement('div');
+      sliderValueFirst.classList.add('multislider-v43-header__value');
+      sliderValueFirst.innerText = `${cfg.minValue}`;
+      sliderOutput.appendChild(sliderValueFirst);
+      this.outputValues.push(sliderValueFirst);
 
-    if (model.getValue().length === 2) {
-      const sliderSpacer = document.createElement('div');
-      sliderSpacer.classList.add('multislider-v43-header__spacer');
-      sliderSpacer.innerText = '\xa0–\xa0';
-      sliderOutput.appendChild(sliderSpacer);
+      if (model.getValue().length === 2) {
+        const sliderSpacer = document.createElement('div');
+        sliderSpacer.classList.add('multislider-v43-header__spacer');
+        sliderSpacer.innerText = '\xa0–\xa0';
+        sliderOutput.appendChild(sliderSpacer);
 
-      const sliderValueSecond = document.createElement('div');
-      sliderValueSecond.classList.add('multislider-v43-header__value');
-      sliderValueSecond.innerText = `${cfg.maxValue}`;
-      sliderOutput.appendChild(sliderValueSecond);
-      this.outputValues.push(sliderValueSecond);
+        const sliderValueSecond = document.createElement('div');
+        sliderValueSecond.classList.add('multislider-v43-header__value');
+        sliderValueSecond.innerText = `${cfg.maxValue}`;
+        sliderOutput.appendChild(sliderValueSecond);
+        this.outputValues.push(sliderValueSecond);
+      }
     }
 
     const sliderBody = document.createElement('div');
@@ -83,10 +88,17 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < model.getValue().length; i += 1) {
-      const sliderThumbFirst = document.createElement('div');
-      sliderThumbFirst.classList.add('multislider-v43-body__thumb');
-      sliderBody.appendChild(sliderThumbFirst);
-      this.sliderThumbs.push(sliderThumbFirst);
+      const sliderThumb = document.createElement('div');
+      sliderThumb.classList.add('multislider-v43-body__thumb');
+      sliderBody.appendChild(sliderThumb);
+      this.sliderThumbs.push(sliderThumb);
+
+      if (this.isPopUp) {
+        const sliderThumbPopUp = document.createElement('div');
+        sliderThumbPopUp.classList.add('multislider-v43-body__popup');
+        sliderBody.appendChild(sliderThumbPopUp);
+        this.outputValues.push(sliderThumbPopUp);
+      }
     }
 
     this.thumbSize = parseInt(getComputedStyle(this.sliderThumbs[0]).width, 10);
@@ -127,11 +139,17 @@ export default class SliderView extends EventEmitter implements ISliderView {
       - this.thumbSize;
 
     this.sliderThumbs.forEach((item, i) => {
-      this.sliderThumbs[i].style[this.axis.styleSelector] = `${maxPixelValue
+      const position = maxPixelValue
         * ((thumbsValues[i].value - this.model.getMin())
           / (this.model.getMax() - this.model.getMin()))
-        - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10)}px`;
+        - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
+
+      this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
       this.outputValues[i].innerText = `${thumbsValues[i].value}`;
+
+      if (this.isPopUp) {
+        this.outputValues[i].style[this.axis.styleSelector] = `${position + this.getThumbSize() / 2}px`;
+      }
     });
 
     if (this.sliderRange) {

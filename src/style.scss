@@ -33,6 +33,7 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
     &__description {
       text-align: center;
       font-weight: bold;
+      padding: 10px;
     }
     &__output {
       display: flex;
@@ -60,6 +61,31 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       border-radius: 50%;
       cursor: pointer;
       z-index: 1;
+    }
+    &__thumb:hover + &__popup, &__thumb:active + &__popup {
+      display: block;
+    }
+    &__popup {
+      display: none;
+      position: absolute;
+      padding: 5px;
+      background-color: white;
+      border: 2px solid #7f7f7f;
+      border-radius: 5px;
+      bottom: 20px;
+      transform: translateX(-50%);
+      &::before {
+        position: absolute;
+        content: '';
+        height: 8px;
+        width: 8px;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        border-bottom: 2px solid #7f7f7f;
+        border-right: 2px solid #7f7f7f;
+        background-color: white;
+      }
     }
     &__range {
       position: absolute;
@@ -110,6 +136,24 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
         &__thumb {
           bottom: 0px;
           left: -9px;
+        }
+        &__popup {
+          right: 20px;
+          transform: translateY(50%);
+          &::before {
+            position: absolute;
+            content: '';
+            height: 8px;
+            width: 8px;
+            right: -6px;
+            left: auto;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            border-top: 2px solid #7f7f7f;
+            border-right: 2px solid #7f7f7f;
+            border-bottom: none;
+            background-color: white;
+          }
         }
         &__range {
           bottom: 0;
