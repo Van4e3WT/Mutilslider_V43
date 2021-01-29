@@ -6,9 +6,9 @@ $DarkShade10: rgba($DarkShade, 0.10);
 $DarkShade05: rgba($DarkShade, 0.05);
 $Purple: #BC9CFF;
 $Green: #6FCF97;
+$Blue: #66D2EA;
 $shadow: 0px 0px 50px -25px $DarkShade;
-$gradientColor: linear-gradient(to top, #8BA4F9, $Purple);
-$gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
+$gradientColor: linear-gradient(to top, $Blue, $Green);
 
 * {
   box-sizing: border-box;
@@ -20,9 +20,8 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   min-height: 38px;
   width: 100%;
   padding-bottom: 30px;
-  background-color: #C0F9B0;
-  border: 2px solid gray;
-  border-radius: 5px;
+  background-color: $DarkShade05;
+  border-radius: 10px;
   font-family: sans-serif;
   user-select: none;
   -ms-user-select: none;
@@ -34,21 +33,21 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
     &__description {
       text-align: center;
       font-weight: bold;
+      color: $DarkShade;
     }
     &__output {
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 16px;
-      color: $DarkShade50;
+      color: $DarkShade75;
     }
   }
   &-body {
     position: relative;
     width: 100%;
     height: 10px;
-    background-color: white;
-    border: 2px solid #7f7f7f;
+    border: 2px solid $DarkShade25;
     border-radius: 10px;
     &__thumb {
       position: absolute;
@@ -56,7 +55,7 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       left: 0px;
       height: 24px;
       width: 24px;
-      background-color: #00733c;
+      background: $gradientColor;
       border: 3px solid white;
       border-radius: 50%;
       cursor: pointer;
@@ -70,8 +69,9 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       position: absolute;
       padding: 5px;
       background-color: white;
-      border: 2px solid #7f7f7f;
-      border-radius: 5px;
+      color: $DarkShade75;
+      border: 2px solid $Green;
+      border-radius: 10px;
       bottom: 20px;
       transform: translateX(-50%);
       &::before {
@@ -82,8 +82,8 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
         bottom: -6px;
         left: 50%;
         transform: translateX(-50%) rotate(45deg);
-        border-bottom: 2px solid #7f7f7f;
-        border-right: 2px solid #7f7f7f;
+        border-bottom: 2px solid $Blue;
+        border-right: 2px solid $Blue;
         background-color: white;
       }
     }
@@ -93,7 +93,8 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       left: 0;
       width: 0px;
       height: 8px;
-      background-color: #46a229;
+      background: $gradientColor;
+      border-radius: 8px;
     }
     &__scale {
       height: 100%;
@@ -105,10 +106,10 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
       bottom: -12px;
       padding-top: 20px;
       transform: translateX(-50%);
+      color: $DarkShade75;
       cursor: pointer;
       &:hover {
-        color: #00733c;
-        text-shadow: #46a229 0px 0px 4px;
+        color: $DarkShade75;
         transition: 0.3s;
       }
       &::before {
@@ -119,7 +120,7 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
         height: 10px;
         width: 2px;
         transform: translateX(-50%);
-        background-color: #1f1f1f;
+        background-color: $DarkShade50;
       }
       &:first-child::before, &:last-child::before {
         content: none;
@@ -149,8 +150,7 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
             left: auto;
             top: 50%;
             transform: translateY(-50%) rotate(45deg);
-            border-top: 2px solid #7f7f7f;
-            border-right: 2px solid #7f7f7f;
+            border-top: 2px solid $Blue;
             border-bottom: none;
             background-color: white;
           }
@@ -174,7 +174,6 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
             height: 2px;
             width: 10px;
             transform: translateY(-50%);
-            background-color: black;
           }
           &:first-child::before, &:last-child::before {
             content: none;
