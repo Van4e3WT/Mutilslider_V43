@@ -33,6 +33,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.model = model;
     this.outputValues = [];
     this.sliderThumbs = [];
+    this.sliderScale = [];
     this.isPopUp = cfg.popUpOfValue;
 
     if (cfg.orientation === 'vertical') {
@@ -113,7 +114,6 @@ export default class SliderView extends EventEmitter implements ISliderView {
       const sliderScale = document.createElement('div');
       sliderScale.classList.add('multislider-v43-body__scale');
       sliderBody.appendChild(sliderScale);
-      this.sliderScale = [];
       this.renderScale(cfg.scaleOfValues, sliderScale);
     }
 
@@ -121,6 +121,9 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     window.addEventListener('resize', this.update.bind(this));
     window.addEventListener('resize', this.updateScale.bind(this));
+
+    document.addEventListener('DOMContentLoaded', this.update.bind(this)); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
+    document.addEventListener('DOMContentLoaded', this.updateScale.bind(this)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
 
     this.update();
   }
