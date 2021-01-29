@@ -38,17 +38,19 @@ export default class SliderController extends EventEmitter {
       view.sliderThumbs[i].addEventListener('mousedown', (e) => this.addMouseListener(i, e));
     });
 
-    view.sliderScale.forEach((item) => {
-      item.addEventListener('click', () => {
-        const scaleDivisionValue = +(item.innerText);
-        if (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
-          < Math.abs(scaleDivisionValue - this.model.getValue()[0].value)) {
-          this.model.setValue({ val2: scaleDivisionValue });
-        } else {
-          this.model.setValue({ val1: scaleDivisionValue });
-        }
+    if (view.sliderScale.length) {
+      view.sliderScale.forEach((item) => {
+        item.addEventListener('click', () => {
+          const scaleDivisionValue = +(item.innerText);
+          if (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
+            < Math.abs(scaleDivisionValue - this.model.getValue()[0].value)) {
+            this.model.setValue({ val2: scaleDivisionValue });
+          } else {
+            this.model.setValue({ val1: scaleDivisionValue });
+          }
+        });
       });
-    });
+    }
   }
 
   private addMouseListener(i: number, e: MouseEvent) {

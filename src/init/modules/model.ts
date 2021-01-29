@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 import EventEmitter from './eventEmitter';
 import type { Thumb } from './customTypes';
@@ -74,8 +73,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       [val1, val2] = swap(val1, val2);
     }
 
-    val1 = (~~(val1 / this.step) / (1 / this.step)); // 200 IQ move
-    val2 = (~~(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
+    val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
+    val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
 
     val1 = val1 < this.min ? this.min : val1;
     val2 = val2 > this.max ? this.max : val2;
@@ -100,10 +99,13 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
 class SoloSliderModel extends EventEmitter implements ISliderModel {
   private thumbs: Array<Thumb>;
 
+  private step: number;
+
   constructor(cfg: ModelConfig) {
     super();
 
     this.thumbs = [];
+    this.step = cfg.step;
 
     this.thumbs.push({
       min: cfg.min,
@@ -125,7 +127,16 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public setValue(values: { val1: number }) {
-    this.thumbs[0].value = values.val1;
+    let { val1 } = values;
+
+    val1 = val1 ?? this.thumbs[0].value;
+    val1 = (Math.round(val1 / this.step) / (1 / this.step));
+
+    val1 = val1 > this.thumbs[0].max ? this.thumbs[0].max : val1;
+    val1 = val1 < this.thumbs[0].min ? this.thumbs[0].min : val1;
+
+    this.thumbs[0].value = val1;
+
     this.emit('valueChanged', {
       value1: values.val1,
     });
