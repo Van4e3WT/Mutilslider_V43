@@ -1,24 +1,6 @@
 import './style.scss';
 import './init/mainJQuery';
 
-// $('.multislider-v43').each(function f(i) {
-//   $(this).multislider({
-//     minValue: 0,
-//     maxValue: 1000,
-//     step: 10,
-//     value: 544,
-
-//     orientation: 'horizontal',
-//     sliderType: 'solo',
-
-//     popUpOfValue: false,
-//     scaleOfValues: false,
-//     isProgressBar: false,
-
-//     description: `Мой слайдер ${i}`,
-//   });
-// });
-
 $('.multislider-v43.slider-1').multislider({
   minValue: 5000,
   maxValue: 15000,
@@ -43,9 +25,39 @@ $('.multislider-v43.slider-2').multislider({
   orientation: 'horizontal',
   sliderType: 'double',
 
-  popUpOfValue: true,
+  popUpOfValue: false,
   scaleOfValues: 9,
   isProgressBar: true,
 
   description: 'Горизонтальный слайдер',
+});
+$('.multislider-v43.slider-3').multislider({
+  minValue: -100,
+  maxValue: 150,
+  step: 10,
+  value: 100,
+
+  orientation: 'vertical',
+  sliderType: 'solo',
+
+  popUpOfValue: false,
+  scaleOfValues: 3,
+  isProgressBar: false,
+
+  description: 'Одиночный вертикальный слайдер',
+});
+$('.multislider-v43.slider-4').multislider({
+  minValue: -5,
+  maxValue: 5,
+  step: 0.5,
+  value: 1,
+
+  orientation: 'horizontal',
+  sliderType: 'solo',
+
+  popUpOfValue: false,
+  scaleOfValues: 0,
+  isProgressBar: false,
+
+  description: 'Одиночный горизонтальный слайдер',
 });

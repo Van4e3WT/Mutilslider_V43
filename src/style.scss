@@ -30,10 +30,10 @@ $gradientColorSecond: linear-gradient(to top, #66D2EA, $Green);
   -khtml-user-select: none;
   -webkit-user-select: none;
   &-header {
+    padding: 10px;
     &__description {
       text-align: center;
       font-weight: bold;
-      padding: 10px;
     }
     &__output {
       display: flex;
