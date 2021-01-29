@@ -41,7 +41,7 @@ import SliderController from './modules/controller';
       min: cfg.minValue,
       max: cfg.maxValue,
       step: cfg.step,
-      value1: cfg.value ?? cfg.minValue,
+      value1: cfg.value1 ?? cfg.minValue,
     };
 
     switch (cfg.sliderType) {
@@ -50,7 +50,7 @@ import SliderController from './modules/controller';
         break;
 
       case 'double':
-        modelCfg.value2 = cfg.maxValue;
+        modelCfg.value2 = cfg.value2 ?? cfg.maxValue;
         model = new DoubleSliderModel(modelCfg);
         break;
 

@@ -8,7 +8,8 @@ export type Config = {
   minValue: number,
   maxValue: number,
   step: number,
-  value?: number,
+  value1?: number,
+  value2?: number,
 
   orientation: 'vertical' | 'horizontal',
   sliderType: 'solo' | 'double',
