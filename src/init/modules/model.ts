@@ -63,7 +63,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     return this.thumbs;
   }
 
-  public setValue(values: { val1?: number, val2?: number }) {
+  public setValue(values: { val1?: number, val2?: number }, isStepping: boolean = true) {
     let { val1, val2 } = values;
 
     val1 = val1 ?? this.thumbs[0].value;
@@ -73,8 +73,10 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       [val1, val2] = swap(val1, val2);
     }
 
-    val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
-    val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
+    if (isStepping) {
+      val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
+      val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
+    }
 
     val1 = val1 < this.min ? this.min : val1;
     val2 = val2 > this.max ? this.max : val2;
@@ -126,11 +128,14 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     return this.thumbs;
   }
 
-  public setValue(values: { val1: number }) {
+  public setValue(values: { val1: number }, isStepping: boolean = true) {
     let { val1 } = values;
 
     val1 = val1 ?? this.thumbs[0].value;
-    val1 = (Math.round(val1 / this.step) / (1 / this.step));
+
+    if (isStepping) {
+      val1 = (Math.round(val1 / this.step) / (1 / this.step));
+    }
 
     val1 = val1 > this.thumbs[0].max ? this.thumbs[0].max : val1;
     val1 = val1 < this.thumbs[0].min ? this.thumbs[0].min : val1;

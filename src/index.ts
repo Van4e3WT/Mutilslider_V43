@@ -41,8 +41,8 @@ $('.multislider-v43.slider-3').multislider({
   sliderType: 'solo',
 
   popUpOfValue: false,
-  scaleOfValues: 3,
-  isProgressBar: false,
+  scaleOfValues: 11,
+  isProgressBar: true,
 
   description: 'Одиночный вертикальный слайдер',
 });
@@ -57,7 +57,7 @@ $('.multislider-v43.slider-4').multislider({
 
   popUpOfValue: false,
   scaleOfValues: 0,
-  isProgressBar: false,
+  isProgressBar: true,
 
   description: 'Одиночный горизонтальный слайдер',
 });

@@ -156,10 +156,16 @@ export default class SliderView extends EventEmitter implements ISliderView {
     });
 
     if (this.sliderRange) {
-      this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
-        + (this.thumbSize / 2)}px`;
-      this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10)
-        - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+      if (this.sliderThumbs.length === 1) {
+        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
+          + (this.thumbSize / 2)}px`;
+      }
+      if (this.sliderThumbs.length === 2) {
+        this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
+          + (this.thumbSize / 2)}px`;
+        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10)
+          - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+      }
     }
   }
 
