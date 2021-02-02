@@ -4,7 +4,7 @@ import type { Thumb } from './customTypes';
 import { ISliderModel } from './interfaces';
 import { ModelConfig } from './customTypes';
 
-export { DoubleSliderModel, SoloSliderModel };
+export { DoubleSliderModel, SoloSliderModel, swap };
 
 function swap(a: any, b: any): Array<any> {
   return [b, a];
