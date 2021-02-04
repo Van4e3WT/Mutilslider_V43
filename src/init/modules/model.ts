@@ -131,16 +131,16 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   public setValue(values: { val1: number }, isStepping: boolean = true) {
     let { val1 } = values;
 
-    val1 = val1 ?? this.thumbs[0].value;
+    if (val1) {
+      if (isStepping) {
+        val1 = (Math.round(val1 / this.step) / (1 / this.step));
+      }
 
-    if (isStepping) {
-      val1 = (Math.round(val1 / this.step) / (1 / this.step));
+      val1 = val1 > this.thumbs[0].max ? this.thumbs[0].max : val1;
+      val1 = val1 < this.thumbs[0].min ? this.thumbs[0].min : val1;
+
+      this.thumbs[0].value = val1;
     }
-
-    val1 = val1 > this.thumbs[0].max ? this.thumbs[0].max : val1;
-    val1 = val1 < this.thumbs[0].min ? this.thumbs[0].min : val1;
-
-    this.thumbs[0].value = val1;
 
     this.emit('valueChanged', {
       value1: values.val1,
