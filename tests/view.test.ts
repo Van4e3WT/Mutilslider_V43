@@ -1,38 +1,58 @@
-import { ISliderModel, ISliderView } from '../src/init/modules/interfaces';
-import { Config, ModelConfig } from '../src/init/modules/customTypes';
-import { SoloSliderModel, DoubleSliderModel } from '../src/init/modules/model';
-import { SliderView } from '../src/init/modules/view';
+const puppeteer = require('puppeteer');
 
 describe('***VIEW***', () => {
-  const config: Config = {
-    minValue: 0,
-    maxValue: 100,
-    step: 1,
-
-    orientation: 'horizontal',
-    sliderType: 'solo',
-
-    popUpOfValue: true,
-    scaleOfValues: 5,
-    isProgressBar: true,
-
-    description: 'Slider Header',
-
-    value1: 15,
-    value2: 70,
-  };
-
-  const modelConfig: ModelConfig = {
-    min: config.minValue,
-    max: config.maxValue,
-    step: config.step,
-    value1: config.value1,
-    value2: config.value2,
-  };
-
+  const URL = 'http://127.0.0.1:5500/example.html';
   describe('Solo Slider', () => {
-    const model = new SoloSliderModel(modelConfig);
-    // нужно создать какой-то parent в каком-то DOM
-    const view = new SliderView(model, parent, config);
+    // jest.setTimeout(30000);
+    let browser: any;
+    let page: any;
+
+    beforeEach(async () => {
+      browser = await puppeteer.launch({
+        headless: true,
+        ignoreHTTPSErrors: true,
+        args: [
+          '-start-maximized',
+        ],
+        devTools: true,
+        slowMo: 20,
+      });
+
+      page = await browser.newPage();
+
+      await page.setViewport({
+        width: 1920,
+        height: 1080,
+      });
+
+      await page.goto(URL, {
+        waitUntil: ['networkidle0', 'domcontentloaded'],
+      });
+    });
+
+    afterEach(async () => {
+      await browser.close();
+    });
+
+    test('should build foundation DOM struct', async () => {
+      const selector: string = '.multislider-v43';
+
+      // await page.waitForSelector(selector);
+
+      const sliderParent = await page.$(`${selector}.solo`);
+
+      expect(sliderParent).not.toBeUndefined();
+      expect(sliderParent).not.toBeNull();
+
+      const sliderHeader = await sliderParent.$(`${selector}-header`);
+
+      expect(sliderHeader).not.toBeUndefined();
+      expect(sliderHeader).not.toBeNull();
+
+      const sliderBody = await sliderParent.$(`${selector}-body`);
+
+      expect(sliderBody).not.toBeUndefined();
+      expect(sliderBody).not.toBeNull();
+    });
   });
 });

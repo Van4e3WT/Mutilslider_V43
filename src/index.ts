@@ -1,7 +1,7 @@
 import './style.scss';
 import './init/mainJQuery';
 
-$('.multislider-v43.slider-1').multislider({
+$('.multislider-v43.double.slider-1').multislider({
   minValue: 5000,
   maxValue: 15000,
   step: 100,
@@ -17,7 +17,7 @@ $('.multislider-v43.slider-1').multislider({
 
   description: 'Вертикальный слайдер',
 });
-$('.multislider-v43.slider-2').multislider({
+$('.multislider-v43.double.slider-2').multislider({
   minValue: -1,
   maxValue: 1,
   step: 0.0001,
@@ -33,7 +33,7 @@ $('.multislider-v43.slider-2').multislider({
 
   description: 'Горизонтальный слайдер',
 });
-$('.multislider-v43.slider-3').multislider({
+$('.multislider-v43.solo.slider-3').multislider({
   minValue: -100,
   maxValue: 150,
   step: 10,
@@ -48,7 +48,7 @@ $('.multislider-v43.slider-3').multislider({
 
   description: 'Одиночный вертикальный слайдер',
 });
-$('.multislider-v43.slider-4').multislider({
+$('.multislider-v43.solo.slider-4').multislider({
   minValue: -5,
   maxValue: 5,
   step: 0.5,
