@@ -34,21 +34,6 @@ $('.multislider-v43.double.slider-2').multislider({
   description: 'Горизонтальный слайдер',
 });
 $('.multislider-v43.solo.slider-3').multislider({
-  minValue: -100,
-  maxValue: 150,
-  step: 10,
-  value1: 100,
-
-  orientation: 'vertical',
-  sliderType: 'solo',
-
-  popUpOfValue: false,
-  scaleOfValues: 11,
-  isProgressBar: true,
-
-  description: 'Одиночный вертикальный слайдер',
-});
-$('.multislider-v43.solo.slider-4').multislider({
   minValue: -5,
   maxValue: 5,
   step: 0.5,
@@ -62,4 +47,19 @@ $('.multislider-v43.solo.slider-4').multislider({
   isProgressBar: true,
 
   description: 'Одиночный горизонтальный слайдер',
+});
+$('.multislider-v43.solo.slider-4').multislider({
+  minValue: -100,
+  maxValue: 150,
+  step: 10,
+  value1: 100,
+
+  orientation: 'vertical',
+  sliderType: 'solo',
+
+  popUpOfValue: false,
+  scaleOfValues: 11,
+  isProgressBar: true,
+
+  description: 'Одиночный вертикальный слайдер',
 });
