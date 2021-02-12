@@ -42,9 +42,9 @@ $('.multislider-v43.solo.slider-3').multislider({
   orientation: 'horizontal',
   sliderType: 'solo',
 
-  popUpOfValue: false,
+  popUpOfValue: true,
   scaleOfValues: 0,
-  isProgressBar: true,
+  isProgressBar: false,
 
   description: 'Одиночный горизонтальный слайдер',
 });
