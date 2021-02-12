@@ -29,7 +29,7 @@ $('.multislider-v43.double.slider-2').multislider({
 
   popUpOfValue: false,
   scaleOfValues: 9,
-  isProgressBar: true,
+  isProgressBar: false,
 
   description: 'Горизонтальный слайдер',
 });

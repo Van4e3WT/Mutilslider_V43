@@ -17,7 +17,7 @@ describe('***VIEW***', () => {
         '-start-maximized',
       ],
       devTools: true,
-      slowMo: 20,
+      // slowMo: 20,
     });
 
     page = await browser.newPage();
@@ -122,11 +122,66 @@ describe('***VIEW***', () => {
     });
   });
 
-  // describe('Double Slider', () => {
-  // orientation
-  // slider type by thumbs
-  // popUpValue
-  // scaleOfValues
-  // isProgressBar
-  // });
+  describe('Double Slider', () => {
+    test('should be add vertical class to slider if he is selected', async () => {
+      const isContain = await page.evaluate((sel: string) => {
+        const elem = document.querySelector(`${sel}.double.slider-1`);
+
+        return elem.classList.contains('vertical');
+      }, selector);
+
+      expect(isContain).toBeTruthy();
+    });
+
+    test('should be contain just two thumbs slider\'s', async () => {
+      const sliders = await page.evaluate((sel: Element) => {
+        const arr: Array<Array<Element>> = [];
+        const elems = Array.from(document.querySelectorAll(`${sel}.double`));
+
+        elems.forEach((elem) => {
+          const sliderThumb = Array.from(elem.querySelectorAll(`${sel}-body__thumb`));
+          arr.push(sliderThumb);
+        });
+        return arr;
+      }, selector);
+
+      sliders.forEach((slider: Array<Element>) => {
+        expect(slider.length).toBe(2);
+      });
+    });
+
+    test('should be render tooltip if activated "pop-up"', async () => {
+      await page.hover(`${selector}.double.slider-1 ${selector}-body__thumb`);
+
+      const isHoverWork = await page.evaluate((sel: string) => {
+        const elem = document.querySelector(`${sel}.double.slider-1`);
+        const tooltip = elem.querySelector(`${sel}-body__popup`);
+
+        return getComputedStyle(tooltip).display === 'block';
+      }, selector);
+
+      expect(isHoverWork).toBeTruthy();
+    });
+
+    test('should be render scale if it\'s enabled', async () => {
+      const sliderParent = await page.$(`${selector}.double.slider-1`);
+      const scaleDivisions = await sliderParent.$$(`${selector}-body__scale-division`);
+
+      expect(scaleDivisions.length).toBeGreaterThan(0);
+    });
+
+    test('should be render range element into DOM', async () => {
+      const slidersRange = await page.evaluate((sel: string) => {
+        const elem1 = document.querySelector(`${sel}.double.slider-1`);
+        const elem2 = document.querySelector(`${sel}.double.slider-2`);
+        const enabled = elem1.querySelector(`${sel}-body__range`);
+        const disabled = elem2.querySelector(`${sel}-body__range`);
+
+        return { enabled, disabled };
+      }, selector);
+
+      expect(slidersRange.enabled).toBeTruthy();
+      expect(slidersRange.disabled).toBeFalsy();
+    });
+  });
 });
