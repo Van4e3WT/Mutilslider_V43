@@ -60,6 +60,8 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
       border-radius: 50%;
       cursor: pointer;
       z-index: 1;
+      touch-action: none;
+      -ms-touch-action: none;
     }
     &__thumb:hover + &__popup, &__thumb:active + &__popup {
       display: block;

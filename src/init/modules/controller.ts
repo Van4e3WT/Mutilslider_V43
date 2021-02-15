@@ -35,7 +35,7 @@ export default class SliderController extends EventEmitter {
     }
 
     view.sliderThumbs.forEach((item, i) => {
-      view.sliderThumbs[i].addEventListener('mousedown', (e) => this.addMouseListener(i, e));
+      view.sliderThumbs[i].addEventListener('pointerdown', (e) => this.addMouseListener(i, e));
     });
 
     if (view.sliderScale.length) {
@@ -55,11 +55,11 @@ export default class SliderController extends EventEmitter {
     }
   }
 
-  private addMouseListener(i: number, e: MouseEvent) {
+  private addMouseListener(i: number, e: PointerEvent) {
     const pos0 = e[this.axis.eventAxis];
     const value0 = this.model.getValue()[i].value;
 
-    document.addEventListener('mousemove', mouseMoving = (ev) => {
+    document.addEventListener('pointermove', mouseMoving = (ev) => {
       const pos1 = ev[this.axis.eventAxis];
 
       const value = ((((pos1 - pos0) * this.axis.dPos)
@@ -75,11 +75,11 @@ export default class SliderController extends EventEmitter {
       }
     });
 
-    document.addEventListener('mouseup', this.removeMouseListener);
+    document.addEventListener('pointerup', this.removeMouseListener);
   }
 
   private removeMouseListener() {
-    document.removeEventListener('mousemove', mouseMoving);
-    document.removeEventListener('mouseup', this.removeMouseListener);
+    document.removeEventListener('pointermove', mouseMoving);
+    document.removeEventListener('pointerup', this.removeMouseListener);
   }
 }
