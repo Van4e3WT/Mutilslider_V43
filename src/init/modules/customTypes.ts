@@ -11,12 +11,12 @@ export type Config = {
   value1?: number,
   value2?: number,
 
-  orientation: 'vertical' | 'horizontal',
-  sliderType: 'solo' | 'double',
+  orientation?: 'vertical' | 'horizontal',
+  sliderType?: 'solo' | 'double',
 
-  popUpOfValue: boolean,
-  scaleOfValues: number,
-  isProgressBar: boolean,
+  popUpOfValue?: boolean,
+  scaleOfValues?: number,
+  isProgressBar?: boolean,
 
   description?: string,
 };

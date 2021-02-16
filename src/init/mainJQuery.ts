@@ -1,6 +1,4 @@
 /*
-свойство scaleOfValues должно обеспечивать возможности перехода по этим меткам путём щелчка мыши
-сам слайдер должен быть отзывчивым
 возможность изменения значения value должно быть легким и с помощью JS
 значит в первую очередь, надо создать метод/аксессор, реализующий связь value с положением бегунка
 один из вариантов реализации это задание свойства для плагина таким образом: $.fn.multislider.value
@@ -13,35 +11,46 @@ import SliderController from './modules/controller';
 
 (function f($) {
   // eslint-disable-next-line no-param-reassign
-  $.fn.multislider = function fMultislider(cfg: Config = {
+  $.fn.multislider = function fMultislider(config: Config) {
+    const cfg: Config = {
 
-    minValue: 0,
-    maxValue: 1000,
-    step: 10,
+      minValue: config.minValue ?? 0,
+      maxValue: config.maxValue ?? 1000,
+      step: config.step ?? 1,
+      value1: config.value1 ?? config.minValue,
+      value2: config.value2 ?? config.maxValue,
 
-    orientation: 'horizontal',
-    sliderType: 'solo',
+      orientation: config.orientation ?? 'horizontal',
+      sliderType: config.sliderType ?? 'solo',
 
-    popUpOfValue: false,
-    scaleOfValues: 0,
-    isProgressBar: true,
+      popUpOfValue: config.popUpOfValue ?? false,
+      scaleOfValues: config.scaleOfValues ?? 0,
+      isProgressBar: config.isProgressBar ?? true,
 
-    description: 'Range Slider',
-  }) {
+      description: config.description ?? 'Range Slider',
+    };
+
     const el: HTMLDivElement = this[0];
     if (this.length === 0) throw new Error('Not found element for initialization');
+
     if (el.childElementCount) {
       while (el.firstChild) {
         el.removeChild(el.firstChild);
       }
     }
 
+    if (!el.classList.contains('multislider-v43')) {
+      el.classList.add('multislider-v43');
+    }
+
+    el.classList.remove('vertical');
+
     let model: ISliderModel;
     const modelCfg: ModelConfig = {
       min: cfg.minValue,
       max: cfg.maxValue,
       step: cfg.step,
-      value1: cfg.value1 ?? cfg.minValue,
+      value1: cfg.value1,
     };
 
     switch (cfg.sliderType) {
@@ -50,7 +59,7 @@ import SliderController from './modules/controller';
         break;
 
       case 'double':
-        modelCfg.value2 = cfg.value2 ?? cfg.maxValue;
+        modelCfg.value2 = cfg.value2;
         model = new DoubleSliderModel(modelCfg);
         break;
 

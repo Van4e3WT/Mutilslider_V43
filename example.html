@@ -36,9 +36,49 @@
     .div5 {
       grid-area: 3 / 1 / 4 / 4;
     }
+
+    .wrapper {
+      height: 500px;
+    }
+
+    .cfg {
+      display: flex;
+      justify-content: space-around;
+      background-color: #6FCF973F;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .cfg input {
+      margin: 5px;
+    }
+
+    .cfg input[type="number"] {
+      width: 70px;
+    }
+
+    .cfg .cfg-values,
+    .cfg .cfg-options,
+    .cfg .cfg-addons {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .experimental-slider {
+      width: 100%;
+      height: 100%;
+      border: 2px solid grey;
+      border-radius: 3px;
+    }
+
+    @media(max-width: 1024px) {
+      .parent {
+        display: block;
+      }
+    }
   </style>
   <div class="parent">
-    <div class="div1 wrapper" style="height: 500px;">
+    <div class="div1 wrapper">
       <div class="multislider-v43 double slider-1">
       </div>
     </div>
@@ -46,13 +86,64 @@
     </div>
     <div class="div3 multislider-v43 solo slider-3">
     </div>
-    <div class="div4 wrapper" style="height: 500px;">
+    <div class="div4 wrapper">
       <div class="multislider-v43 solo slider-4">
+      </div>
+    </div>
+    <div class="div5">
+      <div class="cfg">
+        <div class="cfg-values">
+          <label><input type="number" onchange="initTestSlider()" id="minVal" value="-100"> Минимальное значение</label>
+          <label><input type="number" onchange="initTestSlider()" id="maxVal" value="100"> Максимальное значение</label>
+          <label><input type="number" onchange="initTestSlider()" id="step" value="1"> Шаг</label>
+          <label><input type="number" onchange="initTestSlider()" id="val1" value="-25"> Значение по умолчанию 1</label>
+          <label><input type="number" onchange="initTestSlider()" id="val2" value="75"> Значение по умолчанию 2</label>
+        </div>
+
+        <div class="cfg-options">
+          <label><input type="radio" onchange="initTestSlider()" name="orientation">Вертикальный</label>
+          <label><input type="radio" onchange="initTestSlider()" id="isOrientHoriz" name="orientation"
+              checked>Горизонтальный</label>
+          <hr>
+          <label><input type="radio" onchange="initTestSlider()" name="type" checked>Однодиапазонный</label>
+          <label><input type="radio" onchange="initTestSlider()" id="isTypeDouble" name="type">Двухдиапазонный</label>
+        </div>
+
+        <div class="cfg-addons">
+          <label><input type="checkbox" onchange="initTestSlider()" id="isPopUp">Всплывающее значение</label>
+          <label><input type="number" onchange="initTestSlider()" value="5" id="scaleDivisions">Количество делений
+            шкалы</label>
+          <label><input type="checkbox" onchange="initTestSlider()" checked id="isProgBar">Прогресс бар</label>
+        </div>
+      </div>
+      <div id="testSlider">
       </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="./dist/multislider-v43.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initTestSlider);
+
+    function initTestSlider() {
+      $('#testSlider').multislider({
+        minValue: +document.getElementById('minVal').value,
+        maxValue: +document.getElementById('maxVal').value,
+        step: +document.getElementById('step').value,
+        value1: +document.getElementById('val1').value,
+        value2: +document.getElementById('val2').value,
+
+        orientation: document.getElementById('isOrientHoriz').checked ? 'horizontal' : 'vertical',
+        sliderType: document.getElementById('isTypeDouble').checked ? 'double' : 'solo',
+
+        popUpOfValue: document.getElementById('isPopUp').checked,
+        scaleOfValues: +document.getElementById('scaleDivisions').value,
+        isProgressBar: document.getElementById('isProgBar').checked,
+
+        // description: 'Test slider',
+      });
+    }
+  </script>
 </body>
 
 </html>

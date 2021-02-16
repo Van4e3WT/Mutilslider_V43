@@ -41,14 +41,16 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     this.thumbs.push({
       min: this.min,
       max: value2,
-      value: value1,
+      value: this.min,
     });
 
     this.thumbs.push({
       min: value1,
       max: this.max,
-      value: value2,
+      value: this.max,
     });
+
+    this.setValue({ val1: value1, val2: value2 });
   }
 
   public getMin() {
@@ -112,8 +114,9 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     this.thumbs.push({
       min: cfg.min,
       max: cfg.max,
-      value: cfg.value1,
+      value: (cfg.max - cfg.min) / 2,
     });
+    this.setValue({ val1: cfg.value1 });
   }
 
   public getMin() {
@@ -131,7 +134,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   public setValue(values: { val1: number }, isStepping: boolean = true) {
     let { val1 } = values;
 
-    if (val1) {
+    if (val1 !== undefined && val1 !== null) {
       if (isStepping) {
         val1 = (Math.round(val1 / this.step) / (1 / this.step));
       }

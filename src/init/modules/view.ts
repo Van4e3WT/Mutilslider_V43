@@ -111,10 +111,16 @@ export default class SliderView extends EventEmitter implements ISliderView {
     }
 
     if (cfg.scaleOfValues) {
+      let scaleDivisions: number;
+      if (cfg.scaleOfValues < 3) {
+        scaleDivisions = 3;
+      } else {
+        scaleDivisions = cfg.scaleOfValues;
+      }
       const sliderScale = document.createElement('div');
       sliderScale.classList.add('multislider-v43-body__scale');
       sliderBody.appendChild(sliderScale);
-      this.renderScale(cfg.scaleOfValues, sliderScale);
+      this.renderScale(scaleDivisions, sliderScale);
     }
 
     this.model.on('valueChanged', this.update.bind(this));
@@ -184,11 +190,15 @@ export default class SliderView extends EventEmitter implements ISliderView {
     const n = this.sliderScale.length;
 
     for (let i = 0; i < n; i += 1) {
-      this.sliderScale[i].style[this.axis.styleSelector] = `${(i / (n - 1))
+      const proportion = (i / (n - 1));
+
+      this.sliderScale[i].style[this.axis.styleSelector] = `${proportion
         * (this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent] - this.thumbSize)
         + ((this.thumbSize / 2) - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10))}px`;
-      this.sliderScale[i].innerHTML = `${(this.model.getMax() - this.model.getMin())
-        * (i / (n - 1)) + this.model.getMin()}`;
+
+      const delta = this.model.getMax() - this.model.getMin();
+
+      this.sliderScale[i].innerHTML = `${+(delta * proportion).toFixed(12) + this.model.getMin()} `; // second method pass by 0.300000000000004 when first doesn't work
     }
   }
 }
