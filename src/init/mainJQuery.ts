@@ -1,8 +1,4 @@
-/*
-возможность изменения значения value должно быть легким и с помощью JS
-значит в первую очередь, надо создать метод/аксессор, реализующий связь value с положением бегунка
-один из вариантов реализации это задание свойства для плагина таким образом: $.fn.multislider.value
-*/
+/* eslint-disable no-param-reassign */
 import type { Config, ModelConfig } from './modules/customTypes';
 import { DoubleSliderModel, SoloSliderModel } from './modules/model';
 import { ISliderModel } from './modules/interfaces';
@@ -10,7 +6,6 @@ import SliderView from './modules/view';
 import SliderController from './modules/controller';
 
 (function f($) {
-  // eslint-disable-next-line no-param-reassign
   $.fn.multislider = function fMultislider(config: Config) {
     const cfg: Config = {
 
@@ -70,5 +65,10 @@ import SliderController from './modules/controller';
     const view = new SliderView(model, el, cfg);
 
     const controller = new SliderController(model, view);
+
+    $.fn.multislider.value = function fValue(values: { val1?: number, val2?: number }) {
+      model.setValue({ val1: values.val1, val2: values.val2 });
+      return model.getValue();
+    };
   };
 }(jQuery));
