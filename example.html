@@ -6,81 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Examples slider</title>
   <link rel="stylesheet" href="dist/multislider-v43.css">
+  <link rel="stylesheet" href="./example.css">
 </head>
 
 <body>
-  <style>
-    .parent {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, auto);
-      grid-gap: 5px;
-    }
-
-    .div1 {
-      grid-area: 1 / 1 / 3 / 2;
-    }
-
-    .div2 {
-      grid-area: 1 / 2 / 2 / 3;
-    }
-
-    .div3 {
-      grid-area: 2 / 2 / 3 / 3;
-    }
-
-    .div4 {
-      grid-area: 1 / 3 / 3 / 4;
-    }
-
-    .div5 {
-      grid-area: 3 / 1 / 4 / 4;
-    }
-
-    .wrapper {
-      height: 500px;
-    }
-
-    .cfg {
-      display: flex;
-      justify-content: space-around;
-      background-color: #6FCF973F;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .cfg input {
-      margin: 5px;
-    }
-
-    .cfg input[type="number"] {
-      width: 70px;
-    }
-
-    .cfg .cfg-values,
-    .cfg .cfg-options,
-    .cfg .cfg-addons {
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-    }
-
-    .experimental-slider {
-      width: 100%;
-      height: 100%;
-      border: 2px solid grey;
-      border-radius: 3px;
-    }
-
-    .multislider-v43 {
-      background-color: #1f20410A
-    }
-
-    @media(max-width: 1024px) {
-      .parent {
-        display: block;
-      }
-    }
-  </style>
   <div class="parent">
     <div class="div1 wrapper">
       <div class="multislider-v43 double slider-1">
@@ -126,28 +55,7 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="./dist/multislider-v43.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', initTestSlider);
-
-    function initTestSlider() {
-      $('#testSlider').multislider({
-        minValue: +document.getElementById('minVal').value,
-        maxValue: +document.getElementById('maxVal').value,
-        step: +document.getElementById('step').value,
-        value1: +document.getElementById('val1').value,
-        value2: +document.getElementById('val2').value,
-
-        orientation: document.getElementById('isOrientHoriz').checked ? 'horizontal' : 'vertical',
-        sliderType: document.getElementById('isTypeDouble').checked ? 'double' : 'solo',
-
-        popUpOfValue: document.getElementById('isPopUp').checked,
-        scaleOfValues: +document.getElementById('scaleDivisions').value,
-        isProgressBar: document.getElementById('isProgBar').checked,
-
-        // description: 'Test slider',
-      });
-    }
-  </script>
+  <script src="./example.js"></script>
 </body>
 
 </html>

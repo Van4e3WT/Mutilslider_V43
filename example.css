@@ -1,0 +1,77 @@
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  grid-gap: 5px;
+}
+
+.div1 {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.div2 {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.div3 {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.div4 {
+  grid-area: 1 / 3 / 3 / 4;
+}
+
+.div5 {
+  grid-area: 3 / 1 / 4 / 4;
+}
+
+.wrapper {
+  height: 500px;
+}
+
+.cfg {
+  display: flex;
+  justify-content: space-around;
+  background-color: #6FCF973F;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cfg input {
+  margin: 5px;
+}
+
+.cfg input[type="number"] {
+  width: 70px;
+}
+
+.cfg .cfg-values,
+.cfg .cfg-options,
+.cfg .cfg-addons {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.experimental-slider {
+  width: 100%;
+  height: 100%;
+  border: 2px solid grey;
+  border-radius: 3px;
+}
+
+.multislider-v43 {
+  background-color: #1f20410A
+}
+
+@media (max-width: 1024px) {
+  .parent {
+    display: block;
+  }
+}
+
+@media (max-width: 425px) {
+  .cfg {
+    flex-direction: column;
+    align-items: center;
+  }
+}
