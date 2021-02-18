@@ -50,7 +50,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       value: this.max,
     });
 
-    this.setValue({ val1: value1, val2: value2 });
+    this.setValue({ val1: value1, val2: value2 }, false);
   }
 
   public getMin() {
@@ -116,7 +116,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
       max: cfg.max,
       value: (cfg.max - cfg.min) / 2,
     });
-    this.setValue({ val1: cfg.value1 });
+    this.setValue({ val1: cfg.value1 }, false);
   }
 
   public getMin() {
