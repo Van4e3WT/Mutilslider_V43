@@ -62,7 +62,7 @@ describe('***VIEW***', () => {
   describe('Solo Slider', () => {
     test('should be add vertical class to slider if he is selected', async () => {
       const isContain = await page.evaluate((sel: string) => {
-        const elem = document.querySelector(`${sel}.solo.slider-4`);
+        const elem = document.querySelector(`${sel}.solo.slider-3`);
 
         return elem.classList.contains('vertical');
       }, selector);
@@ -88,10 +88,10 @@ describe('***VIEW***', () => {
     });
 
     test('should be render tooltip if activated "pop-up"', async () => {
-      await page.hover(`${selector}.solo.slider-3 ${selector}-body__thumb`);
+      await page.hover(`${selector}.solo.slider-4 ${selector}-body__thumb`);
 
       const isHoverWork = await page.evaluate((sel: string) => {
-        const elem = document.querySelector(`${sel}.solo.slider-3`);
+        const elem = document.querySelector(`${sel}.solo.slider-4`);
         const tooltip = elem.querySelector(`${sel}-body__popup`);
 
         return getComputedStyle(tooltip).display === 'block';
@@ -101,7 +101,7 @@ describe('***VIEW***', () => {
     });
 
     test('should be render scale if it\'s enabled', async () => {
-      const sliderParent = await page.$(`${selector}.solo.slider-4`);
+      const sliderParent = await page.$(`${selector}.solo.slider-3`);
       const scaleDivisions = await sliderParent.$$(`${selector}-body__scale-division`);
 
       expect(scaleDivisions.length).toBeGreaterThan(0);
@@ -109,8 +109,8 @@ describe('***VIEW***', () => {
 
     test('should be render range element into DOM', async () => {
       const slidersRange = await page.evaluate((sel: string) => {
-        const elem1 = document.querySelector(`${sel}.solo.slider-4`);
-        const elem2 = document.querySelector(`${sel}.solo.slider-3`);
+        const elem1 = document.querySelector(`${sel}.solo.slider-3`);
+        const elem2 = document.querySelector(`${sel}.solo.slider-4`);
         const enabled = elem1.querySelector(`${sel}-body__range`);
         const disabled = elem2.querySelector(`${sel}-body__range`);
 
