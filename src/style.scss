@@ -144,6 +144,14 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
         transform: translateX(-50%);
         background-color: $DarkShade50;
       }
+      &:first-child {
+        transform: translateX(0);
+        left: 0% !important;
+      }
+      &:last-child {
+        transform: translateX(-100%);
+        left: 100% !important;
+      }
       &:first-child::before, &:last-child::before {
         content: none;
       }
@@ -196,6 +204,12 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
             height: 2px;
             width: 10px;
             transform: translateY(-50%);
+          }
+          &:first-child {
+            left: -2px !important;
+          }
+          &:last-child {
+            left: -2px !important;
           }
           &:first-child::before, &:last-child::before {
             content: none;
