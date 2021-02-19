@@ -34,14 +34,27 @@ export default class SliderController extends EventEmitter {
       };
     }
 
-    view.sliderThumbs.forEach((item, i) => {
-      view.sliderThumbs[i].addEventListener('pointerdown', (e) => this.addMouseListener(i, e));
+    this.view.sliderThumbs.forEach((item, i) => {
+      this.view.sliderThumbs[i].addEventListener('pointerdown', (e) => this.addMouseListener(i, e));
+    });
+
+    this.view.outputValues.forEach((output, i) => {
+      this.view.outputValues[i].addEventListener('change', () => {
+        const newVal = this.view.outputValues[i].value;
+        if (newVal) {
+          if (i === 0) {
+            this.model.setValue({ val1: +newVal });
+          } else {
+            this.model.setValue({ val2: +newVal });
+          }
+        }
+      });
     });
 
     if (view.sliderScale.length) {
       view.sliderScale.forEach((item) => {
         item.addEventListener('click', () => {
-          const scaleDivisionValue = +(item.innerText);
+          const scaleDivisionValue = +(item.innerText).replace(',', '.');
 
           if (this.model.getValue().length === 2
             && (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)

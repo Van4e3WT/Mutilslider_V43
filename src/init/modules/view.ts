@@ -9,8 +9,6 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
   private sliderRange: HTMLDivElement;
 
-  private outputValues: Array<HTMLInputElement>;
-
   private outputValuesHided: Array<HTMLSpanElement>;
 
   private axis: {
@@ -23,6 +21,8 @@ export default class SliderView extends EventEmitter implements ISliderView {
   public sliderScale: Array<HTMLDivElement>;
 
   public sliderThumbs: Array<HTMLDivElement>;
+
+  public outputValues: Array<HTMLInputElement>;
 
   public parentThumbs: HTMLDivElement;
 
@@ -142,6 +142,16 @@ export default class SliderView extends EventEmitter implements ISliderView {
       this.renderScale(scaleDivisions, sliderScale);
     }
 
+    this.outputValues.forEach((output, i) => {
+      this.outputValues[i].addEventListener('input', () => {
+        const val = this.outputValues[i].value;
+        if (val) {
+          this.outputValuesHided[i].innerText = this.outputValues[i].value;
+          this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
+        }
+      });
+    });
+
     this.model.on('valueChanged', this.update.bind(this));
 
     window.addEventListener('resize', this.update.bind(this));
@@ -209,17 +219,19 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
   private updateScale() {
     const n = this.sliderScale.length;
+    const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
+      - this.thumbSize;
 
     for (let i = 0; i < n; i += 1) {
       const proportion = (i / (n - 1));
 
       this.sliderScale[i].style[this.axis.styleSelector] = `${proportion
-        * (this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent] - this.thumbSize)
+        * maxPixelValue
         + ((this.thumbSize / 2) - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10))}px`;
 
       const delta = this.model.getMax() - this.model.getMin();
 
-      this.sliderScale[i].innerHTML = `${+(delta * proportion).toFixed(12) + this.model.getMin()} `; // second method pass by 0.300000000000004 when first doesn't work
+      this.sliderScale[i].innerHTML = `${+(delta * proportion).toFixed(12) + this.model.getMin()}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
     }
   }
 }
