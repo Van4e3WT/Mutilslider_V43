@@ -2,9 +2,6 @@ import EventEmitter from './eventEmitter';
 import { ISliderModel, ISliderView } from './interfaces';
 import type { Config } from './customTypes';
 
-// ======================================
-//              Double Slider
-// ======================================
 export default class SliderView extends EventEmitter implements ISliderView {
   private thumbSize: number;
 
@@ -12,7 +9,9 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
   private sliderRange: HTMLDivElement;
 
-  private outputValues: Array<HTMLDivElement>;
+  private outputValues: Array<HTMLInputElement>;
+
+  private outputValuesHided: Array<HTMLSpanElement>;
 
   private axis: {
     sizeParent: 'height' | 'width',
@@ -32,6 +31,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     this.model = model;
     this.outputValues = [];
+    this.outputValuesHided = [];
     this.sliderThumbs = [];
     this.sliderScale = [];
     this.isPopUp = cfg.popUpOfValue;
@@ -63,11 +63,17 @@ export default class SliderView extends EventEmitter implements ISliderView {
       sliderOutput.classList.add('multislider-v43-header__output');
       sliderHeader.appendChild(sliderOutput);
 
-      const sliderValueFirst = document.createElement('div');
+      const sliderValueFirst = document.createElement('input');
+      sliderValueFirst.type = 'number';
       sliderValueFirst.classList.add('multislider-v43-header__value');
-      sliderValueFirst.innerText = `${cfg.minValue}`;
+      sliderValueFirst.value = `${cfg.minValue}`;
       sliderOutput.appendChild(sliderValueFirst);
       this.outputValues.push(sliderValueFirst);
+
+      const sliderValueFirstHided = document.createElement('span');
+      sliderValueFirstHided.classList.add('multislider-v43-header__value-hided');
+      sliderOutput.appendChild(sliderValueFirstHided);
+      this.outputValuesHided.push(sliderValueFirstHided);
 
       if (model.getValue().length === 2) {
         const sliderSpacer = document.createElement('div');
@@ -75,11 +81,17 @@ export default class SliderView extends EventEmitter implements ISliderView {
         sliderSpacer.innerText = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
-        const sliderValueSecond = document.createElement('div');
+        const sliderValueSecond = document.createElement('input');
+        sliderValueSecond.type = 'number';
         sliderValueSecond.classList.add('multislider-v43-header__value');
-        sliderValueSecond.innerText = `${cfg.maxValue}`;
+        sliderValueSecond.value = `${cfg.maxValue}`;
         sliderOutput.appendChild(sliderValueSecond);
         this.outputValues.push(sliderValueSecond);
+
+        const sliderValueSecondHided = document.createElement('span');
+        sliderValueSecondHided.classList.add('multislider-v43-header__value-hided');
+        sliderOutput.appendChild(sliderValueSecondHided);
+        this.outputValuesHided.push(sliderValueSecondHided);
       }
     }
 
@@ -95,10 +107,17 @@ export default class SliderView extends EventEmitter implements ISliderView {
       this.sliderThumbs.push(sliderThumb);
 
       if (this.isPopUp) {
-        const sliderThumbPopUp = document.createElement('div');
+        const sliderThumbPopUp = document.createElement('input');
+        sliderThumbPopUp.type = 'number';
+        sliderThumbPopUp.readOnly = true;
         sliderThumbPopUp.classList.add('multislider-v43-body__popup');
         sliderBody.appendChild(sliderThumbPopUp);
         this.outputValues.push(sliderThumbPopUp);
+
+        const sliderValueHided = document.createElement('span');
+        sliderValueHided.classList.add('multislider-v43-body__popup-hided');
+        sliderBody.appendChild(sliderValueHided);
+        this.outputValuesHided.push(sliderValueHided);
       }
     }
 
@@ -154,7 +173,9 @@ export default class SliderView extends EventEmitter implements ISliderView {
         - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
 
       this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
-      this.outputValues[i].innerText = `${thumbsValues[i].value}`;
+      this.outputValues[i].value = `${thumbsValues[i].value}`;
+      this.outputValuesHided[i].innerText = this.outputValues[i].value;
+      this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
 
       if (this.isPopUp) {
         this.outputValues[i].style[this.axis.styleSelector] = `${position + this.getThumbSize() / 2}px`;
