@@ -131,11 +131,13 @@ export default class SliderView extends EventEmitter implements ISliderView {
 
     if (cfg.scaleOfValues) {
       let scaleDivisions: number;
+
       if (cfg.scaleOfValues < 3) {
         scaleDivisions = 3;
       } else {
         scaleDivisions = cfg.scaleOfValues;
       }
+
       const sliderScale = document.createElement('div');
       sliderScale.classList.add('multislider-v43-body__scale');
       sliderBody.appendChild(sliderScale);
@@ -145,20 +147,13 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.outputValues.forEach((output, i) => {
       this.outputValues[i].addEventListener('input', () => {
         const val = this.outputValues[i].value;
+
         if (val) {
-          this.outputValuesHided[i].innerText = this.outputValues[i].value;
+          this.outputValuesHided[i].innerText = val;
           this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
         }
       });
     });
-
-    this.model.on('valueChanged', this.update.bind(this));
-
-    window.addEventListener('resize', this.update.bind(this));
-    window.addEventListener('resize', this.updateScale.bind(this));
-
-    document.addEventListener('DOMContentLoaded', this.update.bind(this)); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
-    document.addEventListener('DOMContentLoaded', this.updateScale.bind(this)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
 
     this.update();
   }
@@ -217,7 +212,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.updateScale();
   }
 
-  private updateScale() {
+  public updateScale() {
     const n = this.sliderScale.length;
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
       - this.thumbSize;

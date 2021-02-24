@@ -15,4 +15,6 @@ export interface ISliderView extends EventEmitter {
   outputValues: Array<HTMLInputElement>;
   getThumbSize(): number;
   getAxis(): 'X' | 'Y';
+  update(): void;
+  updateScale(): void;
 }

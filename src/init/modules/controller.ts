@@ -34,6 +34,14 @@ export default class SliderController extends EventEmitter {
       };
     }
 
+    this.model.on('valueChanged', this.view.update.bind(this.view));
+
+    window.addEventListener('resize', this.view.update.bind(this.view));
+    window.addEventListener('resize', this.view.updateScale.bind(this.view));
+
+    document.addEventListener('DOMContentLoaded', this.view.update.bind(this.view)); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
+    document.addEventListener('DOMContentLoaded', this.view.updateScale.bind(this.view)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
+
     this.view.sliderThumbs.forEach((item, i) => {
       this.view.sliderThumbs[i].addEventListener('pointerdown', (e) => this.addMouseListener(i, e));
     });
