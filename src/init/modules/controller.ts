@@ -62,7 +62,7 @@ export default class SliderController extends EventEmitter {
     if (view.sliderScale.length) {
       view.sliderScale.forEach((item) => {
         item.addEventListener('click', () => {
-          const scaleDivisionValue = +(item.innerText).replace(',', '.');
+          const scaleDivisionValue = +(item.textContent).replace(',', '.');
 
           if (this.model.getValue().length === 2
             && (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
