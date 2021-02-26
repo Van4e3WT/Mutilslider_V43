@@ -1,7 +1,7 @@
 {
   "name": "multislider-v43",
   "version": "1.0.0",
-  "description": "",
+  "description": "JQuery plugin range slider",
   "private": true,
   "scripts": {
     "test": "jest",
@@ -10,7 +10,7 @@
     "watch": "webpack --watch --mode=development"
   },
   "author": "Ivan G",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/jquery": "^3.5.5",
