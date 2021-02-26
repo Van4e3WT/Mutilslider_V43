@@ -64,7 +64,7 @@ describe('***VIEW***', () => {
       const isContain = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`${sel}.solo.slider-3`);
 
-        return elem.classList.contains('vertical');
+        return elem.classList.contains('vertical-v43');
       }, selector);
 
       expect(isContain).toBeTruthy();
@@ -127,7 +127,7 @@ describe('***VIEW***', () => {
       const isContain = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`${sel}.double.slider-1`);
 
-        return elem.classList.contains('vertical');
+        return elem.classList.contains('vertical-v43');
       }, selector);
 
       expect(isContain).toBeTruthy();
