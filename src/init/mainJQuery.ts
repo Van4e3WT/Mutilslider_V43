@@ -38,7 +38,7 @@ import SliderController from './modules/controller';
       el.classList.add('multislider-v43');
     }
 
-    el.classList.remove('vertical');
+    el.classList.remove('vertical-v43');
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {

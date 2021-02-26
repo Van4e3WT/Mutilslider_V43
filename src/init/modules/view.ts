@@ -37,7 +37,7 @@ export default class SliderView extends EventEmitter implements ISliderView {
     this.isPopUp = cfg.popUpOfValue;
 
     if (cfg.orientation === 'vertical') {
-      parent.classList.add('vertical');
+      parent.classList.add('vertical-v43');
       this.axis = {
         sizeParent: 'height',
         styleSelector: 'bottom',
