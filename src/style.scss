@@ -8,12 +8,11 @@ $Purple: #BC9CFF;
 $Green: #6FCF97;
 $Blue: #66D2EA;
 $shadow: 0px 0px 50px -25px $DarkShade;
-$gradientColor: linear-gradient(to top, $Blue, $Green);
+$gradientColor: linear-gradient(to right, $Blue, $Green);
+$gradientColorVertical: linear-gradient(to top, $Blue, $Green);
 
-* {
+.multislider-v43 {  
   box-sizing: border-box;
-}
-.multislider-v43 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,29 +60,38 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
     }
   }
   &-body {
+    box-sizing: border-box;
     position: relative;
     width: 100%;
     height: 10px;
     border: 2px solid $DarkShade25;
     border-radius: 10px;
     &__thumb {
+      box-sizing: border-box;
       position: absolute;
       bottom: -9px;
       left: 0px;
       height: 24px;
       width: 24px;
-      background: $gradientColor;
+      background: $Green;
       border: 3px solid white;
       border-radius: 50%;
       cursor: pointer;
       z-index: 1;
+      transition: background 0.2s;
       touch-action: none;
       -ms-touch-action: none;
     }
-    &__thumb:hover + &__popup, &__thumb:active + &__popup {
+    &__thumb:hover,
+    &__thumb:active {
+      background: $Blue;
+    }
+    &__thumb:hover + &__popup,
+    &__thumb:active + &__popup {
       display: block;
     }
     &__popup {
+      box-sizing: border-box;
       display: none;
       position: absolute;
       font: inherit;
@@ -123,6 +131,7 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
       width: 100%;
     }
     &__scale-division {
+      box-sizing: border-box;
       position: absolute;
       height: 18px;
       bottom: -12px;
@@ -190,6 +199,7 @@ $gradientColor: linear-gradient(to top, $Blue, $Green);
           left: -1px;
           width: 8px;
           height: 0px;
+          background: $gradientColorVertical;
         }
         &__scale-division {
           left: -2px;
