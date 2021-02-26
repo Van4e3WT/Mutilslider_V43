@@ -1,6 +1,6 @@
 # Mutilslider-V43
 
-Легкий ~[15.7kB], кастомизируемый JQuery плагин.
+Легкий ~[15.8kB], кастомизируемый JQuery плагин.
 
 ![Multislider-V43 example](https://github.com/Van4e3WT/Mutilslider_V43/blob/master/example.jpg "Multislider-V43")
 
@@ -45,13 +45,26 @@
 ### Автоматическая инициализация
 
 Автоматическое добавление слайдера на блок происходит при наличии у него класса `multislider-v43`.
-Пример:
+
+#### Пример 1
+
 ```html
     <div class="wrapper">
       <div class="multislider-v43"></div>
     </div>
 ```
 :warning: **Важно: автоматическая инициализация создает слайдер со стандартными параметрами.**
+
+Для изменения параметров в HTML - документе можно использовать атрибуты с префиксом `data-`, с одним лишь отличием, вместо сamelCase используется kebab-case.
+
+#### Пример 2
+
+```html
+  <div class="child multislider-v43 double slider-1" data-min-value="-1" data-max-value="1" data-step="0.01"
+    data-value1="-0.25" data-value2="0.50" data-orientation="vertical" data-slider-type="double"
+    data-pop-up-of-value="true" data-scale-of-values="9" data-is-progress-bar="false" data-description="My Slider">
+  </div>
+```
 
 ### Ручная инициализация
 
