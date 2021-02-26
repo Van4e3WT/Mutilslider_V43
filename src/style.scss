@@ -42,6 +42,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     }
     &__value {
       padding: 0;
+      width: 0;
       font: inherit;
       color: inherit;
       border: none;
