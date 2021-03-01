@@ -27,8 +27,10 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   -khtml-user-select: none;
   -webkit-user-select: none;
   &-header {
+    width: 100%;
     padding: 10px;
     &__description {
+      text-transform: uppercase;
       text-align: center;
       font-weight: bold;
       color: $DarkShade;
@@ -42,7 +44,9 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     }
     &__value {
       padding: 0;
+      margin: 0;
       width: 0;
+      height: auto;
       font: inherit;
       color: inherit;
       border: none;
@@ -52,6 +56,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
         position: absolute;
         height: 0;
         overflow: hidden;
+        font: inherit;
         white-space: pre;
       }
       &::-webkit-outer-spin-button,
