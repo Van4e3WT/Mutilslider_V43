@@ -96,11 +96,13 @@ export default class SliderController extends EventEmitter {
       }
     });
 
+    document.addEventListener('blur', this.removeMouseListener);
     document.addEventListener('pointerup', this.removeMouseListener);
   }
 
   private removeMouseListener() {
     document.removeEventListener('pointermove', mouseMoving);
     document.removeEventListener('pointerup', this.removeMouseListener);
+    document.removeEventListener('blur', this.removeMouseListener);
   }
 }
