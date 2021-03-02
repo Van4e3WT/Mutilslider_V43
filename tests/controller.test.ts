@@ -1,7 +1,7 @@
 import SliderController from '../src/init/modules/controller';
 import { Config, ModelConfig } from '../src/init/modules/customTypes';
 import { DoubleSliderModel, SoloSliderModel } from '../src/init/modules/model';
-import { ISliderModel, ISliderView } from '../src/init/modules/interfaces';
+import { ISliderModel } from '../src/init/modules/interfaces';
 import SliderView from '../src/init/modules/view';
 
 describe('***CONTROLLER***', () => {
@@ -31,7 +31,7 @@ describe('***CONTROLLER***', () => {
   };
 
   let model: ISliderModel;
-  let view: ISliderView;
+  let view: SliderView;
   let controller: SliderController;
 
   let update: any; // link on mock

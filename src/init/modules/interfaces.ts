@@ -7,14 +7,3 @@ export interface ISliderModel extends EventEmitter {
   getValue(): Array<Thumb>;
   setValue(values: { val1?: number, val2?: number }, isStepping?: boolean): void;
 }
-
-export interface ISliderView extends EventEmitter {
-  sliderThumbs: Array<HTMLDivElement>;
-  parentThumbs: HTMLDivElement;
-  sliderScale: Array<HTMLDivElement>;
-  outputValues: Array<HTMLInputElement>;
-  getThumbSize(): number;
-  getAxis(): 'X' | 'Y';
-  update(): void;
-  updateScale(): void;
-}

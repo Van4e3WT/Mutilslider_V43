@@ -1,10 +1,11 @@
 import EventEmitter from './eventEmitter';
-import { ISliderModel, ISliderView } from './interfaces';
+import { ISliderModel } from './interfaces';
+import SliderView from './view';
 
 export default class SliderController extends EventEmitter {
   private model: ISliderModel;
 
-  private view: ISliderView;
+  private view: SliderView;
 
   private axis: {
     eventAxis: 'pageX' | 'pageY',
@@ -12,7 +13,7 @@ export default class SliderController extends EventEmitter {
     dPos: -1 | 1;
   };
 
-  constructor(model: ISliderModel, view: ISliderView) {
+  constructor(model: ISliderModel, view: SliderView) {
     super();
 
     this.model = model;
