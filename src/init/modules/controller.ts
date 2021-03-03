@@ -41,6 +41,16 @@ export default class SliderController extends EventEmitter {
     document.addEventListener('DOMContentLoaded', this.view.update.bind(this.view)); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
     document.addEventListener('DOMContentLoaded', this.view.updateScale.bind(this.view)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
 
+    this.thumbInit();
+
+    this.outputInit();
+
+    if (view.sliderScale.length) {
+      this.scaleInit();
+    }
+  }
+
+  private thumbInit() {
     this.view.sliderThumbs.forEach((item, i) => {
       let isFocused = false;
       let pos0: number;
@@ -73,7 +83,9 @@ export default class SliderController extends EventEmitter {
         isFocused = false;
       });
     });
+  }
 
+  private outputInit() {
     this.view.outputValues.forEach((output, i) => {
       this.view.outputValues[i].addEventListener('change', () => {
         const newVal = this.view.outputValues[i].value;
@@ -86,21 +98,24 @@ export default class SliderController extends EventEmitter {
         }
       });
     });
+  }
 
-    if (view.sliderScale.length) {
-      view.sliderScale.forEach((item) => {
-        item.addEventListener('click', () => {
-          const scaleDivisionValue = +(item.textContent).replace(',', '.');
+  private scaleInit() {
+    const scale = this.view.sliderScale[0].parentElement;
+    scale.addEventListener('click', (event) => {
+      const target = event.target as HTMLDivElement;
 
-          if (this.model.getValue().length === 2
-            && (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
-              < Math.abs(scaleDivisionValue - this.model.getValue()[0].value))) {
-            this.model.setValue({ val2: scaleDivisionValue }, false);
-          } else {
-            this.model.setValue({ val1: scaleDivisionValue }, false);
-          }
-        });
-      });
-    }
+      if (!target.matches('.multislider-v43-body__scale-division')) return;
+
+      const scaleDivisionValue = +(target.textContent).replace(',', '.');
+
+      if (this.model.getValue().length === 2
+        && (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
+          < Math.abs(scaleDivisionValue - this.model.getValue()[0].value))) {
+        this.model.setValue({ val2: scaleDivisionValue }, false);
+      } else {
+        this.model.setValue({ val1: scaleDivisionValue }, false);
+      }
+    });
   }
 }
