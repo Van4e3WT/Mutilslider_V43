@@ -144,18 +144,35 @@ export default class SliderView extends EventEmitter {
       this.renderScale(scaleDivisions, sliderScale);
     }
 
-    this.outputValues.forEach((output, i) => {
-      this.outputValues[i].addEventListener('input', () => {
-        const val = this.outputValues[i].value;
-
-        if (val) {
-          this.outputValuesHided[i].innerText = val;
-          this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
-        }
-      });
-    });
+    this.outputValuesInit();
 
     this.update();
+  }
+
+  private outputValuesInit() {
+    function addOutputEvents(i: number) {
+      const val = this.outputValues[i].value;
+
+      if (val) {
+        this.outputValuesHided[i].innerText = val;
+        this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
+      }
+    }
+
+    this.outputValues.forEach((output, i) => {
+      this.outputValues[i].addEventListener('input', addOutputEvents.bind(this, i));
+    });
+  }
+
+  private renderScale(n: number, parent: HTMLDivElement) {
+    for (let i = 0; i < n; i += 1) {
+      const scaleElement = document.createElement('div');
+
+      scaleElement.classList.add('multislider-v43-body__scale-division');
+      this.sliderScale.push(scaleElement);
+      parent.appendChild(scaleElement);
+    }
+    this.updateScale();
   }
 
   public getThumbSize() {
@@ -199,17 +216,6 @@ export default class SliderView extends EventEmitter {
           - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
       }
     }
-  }
-
-  private renderScale(n: number, parent: HTMLDivElement) {
-    for (let i = 0; i < n; i += 1) {
-      const scaleElement = document.createElement('div');
-
-      scaleElement.classList.add('multislider-v43-body__scale-division');
-      this.sliderScale.push(scaleElement);
-      parent.appendChild(scaleElement);
-    }
-    this.updateScale();
   }
 
   public updateScale() {

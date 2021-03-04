@@ -101,7 +101,7 @@ describe('***CONTROLLER***', () => {
     const calls = update.mock.calls.length;
 
     view.sliderScale.forEach((item) => {
-      item.dispatchEvent(new Event('click'));
+      item.dispatchEvent(new Event('click', { bubbles: true }));
     });
 
     expect(update.mock.calls.length - calls).toBe(view.sliderScale.length);
