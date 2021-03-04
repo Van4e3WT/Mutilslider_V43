@@ -1,6 +1,6 @@
 /* global document, $ */
 
-$('.multislider-v43.double.slider-1').multislider({
+$('.js-multislider-v43.double.slider-1').multislider({
   minValue: 5000,
   maxValue: 15000,
   step: 100,
@@ -16,23 +16,7 @@ $('.multislider-v43.double.slider-1').multislider({
 
   description: 'Вертикальный слайдер',
 });
-$('.multislider-v43.double.slider-2').multislider({
-  minValue: -1,
-  maxValue: 1,
-  step: 0.0001,
-  value1: 0.1,
-  value2: 0.8,
-
-  orientation: 'horizontal',
-  sliderType: 'double',
-
-  popUpOfValue: false,
-  scaleOfValues: 9,
-  isProgressBar: false,
-
-  description: 'Горизонтальный слайдер',
-});
-$('.multislider-v43.solo.slider-3').multislider({
+$('.js-multislider-v43.solo.slider-3').multislider({
   minValue: -100,
   maxValue: 150,
   step: 10,
@@ -46,21 +30,6 @@ $('.multislider-v43.solo.slider-3').multislider({
   isProgressBar: true,
 
   description: 'Одиночный вертикальный слайдер',
-});
-$('.multislider-v43.solo.slider-4').multislider({
-  minValue: -5,
-  maxValue: 5,
-  step: 0.5,
-  value1: 1,
-
-  orientation: 'horizontal',
-  sliderType: 'solo',
-
-  popUpOfValue: true,
-  scaleOfValues: 0,
-  isProgressBar: false,
-
-  description: 'Одиночный горизонтальный слайдер',
 });
 
 const panelsCfg = Array.from(document.querySelectorAll('.cfg-v43'));
@@ -93,7 +62,7 @@ panelsCfg.forEach((panelCfg, i) => {
 });
 
 function initCfgSlider() {
-  const slidersCfg = Array.from(document.querySelectorAll('.multislider-v43-test'));
+  const slidersCfg = Array.from(document.querySelectorAll('.js-multislider-v43-test'));
   slidersCfg.forEach((slider) => {
     const parent = slider.parentElement;
 

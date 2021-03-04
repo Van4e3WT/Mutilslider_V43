@@ -44,13 +44,13 @@
 
 ### Автоматическая инициализация
 
-Автоматическое добавление слайдера на блок происходит при наличии у него класса `multislider-v43`.
+Автоматическое добавление слайдера на блок происходит при наличии у него класса `js-multislider-v43`.
 
 #### Пример 1
 
 ```html
     <div class="wrapper">
-      <div class="multislider-v43"></div>
+      <div class="js-multislider-v43"></div>
     </div>
 ```
 :warning: **Важно: автоматическая инициализация создает слайдер со стандартными параметрами.**
@@ -60,7 +60,7 @@
 #### Пример 2
 
 ```html
-  <div class="child multislider-v43 double slider-1" data-min-value="-1" data-max-value="1" data-step="0.01"
+  <div class="child js-multislider-v43 double slider-1" data-min-value="-1" data-max-value="1" data-step="0.01"
     data-value1="-0.25" data-value2="0.50" data-orientation="vertical" data-slider-type="double"
     data-pop-up-of-value="true" data-scale-of-values="9" data-is-progress-bar="false" data-description="My Slider">
   </div>

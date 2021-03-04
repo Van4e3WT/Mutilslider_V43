@@ -1,7 +1,7 @@
 import './style.scss';
 import './init/mainJQuery';
 
-const elems = $('.multislider-v43');
+const elems = $('.js-multislider-v43');
 
 elems.each((i, elem) => {
   const props: any = {};
