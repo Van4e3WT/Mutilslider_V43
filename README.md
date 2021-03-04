@@ -143,4 +143,4 @@ ____
 `val1` – [number] значение бегунка для соло слайдера и левого/нижнего бегунка двойного горизонтального/вертикального слайдера;    
 `val2` – [number] значение правого/верхнего бегунка двойного горизонтального/вертикального слайдера;    
 
-## [Документация по архитектуре](https://github.com/Van4e3WT/Mutilslider_V43/blob/master/docs/documentation.md)
+## [Документация по проекту и архитектуре плагина](https://github.com/Van4e3WT/Mutilslider_V43/blob/master/docs/documentation.md)
