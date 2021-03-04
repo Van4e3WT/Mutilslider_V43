@@ -1,6 +1,10 @@
 {
+  "plugins": [
+    "fsd"
+  ],
   "extends": [
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "plugin:fsd/all"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
