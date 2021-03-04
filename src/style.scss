@@ -11,7 +11,7 @@ $shadow: 0px 0px 50px -25px $DarkShade;
 $gradientColor: linear-gradient(to right, $Blue, $Green);
 $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
 
-.multislider-v43 {  
+.multislider-v43 {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -21,11 +21,11 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   padding-bottom: 30px;
   border-radius: 10px;
   font-family: sans-serif;
-  user-select: none;
-  -ms-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
   -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   &-header {
     width: 100%;
     padding: 10px 0;
