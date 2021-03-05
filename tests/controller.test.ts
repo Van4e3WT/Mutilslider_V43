@@ -1,8 +1,8 @@
+import SliderView from '../src/init/modules/view';
+import ISliderModel from '../src/init/modules/interfaces';
 import SliderController from '../src/init/modules/controller';
 import { Config, ModelConfig } from '../src/init/modules/customTypes';
 import { DoubleSliderModel, SoloSliderModel } from '../src/init/modules/model';
-import { ISliderModel } from '../src/init/modules/interfaces';
-import SliderView from '../src/init/modules/view';
 
 describe('***CONTROLLER***', () => {
   const cfg: Config = {

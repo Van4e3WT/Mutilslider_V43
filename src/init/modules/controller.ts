@@ -1,8 +1,8 @@
-import EventEmitter from './eventEmitter';
-import { ISliderModel } from './interfaces';
 import SliderView from './view';
+import EventEmitter from './eventEmitter';
+import ISliderModel from './interfaces';
 
-export default class SliderController extends EventEmitter {
+class SliderController extends EventEmitter {
   private model: ISliderModel;
 
   private view: SliderView;
@@ -60,13 +60,13 @@ export default class SliderController extends EventEmitter {
       let pos0: number;
       let value0: number;
 
-      function addPointerDownEvents(n: number, e) {
+      function addPointerDownEvents(n: number, e: Event) {
         pos0 = e[this.axis.eventAxis];
         value0 = this.model.getValue()[n].value;
         isFocused = true;
       }
 
-      function addPointerMoveEvents(e) {
+      function addPointerMoveEvents(e: Event) {
         if (!isFocused) return;
 
         const pos1 = e[this.axis.eventAxis];
@@ -115,7 +115,7 @@ export default class SliderController extends EventEmitter {
   private scaleInit() {
     const scale = this.view.sliderScale[0].parentElement;
 
-    function addScaleEvent(e) {
+    function addScaleEvent(e: Event) {
       const target = e.target as HTMLDivElement;
 
       if (!target.matches('.multislider-v43-body__scale-division')) return;
@@ -134,3 +134,5 @@ export default class SliderController extends EventEmitter {
     scale.addEventListener('click', addScaleEvent.bind(this));
   }
 }
+
+export { SliderController as default };

@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
-import type { Config, ModelConfig } from './modules/customTypes';
-import { DoubleSliderModel, SoloSliderModel } from './modules/model';
-import { ISliderModel } from './modules/interfaces';
 import SliderView from './modules/view';
+import ISliderModel from './modules/interfaces';
 import SliderController from './modules/controller';
+import { DoubleSliderModel, SoloSliderModel } from './modules/model';
+import type { Config, ModelConfig } from './modules/customTypes';
 
 (function f($) {
-  $.fn.multislider = function fMultislider(config: Config) {
+  $.fn.multislider = function MultisliderInit(config: Config) {
     const cfg: Config = {
 
       minValue: config.minValue ?? 0,
@@ -25,20 +25,20 @@ import SliderController from './modules/controller';
       description: config.description ?? 'Range Slider',
     };
 
-    const el: HTMLDivElement = this[0];
+    const baseElement: HTMLDivElement = this[0];
     if (this.length === 0) throw new Error('Not found element for initialization');
 
-    if (el.childElementCount) {
-      while (el.firstChild) {
-        el.removeChild(el.firstChild);
+    if (baseElement.childElementCount) {
+      while (baseElement.firstChild) {
+        baseElement.removeChild(baseElement.firstChild);
       }
     }
 
-    if (!el.classList.contains('multislider-v43')) {
-      el.classList.add('multislider-v43');
+    if (!baseElement.classList.contains('multislider-v43')) {
+      baseElement.classList.add('multislider-v43');
     }
 
-    el.classList.remove('vertical-v43');
+    baseElement.classList.remove('vertical-v43');
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {
@@ -62,11 +62,11 @@ import SliderController from './modules/controller';
         throw new Error('Undefined type slider');
     }
 
-    const view = new SliderView(model, el, cfg);
+    const view = new SliderView(model, baseElement, cfg);
 
     const controller = new SliderController(model, view);
 
-    $.fn.multislider.value = function fValue(values: { val1?: number, val2?: number }) {
+    $.fn.multislider.value = function setValue(values: { val1?: number, val2?: number }) {
       model.setValue({ val1: values.val1, val2: values.val2 });
       return model.getValue();
     };

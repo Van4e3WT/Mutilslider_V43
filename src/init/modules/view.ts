@@ -1,8 +1,8 @@
 import EventEmitter from './eventEmitter';
-import { ISliderModel } from './interfaces';
+import ISliderModel from './interfaces';
 import type { Config } from './customTypes';
 
-export default class SliderView extends EventEmitter {
+class SliderView extends EventEmitter {
   private thumbSize: number;
 
   private model: ISliderModel;
@@ -236,3 +236,5 @@ export default class SliderView extends EventEmitter {
     }
   }
 }
+
+export { SliderView as default };

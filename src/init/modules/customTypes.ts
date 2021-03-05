@@ -1,10 +1,10 @@
-export type Thumb = {
+type Thumb = {
   min: number,
   max: number,
   value: number,
 };
 
-export type Config = {
+type Config = {
   minValue: number,
   maxValue: number,
   step: number,
@@ -21,10 +21,12 @@ export type Config = {
   description?: string,
 };
 
-export type ModelConfig = {
+type ModelConfig = {
   min: number,
   max: number,
   step: number,
   value1: number,
   value2?: number,
 };
+
+export { Thumb, Config, ModelConfig };

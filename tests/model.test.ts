@@ -1,5 +1,5 @@
+import ISliderModel from '../src/init/modules/interfaces';
 import { ModelConfig } from '../src/init/modules/customTypes';
-import { ISliderModel } from '../src/init/modules/interfaces';
 import { DoubleSliderModel, SoloSliderModel, swap } from '../src/init/modules/model';
 
 describe('***MODEL***', () => {

@@ -1,10 +1,8 @@
 /* eslint-disable max-classes-per-file */
+import ISliderModel from './interfaces';
 import EventEmitter from './eventEmitter';
-import type { Thumb } from './customTypes';
-import { ISliderModel } from './interfaces';
 import { ModelConfig } from './customTypes';
-
-export { DoubleSliderModel, SoloSliderModel, swap };
+import type { Thumb } from './customTypes';
 
 function swap(a: any, b: any): Array<any> {
   return [b, a];
@@ -134,7 +132,8 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   public setValue(values: { val1: number }, isStepping: boolean = true) {
     let { val1 } = values;
 
-    if (val1 !== undefined && val1 !== null) {
+    const valueIsDefined = val1 !== undefined && val1 !== null;
+    if (valueIsDefined) {
       if (isStepping) {
         val1 = (Math.round(val1 / this.step) / (1 / this.step));
       }
@@ -150,3 +149,5 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     });
   }
 }
+
+export { DoubleSliderModel, SoloSliderModel, swap };

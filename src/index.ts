@@ -1,9 +1,9 @@
 import './style.scss';
 import './init/mainJQuery';
 
-const elems = $('.js-multislider-v43');
+const $elems = $('.js-multislider-v43');
 
-elems.each((i, elem) => {
+$elems.each((i, elem) => {
   const props: any = {};
   if (elem.hasAttribute('data-min-value')) props.minValue = +elem.getAttribute('data-min-value');
   if (elem.hasAttribute('data-max-value')) props.maxValue = +elem.getAttribute('data-max-value');

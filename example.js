@@ -16,6 +16,7 @@ $('.js-multislider-v43.double.slider-1').multislider({
 
   description: 'Вертикальный слайдер',
 });
+
 $('.js-multislider-v43.solo.slider-3').multislider({
   minValue: -100,
   maxValue: 150,
