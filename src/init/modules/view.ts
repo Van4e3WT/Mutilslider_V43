@@ -55,7 +55,7 @@ class SliderView extends EventEmitter {
 
     const sliderDescription = document.createElement('div');
     sliderDescription.classList.add('multislider-v43-header__description');
-    sliderDescription.innerText = cfg.description;
+    sliderDescription.textContent = cfg.description;
     sliderHeader.appendChild(sliderDescription);
 
     if (!this.isPopUp) {
@@ -78,7 +78,7 @@ class SliderView extends EventEmitter {
       if (model.getValue().length === 2) {
         const sliderSpacer = document.createElement('div');
         sliderSpacer.classList.add('multislider-v43-header__spacer');
-        sliderSpacer.innerText = '\xa0–\xa0';
+        sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
         const sliderValueSecond = document.createElement('input');
@@ -154,13 +154,14 @@ class SliderView extends EventEmitter {
       const val = this.outputValues[i].value;
 
       if (val) {
-        this.outputValuesHided[i].innerText = val;
+        this.outputValuesHided[i].textContent = val;
         this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
       }
     }
 
     this.outputValues.forEach((output, i) => {
       this.outputValues[i].addEventListener('input', addOutputEvents.bind(this, i));
+      window.addEventListener('load', addOutputEvents.bind(this, i));
     });
   }
 
@@ -196,7 +197,7 @@ class SliderView extends EventEmitter {
 
       this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
       this.outputValues[i].value = `${thumbsValues[i].value}`;
-      this.outputValuesHided[i].innerText = this.outputValues[i].value;
+      this.outputValuesHided[i].textContent = this.outputValues[i].value;
       this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
 
       if (this.isPopUp) {
@@ -232,7 +233,7 @@ class SliderView extends EventEmitter {
 
       const delta = this.model.getMax() - this.model.getMin();
 
-      this.sliderScale[i].innerHTML = `${+(delta * proportion).toFixed(12) + this.model.getMin()}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
+      this.sliderScale[i].textContent = `${+(delta * proportion).toFixed(12) + this.model.getMin()}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
     }
   }
 }
