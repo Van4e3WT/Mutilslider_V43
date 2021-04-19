@@ -1,8 +1,8 @@
-import SliderView from '../src/init/modules/view';
-import ISliderModel from '../src/init/modules/interfaces';
-import SliderController from '../src/init/modules/controller';
-import { Config, ModelConfig } from '../src/init/modules/customTypes';
-import { DoubleSliderModel, SoloSliderModel } from '../src/init/modules/model';
+import SliderView from '../src/multislider-v43/plugin/modules/view';
+import ISliderModel from '../src/multislider-v43/plugin/modules/interfaces';
+import SliderController from '../src/multislider-v43/plugin/modules/controller';
+import { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/custom-types';
+import { DoubleSliderModel, SoloSliderModel } from '../src/multislider-v43/plugin/modules/model';
 
 describe('***CONTROLLER***', () => {
   const cfg: Config = {

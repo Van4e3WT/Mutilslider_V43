@@ -1,5 +1,5 @@
-import EventEmitter from './eventEmitter';
-import type { Thumb } from './customTypes';
+import EventEmitter from './event-emitter';
+import type { Thumb } from './custom-types';
 
 interface ISliderModel extends EventEmitter {
   getMin(): number;

@@ -1,5 +1,5 @@
 import './style.scss';
-import './init/mainJQuery';
+import './plugin/plugin';
 
 const $elems = $('.js-multislider-v43');
 

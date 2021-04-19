@@ -1,6 +1,6 @@
-import ISliderModel from '../src/init/modules/interfaces';
-import { ModelConfig } from '../src/init/modules/customTypes';
-import { DoubleSliderModel, SoloSliderModel, swap } from '../src/init/modules/model';
+import ISliderModel from '../src/multislider-v43/plugin/modules/interfaces';
+import { ModelConfig } from '../src/multislider-v43/plugin/modules/custom-types';
+import { DoubleSliderModel, SoloSliderModel, swap } from '../src/multislider-v43/plugin/modules/model';
 
 describe('***MODEL***', () => {
   const modelConfig: ModelConfig = {

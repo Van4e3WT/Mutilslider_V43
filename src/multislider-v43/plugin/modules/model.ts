@@ -1,8 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import ISliderModel from './interfaces';
-import EventEmitter from './eventEmitter';
-import { ModelConfig } from './customTypes';
-import type { Thumb } from './customTypes';
+import EventEmitter from './event-emitter';
+import { ModelConfig } from './custom-types';
+import type { Thumb } from './custom-types';
 
 function swap(a: any, b: any): Array<any> {
   return [b, a];

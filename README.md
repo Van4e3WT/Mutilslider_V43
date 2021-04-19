@@ -6,7 +6,7 @@
 
 ## Страница с примерами
 
-### [Examples page](https://van4e3wt.github.io/Mutilslider_V43/example.html)
+### [Examples page](https://van4e3wt.github.io/Mutilslider_V43/docs/example.html)
 
 ## Установка
 В первую очередь необходимо подключить `JQuery`. Вы можете скачать и подключить его на страницу, либо использовать подключение через ссылку на CDN.

@@ -3,7 +3,7 @@ import SliderView from './modules/view';
 import ISliderModel from './modules/interfaces';
 import SliderController from './modules/controller';
 import { DoubleSliderModel, SoloSliderModel } from './modules/model';
-import type { Config, ModelConfig } from './modules/customTypes';
+import type { Config, ModelConfig } from './modules/custom-types';
 
 (function f($) {
   $.fn.multislider = function MultisliderInit(config: Config) {

@@ -1,6 +1,6 @@
-import EventEmitter from './eventEmitter';
+import EventEmitter from './event-emitter';
 import ISliderModel from './interfaces';
-import type { Config } from './customTypes';
+import type { Config } from './custom-types';
 
 class SliderView extends EventEmitter {
   private thumbSize: number;

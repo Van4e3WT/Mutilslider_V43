@@ -1,5 +1,5 @@
 import SliderView from './view';
-import EventEmitter from './eventEmitter';
+import EventEmitter from './event-emitter';
 import ISliderModel from './interfaces';
 
 class SliderController extends EventEmitter {
