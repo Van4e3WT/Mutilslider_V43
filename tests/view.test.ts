@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 describe('***VIEW***', () => {
-  const URL = 'http://127.0.0.1:5500/example.html';
+  const URL = 'http://127.0.0.1:5500/dist/index.html';
   // jest.setTimeout(30000);
 
   let browser: any;
