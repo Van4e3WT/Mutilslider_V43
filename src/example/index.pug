@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='keywords', content='multislider-v43, range-slider, slider')
+    meta(name='description', content='Пример использования диапазонного слайдера значений в формате JQuery-плагина')
+    title Examples slider
+  body
+    .parent
+      .child.js-multislider-v43.double.slider-1
+      .child.js-multislider-v43.double.slider-2(data-min-value='-1', data-max-value='1', data-step='0.0001', data-value1='-0.25', data-value2='0.8', data-orientation='horizontal', data-slider-type='double', data-pop-up-of-value='false', data-scale-of-values='9', data-is-progress-bar='false', data-description='Горизонтальный слайдер')
+      .child.js-multislider-v43.solo.slider-3
+      .child.js-multislider-v43.solo.slider-4(data-min-value='-5', data-max-value='5', data-step='0.5', data-value1='1', data-orientation='horizontal', data-slider-type='solo', data-pop-up-of-value='true', data-is-progress-bar='false', data-description='Одиночный горизонтальный слайдер')
+      .child
+        .cfg-v43
+        .js-multislider-v43-test
+      .child
+        .cfg-v43
+        .js-multislider-v43-test
+      .child
+        .cfg-v43
+        .js-multislider-v43-test
+    script(src="https://code.jquery.com/jquery-3.5.1.min.js")
