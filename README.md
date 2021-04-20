@@ -2,11 +2,11 @@
 
 Легкий ~[16kB], кастомизируемый JQuery плагин.
 
-![Multislider-V43 example](https://github.com/Van4e3WT/Mutilslider_V43/blob/master/example.jpg "Multislider-V43")
+![Multislider-V43 example](https://github.com/Van4e3WT/Mutilslider_V43/blob/master/docs/example.jpg "Multislider-V43")
 
 ## Страница с примерами
 
-### [Examples page](https://van4e3wt.github.io/Mutilslider_V43/docs/example.html)
+### [Examples page](https://van4e3wt.github.io/Mutilslider_V43/example.html)
 
 ## Установка
 В первую очередь необходимо подключить `JQuery`. Вы можете скачать и подключить его на страницу, либо использовать подключение через ссылку на CDN.
