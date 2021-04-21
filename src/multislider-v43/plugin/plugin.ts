@@ -38,7 +38,7 @@ import type { Config, ModelConfig } from './modules/custom-types';
       baseElement.classList.add('multislider-v43');
     }
 
-    baseElement.classList.remove('vertical-v43');
+    baseElement.classList.remove('multislider-v43_vertical');
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {

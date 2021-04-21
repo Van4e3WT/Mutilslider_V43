@@ -118,7 +118,7 @@ class SliderController extends EventEmitter {
     function addScaleEvent(e: Event) {
       const target = e.target as HTMLDivElement;
 
-      if (!target.matches('.multislider-v43-body__scale-division')) return;
+      if (!target.matches('.multislider-v43__scale-division')) return;
 
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 

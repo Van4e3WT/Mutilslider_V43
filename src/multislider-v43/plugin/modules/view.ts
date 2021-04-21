@@ -37,7 +37,7 @@ class SliderView extends EventEmitter {
     this.isPopUp = cfg.popUpOfValue;
 
     if (cfg.orientation === 'vertical') {
-      parent.classList.add('vertical-v43');
+      parent.classList.add('multislider-v43_vertical');
       this.axis = {
         sizeParent: 'height',
         styleSelector: 'bottom',
@@ -50,59 +50,59 @@ class SliderView extends EventEmitter {
     }
 
     const sliderHeader = document.createElement('div');
-    sliderHeader.classList.add('multislider-v43-header');
+    sliderHeader.classList.add('multislider-v43__header');
     parent.appendChild(sliderHeader);
 
     const sliderDescription = document.createElement('div');
-    sliderDescription.classList.add('multislider-v43-header__description');
+    sliderDescription.classList.add('multislider-v43__description');
     sliderDescription.textContent = cfg.description;
     sliderHeader.appendChild(sliderDescription);
 
     if (!this.isPopUp) {
       const sliderOutput = document.createElement('div');
-      sliderOutput.classList.add('multislider-v43-header__output');
+      sliderOutput.classList.add('multislider-v43__output');
       sliderHeader.appendChild(sliderOutput);
 
       const sliderValueFirst = document.createElement('input');
       sliderValueFirst.type = 'number';
-      sliderValueFirst.classList.add('multislider-v43-header__value');
+      sliderValueFirst.classList.add('multislider-v43__value');
       sliderValueFirst.value = `${cfg.minValue}`;
       sliderOutput.appendChild(sliderValueFirst);
       this.outputValues.push(sliderValueFirst);
 
       const sliderValueFirstHided = document.createElement('span');
-      sliderValueFirstHided.classList.add('multislider-v43-header__value-hided');
+      sliderValueFirstHided.classList.add('multislider-v43__value-hided');
       sliderOutput.appendChild(sliderValueFirstHided);
       this.outputValuesHided.push(sliderValueFirstHided);
 
       if (model.getValue().length === 2) {
         const sliderSpacer = document.createElement('div');
-        sliderSpacer.classList.add('multislider-v43-header__spacer');
+        sliderSpacer.classList.add('multislider-v43__spacer');
         sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
         const sliderValueSecond = document.createElement('input');
         sliderValueSecond.type = 'number';
-        sliderValueSecond.classList.add('multislider-v43-header__value');
+        sliderValueSecond.classList.add('multislider-v43__value');
         sliderValueSecond.value = `${cfg.maxValue}`;
         sliderOutput.appendChild(sliderValueSecond);
         this.outputValues.push(sliderValueSecond);
 
         const sliderValueSecondHided = document.createElement('span');
-        sliderValueSecondHided.classList.add('multislider-v43-header__value-hided');
+        sliderValueSecondHided.classList.add('multislider-v43__value-hided');
         sliderOutput.appendChild(sliderValueSecondHided);
         this.outputValuesHided.push(sliderValueSecondHided);
       }
     }
 
     const sliderBody = document.createElement('div');
-    sliderBody.classList.add('multislider-v43-body');
+    sliderBody.classList.add('multislider-v43__body');
     parent.appendChild(sliderBody);
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < model.getValue().length; i += 1) {
       const sliderThumb = document.createElement('div');
-      sliderThumb.classList.add('multislider-v43-body__thumb');
+      sliderThumb.classList.add('multislider-v43__thumb');
       sliderBody.appendChild(sliderThumb);
       this.sliderThumbs.push(sliderThumb);
 
@@ -110,12 +110,12 @@ class SliderView extends EventEmitter {
         const sliderThumbPopUp = document.createElement('input');
         sliderThumbPopUp.type = 'number';
         sliderThumbPopUp.readOnly = true;
-        sliderThumbPopUp.classList.add('multislider-v43-body__popup');
+        sliderThumbPopUp.classList.add('multislider-v43__popup');
         sliderBody.appendChild(sliderThumbPopUp);
         this.outputValues.push(sliderThumbPopUp);
 
         const sliderValueHided = document.createElement('span');
-        sliderValueHided.classList.add('multislider-v43-body__popup-hided');
+        sliderValueHided.classList.add('multislider-v43__popup-hided');
         sliderBody.appendChild(sliderValueHided);
         this.outputValuesHided.push(sliderValueHided);
       }
@@ -125,7 +125,7 @@ class SliderView extends EventEmitter {
 
     if (cfg.isProgressBar) {
       this.sliderRange = document.createElement('div');
-      this.sliderRange.classList.add('multislider-v43-body__range');
+      this.sliderRange.classList.add('multislider-v43__range');
       sliderBody.appendChild(this.sliderRange);
     }
 
@@ -139,7 +139,7 @@ class SliderView extends EventEmitter {
       }
 
       const sliderScale = document.createElement('div');
-      sliderScale.classList.add('multislider-v43-body__scale');
+      sliderScale.classList.add('multislider-v43__scale');
       sliderBody.appendChild(sliderScale);
       this.renderScale(scaleDivisions, sliderScale);
     }
@@ -169,7 +169,7 @@ class SliderView extends EventEmitter {
     for (let i = 0; i < n; i += 1) {
       const scaleElement = document.createElement('div');
 
-      scaleElement.classList.add('multislider-v43-body__scale-division');
+      scaleElement.classList.add('multislider-v43__scale-division');
       this.sliderScale.push(scaleElement);
       parent.appendChild(scaleElement);
     }
