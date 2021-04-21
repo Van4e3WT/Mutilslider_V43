@@ -1,6 +1,8 @@
+import Utils from '../src/multislider-v43/plugin/modules/utils';
 import ISliderModel from '../src/multislider-v43/plugin/modules/interfaces';
 import { ModelConfig } from '../src/multislider-v43/plugin/modules/custom-types';
-import { DoubleSliderModel, SoloSliderModel, swap } from '../src/multislider-v43/plugin/modules/model';
+import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/solo-model';
+import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/double-model';
 
 describe('***MODEL***', () => {
   const modelConfig: ModelConfig = {
@@ -13,8 +15,8 @@ describe('***MODEL***', () => {
 
   describe('Swap()', () => {
     test('should be swapped params', () => {
-      expect(swap(1, 3)[0]).toBe(3);
-      expect(swap(1, 3)[1]).toBe(1);
+      expect(Utils.swap(1, 3)[0]).toBe(3);
+      expect(Utils.swap(1, 3)[1]).toBe(1);
     });
   });
 

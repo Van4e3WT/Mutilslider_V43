@@ -1,0 +1,89 @@
+import Utils from '../utils';
+import ISliderModel from '../interfaces';
+import EventEmitter from '../event-emitter';
+import { ModelConfig } from '../custom-types';
+import type { Thumb } from '../custom-types';
+
+class DoubleSliderModel extends EventEmitter implements ISliderModel {
+  private thumbs: Array<Thumb>;
+
+  private min: number;
+
+  private max: number;
+
+  private step: number;
+
+  constructor(cfg: ModelConfig) {
+    super();
+
+    let { value1, value2 } = cfg;
+
+    this.min = cfg.min;
+    this.max = cfg.max;
+    this.step = cfg.step;
+
+    if (value1 > value2) {
+      [value1, value2] = Utils.swap(value1, value2);
+    }
+
+    this.thumbs = [];
+
+    this.thumbs.push({
+      min: this.min,
+      max: value2,
+      value: this.min,
+    });
+
+    this.thumbs.push({
+      min: value1,
+      max: this.max,
+      value: this.max,
+    });
+
+    this.setValue({ val1: value1, val2: value2 }, false);
+  }
+
+  public getMin() {
+    return this.min;
+  }
+
+  public getMax() {
+    return this.max;
+  }
+
+  public getValue() {
+    return this.thumbs;
+  }
+
+  public setValue(values: { val1?: number, val2?: number }, isStepping: boolean = true) {
+    let { val1, val2 } = values;
+
+    val1 = val1 ?? this.thumbs[0].value;
+    val2 = val2 ?? this.thumbs[1].value;
+
+    if (val1 > val2) {
+      [val1, val2] = Utils.swap(val1, val2);
+    }
+
+    if (isStepping) {
+      val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
+      val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
+    }
+
+    val1 = val1 < this.min ? this.min : val1;
+    val2 = val2 > this.max ? this.max : val2;
+
+    this.thumbs[0].value = val1;
+    this.thumbs[0].max = val2;
+
+    this.thumbs[1].value = val2;
+    this.thumbs[1].min = val1;
+
+    this.emit('valueChanged', {
+      value1: val1,
+      value2: val2,
+    });
+  }
+}
+
+export default DoubleSliderModel;

@@ -2,7 +2,8 @@
 import SliderView from './modules/view';
 import ISliderModel from './modules/interfaces';
 import SliderController from './modules/controller';
-import { DoubleSliderModel, SoloSliderModel } from './modules/model';
+import SoloSliderModel from './modules/models/solo-model';
+import DoubleSliderModel from './modules/models/double-model';
 import type { Config, ModelConfig } from './modules/custom-types';
 
 (function f($) {
