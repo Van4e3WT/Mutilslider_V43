@@ -1,6 +1,6 @@
 /* global document, $ */
 
-$('.js-multislider-v43.double.slider-1').multislider({
+$('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
   minValue: 5000,
   maxValue: 15000,
   step: 100,
@@ -17,7 +17,7 @@ $('.js-multislider-v43.double.slider-1').multislider({
   description: 'Вертикальный слайдер',
 });
 
-$('.js-multislider-v43.solo.slider-3').multislider({
+$('.js-multislider-v43_solo.js-multislider-v43_slider-3').multislider({
   minValue: -100,
   maxValue: 150,
   step: 10,
@@ -33,11 +33,12 @@ $('.js-multislider-v43.solo.slider-3').multislider({
   description: 'Одиночный вертикальный слайдер',
 });
 
-const panelsCfg = Array.from(document.querySelectorAll('.cfg-v43'));
+const panelsCfg = Array.from(document.querySelectorAll('.js-cfg-v43'));
 
 panelsCfg.forEach((panelCfg, i) => {
+  panelCfg.classList.add('cfg-v43');
   const cfgValues = document.createElement('div');
-  cfgValues.classList.add('cfg-v43-values');
+  cfgValues.classList.add('cfg-v43__group');
   cfgValues.innerHTML = `<label><input type="number" class="cfg-v43__minVal" value="-100"> Минимальное значение</label>
   <label><input type="number" class="cfg-v43__maxVal" value="100"> Максимальное значение</label>
   <label><input type="number" class="cfg-v43__step" value="1"> Шаг</label>
@@ -46,7 +47,7 @@ panelsCfg.forEach((panelCfg, i) => {
   panelCfg.appendChild(cfgValues);
 
   const cfgOptions = document.createElement('div');
-  cfgOptions.classList.add('cfg-v43-options');
+  cfgOptions.classList.add('cfg-v43__group');
   cfgOptions.innerHTML = `<label><input type="radio" class="cfg-v43__isOrientVert" name="orientation-${i}">Вертикальный</label>
   <label><input type="radio" class="cfg-v43__isOrientHoriz" name="orientation-${i}" checked>Горизонтальный</label>
   <hr>
@@ -55,7 +56,7 @@ panelsCfg.forEach((panelCfg, i) => {
   panelCfg.appendChild(cfgOptions);
 
   const cfgAddons = document.createElement('div');
-  cfgAddons.classList.add('cfg-v43-addons');
+  cfgAddons.classList.add('cfg-v43__group');
   cfgAddons.innerHTML = `<label><input type="checkbox" class="cfg-v43__isPopUp">Всплывающее значение</label>
   <label><input type="number" value="5" class="cfg-v43__scaleDivisions">Количество делений шкалы</label>
   <label><input type="checkbox" checked class="cfg-v43__isProgBar">Прогресс бар</label>`;
@@ -63,7 +64,7 @@ panelsCfg.forEach((panelCfg, i) => {
 });
 
 function initCfgSlider() {
-  const slidersCfg = Array.from(document.querySelectorAll('.js-multislider-v43-test'));
+  const slidersCfg = Array.from(document.querySelectorAll('.js-multislider-v43_test'));
   slidersCfg.forEach((slider) => {
     const parent = slider.parentElement;
 
