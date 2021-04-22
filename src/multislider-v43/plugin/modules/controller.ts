@@ -33,7 +33,7 @@ class SliderController extends EventEmitter {
       };
     }
 
-    this.model.on('valueChanged', this.view.update.bind(this.view));
+    this.model.on('valueChanged', this.updateListener);
 
     this.updateInit();
 
@@ -47,12 +47,16 @@ class SliderController extends EventEmitter {
   }
 
   private updateInit() {
-    window.addEventListener('resize', this.view.update.bind(this.view));
+    window.addEventListener('resize', this.updateListener);
     window.addEventListener('resize', this.view.updateScale.bind(this.view));
 
-    document.addEventListener('DOMContentLoaded', this.view.update.bind(this.view)); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
+    document.addEventListener('DOMContentLoaded', this.updateListener); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
     document.addEventListener('DOMContentLoaded', this.view.updateScale.bind(this.view)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
   }
+
+  private updateListener = () => {
+    this.view.update.call(this.view, this.model.getValue());
+  };
 
   private thumbInit() {
     this.view.sliderThumbs.forEach((item, i) => {
@@ -62,7 +66,7 @@ class SliderController extends EventEmitter {
 
       function addPointerDownEvents(n: number, e: Event) {
         pos0 = e[this.axis.eventAxis];
-        value0 = this.model.getValue()[n].value;
+        value0 = this.model.getValue()[n];
         isFocused = true;
       }
 
@@ -123,8 +127,8 @@ class SliderController extends EventEmitter {
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 
       if (this.model.getValue().length === 2
-        && (Math.abs(scaleDivisionValue - this.model.getValue()[1].value)
-          < Math.abs(scaleDivisionValue - this.model.getValue()[0].value))) {
+        && (Math.abs(scaleDivisionValue - this.model.getValue()[1])
+          < Math.abs(scaleDivisionValue - this.model.getValue()[0]))) {
         this.model.setValue({ val2: scaleDivisionValue }, false);
       } else {
         this.model.setValue({ val1: scaleDivisionValue }, false);

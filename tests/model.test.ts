@@ -9,8 +9,8 @@ describe('***MODEL***', () => {
     min: -100,
     max: 100,
     step: 10,
-    value1: 15,
-    value2: 70,
+    value1: 70,
+    value2: 15,
   };
 
   describe('Swap()', () => {
@@ -48,21 +48,21 @@ describe('***MODEL***', () => {
 
     describe('setValue()', () => {
       test('should set new value1', () => {
-        const preValue = soloSliderModel.getValue()[0].value;
+        const preValue = soloSliderModel.getValue()[0];
         const newValue = 20;
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0].value).not.toEqual(preValue);
-        expect(soloSliderModel.getValue()[0].value).toBe(newValue);
+        expect(soloSliderModel.getValue()[0]).not.toEqual(preValue);
+        expect(soloSliderModel.getValue()[0]).toBe(newValue);
       });
 
       test('should handle empty object', () => {
-        const preValue = soloSliderModel.getValue()[0].value;
+        const preValue = soloSliderModel.getValue()[0];
 
         soloSliderModel.setValue({});
 
-        expect(soloSliderModel.getValue()[0].value).toBe(preValue);
+        expect(soloSliderModel.getValue()[0]).toBe(preValue);
       });
 
       test('should by default convert value to step', () => {
@@ -70,7 +70,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0].value).toBe(30);
+        expect(soloSliderModel.getValue()[0]).toBe(30);
       });
 
       test('should set not converted to step value', () => {
@@ -78,7 +78,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue }, false);
 
-        expect(soloSliderModel.getValue()[0].value).toBe(newValue);
+        expect(soloSliderModel.getValue()[0]).toBe(newValue);
       });
 
       test('should set value not greater then max', () => {
@@ -86,7 +86,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0].value)
+        expect(soloSliderModel.getValue()[0])
           .toBeLessThanOrEqual(soloSliderModel.getMax());
       });
 
@@ -95,7 +95,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0].value)
+        expect(soloSliderModel.getValue()[0])
           .toBeGreaterThanOrEqual(soloSliderModel.getMin());
       });
     });
@@ -133,7 +133,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1 });
 
-        expect(doubleSliderModel.getValue()[0].value).toBe(newValue1);
+        expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
       });
 
       test('should set new value2', () => {
@@ -141,7 +141,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val2: newValue2 });
 
-        expect(doubleSliderModel.getValue()[1].value).toBe(newValue2);
+        expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
       test('should set both values', () => {
@@ -153,8 +153,8 @@ describe('***MODEL***', () => {
           val2: newValue2,
         });
 
-        expect(doubleSliderModel.getValue()[0].value).toBe(newValue1);
-        expect(doubleSliderModel.getValue()[1].value).toBe(newValue2);
+        expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
+        expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
       test('should handle empty object', () => {
@@ -172,8 +172,8 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1, val2: newValue2 });
 
-        expect(doubleSliderModel.getValue()[0].value).toBe(-30);
-        expect(doubleSliderModel.getValue()[1].value).toBe(60);
+        expect(doubleSliderModel.getValue()[0]).toBe(-30);
+        expect(doubleSliderModel.getValue()[1]).toBe(60);
       });
 
       test('should not converted to step value', () => {
@@ -182,8 +182,8 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1, val2: newValue2 }, false);
 
-        expect(doubleSliderModel.getValue()[0].value).toBe(newValue1);
-        expect(doubleSliderModel.getValue()[1].value).toBe(newValue2);
+        expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
+        expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
       test('should set value1 no greater then value2', () => {
@@ -191,8 +191,8 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1 });
 
-        expect(doubleSliderModel.getValue()[0].value)
-          .toBeLessThanOrEqual(doubleSliderModel.getValue()[1].value);
+        expect(doubleSliderModel.getValue()[0])
+          .toBeLessThanOrEqual(doubleSliderModel.getValue()[1]);
       });
 
       test('should set value1 no less then min', () => {
@@ -200,7 +200,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1 });
 
-        expect(doubleSliderModel.getValue()[0].value)
+        expect(doubleSliderModel.getValue()[0])
           .toBeGreaterThanOrEqual(doubleSliderModel.getMin());
       });
 
@@ -209,8 +209,8 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val2: newValue2 });
 
-        expect(doubleSliderModel.getValue()[1].value)
-          .toBeGreaterThanOrEqual(doubleSliderModel.getValue()[0].value);
+        expect(doubleSliderModel.getValue()[1])
+          .toBeGreaterThanOrEqual(doubleSliderModel.getValue()[0]);
       });
 
       test('should set value2 no greater then max', () => {
@@ -218,7 +218,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val2: newValue2 });
 
-        expect(doubleSliderModel.getValue()[1].value)
+        expect(doubleSliderModel.getValue()[1])
           .toBeLessThanOrEqual(doubleSliderModel.getMax());
       });
     });

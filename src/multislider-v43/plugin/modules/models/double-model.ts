@@ -52,32 +52,38 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public getValue() {
-    return this.thumbs;
+    return this.thumbs.map((item) => item.value);
   }
 
   public setValue(values: { val1?: number, val2?: number }, isStepping: boolean = true) {
     let { val1, val2 } = values;
 
-    val1 = val1 ?? this.thumbs[0].value;
-    val2 = val2 ?? this.thumbs[1].value;
+    const val1IsDefined = (val1 !== undefined && val1 !== null);
+    const val2IsDefined = (val2 !== undefined && val2 !== null);
+    const valuesIsDefined = val1IsDefined || val2IsDefined;
 
-    if (val1 > val2) {
-      [val1, val2] = Utils.swap(val1, val2);
+    if (valuesIsDefined) {
+      val1 = val1 ?? this.thumbs[0].value;
+      val2 = val2 ?? this.thumbs[1].value;
+
+      if (val1 > val2) {
+        [val1, val2] = Utils.swap(val1, val2);
+      }
+
+      if (isStepping) {
+        val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
+        val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.300000000004 and other
+      }
+
+      val1 = val1 < this.min ? this.min : val1;
+      val2 = val2 > this.max ? this.max : val2;
+
+      this.thumbs[0].value = val1;
+      this.thumbs[0].max = val2;
+
+      this.thumbs[1].value = val2;
+      this.thumbs[1].min = val1;
     }
-
-    if (isStepping) {
-      val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
-      val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.30000000000004 and other
-    }
-
-    val1 = val1 < this.min ? this.min : val1;
-    val2 = val2 > this.max ? this.max : val2;
-
-    this.thumbs[0].value = val1;
-    this.thumbs[0].max = val2;
-
-    this.thumbs[1].value = val2;
-    this.thumbs[1].min = val1;
 
     this.emit('valueChanged', {
       value1: val1,

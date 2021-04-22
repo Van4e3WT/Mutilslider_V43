@@ -63,7 +63,7 @@ import type { Config, ModelConfig } from './modules/custom-types';
         throw new Error('Undefined type slider');
     }
 
-    const view = new SliderView(model, baseElement, cfg);
+    const view = new SliderView(model.getValue(), baseElement, cfg);
 
     const controller = new SliderController(model, view);
 

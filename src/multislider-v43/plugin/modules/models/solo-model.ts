@@ -31,7 +31,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public getValue() {
-    return this.thumbs;
+    return this.thumbs.map((item) => item.value);
   }
 
   public setValue(values: { val1: number }, isStepping: boolean = true) {

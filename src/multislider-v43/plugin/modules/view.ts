@@ -1,11 +1,8 @@
 import EventEmitter from './event-emitter';
-import ISliderModel from './interfaces';
 import type { Config } from './custom-types';
 
 class SliderView extends EventEmitter {
   private thumbSize: number;
-
-  private model: ISliderModel;
 
   private sliderRange: HTMLDivElement;
 
@@ -15,6 +12,12 @@ class SliderView extends EventEmitter {
     sizeParent: 'height' | 'width',
     styleSelector: 'bottom' | 'left'
   };
+
+  private min: number;
+
+  private max: number;
+
+  private length: number;
 
   private isPopUp: boolean;
 
@@ -26,14 +29,16 @@ class SliderView extends EventEmitter {
 
   public parentThumbs: HTMLDivElement;
 
-  constructor(model: ISliderModel, parent: HTMLDivElement, cfg: Config) {
+  constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
     super();
 
-    this.model = model;
     this.outputValues = [];
     this.outputValuesHided = [];
     this.sliderThumbs = [];
     this.sliderScale = [];
+    this.min = cfg.minValue;
+    this.max = cfg.maxValue;
+    this.length = values.length;
     this.isPopUp = cfg.popUpOfValue;
 
     if (cfg.orientation === 'vertical') {
@@ -75,7 +80,7 @@ class SliderView extends EventEmitter {
       sliderOutput.appendChild(sliderValueFirstHided);
       this.outputValuesHided.push(sliderValueFirstHided);
 
-      if (model.getValue().length === 2) {
+      if (this.length === 2) {
         const sliderSpacer = document.createElement('div');
         sliderSpacer.classList.add('multislider-v43__spacer');
         sliderSpacer.textContent = '\xa0–\xa0';
@@ -100,7 +105,7 @@ class SliderView extends EventEmitter {
     parent.appendChild(sliderBody);
     this.parentThumbs = sliderBody;
 
-    for (let i: number = 0; i < model.getValue().length; i += 1) {
+    for (let i: number = 0; i < this.length; i += 1) {
       const sliderThumb = document.createElement('div');
       sliderThumb.classList.add('multislider-v43__thumb');
       sliderBody.appendChild(sliderThumb);
@@ -146,7 +151,7 @@ class SliderView extends EventEmitter {
 
     this.outputValuesInit();
 
-    this.update();
+    this.update(values);
   }
 
   private outputValuesInit() {
@@ -184,19 +189,18 @@ class SliderView extends EventEmitter {
     return this.axis.sizeParent === 'height' ? 'Y' : 'X';
   }
 
-  public update() {
-    const thumbsValues = this.model.getValue();
+  public update(thumbsValues) {
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
       - this.thumbSize;
 
     this.sliderThumbs.forEach((item, i) => {
       const position = maxPixelValue
-        * ((thumbsValues[i].value - this.model.getMin())
-          / (this.model.getMax() - this.model.getMin()))
+        * ((thumbsValues[i] - this.min)
+          / (this.max - this.min))
         - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
 
       this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
-      this.outputValues[i].value = `${thumbsValues[i].value}`;
+      this.outputValues[i].value = `${thumbsValues[i]}`;
       this.outputValuesHided[i].textContent = this.outputValues[i].value;
       this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
 
@@ -231,9 +235,9 @@ class SliderView extends EventEmitter {
         * maxPixelValue
         + ((this.thumbSize / 2) - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10))}px`;
 
-      const delta = this.model.getMax() - this.model.getMin();
+      const delta = this.max - this.min;
 
-      this.sliderScale[i].textContent = `${+(delta * proportion).toFixed(12) + this.model.getMin()}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
+      this.sliderScale[i].textContent = `${+(delta * proportion).toFixed(12) + this.min}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
     }
   }
 }
