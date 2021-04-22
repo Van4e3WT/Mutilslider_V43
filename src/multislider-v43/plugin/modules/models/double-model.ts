@@ -71,7 +71,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       }
 
       if (isStepping) {
-        val1 = (Math.round(val1 / this.step) / (1 / this.step)); // 200 IQ move
+        val1 = (Math.round(val1 / this.step) / (1 / this.step));
         val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.300000000004 and other
       }
 

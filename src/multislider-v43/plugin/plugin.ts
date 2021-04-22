@@ -66,6 +66,7 @@ import type { Config, ModelConfig } from './modules/custom-types';
     const view = new SliderView(model.getValue(), baseElement, cfg);
 
     const controller = new SliderController(model, view);
+    controller.initListeners();
 
     $.fn.multislider.value = function setValue(values: { val1?: number, val2?: number }) {
       model.setValue({ val1: values.val1, val2: values.val2 });

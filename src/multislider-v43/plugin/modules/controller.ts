@@ -32,21 +32,23 @@ class SliderController extends EventEmitter {
         dPos: 1,
       };
     }
+  }
 
-    this.model.on('valueChanged', this.updateListener);
-
+  public initListeners() {
     this.updateInit();
 
     this.thumbInit();
 
     this.outputInit();
 
-    if (view.sliderScale.length) {
+    if (this.view.sliderScale.length) {
       this.scaleInit();
     }
   }
 
   private updateInit() {
+    this.model.on('valueChanged', this.updateListener);
+
     window.addEventListener('resize', this.updateListener);
     window.addEventListener('resize', this.view.updateScale.bind(this.view));
 

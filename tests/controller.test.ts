@@ -60,6 +60,7 @@ describe('***CONTROLLER***', () => {
       view = new SliderView(model.getValue(), parent, cfg);
 
       controller = new SliderController(model, view);
+      controller.initListeners();
     });
 
     test('should emit event update view on value changing', () => {
@@ -158,6 +159,7 @@ describe('***CONTROLLER***', () => {
       view = new SliderView(model.getValue(), parent, cfg);
 
       controller = new SliderController(model, view);
+      controller.initListeners();
     });
 
     test('should emit event update view on value changing', () => {
