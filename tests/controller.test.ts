@@ -87,11 +87,11 @@ describe('***CONTROLLER***', () => {
     test('should emit event on click to scale division', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.sliderScale.forEach((item) => {
+      view.scale.getScales().forEach((item) => {
         item.dispatchEvent(new Event('click', { bubbles: true }));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.sliderScale.length);
+      expect(updateMock).toBeCalledTimes(calls + view.scale.getScales().length);
     });
 
     test('should emit event on moving after pointed down', () => {
@@ -185,11 +185,11 @@ describe('***CONTROLLER***', () => {
     test('should emit event on click to scale division', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.sliderScale.forEach((item) => {
+      view.scale.getScales().forEach((item) => {
         item.dispatchEvent(new Event('click', { bubbles: true }));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.sliderScale.length);
+      expect(updateMock).toBeCalledTimes(calls + view.scale.getScales().length);
     });
 
     test('should emit event on moving after pointed down', () => {

@@ -41,7 +41,7 @@ class SliderController extends EventEmitter {
 
     this.outputInit();
 
-    if (this.view.sliderScale.length) {
+    if (this.view.scale.getScales().length) {
       this.scaleInit();
     }
   }
@@ -50,10 +50,10 @@ class SliderController extends EventEmitter {
     this.model.on('valueChanged', this.updateListener);
 
     window.addEventListener('resize', this.updateListener);
-    window.addEventListener('resize', this.view.updateScale.bind(this.view));
+    window.addEventListener('resize', this.view.updateScale);
 
     document.addEventListener('DOMContentLoaded', this.updateListener); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
-    document.addEventListener('DOMContentLoaded', this.view.updateScale.bind(this.view)); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
+    document.addEventListener('DOMContentLoaded', this.view.updateScale); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
   }
 
   private updateListener = () => {
@@ -119,7 +119,7 @@ class SliderController extends EventEmitter {
   }
 
   private scaleInit() {
-    const scale = this.view.sliderScale[0].parentElement;
+    const scale = this.view.scale.getScale();
 
     function addScaleEvent(e: Event) {
       const target = e.target as HTMLDivElement;

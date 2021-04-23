@@ -1,3 +1,4 @@
+import Scale from './scale';
 import AdaptiveInput from './adaptive-input';
 import EventEmitter from '../event-emitter';
 import type { Config } from '../custom-types';
@@ -22,7 +23,7 @@ class SliderView extends EventEmitter {
 
   public outputs: AdaptiveInput;
 
-  public sliderScale: Array<HTMLDivElement>;
+  public scale: Scale;
 
   public sliderThumbs: Array<HTMLDivElement>;
 
@@ -31,9 +32,9 @@ class SliderView extends EventEmitter {
   constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
     super();
 
+    this.scale = new Scale();
     this.outputs = new AdaptiveInput();
     this.sliderThumbs = [];
-    this.sliderScale = [];
     this.min = cfg.minValue;
     this.max = cfg.maxValue;
     this.length = values.length;
@@ -121,26 +122,15 @@ class SliderView extends EventEmitter {
         scaleDivisions = cfg.scaleOfValues;
       }
 
-      const sliderScale = document.createElement('div');
-      sliderScale.classList.add('multislider-v43__scale');
-      sliderBody.appendChild(sliderScale);
-      this.renderScale(scaleDivisions, sliderScale);
+      this.scale.init(scaleDivisions, 'multislider-v43__scale');
+      const scale = this.scale.getScale();
+      sliderBody.appendChild(scale);
+      this.updateScale();
     }
 
     this.outputs.init();
 
     this.update(values);
-  }
-
-  private renderScale(n: number, parent: HTMLDivElement) {
-    for (let i = 0; i < n; i += 1) {
-      const scaleElement = document.createElement('div');
-
-      scaleElement.classList.add('multislider-v43__scale-division');
-      this.sliderScale.push(scaleElement);
-      parent.appendChild(scaleElement);
-    }
-    this.updateScale();
   }
 
   public getThumbSize() {
@@ -150,6 +140,16 @@ class SliderView extends EventEmitter {
   public getAxis() {
     return this.axis.sizeParent === 'height' ? 'Y' : 'X';
   }
+
+  public updateScale = () => {
+    this.scale.update({
+      parentThumbs: this.parentThumbs,
+      axis: this.axis,
+      thumbSize: this.thumbSize,
+      min: this.min,
+      max: this.max,
+    });
+  };
 
   public update(thumbsValues) {
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
@@ -182,24 +182,6 @@ class SliderView extends EventEmitter {
       }
     }
   }
-
-  public updateScale() {
-    const n = this.sliderScale.length;
-    const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
-      - this.thumbSize;
-
-    for (let i = 0; i < n; i += 1) {
-      const proportion = (i / (n - 1));
-
-      this.sliderScale[i].style[this.axis.styleSelector] = `${proportion
-        * maxPixelValue
-        + ((this.thumbSize / 2) - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10))}px`;
-
-      const delta = this.max - this.min;
-
-      this.sliderScale[i].textContent = `${+(delta * proportion).toFixed(12) + this.min}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
-    }
-  }
 }
 
-export { SliderView as default };
+export default SliderView;
