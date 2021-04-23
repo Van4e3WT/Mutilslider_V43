@@ -1,4 +1,4 @@
-import SliderView from './view';
+import SliderView from './view/view';
 import EventEmitter from './event-emitter';
 import ISliderModel from './interfaces';
 
@@ -104,7 +104,7 @@ class SliderController extends EventEmitter {
 
   private outputInit() {
     function addOutputEvents(n: number) {
-      const newVal = this.view.outputValues[n].value;
+      const newVal = this.view.outputs.getValues()[n].value;
       if (newVal) {
         if (n === 0) {
           this.model.setValue({ val1: +newVal });
@@ -113,8 +113,8 @@ class SliderController extends EventEmitter {
         }
       }
     }
-    this.view.outputValues.forEach((output, i) => {
-      this.view.outputValues[i].addEventListener('change', addOutputEvents.bind(this, i));
+    this.view.outputs.getValues().forEach((output, i) => {
+      output.addEventListener('change', addOutputEvents.bind(this, i));
     });
   }
 

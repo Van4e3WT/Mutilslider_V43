@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import SliderView from './modules/view';
+import SliderView from './modules/view/view';
 import ISliderModel from './modules/interfaces';
 import SliderController from './modules/controller';
 import SoloSliderModel from './modules/models/solo-model';

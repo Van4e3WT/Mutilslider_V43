@@ -1,12 +1,11 @@
-import EventEmitter from './event-emitter';
-import type { Config } from './custom-types';
+import AdaptiveInput from './adaptive-input';
+import EventEmitter from '../event-emitter';
+import type { Config } from '../custom-types';
 
 class SliderView extends EventEmitter {
   private thumbSize: number;
 
   private sliderRange: HTMLDivElement;
-
-  private outputValuesHided: Array<HTMLSpanElement>;
 
   private axis: {
     sizeParent: 'height' | 'width',
@@ -21,19 +20,18 @@ class SliderView extends EventEmitter {
 
   private isPopUp: boolean;
 
+  public outputs: AdaptiveInput;
+
   public sliderScale: Array<HTMLDivElement>;
 
   public sliderThumbs: Array<HTMLDivElement>;
-
-  public outputValues: Array<HTMLInputElement>;
 
   public parentThumbs: HTMLDivElement;
 
   constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
     super();
 
-    this.outputValues = [];
-    this.outputValuesHided = [];
+    this.outputs = new AdaptiveInput();
     this.sliderThumbs = [];
     this.sliderScale = [];
     this.min = cfg.minValue;
@@ -68,17 +66,10 @@ class SliderView extends EventEmitter {
       sliderOutput.classList.add('multislider-v43__output');
       sliderHeader.appendChild(sliderOutput);
 
-      const sliderValueFirst = document.createElement('input');
-      sliderValueFirst.type = 'number';
-      sliderValueFirst.classList.add('multislider-v43__value');
-      sliderValueFirst.value = `${cfg.minValue}`;
-      sliderOutput.appendChild(sliderValueFirst);
-      this.outputValues.push(sliderValueFirst);
+      const outputFirst = this.outputs.createGroup('multislider-v43__value', cfg.minValue);
 
-      const sliderValueFirstHided = document.createElement('span');
-      sliderValueFirstHided.classList.add('multislider-v43__value-hided');
-      sliderOutput.appendChild(sliderValueFirstHided);
-      this.outputValuesHided.push(sliderValueFirstHided);
+      sliderOutput.appendChild(outputFirst.input);
+      sliderOutput.appendChild(outputFirst.span);
 
       if (this.length === 2) {
         const sliderSpacer = document.createElement('div');
@@ -86,17 +77,10 @@ class SliderView extends EventEmitter {
         sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
-        const sliderValueSecond = document.createElement('input');
-        sliderValueSecond.type = 'number';
-        sliderValueSecond.classList.add('multislider-v43__value');
-        sliderValueSecond.value = `${cfg.maxValue}`;
-        sliderOutput.appendChild(sliderValueSecond);
-        this.outputValues.push(sliderValueSecond);
+        const outputSecond = this.outputs.createGroup('multislider-v43__value', cfg.maxValue);
 
-        const sliderValueSecondHided = document.createElement('span');
-        sliderValueSecondHided.classList.add('multislider-v43__value-hided');
-        sliderOutput.appendChild(sliderValueSecondHided);
-        this.outputValuesHided.push(sliderValueSecondHided);
+        sliderOutput.appendChild(outputSecond.input);
+        sliderOutput.appendChild(outputSecond.span);
       }
     }
 
@@ -112,17 +96,11 @@ class SliderView extends EventEmitter {
       this.sliderThumbs.push(sliderThumb);
 
       if (this.isPopUp) {
-        const sliderThumbPopUp = document.createElement('input');
-        sliderThumbPopUp.type = 'number';
-        sliderThumbPopUp.readOnly = true;
-        sliderThumbPopUp.classList.add('multislider-v43__popup');
-        sliderBody.appendChild(sliderThumbPopUp);
-        this.outputValues.push(sliderThumbPopUp);
+        const outputPopup = this.outputs.createGroup('multislider-v43__popup', 0, true);
 
-        const sliderValueHided = document.createElement('span');
-        sliderValueHided.classList.add('multislider-v43__popup-hided');
-        sliderBody.appendChild(sliderValueHided);
-        this.outputValuesHided.push(sliderValueHided);
+        sliderBody.appendChild(outputPopup.input);
+
+        sliderBody.appendChild(outputPopup.span);
       }
     }
 
@@ -149,25 +127,9 @@ class SliderView extends EventEmitter {
       this.renderScale(scaleDivisions, sliderScale);
     }
 
-    this.outputValuesInit();
+    this.outputs.init();
 
     this.update(values);
-  }
-
-  private outputValuesInit() {
-    function addOutputEvents(i: number) {
-      const val = this.outputValues[i].value;
-
-      if (val) {
-        this.outputValuesHided[i].textContent = val;
-        this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
-      }
-    }
-
-    this.outputValues.forEach((output, i) => {
-      this.outputValues[i].addEventListener('input', addOutputEvents.bind(this, i));
-      window.addEventListener('load', addOutputEvents.bind(this, i));
-    });
   }
 
   private renderScale(n: number, parent: HTMLDivElement) {
@@ -200,12 +162,10 @@ class SliderView extends EventEmitter {
         - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
 
       this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
-      this.outputValues[i].value = `${thumbsValues[i]}`;
-      this.outputValuesHided[i].textContent = this.outputValues[i].value;
-      this.outputValues[i].style.width = `${this.outputValuesHided[i].offsetWidth}px`;
+      this.outputs.updateN(i, thumbsValues[i]);
 
       if (this.isPopUp) {
-        this.outputValues[i].style[this.axis.styleSelector] = `${position + this.getThumbSize() / 2}px`;
+        this.outputs.styleN(i, this.axis.styleSelector, (position + this.getThumbSize() / 2));
       }
     });
 

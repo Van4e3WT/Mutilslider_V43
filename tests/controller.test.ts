@@ -1,4 +1,4 @@
-import SliderView from '../src/multislider-v43/plugin/modules/view';
+import SliderView from '../src/multislider-v43/plugin/modules/view/view';
 import ISliderModel from '../src/multislider-v43/plugin/modules/interfaces';
 import SliderController from '../src/multislider-v43/plugin/modules/controller';
 import { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/custom-types';
@@ -77,11 +77,11 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputValues.forEach((item) => {
+      view.outputs.getValues().forEach((item) => {
         item.dispatchEvent(new Event('change'));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.outputValues.length);
+      expect(updateMock).toBeCalledTimes(calls + view.outputs.getValues().length);
     });
 
     test('should emit event on click to scale division', () => {
@@ -175,11 +175,11 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputValues.forEach((item) => {
+      view.outputs.getValues().forEach((item) => {
         item.dispatchEvent(new Event('change'));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.outputValues.length);
+      expect(updateMock).toBeCalledTimes(calls + view.outputs.getValues().length);
     });
 
     test('should emit event on click to scale division', () => {
