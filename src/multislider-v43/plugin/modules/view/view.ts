@@ -1,5 +1,5 @@
-import Scale from './scale';
-import AdaptiveInput from './adaptive-input';
+import ScaleView from './scale-view';
+import AdaptiveInputView from './adaptive-input-view';
 import EventEmitter from '../event-emitter';
 import type { Config } from '../custom-types';
 
@@ -23,9 +23,9 @@ class SliderView extends EventEmitter {
 
   private isPopUp: boolean;
 
-  public outputs: AdaptiveInput;
+  public outputs: AdaptiveInputView;
 
-  public scale: Scale;
+  public scale: ScaleView;
 
   public sliderThumbs: Array<HTMLDivElement>;
 
@@ -34,8 +34,8 @@ class SliderView extends EventEmitter {
   constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
     super();
 
-    this.scale = new Scale();
-    this.outputs = new AdaptiveInput();
+    this.scale = new ScaleView();
+    this.outputs = new AdaptiveInputView();
     this.sliderThumbs = [];
     this.min = cfg.minValue;
     this.max = cfg.maxValue;

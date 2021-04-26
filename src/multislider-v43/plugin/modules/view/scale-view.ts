@@ -1,4 +1,4 @@
-class Scale {
+class ScaleView {
   private scale: HTMLDivElement;
 
   private scaleDivisions: Array<HTMLDivElement>;
@@ -7,14 +7,14 @@ class Scale {
     this.scaleDivisions = [];
   }
 
-  public init(n: number, addedClasses: string) {
+  public init(n: number, selector: string) {
     this.scale = document.createElement('div');
-    this.scale.classList.add(`${addedClasses}`);
+    this.scale.classList.add(`${selector}`);
 
     for (let i = 0; i < n; i += 1) {
       const scaleDivision = document.createElement('div');
 
-      scaleDivision.classList.add(`${addedClasses}-division`);
+      scaleDivision.classList.add(`${selector}-division`);
       this.scaleDivisions.push(scaleDivision);
       this.scale.appendChild(scaleDivision);
     }
@@ -54,4 +54,4 @@ class Scale {
   }
 }
 
-export default Scale;
+export default ScaleView;

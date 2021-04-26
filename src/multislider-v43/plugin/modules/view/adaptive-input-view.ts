@@ -1,4 +1,4 @@
-class AdaptiveInput {
+class AdaptiveInputView {
   private values: Array<HTMLInputElement>;
 
   private valuesHided: Array<HTMLSpanElement>;
@@ -56,4 +56,4 @@ class AdaptiveInput {
   }
 }
 
-export default AdaptiveInput;
+export default AdaptiveInputView;

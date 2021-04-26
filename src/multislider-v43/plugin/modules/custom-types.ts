@@ -1,4 +1,4 @@
-type Thumb = {
+type ThumbModel = {
   min: number,
   max: number,
   value: number,
@@ -29,4 +29,4 @@ type ModelConfig = {
   value2?: number,
 };
 
-export { Thumb, Config, ModelConfig };
+export { ThumbModel, Config, ModelConfig };

@@ -2,10 +2,10 @@ import Utils from '../utils';
 import ISliderModel from '../interfaces';
 import EventEmitter from '../event-emitter';
 import { ModelConfig } from '../custom-types';
-import type { Thumb } from '../custom-types';
+import type { ThumbModel } from '../custom-types';
 
 class DoubleSliderModel extends EventEmitter implements ISliderModel {
-  private thumbs: Array<Thumb>;
+  private thumbs: Array<ThumbModel>;
 
   private min: number;
 
