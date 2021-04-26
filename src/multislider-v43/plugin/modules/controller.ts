@@ -19,7 +19,7 @@ class SliderController extends EventEmitter {
     this.model = model;
     this.view = view;
 
-    if (view.getAxis() === 'Y') {
+    if (view.getAxis()) {
       this.axis = {
         eventAxis: 'pageY',
         sizeParent: 'height',

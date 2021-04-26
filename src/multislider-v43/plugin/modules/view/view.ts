@@ -13,6 +13,8 @@ class SliderView extends EventEmitter {
     styleSelector: 'bottom' | 'left'
   };
 
+  private orientation: boolean; // false - axis X (horizontal), true - axis Y (vertical)
+
   private min: number;
 
   private max: number;
@@ -39,51 +41,11 @@ class SliderView extends EventEmitter {
     this.max = cfg.maxValue;
     this.length = values.length;
     this.isPopUp = cfg.popUpOfValue;
+    this.orientation = cfg.orientation === 'vertical';
 
-    if (cfg.orientation === 'vertical') {
-      parent.classList.add('multislider-v43_vertical');
-      this.axis = {
-        sizeParent: 'height',
-        styleSelector: 'bottom',
-      };
-    } else {
-      this.axis = {
-        sizeParent: 'width',
-        styleSelector: 'left',
-      };
-    }
+    this.initOrientation(parent);
 
-    const sliderHeader = document.createElement('div');
-    sliderHeader.classList.add('multislider-v43__header');
-    parent.appendChild(sliderHeader);
-
-    const sliderDescription = document.createElement('div');
-    sliderDescription.classList.add('multislider-v43__description');
-    sliderDescription.textContent = cfg.description;
-    sliderHeader.appendChild(sliderDescription);
-
-    if (!this.isPopUp) {
-      const sliderOutput = document.createElement('div');
-      sliderOutput.classList.add('multislider-v43__output');
-      sliderHeader.appendChild(sliderOutput);
-
-      const outputFirst = this.outputs.createGroup('multislider-v43__value', cfg.minValue);
-
-      sliderOutput.appendChild(outputFirst.input);
-      sliderOutput.appendChild(outputFirst.span);
-
-      if (this.length === 2) {
-        const sliderSpacer = document.createElement('div');
-        sliderSpacer.classList.add('multislider-v43__spacer');
-        sliderSpacer.textContent = '\xa0–\xa0';
-        sliderOutput.appendChild(sliderSpacer);
-
-        const outputSecond = this.outputs.createGroup('multislider-v43__value', cfg.maxValue);
-
-        sliderOutput.appendChild(outputSecond.input);
-        sliderOutput.appendChild(outputSecond.span);
-      }
-    }
+    this.renderHeader(parent, cfg.description);
 
     const sliderBody = document.createElement('div');
     sliderBody.classList.add('multislider-v43__body');
@@ -107,26 +69,9 @@ class SliderView extends EventEmitter {
 
     this.thumbSize = parseInt(getComputedStyle(this.sliderThumbs[0]).width, 10);
 
-    if (cfg.isProgressBar) {
-      this.sliderRange = document.createElement('div');
-      this.sliderRange.classList.add('multislider-v43__range');
-      sliderBody.appendChild(this.sliderRange);
-    }
+    this.renderProgressBar(sliderBody, cfg.isProgressBar);
 
-    if (cfg.scaleOfValues) {
-      let scaleDivisions: number;
-
-      if (cfg.scaleOfValues < 3) {
-        scaleDivisions = 3;
-      } else {
-        scaleDivisions = cfg.scaleOfValues;
-      }
-
-      this.scale.init(scaleDivisions, 'multislider-v43__scale');
-      const scale = this.scale.getScale();
-      sliderBody.appendChild(scale);
-      this.updateScale();
-    }
+    this.renderScale(sliderBody, cfg.scaleOfValues);
 
     this.outputs.init();
 
@@ -138,7 +83,7 @@ class SliderView extends EventEmitter {
   }
 
   public getAxis() {
-    return this.axis.sizeParent === 'height' ? 'Y' : 'X';
+    return this.orientation;
   }
 
   public updateScale = () => {
@@ -181,6 +126,72 @@ class SliderView extends EventEmitter {
           - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
       }
     }
+  }
+
+  private initOrientation(parent: HTMLDivElement) {
+    if (this.orientation) {
+      parent.classList.add('multislider-v43_vertical');
+      this.axis = {
+        sizeParent: 'height',
+        styleSelector: 'bottom',
+      };
+    } else {
+      this.axis = {
+        sizeParent: 'width',
+        styleSelector: 'left',
+      };
+    }
+  }
+
+  private renderHeader(parent: HTMLDivElement, title: string) {
+    const sliderHeader = document.createElement('div');
+    sliderHeader.classList.add('multislider-v43__header');
+    parent.appendChild(sliderHeader);
+
+    const sliderDescription = document.createElement('div');
+    sliderDescription.classList.add('multislider-v43__description');
+    sliderDescription.textContent = title;
+    sliderHeader.appendChild(sliderDescription);
+
+    if (!this.isPopUp) {
+      const sliderOutput = document.createElement('div');
+      sliderOutput.classList.add('multislider-v43__output');
+      sliderHeader.appendChild(sliderOutput);
+
+      const outputFirst = this.outputs.createGroup('multislider-v43__value', this.min);
+
+      sliderOutput.appendChild(outputFirst.input);
+      sliderOutput.appendChild(outputFirst.span);
+
+      if (this.length === 2) {
+        const sliderSpacer = document.createElement('div');
+        sliderSpacer.classList.add('multislider-v43__spacer');
+        sliderSpacer.textContent = '\xa0–\xa0';
+        sliderOutput.appendChild(sliderSpacer);
+
+        const outputSecond = this.outputs.createGroup('multislider-v43__value', this.max);
+
+        sliderOutput.appendChild(outputSecond.input);
+        sliderOutput.appendChild(outputSecond.span);
+      }
+    }
+  }
+
+  private renderProgressBar(parent: HTMLDivElement, isProgressBar) {
+    if (!isProgressBar) return;
+
+    this.sliderRange = document.createElement('div');
+    this.sliderRange.classList.add('multislider-v43__range');
+    parent.appendChild(this.sliderRange);
+  }
+
+  private renderScale(parent: HTMLDivElement, scaleDivisions: number) {
+    if (!scaleDivisions) return;
+
+    this.scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale');
+    const scale = this.scale.getScale();
+    parent.appendChild(scale);
+    this.updateScale();
   }
 }
 
