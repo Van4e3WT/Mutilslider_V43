@@ -1,4 +1,5 @@
 import ScaleView from './scale-view';
+import ThumbsView from './thumbs-view';
 import AdaptiveInputView from './adaptive-input-view';
 import EventEmitter from '../event-emitter';
 import type { Config } from '../custom-types';
@@ -27,7 +28,7 @@ class SliderView extends EventEmitter {
 
   public scale: ScaleView;
 
-  public sliderThumbs: Array<HTMLDivElement>;
+  public thumbs: ThumbsView;
 
   public parentThumbs: HTMLDivElement;
 
@@ -36,13 +37,13 @@ class SliderView extends EventEmitter {
 
     this.scale = new ScaleView();
     this.outputs = new AdaptiveInputView();
-    this.sliderThumbs = [];
+    this.thumbs = new ThumbsView();
     this.min = cfg.minValue;
     this.max = cfg.maxValue;
     this.length = values.length;
     this.isPopUp = cfg.popUpOfValue;
-    this.orientation = cfg.orientation === 'vertical';
 
+    this.orientation = cfg.orientation === 'vertical';
     this.initOrientation(parent);
 
     this.renderHeader(parent, cfg.description);
@@ -53,10 +54,7 @@ class SliderView extends EventEmitter {
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < this.length; i += 1) {
-      const sliderThumb = document.createElement('div');
-      sliderThumb.classList.add('multislider-v43__thumb');
-      sliderBody.appendChild(sliderThumb);
-      this.sliderThumbs.push(sliderThumb);
+      this.thumbs.add(sliderBody, 'multislider-v43');
 
       if (this.isPopUp) {
         const outputPopup = this.outputs.createGroup('multislider-v43__popup', 0, true);
@@ -67,7 +65,7 @@ class SliderView extends EventEmitter {
       }
     }
 
-    this.thumbSize = parseInt(getComputedStyle(this.sliderThumbs[0]).width, 10);
+    this.thumbSize = this.thumbs.getSize();
 
     this.renderProgressBar(sliderBody, cfg.isProgressBar);
 
@@ -100,30 +98,30 @@ class SliderView extends EventEmitter {
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
       - this.thumbSize;
 
-    this.sliderThumbs.forEach((item, i) => {
+    for (let i = 0; i < this.thumbs.getLength(); i += 1) {
       const position = maxPixelValue
         * ((thumbsValues[i] - this.min)
           / (this.max - this.min))
         - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
 
-      this.sliderThumbs[i].style[this.axis.styleSelector] = `${position}px`;
+      this.thumbs.setStyleN(i, this.axis.styleSelector, position);
       this.outputs.updateN(i, thumbsValues[i]);
 
       if (this.isPopUp) {
         this.outputs.styleN(i, this.axis.styleSelector, (position + this.getThumbSize() / 2));
       }
-    });
+    }
 
     if (this.sliderRange) {
-      if (this.sliderThumbs.length === 1) {
-        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
+      if (this.thumbs.getLength() === 1) {
+        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)
           + (this.thumbSize / 2)}px`;
       }
-      if (this.sliderThumbs.length === 2) {
-        this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)
+      if (this.thumbs.getLength() === 2) {
+        this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)
           + (this.thumbSize / 2)}px`;
-        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.sliderThumbs[1].style[this.axis.styleSelector], 10)
-          - parseInt(this.sliderThumbs[0].style[this.axis.styleSelector], 10)}px`;
+        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.thumbs.getStyleN(1, this.axis.styleSelector), 10)
+          - parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)}px`;
       }
     }
   }

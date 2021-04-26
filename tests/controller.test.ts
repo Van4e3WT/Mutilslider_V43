@@ -97,13 +97,13 @@ describe('***CONTROLLER***', () => {
     test('should emit event on moving after pointed down', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.sliderThumbs.forEach((item) => {
-        item.dispatchEvent(new Event('pointerdown'));
+      for (let i = 0; i < view.thumbs.getLength(); i += 1) {
+        view.thumbs.getN(i).dispatchEvent(new Event('pointerdown'));
         document.dispatchEvent(new Event('pointermove'));
         document.dispatchEvent(new Event('pointerup'));
-      });
+      }
 
-      expect(updateMock).toBeCalledTimes(calls + view.sliderThumbs.length);
+      expect(updateMock).toBeCalledTimes(calls + view.thumbs.getLength());
     });
   });
   describe('Vertical', () => {
@@ -195,13 +195,13 @@ describe('***CONTROLLER***', () => {
     test('should emit event on moving after pointed down', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.sliderThumbs.forEach((item) => {
-        item.dispatchEvent(new Event('pointerdown'));
+      for (let i = 0; i < view.thumbs.getLength(); i += 1) {
+        view.thumbs.getN(i).dispatchEvent(new Event('pointerdown'));
         document.dispatchEvent(new Event('pointermove'));
         document.dispatchEvent(new Event('pointerup'));
-      });
+      }
 
-      expect(updateMock).toBeCalledTimes(calls + view.sliderThumbs.length);
+      expect(updateMock).toBeCalledTimes(calls + view.thumbs.getLength());
     });
   });
 });

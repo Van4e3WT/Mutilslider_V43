@@ -65,18 +65,18 @@ class SliderController extends EventEmitter {
   };
 
   private thumbInit() {
-    this.view.sliderThumbs.forEach((item, i) => {
+    for (let i = 0; i < this.view.thumbs.getLength(); i += 1) {
       let isFocused = false;
       let pos0: number;
       let value0: number;
 
-      function addPointerDownEvents(n: number, e: Event) {
+      const addPointerDownEvents = (n: number, e: Event) => {
         pos0 = e[this.axis.eventAxis];
         value0 = this.model.getValue()[n];
         isFocused = true;
-      }
+      };
 
-      function addPointerMoveEvents(e: Event) {
+      const addPointerMoveEvents = (e: Event) => {
         if (!isFocused) return;
 
         const pos1 = e[this.axis.eventAxis];
@@ -92,18 +92,18 @@ class SliderController extends EventEmitter {
         } else if (i === 1) {
           this.model.setValue({ val2: value });
         }
-      }
+      };
 
-      function addPointerUpEvents() {
+      const addPointerUpEvents = () => {
         isFocused = false;
-      }
+      };
 
-      this.view.sliderThumbs[i].addEventListener('pointerdown', addPointerDownEvents.bind(this, i));
+      this.view.thumbs.getN(i).addEventListener('pointerdown', addPointerDownEvents.bind(this, i));
 
       document.addEventListener('pointermove', addPointerMoveEvents.bind(this));
 
       document.addEventListener('pointerup', addPointerUpEvents);
-    });
+    }
   }
 
   private outputInit() {
