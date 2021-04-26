@@ -19,19 +19,7 @@ class SliderController extends EventEmitter {
     this.model = model;
     this.view = view;
 
-    if (view.getAxis()) {
-      this.axis = {
-        eventAxis: 'pageY',
-        sizeParent: 'height',
-        dPos: -1,
-      };
-    } else {
-      this.axis = {
-        eventAxis: 'pageX',
-        sizeParent: 'width',
-        dPos: 1,
-      };
-    }
+    this.initOrientation();
   }
 
   public initListeners() {
@@ -43,6 +31,22 @@ class SliderController extends EventEmitter {
 
     if (this.view.scale.getScales().length) {
       this.scaleInit();
+    }
+  }
+
+  private initOrientation() {
+    if (this.view.getAxis()) {
+      this.axis = {
+        eventAxis: 'pageY',
+        sizeParent: 'height',
+        dPos: -1,
+      };
+    } else {
+      this.axis = {
+        eventAxis: 'pageX',
+        sizeParent: 'width',
+        dPos: 1,
+      };
     }
   }
 
@@ -141,4 +145,4 @@ class SliderController extends EventEmitter {
   }
 }
 
-export { SliderController as default };
+export default SliderController;

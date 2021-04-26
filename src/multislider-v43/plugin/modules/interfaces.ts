@@ -7,4 +7,4 @@ interface ISliderModel extends EventEmitter {
   setValue(values: { val1?: number, val2?: number }, isStepping?: boolean): void;
 }
 
-export { ISliderModel as default };
+export default ISliderModel;
