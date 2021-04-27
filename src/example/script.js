@@ -60,7 +60,8 @@ panelsCfg.forEach((panelCfg, i) => {
   cfgAddons.classList.add('cfg-v43__group');
   cfgAddons.innerHTML = `<label><input type="checkbox" class="cfg-v43__isPopUp">Всплывающее значение</label>
   <label><input type="number" value="5" class="cfg-v43__scaleDivisions">Количество делений шкалы</label>
-  <label><input type="checkbox" checked class="cfg-v43__isProgBar">Прогресс бар</label>`;
+  <label><input type="checkbox" checked class="cfg-v43__isProgBar">Прогресс бар</label>
+  <label><input type="text" class="cfg-v43__postfix">Постфикс</label>`;
   panelCfg.appendChild(cfgAddons);
 });
 
@@ -81,6 +82,7 @@ function initCfgSlider() {
     const popUpOfValue = parent.querySelector('.cfg-v43__isPopUp');
     const scaleOfValues = parent.querySelector('.cfg-v43__scaleDivisions');
     const isProgressBar = parent.querySelector('.cfg-v43__isProgBar');
+    const postfix = parent.querySelector('.cfg-v43__postfix');
 
     function updateSlider() {
       $(slider).multislider({
@@ -96,6 +98,7 @@ function initCfgSlider() {
         popUpOfValue: popUpOfValue.checked,
         scaleOfValues: +scaleOfValues.value,
         isProgressBar: isProgressBar.checked,
+        postfix: postfix.value,
       });
     }
 
@@ -111,6 +114,7 @@ function initCfgSlider() {
     popUpOfValue.addEventListener('change', updateSlider);
     scaleOfValues.addEventListener('change', updateSlider);
     isProgressBar.addEventListener('change', updateSlider);
+    postfix.addEventListener('change', updateSlider);
 
     updateSlider();
   });

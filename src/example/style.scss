@@ -40,7 +40,7 @@
   }
   input {
     margin: 5px;
-    &[type="number"] {
+    &[type="number"], &[type="text"] {
       width: 70px;
     }
   }
