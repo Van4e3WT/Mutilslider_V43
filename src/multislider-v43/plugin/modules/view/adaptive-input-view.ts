@@ -32,7 +32,7 @@ class AdaptiveInputView {
 
       if (value) {
         this.valuesHided[i].textContent = value;
-        this.values[i].style.width = `${this.valuesHided[i].offsetWidth}px`;
+        this.values[i].style.width = `${this.valuesHided[i].offsetWidth + 2}px`;
       }
     }
     this.values.forEach((value, i) => {
@@ -48,7 +48,7 @@ class AdaptiveInputView {
   public updateN(n: number, value) {
     this.valuesHided[n].textContent = value;
     this.values[n].value = this.valuesHided[n].textContent;
-    this.values[n].style.width = `${this.valuesHided[n].offsetWidth}px`;
+    this.values[n].style.width = `${this.valuesHided[n].offsetWidth + 2}px`;
   }
 
   public styleN(n: number, prop: string, value: number) {

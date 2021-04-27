@@ -20,6 +20,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   width: 100%;
   padding-bottom: 30px;
   border-radius: 10px;
+  font-size: 1rem;
   font-family: sans-serif;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -29,6 +30,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   &__header {
     width: 100%;
     padding: 10px 0;
+    font-size: 1em;
   }
   &__description {
     text-transform: uppercase;
@@ -40,7 +42,6 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
     color: $DarkShade75;
   }
   &__value {
@@ -80,18 +81,18 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     left: 0px;
     height: 24px;
     width: 24px;
-    background: $Green;
+    background-color: $Green;
     border: 3px solid white;
     border-radius: 50%;
     cursor: pointer;
     z-index: 1;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
     touch-action: none;
     -ms-touch-action: none;
   }
   &__thumb:hover,
   &__thumb:active {
-    background: $Blue;
+    background-color: $Blue;
   }
   &__thumb:hover + &__popup,
   &__thumb:active + &__popup {
@@ -148,8 +149,8 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     color: $DarkShade75;
     cursor: pointer;
     &:hover {
-      color: $DarkShade75;
-      transition: 0.3s;
+      color: $DarkShade50;
+      transition: color 0.3s;
     }
     &::before {
       content: '';
