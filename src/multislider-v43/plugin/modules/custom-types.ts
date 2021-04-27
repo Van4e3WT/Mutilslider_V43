@@ -18,6 +18,7 @@ type Config = {
   scaleOfValues?: number,
   isProgressBar?: boolean,
 
+  postfix?: string,
   description?: string,
 };
 

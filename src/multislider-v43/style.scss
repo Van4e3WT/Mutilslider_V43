@@ -45,25 +45,27 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     color: $DarkShade75;
   }
   &__value {
-    padding: 0;
-    margin: 0;
-    width: 0;
-    height: auto;
-    font: inherit;
-    color: inherit;
-    border: none;
-    background: none;
-    -moz-appearance: textfield;
+    &-input {
+      padding: 0;
+      margin: 0;
+      width: 0;
+      height: auto;
+      font: inherit;
+      color: inherit;
+      border: none;
+      background: none;
+      -moz-appearance: textfield;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+    }
     &-hided {
       position: absolute;
       height: 0;
       overflow: hidden;
       font: inherit;
       white-space: pre;
-    }
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
     }
   }
   &__body {
@@ -96,33 +98,37 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   }
   &__thumb:hover + &__popup,
   &__thumb:active + &__popup {
-    display: block;
+    display: flex;
   }
   &__popup {
-    box-sizing: border-box;
     display: none;
     position: absolute;
     font: inherit;
-    outline: none;
-    -moz-appearance: textfield;
-    box-sizing: content-box;
     cursor: default;
     padding: 5px;
     background-color: white;
-    color: $DarkShade75;
+    color: $DarkShade50;
     border: 2px solid $Green;
     border-radius: 10px;
     bottom: 20px;
     transform: translateX(-50%);
+    -moz-appearance: textfield;
+    &-input {
+      font: inherit;
+      color: $DarkShade75;
+      border: none;
+      outline: none;
+      -moz-appearance: textfield;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+    }
     &-hided {
       position: absolute;
       height: 0;
       overflow: hidden;
       white-space: pre;
-    }
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
     }
   }
   &__range {
@@ -189,19 +195,6 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
       &__popup {
         right: 20px;
         transform: translateY(50%);
-        &::before {
-          position: absolute;
-          content: '';
-          height: 8px;
-          width: 8px;
-          right: -6px;
-          left: auto;
-          top: 50%;
-          transform: translateY(-50%) rotate(45deg);
-          border-top: 2px solid $Blue;
-          border-bottom: none;
-          background-color: white;
-        }
       }
       &__range {
         bottom: 0;

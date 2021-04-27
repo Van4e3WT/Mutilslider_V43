@@ -23,6 +23,7 @@ import type { Config, ModelConfig } from './modules/custom-types';
       scaleOfValues: config.scaleOfValues ?? 0,
       isProgressBar: config.isProgressBar ?? true,
 
+      postfix: config.postfix,
       description: config.description ?? 'Range Slider',
     };
 

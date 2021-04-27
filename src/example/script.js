@@ -14,6 +14,7 @@ $('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
   scaleOfValues: 11,
   isProgressBar: true,
 
+  postfix: '₽',
   description: 'Вертикальный слайдер',
 });
 

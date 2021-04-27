@@ -36,7 +36,7 @@ class SliderView extends EventEmitter {
     super();
 
     this.scale = new ScaleView();
-    this.outputs = new AdaptiveInputView();
+    this.outputs = new AdaptiveInputView(cfg.postfix);
     this.thumbs = new ThumbsView();
     this.min = cfg.minValue;
     this.max = cfg.maxValue;
@@ -57,11 +57,11 @@ class SliderView extends EventEmitter {
       this.thumbs.add(sliderBody, 'multislider-v43');
 
       if (this.isPopUp) {
-        const outputPopup = this.outputs.createGroup('multislider-v43__popup', 0, true);
-
-        sliderBody.appendChild(outputPopup.input);
-
-        sliderBody.appendChild(outputPopup.span);
+        this.outputs.createGroup({
+          parent: sliderBody,
+          selector: 'multislider-v43__popup',
+          isReadonly: true,
+        });
       }
     }
 
@@ -156,10 +156,10 @@ class SliderView extends EventEmitter {
       sliderOutput.classList.add('multislider-v43__output');
       sliderHeader.appendChild(sliderOutput);
 
-      const outputFirst = this.outputs.createGroup('multislider-v43__value', this.min);
-
-      sliderOutput.appendChild(outputFirst.input);
-      sliderOutput.appendChild(outputFirst.span);
+      this.outputs.createGroup({
+        parent: sliderOutput,
+        selector: 'multislider-v43__value',
+      });
 
       if (this.length === 2) {
         const sliderSpacer = document.createElement('div');
@@ -167,10 +167,10 @@ class SliderView extends EventEmitter {
         sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
-        const outputSecond = this.outputs.createGroup('multislider-v43__value', this.max);
-
-        sliderOutput.appendChild(outputSecond.input);
-        sliderOutput.appendChild(outputSecond.span);
+        this.outputs.createGroup({
+          parent: sliderOutput,
+          selector: 'multislider-v43__value',
+        });
       }
     }
   }
