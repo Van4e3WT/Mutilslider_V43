@@ -18,8 +18,6 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   align-items: center;
   min-height: 38px;
   width: 100%;
-  padding-bottom: 30px;
-  border-radius: 10px;
   font-size: 1rem;
   font-family: sans-serif;
   -webkit-user-select: none;
@@ -29,7 +27,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
   user-select: none;
   &__header {
     width: 100%;
-    padding: 10px 0;
+    margin-bottom: 10px;
     font-size: 1em;
   }
   &__description {
@@ -72,17 +70,21 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    height: 10px;
+    height: 8px;
     border: 2px solid $DarkShade25;
-    border-radius: 10px;
+    border-radius: 8px;
+    &_scaled {
+      margin-bottom: 1.8em;
+    }
   }
   &__thumb {
     box-sizing: border-box;
     position: absolute;
-    bottom: -9px;
+    bottom: 50%;
+    transform: translateY(50%);
     left: 0px;
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
     background-color: $Green;
     border: 3px solid white;
     border-radius: 50%;
@@ -105,7 +107,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     position: absolute;
     font: inherit;
     cursor: default;
-    padding: 5px;
+    padding: 4px;
     background-color: white;
     color: $DarkShade50;
     border: 2px solid $Green;
@@ -136,7 +138,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     bottom: 0px;
     left: 0;
     width: 0px;
-    height: 6px;
+    height: 4px;
     background: $gradientColor;
     border-radius: 8px;
     z-index: -1;
@@ -150,7 +152,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     position: absolute;
     height: 18px;
     bottom: -12px;
-    padding-top: 20px;
+    padding-top: 18px;
     transform: translateX(-50%);
     color: $DarkShade75;
     cursor: pointer;
@@ -163,7 +165,7 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
       position: absolute;
       top: 0px;
       left: 50%;
-      height: 10px;
+      height: 8px;
       width: 2px;
       transform: translateX(-50%);
       background-color: $DarkShade50;
@@ -186,11 +188,15 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
     .multislider-v43 {
       &__body {
         height: 100%;
-        width: 10px;
+        width: 8px;
+        &_scaled {
+          margin: 0;
+        }
       }
       &__thumb {
-        bottom: 0px;
-        left: -9px;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
       }
       &__popup {
         right: 20px;
@@ -199,35 +205,36 @@ $gradientColorVertical: linear-gradient(to top, $Blue, $Green);
       &__range {
         bottom: 0;
         left: 0px;
-        width: 6px;
+        width: 4px;
         height: 0px;
         background: $gradientColorVertical;
       }
-      &__scale-division {
-        left: -2px;
-        transform: translateY(50%);
-        padding-top: 0;
-        padding-left: 20px;
-        &::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 0px;
-          height: 2px;
-          width: 10px;
-          transform: translateY(-50%);
-        }
-        &:first-child {
-          left: -2px !important;
-        }
-        &:last-child {
-          left: -2px !important;
-        }
-        &:first-child::before, &:last-child::before {
-          content: none;
+      &__scale {
+        &-division {
+          left: -2px;
+          transform: translateY(50%);
+          padding-top: 0;
+          padding-left: 18px;
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0px;
+            height: 2px;
+            width: 8px;
+            transform: translateY(-50%);
+          }
+          &:first-child {
+            left: -2px !important;
+          }
+          &:last-child {
+            left: -2px !important;
+          }
+          &:first-child::before, &:last-child::before {
+            content: none;
+          }
         }
       }
-
     }
   }
 }

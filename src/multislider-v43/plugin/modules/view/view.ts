@@ -186,6 +186,7 @@ class SliderView extends EventEmitter {
   private renderScale(parent: HTMLDivElement, scaleDivisions: number) {
     if (!scaleDivisions) return;
 
+    parent.classList.add('multislider-v43__body_scaled');
     this.scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale');
     const scale = this.scale.getScale();
     parent.appendChild(scale);
