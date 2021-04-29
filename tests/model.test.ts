@@ -1,8 +1,8 @@
-import Utils from '../src/multislider-v43/plugin/modules/utils';
-import ISliderModel from '../src/multislider-v43/plugin/modules/interfaces';
-import { ModelConfig } from '../src/multislider-v43/plugin/modules/custom-types';
+import Utils from '../src/multislider-v43/plugin/modules/utils/utils';
+import { ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
 import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/solo-model';
 import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/double-model';
+import ISliderModel from '../src/multislider-v43/plugin/modules/models/interfaces/interfaces';
 
 describe('***MODEL***', () => {
   const modelConfig: ModelConfig = {

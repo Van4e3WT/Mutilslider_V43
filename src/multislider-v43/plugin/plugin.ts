@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 import SliderView from './modules/view/view';
-import ISliderModel from './modules/interfaces';
-import SliderController from './modules/controller';
+import SliderController from './modules/controller/controller';
 import SoloSliderModel from './modules/models/solo-model';
 import DoubleSliderModel from './modules/models/double-model';
-import type { Config, ModelConfig } from './modules/custom-types';
+import { Config, ModelConfig } from './modules/utils/custom-types';
+import ISliderModel from './modules/models/interfaces/interfaces';
 
 (function f($) {
   $.fn.multislider = function MultisliderInit(config: Config) {

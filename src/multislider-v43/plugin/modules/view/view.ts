@@ -1,8 +1,8 @@
 import ScaleView from './scale-view';
 import ThumbsView from './thumbs-view';
 import AdaptiveInputView from './adaptive-input-view';
-import EventEmitter from '../event-emitter';
-import type { Config } from '../custom-types';
+import EventEmitter from '../utils/event-emitter';
+import { Config } from '../utils/custom-types';
 
 class SliderView extends EventEmitter {
   private thumbSize: number;

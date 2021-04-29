@@ -1,6 +1,6 @@
-import SliderView from './view/view';
-import EventEmitter from './event-emitter';
-import ISliderModel from './interfaces';
+import SliderView from '../view/view';
+import EventEmitter from '../utils/event-emitter';
+import ISliderModel from '../models/interfaces/interfaces';
 
 class SliderController extends EventEmitter {
   private model: ISliderModel;

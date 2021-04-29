@@ -1,8 +1,7 @@
-import Utils from '../utils';
-import ISliderModel from '../interfaces';
-import EventEmitter from '../event-emitter';
-import { ModelConfig } from '../custom-types';
-import type { ThumbModel } from '../custom-types';
+import ISliderModel from './interfaces/interfaces';
+import Utils from '../utils/utils';
+import EventEmitter from '../utils/event-emitter';
+import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
 class DoubleSliderModel extends EventEmitter implements ISliderModel {
   private thumbs: Array<ThumbModel>;
