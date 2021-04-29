@@ -1,39 +1,5 @@
 /* global document, $ */
 
-$('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
-  minValue: 5000,
-  maxValue: 15000,
-  step: 100,
-  value1: 7500,
-  value2: 10000,
-
-  orientation: 'vertical',
-  sliderType: 'double',
-
-  popUpOfValue: true,
-  scaleOfValues: 11,
-  isProgressBar: true,
-
-  postfix: '₽',
-  description: 'Вертикальный слайдер',
-});
-
-$('.js-multislider-v43_solo.js-multislider-v43_slider-3').multislider({
-  minValue: -100,
-  maxValue: 150,
-  step: 10,
-  value1: 100,
-
-  orientation: 'vertical',
-  sliderType: 'solo',
-
-  popUpOfValue: false,
-  scaleOfValues: 11,
-  isProgressBar: true,
-
-  description: 'Одиночный вертикальный слайдер',
-});
-
 const panelsCfg = Array.from(document.querySelectorAll('.js-cfg-v43'));
 
 panelsCfg.forEach((panelCfg, i) => {
@@ -70,19 +36,19 @@ function initCfgSlider() {
   slidersCfg.forEach((slider) => {
     const parent = slider.parentElement;
 
-    const minValue = parent.querySelector('.cfg-v43__minVal');
-    const maxValue = parent.querySelector('.cfg-v43__maxVal');
-    const step = parent.querySelector('.cfg-v43__step');
-    const value1 = parent.querySelector('.cfg-v43__val1');
-    const value2 = parent.querySelector('.cfg-v43__val2');
-    const orientation = parent.querySelector('.cfg-v43__isOrientHoriz');
-    const orientationAddict = parent.querySelector('.cfg-v43__isOrientVert');
-    const sliderType = parent.querySelector('.cfg-v43__isTypeDouble');
-    const sliderTypeAddict = parent.querySelector('.cfg-v43__isTypeSolo');
-    const popUpOfValue = parent.querySelector('.cfg-v43__isPopUp');
-    const scaleOfValues = parent.querySelector('.cfg-v43__scaleDivisions');
-    const isProgressBar = parent.querySelector('.cfg-v43__isProgBar');
-    const postfix = parent.querySelector('.cfg-v43__postfix');
+    const minValue: HTMLInputElement = parent.querySelector('.cfg-v43__minVal');
+    const maxValue: HTMLInputElement = parent.querySelector('.cfg-v43__maxVal');
+    const step: HTMLInputElement = parent.querySelector('.cfg-v43__step');
+    const value1: HTMLInputElement = parent.querySelector('.cfg-v43__val1');
+    const value2: HTMLInputElement = parent.querySelector('.cfg-v43__val2');
+    const orientation: HTMLInputElement = parent.querySelector('.cfg-v43__isOrientHoriz');
+    const orientationAddict: HTMLInputElement = parent.querySelector('.cfg-v43__isOrientVert');
+    const sliderType: HTMLInputElement = parent.querySelector('.cfg-v43__isTypeDouble');
+    const sliderTypeAddict: HTMLInputElement = parent.querySelector('.cfg-v43__isTypeSolo');
+    const popUpOfValue: HTMLInputElement = parent.querySelector('.cfg-v43__isPopUp');
+    const scaleOfValues: HTMLInputElement = parent.querySelector('.cfg-v43__scaleDivisions');
+    const isProgressBar: HTMLInputElement = parent.querySelector('.cfg-v43__isProgBar');
+    const postfix: HTMLInputElement = parent.querySelector('.cfg-v43__postfix');
 
     function updateSlider() {
       $(slider).multislider({

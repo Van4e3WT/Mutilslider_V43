@@ -42,7 +42,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/example/index.pug',
+      template: './src/example/pages/index/index.pug',
       filename: 'index.html',
       inject: 'body',
     }),
