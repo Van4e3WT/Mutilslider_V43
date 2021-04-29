@@ -77,7 +77,8 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputs.getValues().forEach((item) => {
+      view.outputs.getValues().forEach((item, i) => {
+        view.outputs.updateN(i, 0);
         item.dispatchEvent(new Event('change'));
       });
 
@@ -175,7 +176,8 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputs.getValues().forEach((item) => {
+      view.outputs.getValues().forEach((item, i) => {
+        view.outputs.updateN(i, 0);
         item.dispatchEvent(new Event('change'));
       });
 

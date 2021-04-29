@@ -3,7 +3,7 @@ class AdaptiveInputView {
 
   private groupValues: Array<{
     parent: HTMLDivElement,
-    value: HTMLInputElement,
+    input: HTMLInputElement,
     hided: HTMLSpanElement
   }>;
 
@@ -41,7 +41,7 @@ class AdaptiveInputView {
 
     const hidedElement = document.createElement('span');
     hidedElement.classList.add(`${selector}-hided`);
-    this.groupValues.push({ parent: groupElement, value: inputElement, hided: hidedElement });
+    this.groupValues.push({ parent: groupElement, input: inputElement, hided: hidedElement });
 
     parent.appendChild(groupElement);
     parent.appendChild(hidedElement);
@@ -57,19 +57,19 @@ class AdaptiveInputView {
       }
     }
     this.groupValues.forEach((value, i) => {
-      this.groupValues[i].value.addEventListener('input', addInputEvents.bind(this, i));
+      this.groupValues[i].input.addEventListener('input', addInputEvents.bind(this, i));
       window.addEventListener('load', addInputEvents.bind(this, i));
     });
   }
 
   public getValues() {
-    return this.groupValues.map((val) => val.value);
+    return this.groupValues.map((val) => val.input);
   }
 
-  public updateN(n: number, value) {
-    this.groupValues[n].hided.textContent = value;
-    this.groupValues[n].value.value = this.groupValues[n].hided.textContent;
-    this.groupValues[n].value.style.width = `${this.groupValues[n].hided.offsetWidth + 2}px`;
+  public updateN(n: number, value: number) {
+    this.groupValues[n].hided.textContent = `${value}`;
+    this.groupValues[n].input.value = this.groupValues[n].hided.textContent;
+    this.groupValues[n].input.style.width = `${this.groupValues[n].hided.offsetWidth + 2}px`;
   }
 
   public styleN(n: number, prop: string, value: number) {

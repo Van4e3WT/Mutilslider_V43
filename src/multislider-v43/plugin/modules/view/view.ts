@@ -94,7 +94,7 @@ class SliderView extends EventEmitter {
     });
   };
 
-  public update(thumbsValues) {
+  public update(thumbsValues: Array<number>) {
     const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
       - this.thumbSize;
 

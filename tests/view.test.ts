@@ -92,7 +92,7 @@ describe('***VIEW***', () => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
         const tooltip = elem.querySelector(`.${sel}__popup`);
 
-        return getComputedStyle(tooltip).display === 'block';
+        return getComputedStyle(tooltip).display !== 'none';
       }, selector);
 
       expect(isHoverWork).toBeTruthy();
@@ -155,7 +155,7 @@ describe('***VIEW***', () => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
         const tooltip = elem.querySelector(`.${sel}__popup`);
 
-        return getComputedStyle(tooltip).display === 'block';
+        return getComputedStyle(tooltip).display !== 'none';
       }, selector);
 
       expect(isHoverWork).toBeTruthy();
