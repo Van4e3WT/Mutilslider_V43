@@ -49,11 +49,11 @@ class AdaptiveInputView {
 
   public init() {
     function addInputEvents(i: number) {
-      const { value } = this.groupValues[i].value;
+      const { value } = this.groupValues[i].input;
 
       if (value) {
         this.groupValues[i].hided.textContent = value;
-        this.groupValues[i].value.style.width = `${this.groupValues[i].hided.offsetWidth + 2}px`;
+        this.groupValues[i].input.style.width = `${this.groupValues[i].hided.offsetWidth + 2}px`;
       }
     }
     this.groupValues.forEach((value, i) => {
