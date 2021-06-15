@@ -36,7 +36,10 @@ class SliderView extends EventEmitter {
     super();
 
     this.scale = new ScaleView();
-    this.outputs = new AdaptiveInputView(cfg.postfix);
+    this.outputs = new AdaptiveInputView({
+      postfix: cfg.postfix,
+      localeProps: cfg.localeProps,
+    });
     this.thumbs = new ThumbsView();
     this.min = cfg.minValue;
     this.max = cfg.maxValue;

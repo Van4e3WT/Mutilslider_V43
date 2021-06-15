@@ -20,6 +20,7 @@ type Config = {
 
   postfix?: string,
   description?: string,
+  localeProps?: object,
 };
 
 type ModelConfig = {

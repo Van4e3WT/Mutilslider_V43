@@ -7,7 +7,12 @@ class AdaptiveInputView {
     hided: HTMLSpanElement
   }>;
 
-  constructor(postfix = '') {
+  private localeProps: object;
+
+  constructor(props) {
+    const { postfix = '', localeProps = {} } = props;
+
+    this.localeProps = localeProps;
     this.postfix = postfix;
     this.groupValues = [];
   }
@@ -27,7 +32,7 @@ class AdaptiveInputView {
     groupElement.classList.add(selector);
 
     const inputElement = document.createElement('input');
-    inputElement.type = 'number';
+    inputElement.type = 'text';
     inputElement.classList.add(`${selector}-input`);
     inputElement.readOnly = isReadonly;
     groupElement.appendChild(inputElement);
@@ -67,7 +72,7 @@ class AdaptiveInputView {
   }
 
   public updateN(n: number, value: number) {
-    this.groupValues[n].hided.textContent = `${value}`;
+    this.groupValues[n].hided.textContent = value.toLocaleString('ru', this.localeProps);
     this.groupValues[n].input.value = this.groupValues[n].hided.textContent;
     this.groupValues[n].input.style.width = `${this.groupValues[n].hided.offsetWidth + 2}px`;
   }

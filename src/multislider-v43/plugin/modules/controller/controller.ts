@@ -108,13 +108,16 @@ class SliderController extends EventEmitter {
 
   private outputInit() {
     function addOutputEvents(n: number) {
-      const newVal = this.view.outputs.getValues()[n].value;
-      if (newVal) {
+      const newVal = this.view.outputs.getValues()[n].value.replace(/,/g, '.');
+
+      if (Number(newVal)) {
         if (n === 0) {
           this.model.setValue({ val1: +newVal });
         } else {
           this.model.setValue({ val2: +newVal });
         }
+      } else {
+        this.view.outputs.updateN(n, this.model.getValue()[n]);
       }
     }
     this.view.outputs.getValues().forEach((output, i) => {

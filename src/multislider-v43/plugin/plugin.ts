@@ -9,7 +9,6 @@ import ISliderModel from './modules/models/interfaces/interfaces';
 (function f($) {
   $.fn.multislider = function MultisliderInit(config: Config) {
     const cfg: Config = {
-
       minValue: config.minValue ?? 0,
       maxValue: config.maxValue ?? 1000,
       step: config.step ?? 1,
@@ -25,6 +24,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
 
       postfix: config.postfix,
       description: config.description ?? 'Range Slider',
+      localeProps: config.localeProps,
     };
 
     const baseElement: HTMLDivElement = this[0];
