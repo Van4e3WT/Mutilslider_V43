@@ -1,19 +1,25 @@
-.cfg-v43 {
-  display: flex;
-  justify-content: space-around;
-  background-color: #6FCF973F;
-  font-family: Arial, Helvetica, sans-serif;
+.configurable-slider {
+
+  &__panel {
+    display: flex;
+    justify-content: space-around;
+    background-color: #6FCF973F;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
   &__group {
     display: flex;
     flex-direction: column;
     padding: 10px;
   }
-  input {
+
+  &__input {
     margin: 5px;
-    &[type="number"], &[type="text"] {
+    &[type='number'], &[type='text'] {
       width: 70px;
     }
   }
+
   @media (max-width: 425px) {
     flex-direction: column;
     align-items: center;
