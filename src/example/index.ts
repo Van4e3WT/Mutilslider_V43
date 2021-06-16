@@ -1,6 +1,3 @@
-// SCSS
-import './style.scss';
+import './style';
 
-// JS
-import './blocks/blocks-script';
-import './pages/pages-script';
+import './pages/index';
