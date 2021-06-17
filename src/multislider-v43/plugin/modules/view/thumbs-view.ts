@@ -5,9 +5,12 @@ class ThumbsView {
     this.thumbs = [];
   }
 
-  public add(parent: HTMLDivElement, selector: string) {
+  public add(parent: HTMLDivElement, selector: string, isVertical = false) {
     const thumb = document.createElement('div');
     thumb.classList.add(`${selector}__thumb`);
+    if (isVertical) {
+      thumb.classList.add(`${selector}__thumb_vertical`);
+    }
     parent.appendChild(thumb);
     this.thumbs.push(thumb);
   }

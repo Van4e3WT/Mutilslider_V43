@@ -7,7 +7,7 @@ class ScaleView {
     this.scaleDivisions = [];
   }
 
-  public init(n: number, selector: string) {
+  public init(n: number, selector: string, isVertical = false) {
     this.scale = document.createElement('div');
     this.scale.classList.add(`${selector}`);
 
@@ -15,6 +15,9 @@ class ScaleView {
       const scaleDivision = document.createElement('div');
 
       scaleDivision.classList.add(`${selector}-division`);
+      if (isVertical) {
+        scaleDivision.classList.add(`${selector}-division_vertical`);
+      }
       this.scaleDivisions.push(scaleDivision);
       this.scale.appendChild(scaleDivision);
     }

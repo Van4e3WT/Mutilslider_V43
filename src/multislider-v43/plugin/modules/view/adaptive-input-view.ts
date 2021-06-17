@@ -20,16 +20,22 @@ class AdaptiveInputView {
   public createGroup(props: {
     parent: HTMLDivElement,
     selector: string,
-    isReadonly?: boolean
+    isReadonly?: boolean,
+    isVertical?: boolean,
   }) {
     const {
       parent,
       selector,
       isReadonly = false,
+      isVertical = false,
     } = props;
 
     const groupElement = document.createElement('div');
     groupElement.classList.add(selector);
+
+    if (isVertical) {
+      groupElement.classList.add(`${selector}_vertical`);
+    }
 
     const inputElement = document.createElement('input');
     inputElement.type = 'text';

@@ -53,17 +53,21 @@ class SliderView extends EventEmitter {
 
     const sliderBody = document.createElement('div');
     sliderBody.classList.add('multislider-v43__body');
+    if (this.orientation) {
+      sliderBody.classList.add('multislider-v43__body_vertical');
+    }
     parent.appendChild(sliderBody);
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < this.length; i += 1) {
-      this.thumbs.add(sliderBody, 'multislider-v43');
+      this.thumbs.add(sliderBody, 'multislider-v43', this.orientation);
 
       if (this.isPopUp) {
         this.outputs.createGroup({
           parent: sliderBody,
           selector: 'multislider-v43__popup',
           isReadonly: true,
+          isVertical: this.orientation,
         });
       }
     }
@@ -183,14 +187,22 @@ class SliderView extends EventEmitter {
 
     this.sliderRange = document.createElement('div');
     this.sliderRange.classList.add('multislider-v43__range');
+
+    if (this.orientation) {
+      this.sliderRange.classList.add('multislider-v43__range_vertical');
+    }
+
     parent.appendChild(this.sliderRange);
   }
 
   private renderScale(parent: HTMLDivElement, scaleDivisions: number) {
     if (!scaleDivisions) return;
 
-    parent.classList.add('multislider-v43__body_scaled');
-    this.scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale');
+    if (!this.orientation) {
+      parent.classList.add('multislider-v43__body_indented');
+    }
+
+    this.scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale', this.orientation);
     const scale = this.scale.getScale();
     parent.appendChild(scale);
     this.updateScale();
