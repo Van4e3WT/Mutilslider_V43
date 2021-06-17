@@ -19,23 +19,25 @@ class SliderController extends EventEmitter {
     this.model = model;
     this.view = view;
 
-    this.initOrientation();
+    this._initOrientation();
   }
 
   public initListeners() {
-    this.updateInit();
+    const { view } = this;
 
-    this.thumbInit();
+    this._initUpdate();
+    this._initThumb();
+    this._initOutput();
 
-    this.outputInit();
-
-    if (this.view.scale.getScales().length) {
-      this.scaleInit();
+    if (view.scale.getScales().length) {
+      this._initScale();
     }
   }
 
-  private initOrientation() {
-    if (this.view.getAxis()) {
+  private _initOrientation() {
+    const { view } = this;
+
+    if (view.getAxis()) {
       this.axis = {
         eventAxis: 'pageY',
         sizeParent: 'height',
@@ -50,101 +52,114 @@ class SliderController extends EventEmitter {
     }
   }
 
-  private updateInit() {
-    this.model.on('valueChanged', this.updateListener);
+  private _initUpdate() {
+    const { model } = this;
 
-    window.addEventListener('resize', this.updateListener);
+    model.on('valueChanged', this._handleListenerUpdate);
+
+    window.addEventListener('resize', this._handleListenerUpdate);
     window.addEventListener('resize', this.view.updateScale);
 
-    document.addEventListener('DOMContentLoaded', this.updateListener); // fix important bug with appearance browser's scroll bar in process of rendering sliders, as a result,
-    document.addEventListener('DOMContentLoaded', this.view.updateScale); // the value of getBoundingClientRect() changes to new, this is the reason for the incorrect display
+    document.addEventListener('DOMContentLoaded', this._handleListenerUpdate);
+    document.addEventListener('DOMContentLoaded', this.view.updateScale);
+    /*
+      That document listeners fix important bug with appearance browser's scroll bar
+      in process of rendering sliders, as a result, the value of getBoundingClientRect()
+      changes to new, this is the reason for the incorrect display
+    */
   }
 
-  private updateListener = () => {
-    this.view.update.call(this.view, this.model.getValue());
+  private _handleListenerUpdate = () => {
+    const { view, model } = this;
+
+    view.update.call(view, model.getValue());
   };
 
-  private thumbInit() {
-    for (let i = 0; i < this.view.thumbs.getLength(); i += 1) {
+  private _initThumb() {
+    const { view, model, axis } = this;
+
+    for (let i = 0; i < view.thumbs.getLength(); i += 1) {
       let isFocused = false;
       let pos0: number;
       let value0: number;
 
-      const addPointerDownEvents = (n: number, e: Event) => {
-        pos0 = e[this.axis.eventAxis];
-        value0 = this.model.getValue()[n];
+      const handlePointerDown = (e: Event) => {
+        pos0 = e[axis.eventAxis];
+        value0 = model.getValue()[i];
         isFocused = true;
       };
 
-      const addPointerMoveEvents = (e: Event) => {
+      const handlePointerMove = (e: Event) => {
         if (!isFocused) return;
 
-        const pos1 = e[this.axis.eventAxis];
-
-        const value = ((((pos1 - pos0) * this.axis.dPos)
-          / (this.view.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
-            - this.view.getThumbSize()))
-          * (this.model.getMax() - this.model.getMin()))
+        const pos1 = e[axis.eventAxis];
+        const value = ((((pos1 - pos0) * axis.dPos)
+          / (view.parentThumbs.getBoundingClientRect()[axis.sizeParent]
+            - view.getThumbSize()))
+          * (model.getMax() - model.getMin()))
           + value0;
 
         if (i === 0) {
-          this.model.setValue({ val1: value });
+          model.setValue({ val1: value });
         } else if (i === 1) {
-          this.model.setValue({ val2: value });
+          model.setValue({ val2: value });
         }
       };
 
-      const addPointerUpEvents = () => {
+      const handlePointerUp = () => {
         isFocused = false;
       };
 
-      this.view.thumbs.getN(i).addEventListener('pointerdown', addPointerDownEvents.bind(this, i));
+      view.thumbs.getN(i).addEventListener('pointerdown', handlePointerDown);
 
-      document.addEventListener('pointermove', addPointerMoveEvents.bind(this));
-
-      document.addEventListener('pointerup', addPointerUpEvents);
+      document.addEventListener('pointermove', handlePointerMove);
+      document.addEventListener('pointerup', handlePointerUp);
     }
   }
 
-  private outputInit() {
-    function addOutputEvents(n: number) {
-      const newVal = this.view.outputs.getValues()[n].value.replace(/,/g, '.');
+  private _initOutput() {
+    const { view, model } = this;
+
+    function handleOutputChange(n: number) {
+      const newVal = view.outputs.getValues()[n].value.replace(/,/g, '.');
 
       if (Number(newVal)) {
         if (n === 0) {
-          this.model.setValue({ val1: +newVal });
+          model.setValue({ val1: +newVal });
         } else {
-          this.model.setValue({ val2: +newVal });
+          model.setValue({ val2: +newVal });
         }
       } else {
-        this.view.outputs.updateN(n, this.model.getValue()[n]);
+        view.outputs.updateN(n, model.getValue()[n]);
       }
     }
-    this.view.outputs.getValues().forEach((output, i) => {
-      output.addEventListener('change', addOutputEvents.bind(this, i));
+
+    view.outputs.getValues().forEach((output, i) => {
+      output.addEventListener('change', handleOutputChange.bind(this, i));
     });
   }
 
-  private scaleInit() {
-    const scale = this.view.scale.getScale();
+  private _initScale() {
+    const { view, model } = this;
+    const scale = view.scale.getScale();
 
-    function addScaleEvent(e: Event) {
+    function handleScaleClick(e: Event) {
       const target = e.target as HTMLDivElement;
 
       if (!target.matches('.multislider-v43__scale-division')) return;
 
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 
-      if (this.model.getValue().length === 2
-        && (Math.abs(scaleDivisionValue - this.model.getValue()[1])
-          < Math.abs(scaleDivisionValue - this.model.getValue()[0]))) {
-        this.model.setValue({ val2: scaleDivisionValue }, false);
+      if (model.getValue().length === 2
+        && (Math.abs(scaleDivisionValue - model.getValue()[1])
+          < Math.abs(scaleDivisionValue - model.getValue()[0]))) {
+        model.setValue({ val2: scaleDivisionValue }, false);
       } else {
-        this.model.setValue({ val1: scaleDivisionValue }, false);
+        model.setValue({ val1: scaleDivisionValue }, false);
       }
     }
 
-    scale.addEventListener('click', addScaleEvent.bind(this));
+    scale.addEventListener('click', handleScaleClick.bind(this));
   }
 }
 

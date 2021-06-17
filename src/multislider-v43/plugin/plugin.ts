@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+
 import SliderView from './modules/view/view';
 import SliderController from './modules/controller/controller';
 import SoloSliderModel from './modules/models/solo-model';
@@ -7,11 +8,13 @@ import { Config, ModelConfig } from './modules/utils/custom-types';
 import ISliderModel from './modules/models/interfaces/interfaces';
 
 (function f($) {
-  $.fn.multislider = function MultisliderInit(config: Config) {
+  $.fn.multislider = function multisliderInit(config: Config) {
     const cfg: Config = {
       minValue: config.minValue ?? 0,
       maxValue: config.maxValue ?? 1000,
+
       step: config.step ?? 1,
+
       value1: config.value1 ?? config.minValue,
       value2: config.value2 ?? config.maxValue,
 
@@ -27,8 +30,11 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       localeProps: config.localeProps,
     };
 
+    if (this.length === 0) {
+      throw new Error('Not found element for initialization');
+    }
+
     const baseElement: HTMLDivElement = this[0];
-    if (this.length === 0) throw new Error('Not found element for initialization');
 
     if (baseElement.childElementCount) {
       while (baseElement.firstChild) {
@@ -36,11 +42,8 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       }
     }
 
-    if (!baseElement.classList.contains('multislider-v43')) {
-      baseElement.classList.add('multislider-v43');
-    }
-
     baseElement.classList.remove('multislider-v43_vertical');
+    baseElement.classList.add('multislider-v43');
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {
@@ -71,6 +74,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
 
     $.fn.multislider.value = function setValue(values: { val1?: number, val2?: number }) {
       model.setValue({ val1: values.val1, val2: values.val2 });
+
       return model.getValue();
     };
   };

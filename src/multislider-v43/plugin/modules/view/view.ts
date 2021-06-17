@@ -47,9 +47,9 @@ class SliderView extends EventEmitter {
     this.isPopUp = cfg.popUpOfValue;
 
     this.orientation = cfg.orientation === 'vertical';
-    this.initOrientation(parent);
+    this._initOrientation(parent);
 
-    this.renderHeader(parent, cfg.description);
+    this._renderHeader(parent, cfg.description);
 
     const sliderBody = document.createElement('div');
     sliderBody.classList.add('multislider-v43__body');
@@ -74,9 +74,9 @@ class SliderView extends EventEmitter {
 
     this.thumbSize = this.thumbs.getSize();
 
-    this.renderProgressBar(sliderBody, cfg.isProgressBar);
+    this._renderProgressBar(sliderBody, cfg.isProgressBar);
 
-    this.renderScale(sliderBody, cfg.scaleOfValues);
+    this._renderScale(sliderBody, cfg.scaleOfValues);
 
     this.outputs.init();
 
@@ -84,57 +84,84 @@ class SliderView extends EventEmitter {
   }
 
   public getThumbSize() {
-    return this.thumbSize;
+    const { thumbSize } = this;
+
+    return thumbSize;
   }
 
   public getAxis() {
-    return this.orientation;
+    const { orientation } = this;
+
+    return orientation;
   }
 
   public updateScale = () => {
-    this.scale.update({
-      parentThumbs: this.parentThumbs,
-      axis: this.axis,
-      thumbSize: this.thumbSize,
-      min: this.min,
-      max: this.max,
+    const {
+      scale,
+      parentThumbs,
+      axis,
+      thumbSize,
+      min,
+      max,
+    } = this;
+
+    scale.update({
+      parentThumbs,
+      axis,
+      thumbSize,
+      min,
+      max,
     });
   };
 
   public update(thumbsValues: Array<number>) {
-    const maxPixelValue = this.parentThumbs.getBoundingClientRect()[this.axis.sizeParent]
-      - this.thumbSize;
+    const {
+      parentThumbs,
+      axis,
+      thumbSize,
+      thumbs,
+      min,
+      max,
+      outputs,
+      isPopUp,
+      sliderRange,
+    } = this;
 
-    for (let i = 0; i < this.thumbs.getLength(); i += 1) {
+    const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
+      - thumbSize;
+
+    for (let i = 0; i < thumbs.getLength(); i += 1) {
       const position = maxPixelValue
-        * ((thumbsValues[i] - this.min)
-          / (this.max - this.min))
-        - parseInt(getComputedStyle(this.parentThumbs).borderWidth, 10);
+        * ((thumbsValues[i] - min)
+          / (max - min))
+        - parseInt(getComputedStyle(parentThumbs).borderWidth, 10);
 
-      this.thumbs.setStyleN(i, this.axis.styleSelector, position);
-      this.outputs.updateN(i, thumbsValues[i]);
+      thumbs.setStyleN(i, axis.styleSelector, position);
+      outputs.updateN(i, thumbsValues[i]);
 
-      if (this.isPopUp) {
-        this.outputs.styleN(i, this.axis.styleSelector, (position + this.getThumbSize() / 2));
+      if (isPopUp) {
+        outputs.stylizeN(i, axis.styleSelector, (position + this.getThumbSize() / 2));
       }
     }
 
-    if (this.sliderRange) {
-      if (this.thumbs.getLength() === 1) {
-        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)
-          + (this.thumbSize / 2)}px`;
+    if (sliderRange) {
+      if (thumbs.getLength() === 1) {
+        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)
+          + (thumbSize / 2)}px`;
       }
-      if (this.thumbs.getLength() === 2) {
-        this.sliderRange.style[this.axis.styleSelector] = `${parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)
-          + (this.thumbSize / 2)}px`;
-        this.sliderRange.style[this.axis.sizeParent] = `${parseInt(this.thumbs.getStyleN(1, this.axis.styleSelector), 10)
-          - parseInt(this.thumbs.getStyleN(0, this.axis.styleSelector), 10)}px`;
+      if (thumbs.getLength() === 2) {
+        sliderRange.style[axis.styleSelector] = `${parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)
+          + (thumbSize / 2)}px`;
+        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN(1, axis.styleSelector), 10)
+          - parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)}px`;
       }
     }
   }
 
-  private initOrientation(parent: HTMLDivElement) {
-    if (this.orientation) {
+  private _initOrientation(parent: HTMLDivElement) {
+    const { orientation } = this;
+
+    if (orientation) {
       parent.classList.add('multislider-v43_vertical');
       this.axis = {
         sizeParent: 'height',
@@ -148,7 +175,9 @@ class SliderView extends EventEmitter {
     }
   }
 
-  private renderHeader(parent: HTMLDivElement, title: string) {
+  private _renderHeader(parent: HTMLDivElement, title: string) {
+    const { isPopUp, outputs, length } = this;
+
     const sliderHeader = document.createElement('div');
     sliderHeader.classList.add('multislider-v43__header');
     parent.appendChild(sliderHeader);
@@ -158,23 +187,23 @@ class SliderView extends EventEmitter {
     sliderDescription.textContent = title;
     sliderHeader.appendChild(sliderDescription);
 
-    if (!this.isPopUp) {
+    if (!isPopUp) {
       const sliderOutput = document.createElement('div');
       sliderOutput.classList.add('multislider-v43__output');
       sliderHeader.appendChild(sliderOutput);
 
-      this.outputs.createGroup({
+      outputs.createGroup({
         parent: sliderOutput,
         selector: 'multislider-v43__value',
       });
 
-      if (this.length === 2) {
+      if (length === 2) {
         const sliderSpacer = document.createElement('div');
         sliderSpacer.classList.add('multislider-v43__spacer');
         sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
-        this.outputs.createGroup({
+        outputs.createGroup({
           parent: sliderOutput,
           selector: 'multislider-v43__value',
         });
@@ -182,29 +211,33 @@ class SliderView extends EventEmitter {
     }
   }
 
-  private renderProgressBar(parent: HTMLDivElement, isProgressBar) {
+  private _renderProgressBar(parent: HTMLDivElement, isProgressBar) {
+    const { orientation } = this;
+
     if (!isProgressBar) return;
 
     this.sliderRange = document.createElement('div');
     this.sliderRange.classList.add('multislider-v43__range');
 
-    if (this.orientation) {
+    if (orientation) {
       this.sliderRange.classList.add('multislider-v43__range_vertical');
     }
 
     parent.appendChild(this.sliderRange);
   }
 
-  private renderScale(parent: HTMLDivElement, scaleDivisions: number) {
+  private _renderScale(parent: HTMLDivElement, scaleDivisions: number) {
+    const { orientation, scale } = this;
+
     if (!scaleDivisions) return;
 
-    if (!this.orientation) {
+    if (!orientation) {
       parent.classList.add('multislider-v43__body_indented');
     }
 
-    this.scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale', this.orientation);
-    const scale = this.scale.getScale();
-    parent.appendChild(scale);
+    scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale', orientation);
+    const scaleDivisionArr = scale.getScale();
+    parent.appendChild(scaleDivisionArr);
     this.updateScale();
   }
 }

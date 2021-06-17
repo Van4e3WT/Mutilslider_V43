@@ -8,6 +8,8 @@ class ScaleView {
   }
 
   public init(n: number, selector: string, isVertical = false) {
+    const { scaleDivisions } = this;
+
     this.scale = document.createElement('div');
     this.scale.classList.add(`${selector}`);
 
@@ -18,20 +20,25 @@ class ScaleView {
       if (isVertical) {
         scaleDivision.classList.add(`${selector}-division_vertical`);
       }
-      this.scaleDivisions.push(scaleDivision);
+      scaleDivisions.push(scaleDivision);
       this.scale.appendChild(scaleDivision);
     }
   }
 
   public getScale() {
-    return this.scale;
+    const { scale } = this;
+
+    return scale;
   }
 
   public getScales() {
-    return this.scaleDivisions;
+    const { scaleDivisions } = this;
+
+    return scaleDivisions;
   }
 
   public update(props) {
+    const { scaleDivisions } = this;
     const {
       parentThumbs,
       axis,
@@ -39,7 +46,7 @@ class ScaleView {
       min,
       max,
     } = props;
-    const n = this.scaleDivisions.length;
+    const n = scaleDivisions.length;
     const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
 
@@ -56,11 +63,12 @@ class ScaleView {
         }
       }
 
-      this.scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
+      scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
       const delta = max - min;
 
-      this.scaleDivisions[i].textContent = `${+(delta * proportion).toFixed(12) + min}`.replace('.', ','); // second method pass by 0.300000000000004 when first doesn't work
+      scaleDivisions[i].textContent = `${+(delta * proportion).toFixed(12) + min}`.replace('.', ',');
+      // method pass by 0.300000000000004 when first doesn't work
     }
   }
 }

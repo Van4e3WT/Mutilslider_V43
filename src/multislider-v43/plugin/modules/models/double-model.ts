@@ -43,18 +43,31 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 
   public getMin() {
-    return this.min;
+    const { min } = this;
+
+    return min;
   }
 
   public getMax() {
-    return this.max;
+    const { max } = this;
+
+    return max;
   }
 
   public getValue() {
-    return this.thumbs.map((item) => item.value);
+    const { thumbs } = this;
+
+    return thumbs.map((item) => item.value);
   }
 
   public setValue(values: { val1?: number, val2?: number }, isStepping: boolean = true) {
+    const {
+      thumbs,
+      step,
+      min,
+      max,
+    } = this;
+
     let { val1, val2 } = values;
 
     const val1IsDefined = (val1 !== undefined && val1 !== null);
@@ -62,26 +75,26 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     const valuesIsDefined = val1IsDefined || val2IsDefined;
 
     if (valuesIsDefined) {
-      val1 = val1 ?? this.thumbs[0].value;
-      val2 = val2 ?? this.thumbs[1].value;
+      val1 = val1 ?? thumbs[0].value;
+      val2 = val2 ?? thumbs[1].value;
 
       if (val1 > val2) {
         [val1, val2] = Utils.swap(val1, val2);
       }
 
       if (isStepping) {
-        val1 = (Math.round(val1 / this.step) / (1 / this.step));
-        val2 = (Math.round(val2 / this.step) / (1 / this.step)); // pass by 0.300000000004 and other
+        val1 = (Math.round(val1 / step) / (1 / step));
+        val2 = (Math.round(val2 / step) / (1 / step)); // pass by 0.300000000004 and other
       }
 
-      val1 = val1 < this.min ? this.min : val1;
-      val2 = val2 > this.max ? this.max : val2;
+      val1 = val1 < min ? min : val1;
+      val2 = val2 > max ? max : val2;
 
-      this.thumbs[0].value = val1;
-      this.thumbs[0].max = val2;
+      thumbs[0].value = val1;
+      thumbs[0].max = val2;
 
-      this.thumbs[1].value = val2;
-      this.thumbs[1].min = val1;
+      thumbs[1].value = val2;
+      thumbs[1].min = val1;
     }
 
     this.emit('valueChanged', {
