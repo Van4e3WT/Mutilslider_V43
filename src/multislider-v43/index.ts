@@ -5,6 +5,7 @@ const $elems = $('.js-multislider-v43');
 
 $elems.each((i, elem) => {
   const props: any = {};
+
   if (elem.hasAttribute('data-min-value')) props.minValue = +elem.getAttribute('data-min-value');
   if (elem.hasAttribute('data-max-value')) props.maxValue = +elem.getAttribute('data-max-value');
   if (elem.hasAttribute('data-step')) props.step = +elem.getAttribute('data-step');
@@ -17,5 +18,6 @@ $elems.each((i, elem) => {
   if (elem.hasAttribute('data-is-progress-bar')) props.isProgressBar = (elem.getAttribute('data-is-progress-bar') === 'true');
   if (elem.hasAttribute('data-description')) props.description = elem.getAttribute('data-description');
   if (elem.hasAttribute('data-postfix')) props.postfix = elem.getAttribute('data-postfix');
+
   $(elem).multislider(props);
 });

@@ -8,5 +8,14 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "Example/*": [
+        "src/example/*",
+      ],
+      "Plugin/*": [
+        "src/multislider-v43/plugin/*",
+      ],
+    },
   }
 }

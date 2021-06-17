@@ -42,10 +42,18 @@ class ScaleView {
 
     for (let i = 0; i < n; i += 1) {
       const proportion = (i / (n - 1));
+      let addition: number;
 
-      this.scaleDivisions[i].style[axis.styleSelector] = `${proportion
-        * maxPixelValue
-        + ((thumbSize / 2) - parseInt(getComputedStyle(parentThumbs).borderWidth, 10))}px`;
+      if (proportion === 0) {
+        addition = 0;
+      } else {
+        addition = ((thumbSize / 2) - parseInt(getComputedStyle(parentThumbs).borderWidth, 10));
+        if (proportion === 1) {
+          addition *= 2;
+        }
+      }
+
+      this.scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
       const delta = max - min;
 

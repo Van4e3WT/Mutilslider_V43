@@ -1,4 +1,4 @@
-import EventEmitter from '../../utils/event-emitter';
+import EventEmitter from 'Plugin/modules/utils/event-emitter';
 
 interface ISliderModel extends EventEmitter {
   getMin(): number;

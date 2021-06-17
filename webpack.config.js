@@ -32,6 +32,18 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                  ],
+                ],
+              },
+            },
+          },
           'sass-loader',
         ],
       },
@@ -39,6 +51,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      Example: path.resolve(__dirname, 'src/example'),
+      Plugin: path.resolve(__dirname, 'src/multislider-v43/plugin'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
