@@ -1,6 +1,6 @@
 /* global $ */
-import '../../blocks/configurable-slider/configurable-slider-init';
 import './index.scss';
+import '../../blocks/configurable-slider/configurable-slider-init';
 
 $('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
   minValue: 5000,
