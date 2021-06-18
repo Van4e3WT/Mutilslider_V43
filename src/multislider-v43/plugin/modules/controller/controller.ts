@@ -123,7 +123,7 @@ class SliderController extends EventEmitter {
     function handleOutputChange(n: number) {
       const newVal = view.outputs.getValues()[n].value.replace(/,/g, '.');
 
-      if (Number(newVal)) {
+      if (Number.isInteger(Number(newVal))) {
         if (n === 0) {
           model.setValue({ val1: +newVal });
         } else {
