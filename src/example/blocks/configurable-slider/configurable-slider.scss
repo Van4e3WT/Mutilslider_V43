@@ -1,15 +1,30 @@
+$mediaSize: 796px;
+
 .configurable-slider {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
   &__panel {
     display: flex;
     justify-content: space-around;
     background-color: #6FCF973F;
     font-family: Arial, Helvetica, sans-serif;
+
+    @media (max-width: $mediaSize) {
+      width: 100%;
+      flex-direction: column;
+    }
   }
 
   &__group {
     display: flex;
     flex-direction: column;
     padding: 10px;
+
+    @media (max-width: $mediaSize) {
+      border-bottom: 2px solid white;
+    }
   }
 
   &__input {
