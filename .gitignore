@@ -1,3 +1,11 @@
-node_modules
-dist
-coverage
+#node modules
+node_modules/
+
+#project build
+/dist/
+
+#tests result
+/coverage/
+
+#package-lock
+package-lock.json
