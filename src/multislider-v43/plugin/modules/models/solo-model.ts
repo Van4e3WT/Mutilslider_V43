@@ -46,7 +46,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     const valueIsDefined = val1 !== undefined && val1 !== null;
     if (valueIsDefined) {
       if (isStepping) {
-        val1 = (Math.round(val1 / step) / (1 / step));
+        val1 = Math.floor((val1 / step) + 0.5) / (1 / step);
       }
 
       val1 = val1 > thumbs[0].max ? thumbs[0].max : val1;
