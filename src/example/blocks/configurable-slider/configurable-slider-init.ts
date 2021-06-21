@@ -9,8 +9,8 @@ function handleConfigurableSliderInit() {
   const items = document.querySelectorAll(`.js-${BLOCKNAME}`);
 
   items.forEach((item, i) => {
-    const panel = item.querySelector(`.${BLOCKNAME}__panel`);
-    const slider = item.querySelector(`.${BLOCKNAME}__slider`);
+    const panel = item.querySelector(`.js-${BLOCKNAME}__panel`);
+    const slider = item.querySelector(`.js-${BLOCKNAME}__slider`);
 
     const cfgSlider = new ConfigurableSlider({
       panel,
