@@ -79,7 +79,13 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       val2 = val2 ?? thumbs[1].value;
 
       if (val1 > val2) {
-        [val1, val2] = Utils.swap(val1, val2);
+        if (val1IsDefined) {
+          val1 = val2;
+        }
+
+        if (val2IsDefined) {
+          val2 = val1;
+        }
       }
 
       if (isStepping) {
