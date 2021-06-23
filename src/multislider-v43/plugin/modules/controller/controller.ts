@@ -8,10 +8,11 @@ class SliderController extends EventEmitter {
   private view: SliderView;
 
   private axis: {
+    axis: 'x' | 'y',
     eventAxis: 'pageX' | 'pageY',
     sizeParent: 'width' | 'height',
-    offsetAxis: 'offsetX' | 'offsetY',
-    offsetTotal: 'offsetWidth' | 'offsetHeight',
+    start: 'left' | 'top',
+    end: 'right' | 'bottom',
     dPos: -1 | 1;
   };
 
@@ -42,18 +43,20 @@ class SliderController extends EventEmitter {
 
     if (view.getAxis()) {
       this.axis = {
+        axis: 'y',
         eventAxis: 'pageY',
         sizeParent: 'height',
-        offsetAxis: 'offsetY',
-        offsetTotal: 'offsetHeight',
+        start: 'top',
+        end: 'bottom',
         dPos: -1,
       };
     } else {
       this.axis = {
+        axis: 'x',
         eventAxis: 'pageX',
         sizeParent: 'width',
-        offsetAxis: 'offsetX',
-        offsetTotal: 'offsetWidth',
+        start: 'left',
+        end: 'right',
         dPos: 1,
       };
     }
@@ -190,10 +193,12 @@ class SliderController extends EventEmitter {
 
       if (!target.classList.contains('multislider-v43__body')) return;
 
-      const proportion = e[axis.offsetAxis] / target[axis.offsetTotal];
+      const delta = target.getBoundingClientRect()[axis.end]
+        - target.getBoundingClientRect()[axis.start];
+      const proportion = (e[axis.axis] - target.getBoundingClientRect()[axis.start]) / delta;
 
       const newValue = (model.getMax() - model.getMin())
-        * (axis.offsetAxis === 'offsetY' ? 1 - proportion : proportion) + model.getMin();
+        * (axis.axis === 'y' ? 1 - proportion : proportion) + model.getMin();
 
       const isSecondValue = model.getValue().length === 2
         && (Math.abs(newValue - model.getValue()[1])
