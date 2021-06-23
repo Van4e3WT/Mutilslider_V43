@@ -13,7 +13,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       minValue: config.minValue ?? 0,
       maxValue: config.maxValue ?? 1000,
 
-      step: config.step ?? 1,
+      step: config.step ?? 3,
 
       value1: config.value1 ?? config.minValue,
       value2: config.value2 ?? config.maxValue,

@@ -77,6 +77,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     height: 7px;
     border: 2px solid $darkShade25;
     border-radius: 7px;
+    cursor: pointer;
     
     &_vertical {
       height: 100%;
@@ -99,7 +100,6 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     background-color: $green;
     border: 2px solid white;
     border-radius: 50%;
-    cursor: pointer;
     z-index: 1;
     transition: background-color 0.2s;
     touch-action: none;
@@ -190,7 +190,6 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     margin-top: 18px;
     transform: translateX(-50%);
     color: $darkShade75;
-    cursor: pointer;
 
     &:hover {
       color: $darkShade50;

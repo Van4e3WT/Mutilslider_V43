@@ -20,6 +20,8 @@ class SliderView extends EventEmitter {
 
   private max: number;
 
+  private step: number;
+
   private length: number;
 
   private isPopUp: boolean;
@@ -43,6 +45,7 @@ class SliderView extends EventEmitter {
     this.thumbs = new ThumbsView();
     this.min = cfg.minValue;
     this.max = cfg.maxValue;
+    this.step = cfg.step;
     this.length = values.length;
     this.isPopUp = cfg.popUpOfValue;
 
@@ -228,15 +231,26 @@ class SliderView extends EventEmitter {
   }
 
   private _renderScale(parent: HTMLDivElement, scaleDivisions: number) {
-    const { orientation, scale } = this;
+    const {
+      orientation,
+      scale,
+      min,
+      max,
+      step,
+    } = this;
 
-    if (!scaleDivisions) return;
+    const delta = max - min;
+    const scaleDivisionsIsInteger = Number.isInteger((delta / (scaleDivisions - 1)) / step);
+
+    const isValidatedScale = scaleDivisions > 1 && scaleDivisionsIsInteger;
+
+    if (!scaleDivisions || !isValidatedScale) return;
 
     if (!orientation) {
       parent.classList.add('multislider-v43__body_indented');
     }
 
-    scale.init(scaleDivisions < 3 ? 3 : scaleDivisions, 'multislider-v43__scale', orientation);
+    scale.init(scaleDivisions, 'multislider-v43__scale', orientation);
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();

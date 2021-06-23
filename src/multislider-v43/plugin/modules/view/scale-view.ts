@@ -67,7 +67,7 @@ class ScaleView {
 
       const delta = max - min;
 
-      scaleDivisions[i].textContent = `${+(delta * proportion).toFixed(12) + min}`.replace('.', ',');
+      scaleDivisions[i].textContent = `${+((delta * proportion) + min).toFixed(12)}`.replace('.', ',');
       // method pass by 0.300000000000004 when first doesn't work
     }
   }

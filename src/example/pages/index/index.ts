@@ -29,7 +29,7 @@ $('.js-multislider-v43_solo.js-multislider-v43_slider-3').multislider({
   sliderType: 'solo',
 
   popUpOfValue: false,
-  scaleOfValues: 11,
+  scaleOfValues: 6,
   isProgressBar: true,
 
   description: 'Одиночный вертикальный слайдер',
