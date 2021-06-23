@@ -187,7 +187,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
   &__scale-division {
     box-sizing: border-box;
     position: absolute;
-    padding-top: 18px;
+    margin-top: 18px;
     transform: translateX(-50%);
     color: $darkShade75;
     cursor: pointer;
@@ -200,7 +200,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     &::before {
       content: '';
       position: absolute;
-      top: -2px;
+      top: -20px;
       left: 50%;
       height: 7px;
       width: 2px;
@@ -224,14 +224,14 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     &_vertical {
       left: -2px;
       transform: translateY(50%);
-      padding-top: 0;
-      padding-left: 18px;
+      margin-top: 0;
+      margin-left: 18px;
 
       &::before {
         content: '';
         position: absolute;
         top: 50%;
-        left: 0px;
+        left: -18px;
         height: 2px;
         width: 7px;
         transform: translateY(-50%);
