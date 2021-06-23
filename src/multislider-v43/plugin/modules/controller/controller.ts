@@ -10,6 +10,8 @@ class SliderController extends EventEmitter {
   private axis: {
     eventAxis: 'pageX' | 'pageY',
     sizeParent: 'width' | 'height',
+    offsetAxis: 'offsetX' | 'offsetY',
+    offsetTotal: 'offsetWidth' | 'offsetHeight',
     dPos: -1 | 1;
   };
 
@@ -28,6 +30,7 @@ class SliderController extends EventEmitter {
     this._initUpdate();
     this._initThumb();
     this._initOutput();
+    this._initBody();
 
     if (view.scale.getScales().length) {
       this._initScale();
@@ -41,12 +44,16 @@ class SliderController extends EventEmitter {
       this.axis = {
         eventAxis: 'pageY',
         sizeParent: 'height',
+        offsetAxis: 'offsetY',
+        offsetTotal: 'offsetHeight',
         dPos: -1,
       };
     } else {
       this.axis = {
         eventAxis: 'pageX',
         sizeParent: 'width',
+        offsetAxis: 'offsetX',
+        offsetTotal: 'offsetWidth',
         dPos: 1,
       };
     }
@@ -143,7 +150,7 @@ class SliderController extends EventEmitter {
     const { view, model } = this;
     const scale = view.scale.getScale();
 
-    function handleScaleClick(e: Event) {
+    const handleScaleClick = (e: Event) => {
       const target = e.target as HTMLDivElement;
 
       if (!target.matches('.multislider-v43__scale-division')) return;
@@ -157,9 +164,35 @@ class SliderController extends EventEmitter {
       } else {
         model.setValue({ val1: scaleDivisionValue }, false);
       }
-    }
+    };
 
-    scale.addEventListener('click', handleScaleClick.bind(this));
+    scale.addEventListener('click', handleScaleClick);
+  }
+
+  private _initBody() {
+    const { model, view, axis } = this;
+    const bodySlider = view.parentThumbs;
+
+    const handleBodyThumbsClick = (e: PointerEvent) => {
+      const target = e.target as HTMLDivElement;
+
+      if (!target.classList.contains('multislider-v43__body')) return;
+
+      const proportion = e[axis.offsetAxis] / target[axis.offsetTotal];
+
+      const newValue = (model.getMax() - model.getMin())
+        * (axis.offsetAxis === 'offsetY' ? 1 - proportion : proportion) + model.getMin();
+
+      if (model.getValue().length === 2
+        && (Math.abs(newValue - model.getValue()[1])
+          < Math.abs(newValue - model.getValue()[0]))) {
+        model.setValue({ val2: newValue });
+      } else {
+        model.setValue({ val1: newValue });
+      }
+    };
+
+    bodySlider.addEventListener('click', handleBodyThumbsClick);
   }
 }
 
