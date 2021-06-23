@@ -157,12 +157,24 @@ class SliderController extends EventEmitter {
 
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 
-      if (model.getValue().length === 2
+      const isSecondValue = model.getValue().length === 2
         && (Math.abs(scaleDivisionValue - model.getValue()[1])
-          < Math.abs(scaleDivisionValue - model.getValue()[0]))) {
-        model.setValue({ val2: scaleDivisionValue }, false);
+          < Math.abs(scaleDivisionValue - model.getValue()[0]));
+
+      const isEquals = model.getValue().length === 2
+        && (Math.abs(scaleDivisionValue - model.getValue()[1])
+          === Math.abs(scaleDivisionValue - model.getValue()[0]));
+
+      if (isSecondValue) {
+        model.setValue({ val2: scaleDivisionValue });
+      } else if (isEquals) {
+        if (model.getValue()[1] < scaleDivisionValue) {
+          model.setValue({ val2: scaleDivisionValue });
+        } else {
+          model.setValue({ val1: scaleDivisionValue });
+        }
       } else {
-        model.setValue({ val1: scaleDivisionValue }, false);
+        model.setValue({ val1: scaleDivisionValue });
       }
     };
 
@@ -183,10 +195,22 @@ class SliderController extends EventEmitter {
       const newValue = (model.getMax() - model.getMin())
         * (axis.offsetAxis === 'offsetY' ? 1 - proportion : proportion) + model.getMin();
 
-      if (model.getValue().length === 2
+      const isSecondValue = model.getValue().length === 2
         && (Math.abs(newValue - model.getValue()[1])
-          < Math.abs(newValue - model.getValue()[0]))) {
+          < Math.abs(newValue - model.getValue()[0]));
+
+      const isEquals = model.getValue().length === 2
+        && (Math.abs(newValue - model.getValue()[1])
+          === Math.abs(newValue - model.getValue()[0]));
+
+      if (isSecondValue) {
         model.setValue({ val2: newValue });
+      } else if (isEquals) {
+        if (model.getValue()[1] < newValue) {
+          model.setValue({ val2: newValue });
+        } else {
+          model.setValue({ val1: newValue });
+        }
       } else {
         model.setValue({ val1: newValue });
       }
