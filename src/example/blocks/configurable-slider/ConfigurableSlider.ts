@@ -18,6 +18,7 @@ class ConfigurableSlider {
     sliderType: HTMLInputElement,
     sliderTypeAddict: HTMLInputElement,
     popUpOfValue: HTMLInputElement,
+    popUpIsHided: HTMLInputElement,
     scaleOfValues: HTMLInputElement,
     isProgressBar: HTMLInputElement,
     postfix: HTMLInputElement,
@@ -64,6 +65,7 @@ class ConfigurableSlider {
     cfgAddons.classList.add(`${selector}__group`);
 
     cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUp js-${selector}__isPopUp">Всплывающее значение</label>
+    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUpHided js-${selector}__isPopUpHided" checked>Скрыто по умолчанию</label>
     <label class="${selector}__item"><input type="number" value="5" class="${selector}__input ${selector}__scaleDivisions js-${selector}__scaleDivisions">Количество делений шкалы</label>
     <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__isProgBar js-${selector}__isProgBar">Прогресс бар</label>
     <label class="${selector}__item"><input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix">Постфикс</label>`;
@@ -84,6 +86,7 @@ class ConfigurableSlider {
       sliderType: panelControl.querySelector(`.js-${selector}__isTypeDouble`),
       sliderTypeAddict: panelControl.querySelector(`.js-${selector}__isTypeSolo`),
       popUpOfValue: panelControl.querySelector(`.js-${selector}__isPopUp`),
+      popUpIsHided: panelControl.querySelector(`.js-${selector}__isPopUpHided`),
       scaleOfValues: panelControl.querySelector(`.js-${selector}__scaleDivisions`),
       isProgressBar: panelControl.querySelector(`.js-${selector}__isProgBar`),
       postfix: panelControl.querySelector(`.js-${selector}__postfix`),
@@ -107,6 +110,7 @@ class ConfigurableSlider {
       sliderType: inputs.sliderType.checked ? 'double' : 'solo',
 
       popUpOfValue: inputs.popUpOfValue.checked,
+      popUpIsHided: inputs.popUpIsHided.checked,
       scaleOfValues: +inputs.scaleOfValues.value,
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,

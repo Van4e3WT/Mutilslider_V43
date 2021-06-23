@@ -67,6 +67,7 @@ class SliderView extends EventEmitter {
           parent: sliderBody,
           selector: 'multislider-v43__popup',
           isReadonly: true,
+          isHided: cfg.popUpIsHided,
           isVertical: this.orientation,
         });
       }

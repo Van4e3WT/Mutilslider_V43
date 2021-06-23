@@ -16,6 +16,7 @@ $elems.each((i, elem) => {
   if (elem.hasAttribute('data-pop-up-of-value')) props.popUpOfValue = (elem.getAttribute('data-pop-up-of-value') === 'true');
   if (elem.hasAttribute('data-scale-of-values')) props.scaleOfValues = +elem.getAttribute('data-scale-of-values');
   if (elem.hasAttribute('data-is-progress-bar')) props.isProgressBar = (elem.getAttribute('data-is-progress-bar') === 'true');
+  if (elem.hasAttribute('data-pop-up-is-hided')) props.popUpIsHided = (elem.getAttribute('data-pop-up-is-hided') === 'true');
   if (elem.hasAttribute('data-description')) props.description = elem.getAttribute('data-description');
   if (elem.hasAttribute('data-postfix')) props.postfix = elem.getAttribute('data-postfix');
 

@@ -159,6 +159,10 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
       right: 20px;
       transform: translateY(50%);
     }
+
+    &_visible {
+      display: flex;
+    }
   }
 
   &__range {

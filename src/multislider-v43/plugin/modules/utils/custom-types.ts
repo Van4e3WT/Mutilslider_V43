@@ -15,6 +15,7 @@ type Config = {
   sliderType?: 'solo' | 'double',
 
   popUpOfValue?: boolean,
+  popUpIsHided?: boolean,
   scaleOfValues?: number,
   isProgressBar?: boolean,
 

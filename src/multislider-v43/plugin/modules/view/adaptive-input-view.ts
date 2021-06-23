@@ -21,6 +21,7 @@ class AdaptiveInputView {
     parent: HTMLDivElement,
     selector: string,
     isReadonly?: boolean,
+    isHided?: boolean,
     isVertical?: boolean,
   }) {
     const { postfix, groupValues } = this;
@@ -28,6 +29,7 @@ class AdaptiveInputView {
       parent,
       selector,
       isReadonly = false,
+      isHided = true,
       isVertical = false,
     } = props;
 
@@ -36,6 +38,10 @@ class AdaptiveInputView {
 
     if (isVertical) {
       groupElement.classList.add(`${selector}_vertical`);
+    }
+
+    if (isReadonly && !isHided) {
+      groupElement.classList.add(`${selector}_visible`);
     }
 
     const inputElement = document.createElement('input');

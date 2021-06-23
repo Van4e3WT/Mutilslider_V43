@@ -22,6 +22,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       sliderType: config.sliderType ?? 'solo',
 
       popUpOfValue: config.popUpOfValue ?? false,
+      popUpIsHided: config.popUpIsHided ?? true,
       scaleOfValues: config.scaleOfValues ?? 0,
       isProgressBar: config.isProgressBar ?? true,
 
