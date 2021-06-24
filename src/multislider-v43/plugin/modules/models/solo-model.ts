@@ -10,15 +10,23 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   constructor(cfg: ModelConfig) {
     super();
 
+    const {
+      step,
+      min,
+      max,
+      value1,
+    } = cfg;
+
     this.thumbs = [];
-    this.step = cfg.step;
+    this.step = step;
 
     this.thumbs.push({
-      min: cfg.min,
-      max: cfg.max,
-      value: (cfg.max - cfg.min) / 2,
+      min,
+      max,
+      value: (max - min) / 2,
     });
-    this.setValue({ val1: cfg.value1 }, false);
+
+    this.setValue({ val1: value1 }, false);
   }
 
   public getMin() {
@@ -44,6 +52,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     let { val1 } = values;
 
     const valueIsDefined = val1 !== undefined && val1 !== null;
+
     if (valueIsDefined) {
       if (isStepping) {
         val1 = Math.floor((val1 / step) + 0.5) / (1 / step);

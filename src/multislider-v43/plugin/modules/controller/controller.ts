@@ -41,7 +41,7 @@ class SliderController extends EventEmitter {
   private _initOrientation() {
     const { view } = this;
 
-    if (view.getAxis()) {
+    if (view.isVertical) {
       this.axis = {
         axis: 'y',
         eventAxis: 'pageY',

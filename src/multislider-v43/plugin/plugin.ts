@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+import Utils from './modules/utils/utils';
 import SliderView from './modules/view/view';
 import SliderController from './modules/controller/controller';
 import SoloSliderModel from './modules/models/solo-model';
@@ -8,28 +9,8 @@ import { Config, ModelConfig } from './modules/utils/custom-types';
 import ISliderModel from './modules/models/interfaces/interfaces';
 
 (function f($) {
-  $.fn.multislider = function multisliderInit(config: Config) {
-    const cfg: Config = {
-      minValue: config.minValue ?? 0,
-      maxValue: config.maxValue ?? 1000,
-
-      step: config.step ?? 3,
-
-      value1: config.value1 ?? config.minValue,
-      value2: config.value2 ?? config.maxValue,
-
-      orientation: config.orientation ?? 'horizontal',
-      sliderType: config.sliderType ?? 'solo',
-
-      popUpOfValue: config.popUpOfValue ?? false,
-      popUpIsHided: config.popUpIsHided ?? true,
-      scaleOfValues: config.scaleOfValues ?? 0,
-      isProgressBar: config.isProgressBar ?? true,
-
-      postfix: config.postfix,
-      description: config.description ?? 'Range Slider',
-      localeProps: config.localeProps,
-    };
+  $.fn.multislider = function multisliderInit(props: Config) {
+    const config = Utils.validationConfig(props);
 
     if (this.length === 0) {
       throw new Error('Not found element for initialization');
@@ -48,19 +29,19 @@ import ISliderModel from './modules/models/interfaces/interfaces';
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {
-      min: cfg.minValue,
-      max: cfg.maxValue,
-      step: cfg.step,
-      value1: cfg.value1,
+      min: config.minValue,
+      max: config.maxValue,
+      step: config.step,
+      value1: config.value1,
     };
 
-    switch (cfg.sliderType) {
+    switch (config.sliderType) {
       case 'solo':
         model = new SoloSliderModel(modelCfg);
         break;
 
       case 'double':
-        modelCfg.value2 = cfg.value2;
+        modelCfg.value2 = config.value2;
         model = new DoubleSliderModel(modelCfg);
         break;
 
@@ -68,7 +49,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
         throw new Error('Undefined type slider');
     }
 
-    const view = new SliderView(model.getValue(), baseElement, cfg);
+    const view = new SliderView(model.getValue(), baseElement, config);
 
     const controller = new SliderController(model, view);
     controller.initListeners();

@@ -1,5 +1,4 @@
 import ISliderModel from './interfaces/interfaces';
-import Utils from '../utils/utils';
 import EventEmitter from '../utils/event-emitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
@@ -15,15 +14,17 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   constructor(cfg: ModelConfig) {
     super();
 
-    let { value1, value2 } = cfg;
+    const {
+      min,
+      max,
+      step,
+      value1,
+      value2,
+    } = cfg;
 
-    this.min = cfg.min;
-    this.max = cfg.max;
-    this.step = cfg.step;
-
-    if (value1 > value2) {
-      [value1, value2] = Utils.swap(value1, value2);
-    }
+    this.min = min;
+    this.max = max;
+    this.step = step;
 
     this.thumbs = [];
 

@@ -11,10 +11,8 @@ class SliderView extends EventEmitter {
 
   private axis: {
     sizeParent: 'height' | 'width',
-    styleSelector: 'bottom' | 'left'
+    styleSelector: 'bottom' | 'left',
   };
-
-  private orientation: boolean; // false - axis X (horizontal), true - axis Y (vertical)
 
   private min: number;
 
@@ -25,6 +23,8 @@ class SliderView extends EventEmitter {
   private length: number;
 
   private isPopUp: boolean;
+
+  public isVertical: boolean;
 
   public outputs: AdaptiveInputView;
 
@@ -37,50 +37,66 @@ class SliderView extends EventEmitter {
   constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
     super();
 
+    const {
+      postfix,
+      localeProps,
+      minValue,
+      maxValue,
+      step,
+      popUpOfValue,
+      orientation,
+      description,
+      popUpIsHided,
+      isProgressBar,
+      scaleOfValues,
+    } = cfg;
+
     this.scale = new ScaleView();
     this.outputs = new AdaptiveInputView({
-      postfix: cfg.postfix,
-      localeProps: cfg.localeProps,
+      postfix,
+      localeProps,
     });
     this.thumbs = new ThumbsView();
-    this.min = cfg.minValue;
-    this.max = cfg.maxValue;
-    this.step = cfg.step;
+    this.min = minValue;
+    this.max = maxValue;
+    this.step = step;
     this.length = values.length;
-    this.isPopUp = cfg.popUpOfValue;
+    this.isPopUp = popUpOfValue;
 
-    this.orientation = cfg.orientation === 'vertical';
+    this.isVertical = orientation === 'vertical';
     this._initOrientation(parent);
 
-    this._renderHeader(parent, cfg.description);
+    this._renderHeader(parent, description);
 
     const sliderBody = document.createElement('div');
     sliderBody.classList.add('multislider-v43__body');
-    if (this.orientation) {
+
+    if (this.isVertical) {
       sliderBody.classList.add('multislider-v43__body_vertical');
     }
+
     parent.appendChild(sliderBody);
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < this.length; i += 1) {
-      this.thumbs.add(sliderBody, 'multislider-v43', this.orientation);
+      this.thumbs.add(sliderBody, 'multislider-v43', this.isVertical);
 
       if (this.isPopUp) {
         this.outputs.createGroup({
           parent: sliderBody,
           selector: 'multislider-v43__popup',
           isReadonly: true,
-          isHided: cfg.popUpIsHided,
-          isVertical: this.orientation,
+          isHided: popUpIsHided,
+          isVertical: this.isVertical,
         });
       }
     }
 
     this.thumbSize = this.thumbs.getSize();
 
-    this._renderProgressBar(sliderBody, cfg.isProgressBar);
+    this._renderProgressBar(sliderBody, isProgressBar);
 
-    this._renderScale(sliderBody, cfg.scaleOfValues);
+    this._renderScale(sliderBody, scaleOfValues);
 
     this.outputs.init();
 
@@ -91,12 +107,6 @@ class SliderView extends EventEmitter {
     const { thumbSize } = this;
 
     return thumbSize;
-  }
-
-  public getAxis() {
-    const { orientation } = this;
-
-    return orientation;
   }
 
   public updateScale = () => {
@@ -163,9 +173,9 @@ class SliderView extends EventEmitter {
   }
 
   private _initOrientation(parent: HTMLDivElement) {
-    const { orientation } = this;
+    const { isVertical } = this;
 
-    if (orientation) {
+    if (isVertical) {
       parent.classList.add('multislider-v43_vertical');
       this.axis = {
         sizeParent: 'height',
@@ -216,14 +226,14 @@ class SliderView extends EventEmitter {
   }
 
   private _renderProgressBar(parent: HTMLDivElement, isProgressBar) {
-    const { orientation } = this;
+    const { isVertical } = this;
 
     if (!isProgressBar) return;
 
     this.sliderRange = document.createElement('div');
     this.sliderRange.classList.add('multislider-v43__range');
 
-    if (orientation) {
+    if (isVertical) {
       this.sliderRange.classList.add('multislider-v43__range_vertical');
     }
 
@@ -232,7 +242,7 @@ class SliderView extends EventEmitter {
 
   private _renderScale(parent: HTMLDivElement, scaleDivisions: number) {
     const {
-      orientation,
+      isVertical,
       scale,
       min,
       max,
@@ -246,11 +256,11 @@ class SliderView extends EventEmitter {
 
     if (!scaleDivisions || !isValidatedScale) return;
 
-    if (!orientation) {
+    if (!isVertical) {
       parent.classList.add('multislider-v43__body_indented');
     }
 
-    scale.init(scaleDivisions, 'multislider-v43__scale', orientation);
+    scale.init(scaleDivisions, 'multislider-v43__scale', isVertical);
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();
