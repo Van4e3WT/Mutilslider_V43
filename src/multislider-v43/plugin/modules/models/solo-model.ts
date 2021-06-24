@@ -26,7 +26,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
       value: (max - min) / 2,
     });
 
-    this.setValue({ val1: value1 }, false);
+    this.setValue({ val1: value1 });
   }
 
   public getMin() {
@@ -55,7 +55,9 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
 
     if (valueIsDefined) {
       if (isStepping) {
-        val1 = Math.floor((val1 / step) + 0.5) / (1 / step);
+        const delta = val1 - thumbs[0].min;
+
+        val1 = Math.floor((delta / step) + 0.5) / (1 / step) + thumbs[0].min;
       }
 
       val1 = val1 > thumbs[0].max ? thumbs[0].max : val1;

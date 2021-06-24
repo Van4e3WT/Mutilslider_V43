@@ -40,7 +40,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       value: this.max,
     });
 
-    this.setValue({ val1: value1, val2: value2 }, false);
+    this.setValue({ val1: value1, val2: value2 });
   }
 
   public getMin() {
@@ -90,8 +90,12 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       }
 
       if (isStepping) {
-        val1 = Math.floor((val1 / step) + 0.5) / (1 / step);
-        val2 = Math.floor((val2 / step) + 0.5) / (1 / step); // pass by 0.300000000004 and other
+        const delta1 = val1 - min;
+        const delta2 = val2 - min;
+
+        val1 = Math.floor((delta1 / step) + 0.5) / (1 / step) + min;
+        val2 = Math.floor((delta2 / step) + 0.5) / (1 / step) + min;
+        // pass by 0.300000000004 and other
       }
 
       val1 = val1 < min ? min : val1;
