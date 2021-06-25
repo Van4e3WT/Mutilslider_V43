@@ -54,10 +54,16 @@ import ISliderModel from './modules/models/interfaces/interfaces';
     const controller = new SliderController(model, view);
     controller.initListeners();
 
-    $.fn.multislider.value = function setValue(values: { val1?: number, val2?: number }) {
-      model.setValue({ val1: values.val1, val2: values.val2 });
+    $.fn.multislider.value = (values: { val1?: number, val2?: number }) => {
+      if (values) {
+        model.setValue({ val1: values.val1, val2: values.val2 });
+      }
 
       return model.getValue();
+    };
+
+    $.fn.multislider.onChange = (callback: Function, ...args) => {
+      model.on('valueChanged', callback.bind(this, ...args));
     };
   };
 }(jQuery));

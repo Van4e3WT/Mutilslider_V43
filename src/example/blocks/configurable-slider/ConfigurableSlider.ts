@@ -99,7 +99,9 @@ class ConfigurableSlider {
 
   private _updateSlider = () => {
     const { slider, inputs } = this;
-    $(slider).multislider({
+    const $slider = $(slider);
+
+    $slider.multislider({
       minValue: +inputs.minValue.value,
       maxValue: +inputs.maxValue.value,
       step: +inputs.step.value,
@@ -115,6 +117,20 @@ class ConfigurableSlider {
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
     });
+
+    const getValue = $slider.multislider.value;
+
+    const handlerSliderChange = () => {
+      const values = getValue();
+
+      inputs.value1.value = String(values[0]);
+
+      if (values.length === 2) {
+        inputs.value2.value = String(values[1]);
+      }
+    };
+
+    $slider.multislider.onChange(handlerSliderChange);
   };
 }
 
