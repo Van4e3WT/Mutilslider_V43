@@ -8,7 +8,7 @@ const BLOCKNAME = 'configurable-slider';
 function handleConfigurableSliderInit() {
   const items = document.querySelectorAll(`.js-${BLOCKNAME}`);
 
-  items.forEach((item, i) => {
+  items.forEach((item) => {
     const panel = item.querySelector(`.js-${BLOCKNAME}__panel`);
     const slider = item.querySelector(`.js-${BLOCKNAME}__slider`);
     const config = JSON.parse(item.getAttribute('data-config'));
@@ -17,7 +17,6 @@ function handleConfigurableSliderInit() {
       panel,
       slider,
       selector: BLOCKNAME,
-      postfix: i,
       config,
     });
 

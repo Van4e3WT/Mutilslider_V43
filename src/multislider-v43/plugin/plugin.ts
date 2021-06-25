@@ -35,18 +35,11 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       value1: config.value1,
     };
 
-    switch (config.sliderType) {
-      case 'solo':
-        model = new SoloSliderModel(modelCfg);
-        break;
-
-      case 'double':
-        modelCfg.value2 = config.value2;
-        model = new DoubleSliderModel(modelCfg);
-        break;
-
-      default:
-        throw new Error('Undefined type slider');
+    if (config.isRange) {
+      modelCfg.value2 = config.value2;
+      model = new DoubleSliderModel(modelCfg);
+    } else {
+      model = new SoloSliderModel(modelCfg);
     }
 
     const view = new SliderView(model.getValue(), baseElement, config);

@@ -4,10 +4,6 @@ type ThumbModel = {
   value: number,
 };
 
-type Orientation = 'vertical' | 'horizontal';
-
-type SliderType = 'solo' | 'double';
-
 type Config = {
   minValue: number,
   maxValue: number,
@@ -15,8 +11,8 @@ type Config = {
   value1?: number,
   value2?: number,
 
-  orientation?: Orientation,
-  sliderType?: SliderType,
+  isVertical?: boolean,
+  isRange?: boolean,
 
   popUpOfValue?: boolean,
   popUpIsHided?: boolean,
@@ -38,8 +34,6 @@ type ModelConfig = {
 
 export {
   ThumbModel,
-  Orientation,
-  SliderType,
   Config,
   ModelConfig,
 };

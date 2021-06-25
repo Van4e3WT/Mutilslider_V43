@@ -44,7 +44,7 @@ class SliderView extends EventEmitter {
       maxValue,
       step,
       popUpOfValue,
-      orientation,
+      isVertical,
       description,
       popUpIsHided,
       isProgressBar,
@@ -63,7 +63,7 @@ class SliderView extends EventEmitter {
     this.length = values.length;
     this.isPopUp = popUpOfValue;
 
-    this.isVertical = orientation === 'vertical';
+    this.isVertical = isVertical;
     this._initOrientation(parent);
 
     this._renderHeader(parent, description);

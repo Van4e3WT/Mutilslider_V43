@@ -6,8 +6,8 @@ function swap(a: any, b: any): Array<any> {
 
 function validationConfig(config: Config): Config {
   const {
-    orientation = 'horizontal',
-    sliderType = 'solo',
+    isRange = false,
+    isVertical = false,
     popUpOfValue = false,
     popUpIsHided = true,
     isProgressBar = true,
@@ -48,8 +48,8 @@ function validationConfig(config: Config): Config {
     value1,
     value2,
 
-    orientation,
-    sliderType,
+    isVertical,
+    isRange,
 
     popUpOfValue,
     popUpIsHided,

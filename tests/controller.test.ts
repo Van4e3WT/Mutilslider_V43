@@ -15,8 +15,8 @@ describe('***CONTROLLER***', () => {
       value1: 25,
       value2: 75,
 
-      orientation: 'horizontal',
-      sliderType: 'double',
+      isVertical: false,
+      isRange: true,
 
       popUpOfValue: false,
       scaleOfValues: 3,
@@ -38,18 +38,11 @@ describe('***CONTROLLER***', () => {
     let updateMock: any;
 
     beforeEach(() => {
-      switch (cfg.sliderType) {
-        case 'solo':
-          model = new SoloSliderModel(modelConfig);
-          break;
-
-        case 'double':
-          modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-          model = new DoubleSliderModel(modelConfig);
-          break;
-
-        default:
-          throw new Error('Undefined type slider');
+      if (cfg.isRange) {
+        modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
+        model = new DoubleSliderModel(modelConfig);
+      } else {
+        model = new SoloSliderModel(modelConfig);
       }
 
       const parent = document.createElement('div');
@@ -115,8 +108,8 @@ describe('***CONTROLLER***', () => {
       step: 1,
       value1: 5,
 
-      orientation: 'vertical',
-      sliderType: 'solo',
+      isVertical: true,
+      isRange: false,
 
       popUpOfValue: false,
       scaleOfValues: 0,
@@ -138,18 +131,11 @@ describe('***CONTROLLER***', () => {
     let updateMock: any;
 
     beforeEach(() => {
-      switch (cfg.sliderType) {
-        case 'solo':
-          model = new SoloSliderModel(modelConfig);
-          break;
-
-        case 'double':
-          modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-          model = new DoubleSliderModel(modelConfig);
-          break;
-
-        default:
-          throw new Error('Undefined type slider');
+      if (cfg.isRange) {
+        modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
+        model = new DoubleSliderModel(modelConfig);
+      } else {
+        model = new SoloSliderModel(modelConfig);
       }
 
       const parent = document.createElement('div');

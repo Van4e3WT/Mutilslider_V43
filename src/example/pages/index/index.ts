@@ -8,8 +8,8 @@ $('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
   value1: 7500,
   value2: 10000,
 
-  orientation: 'vertical',
-  sliderType: 'double',
+  isVertical: true,
+  isRange: true,
 
   popUpOfValue: true,
   scaleOfValues: 11,
@@ -25,8 +25,8 @@ $('.js-multislider-v43_solo.js-multislider-v43_slider-3').multislider({
   step: 10,
   value1: 100,
 
-  orientation: 'vertical',
-  sliderType: 'solo',
+  isVertical: true,
+  isRange: false,
 
   popUpOfValue: false,
   scaleOfValues: 6,

@@ -4,10 +4,8 @@ type Config = {
   step: HTMLInputElement,
   value1: HTMLInputElement,
   value2: HTMLInputElement,
-  orientation: HTMLInputElement,
-  orientationAddict: HTMLInputElement,
-  sliderType: HTMLInputElement,
-  sliderTypeAddict: HTMLInputElement,
+  isVertical: HTMLInputElement,
+  isRange: HTMLInputElement,
   popUpOfValue: HTMLInputElement,
   popUpIsHided: HTMLInputElement,
   scaleOfValues: HTMLInputElement,
@@ -22,8 +20,6 @@ class ConfigurableSlider {
 
   private selector: string;
 
-  private postfix: string;
-
   private inputs: Config;
 
   private config: Config;
@@ -33,21 +29,18 @@ class ConfigurableSlider {
       panel,
       slider,
       selector,
-      postfix,
       config,
     } = props;
 
     this.panelControl = panel;
     this.slider = slider;
     this.selector = selector;
-    this.postfix = postfix;
     this.config = config;
   }
 
   public initPanelControl() {
     const {
       panelControl,
-      postfix,
       selector,
       config,
     } = this;
@@ -55,30 +48,27 @@ class ConfigurableSlider {
     const cfgValues = document.createElement('div');
     cfgValues.classList.add(`${selector}__group`);
 
-    cfgValues.innerHTML = `<label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__minVal js-${selector}__minVal" value="${config.minValue}"> Минимальное значение</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__maxVal js-${selector}__maxVal" value="${config.maxValue}"> Максимальное значение</label>
+    cfgValues.innerHTML = `<label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__min-val js-${selector}__min-val" value="${config.minValue}"> Минимальное значение</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__max-val js-${selector}__max-val" value="${config.maxValue}"> Максимальное значение</label>
     <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="${config.step}"> Шаг</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val1 js-${selector}__val1" value="${config.value1}"> Значение по умолчанию 1</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val2 js-${selector}__val2" value="${config.value2}"> Значение по умолчанию 2</label>`;
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val-1 js-${selector}__val-1" value="${config.value1}"> Значение по умолчанию 1</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val-2 js-${selector}__val-2" value="${config.value2}"> Значение по умолчанию 2</label>`;
     panelControl.appendChild(cfgValues);
 
     const cfgOptions = document.createElement('div');
     cfgOptions.classList.add(`${selector}__group`);
 
-    cfgOptions.innerHTML = `<label class="${selector}__item"><input type="radio" class="${selector}__input ${selector}__isOrientVert js-${selector}__isOrientVert" name="orientation-${postfix}">Вертикальный</label>
-    <label class="${selector}__item"><input type="radio" class="${selector}__input ${selector}__isOrientHoriz js-${selector}__isOrientHoriz" name="orientation-${postfix}" checked>Горизонтальный</label>
-    <hr>
-    <label class="${selector}__item"><input type="radio" class="${selector}__input ${selector}__isTypeSolo js-${selector}__isTypeSolo" name="type-${postfix}" checked>Однодиапазонный</label>
-    <label class="${selector}__item"><input type="radio" class="${selector}__input ${selector}__isTypeDouble js-${selector}__isTypeDouble" name="type-${postfix}">Двухдиапазонный</label>`;
+    cfgOptions.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical">Вертикальный</label>
+    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" checked>Диапазонный</label>`;
     panelControl.appendChild(cfgOptions);
 
     const cfgAddons = document.createElement('div');
     cfgAddons.classList.add(`${selector}__group`);
 
-    cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUp js-${selector}__isPopUp" ${config.popUpOfValue ? 'checked' : ''}>Всплывающее значение</label>
-    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUpHided js-${selector}__isPopUpHided" ${config.popUpIsHided ? 'checked' : ''}>Скрыто по умолчанию</label>
-    <label class="${selector}__item"><input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scaleDivisions js-${selector}__scaleDivisions">Количество делений шкалы</label>
-    <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__isProgBar js-${selector}__isProgBar" ${config.isProgressBar ? 'checked' : ''}>Прогресс бар</label>
+    cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-pop-up js-${selector}__is-pop-up" ${config.popUpOfValue ? 'checked' : ''}>Всплывающее значение</label>
+    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-pop-up-hided js-${selector}__is-pop-up-hided" ${config.popUpIsHided ? 'checked' : ''}>Скрыто по умолчанию</label>
+    <label class="${selector}__item"><input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">Количество делений шкалы</label>
+    <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>Прогресс бар</label>
     <label class="${selector}__item"><input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix" value="${config.postfix ? config.postfix : ''}">Постфикс</label>`;
     panelControl.appendChild(cfgAddons);
   }
@@ -87,19 +77,17 @@ class ConfigurableSlider {
     const { panelControl, selector } = this;
 
     this.inputs = {
-      minValue: panelControl.querySelector(`.js-${selector}__minVal`),
-      maxValue: panelControl.querySelector(`.js-${selector}__maxVal`),
+      minValue: panelControl.querySelector(`.js-${selector}__min-val`),
+      maxValue: panelControl.querySelector(`.js-${selector}__max-val`),
       step: panelControl.querySelector(`.js-${selector}__step`),
-      value1: panelControl.querySelector(`.js-${selector}__val1`),
-      value2: panelControl.querySelector(`.js-${selector}__val2`),
-      orientation: panelControl.querySelector(`.js-${selector}__isOrientHoriz`),
-      orientationAddict: panelControl.querySelector(`.js-${selector}__isOrientVert`),
-      sliderType: panelControl.querySelector(`.js-${selector}__isTypeDouble`),
-      sliderTypeAddict: panelControl.querySelector(`.js-${selector}__isTypeSolo`),
-      popUpOfValue: panelControl.querySelector(`.js-${selector}__isPopUp`),
-      popUpIsHided: panelControl.querySelector(`.js-${selector}__isPopUpHided`),
-      scaleOfValues: panelControl.querySelector(`.js-${selector}__scaleDivisions`),
-      isProgressBar: panelControl.querySelector(`.js-${selector}__isProgBar`),
+      value1: panelControl.querySelector(`.js-${selector}__val-1`),
+      value2: panelControl.querySelector(`.js-${selector}__val-2`),
+      isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`),
+      isRange: panelControl.querySelector(`.js-${selector}__is-range`),
+      popUpOfValue: panelControl.querySelector(`.js-${selector}__is-pop-up`),
+      popUpIsHided: panelControl.querySelector(`.js-${selector}__is-pop-up-hided`),
+      scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`),
+      isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`),
       postfix: panelControl.querySelector(`.js-${selector}__postfix`),
     };
 
@@ -119,8 +107,8 @@ class ConfigurableSlider {
       value1: +inputs.value1.value,
       value2: +inputs.value2.value,
 
-      orientation: inputs.orientation.checked ? 'horizontal' : 'vertical',
-      sliderType: inputs.sliderType.checked ? 'double' : 'solo',
+      isVertical: inputs.isVertical.checked,
+      isRange: inputs.isRange.checked,
 
       popUpOfValue: inputs.popUpOfValue.checked,
       popUpIsHided: inputs.popUpIsHided.checked,
