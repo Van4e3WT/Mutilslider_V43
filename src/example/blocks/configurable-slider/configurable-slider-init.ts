@@ -11,12 +11,14 @@ function handleConfigurableSliderInit() {
   items.forEach((item, i) => {
     const panel = item.querySelector(`.js-${BLOCKNAME}__panel`);
     const slider = item.querySelector(`.js-${BLOCKNAME}__slider`);
+    const config = JSON.parse(item.getAttribute('data-config'));
 
     const cfgSlider = new ConfigurableSlider({
       panel,
       slider,
       selector: BLOCKNAME,
       postfix: i,
+      config,
     });
 
     cfgSlider.initPanelControl();

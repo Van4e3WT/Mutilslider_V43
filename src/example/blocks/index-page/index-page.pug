@@ -1,6 +1,8 @@
 include ~Example/blocks/configurable-slider/configurable-slider.pug
 
-mixin index-page()
+mixin index-page(props)
+  - const { sliders } = props;
+
   .grid
       .grid__item.js-multislider-v43_double.js-multislider-v43_slider-1
       .grid__item.js-multislider-v43_double.js-multislider-v43_slider-2.js-multislider-v43(
@@ -16,9 +18,6 @@ mixin index-page()
         data-pop-up-is-hided="false", data-is-progress-bar="false",
         data-description="Одиночный горизонтальный слайдер",
       )
-      .grid__item
-        +configurable-slider()
-      .grid__item
-        +configurable-slider()
-      .grid__item
-        +configurable-slider()
+      each slider in sliders
+        .grid__item
+          +configurable-slider(slider)

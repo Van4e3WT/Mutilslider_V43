@@ -1,3 +1,20 @@
+type Config = {
+  minValue: HTMLInputElement,
+  maxValue: HTMLInputElement
+  step: HTMLInputElement,
+  value1: HTMLInputElement,
+  value2: HTMLInputElement,
+  orientation: HTMLInputElement,
+  orientationAddict: HTMLInputElement,
+  sliderType: HTMLInputElement,
+  sliderTypeAddict: HTMLInputElement,
+  popUpOfValue: HTMLInputElement,
+  popUpIsHided: HTMLInputElement,
+  scaleOfValues: HTMLInputElement,
+  isProgressBar: HTMLInputElement,
+  postfix: HTMLInputElement,
+};
+
 class ConfigurableSlider {
   private panelControl: HTMLElement;
 
@@ -7,22 +24,9 @@ class ConfigurableSlider {
 
   private postfix: string;
 
-  private inputs: {
-    minValue: HTMLInputElement,
-    maxValue: HTMLInputElement
-    step: HTMLInputElement,
-    value1: HTMLInputElement,
-    value2: HTMLInputElement,
-    orientation: HTMLInputElement,
-    orientationAddict: HTMLInputElement,
-    sliderType: HTMLInputElement,
-    sliderTypeAddict: HTMLInputElement,
-    popUpOfValue: HTMLInputElement,
-    popUpIsHided: HTMLInputElement,
-    scaleOfValues: HTMLInputElement,
-    isProgressBar: HTMLInputElement,
-    postfix: HTMLInputElement,
-  };
+  private inputs: Config;
+
+  private config: Config;
 
   constructor(props) {
     const {
@@ -30,25 +34,32 @@ class ConfigurableSlider {
       slider,
       selector,
       postfix,
+      config,
     } = props;
 
     this.panelControl = panel;
     this.slider = slider;
     this.selector = selector;
     this.postfix = postfix;
+    this.config = config;
   }
 
-  initPanelControl() {
-    const { panelControl, postfix, selector } = this;
+  public initPanelControl() {
+    const {
+      panelControl,
+      postfix,
+      selector,
+      config,
+    } = this;
 
     const cfgValues = document.createElement('div');
     cfgValues.classList.add(`${selector}__group`);
 
-    cfgValues.innerHTML = `<label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__minVal js-${selector}__minVal" value="-100"> Минимальное значение</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__maxVal js-${selector}__maxVal" value="100"> Максимальное значение</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="1"> Шаг</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val1 js-${selector}__val1" value="-25"> Значение по умолчанию 1</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val2 js-${selector}__val2" value="75"> Значение по умолчанию 2</label>`;
+    cfgValues.innerHTML = `<label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__minVal js-${selector}__minVal" value="${config.minValue}"> Минимальное значение</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__maxVal js-${selector}__maxVal" value="${config.maxValue}"> Максимальное значение</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="${config.step}"> Шаг</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val1 js-${selector}__val1" value="${config.value1}"> Значение по умолчанию 1</label>
+    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val2 js-${selector}__val2" value="${config.value2}"> Значение по умолчанию 2</label>`;
     panelControl.appendChild(cfgValues);
 
     const cfgOptions = document.createElement('div');
@@ -64,15 +75,15 @@ class ConfigurableSlider {
     const cfgAddons = document.createElement('div');
     cfgAddons.classList.add(`${selector}__group`);
 
-    cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUp js-${selector}__isPopUp">Всплывающее значение</label>
-    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUpHided js-${selector}__isPopUpHided" checked>Скрыто по умолчанию</label>
-    <label class="${selector}__item"><input type="number" value="5" class="${selector}__input ${selector}__scaleDivisions js-${selector}__scaleDivisions">Количество делений шкалы</label>
-    <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__isProgBar js-${selector}__isProgBar">Прогресс бар</label>
-    <label class="${selector}__item"><input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix">Постфикс</label>`;
+    cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUp js-${selector}__isPopUp" ${config.popUpOfValue ? 'checked' : ''}>Всплывающее значение</label>
+    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__isPopUpHided js-${selector}__isPopUpHided" ${config.popUpIsHided ? 'checked' : ''}>Скрыто по умолчанию</label>
+    <label class="${selector}__item"><input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scaleDivisions js-${selector}__scaleDivisions">Количество делений шкалы</label>
+    <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__isProgBar js-${selector}__isProgBar" ${config.isProgressBar ? 'checked' : ''}>Прогресс бар</label>
+    <label class="${selector}__item"><input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix" value="${config.postfix ? config.postfix : ''}">Постфикс</label>`;
     panelControl.appendChild(cfgAddons);
   }
 
-  initSlider() {
+  public initSlider() {
     const { panelControl, selector } = this;
 
     this.inputs = {

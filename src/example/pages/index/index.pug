@@ -17,6 +17,8 @@ html(lang="ru")
     meta(name="theme-color", content="#1f2041")
     title Sliders Examples
   body
+    - const sliders = require('./configurable-sliders.json');
+
     include ~Example/blocks/index-page/index-page.pug
 
-    +index-page()
+    +index-page(sliders)
