@@ -131,7 +131,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     color: $darkShade50;
     border: 2px solid $green;
     border-radius: 10px;
-    bottom: 20px;
+    bottom: 12px;
     transform: translateX(-50%);
     -moz-appearance: textfield;
 
@@ -156,7 +156,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     }
     
     &_vertical {
-      right: 20px;
+      right: 12px;
       transform: translateY(50%);
     }
 

@@ -45,32 +45,59 @@ class ConfigurableSlider {
       config,
     } = this;
 
-    const cfgValues = document.createElement('div');
-    cfgValues.classList.add(`${selector}__group`);
-
-    cfgValues.innerHTML = `<label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__min-val js-${selector}__min-val" value="${config.minValue}"> Минимальное значение</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__max-val js-${selector}__max-val" value="${config.maxValue}"> Максимальное значение</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="${config.step}"> Шаг</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val-1 js-${selector}__val-1" value="${config.value1}"> Значение по умолчанию 1</label>
-    <label class="${selector}__item"><input type="number" class="${selector}__input ${selector}__val-2 js-${selector}__val-2" value="${config.value2}"> Значение по умолчанию 2</label>`;
-    panelControl.appendChild(cfgValues);
-
-    const cfgOptions = document.createElement('div');
-    cfgOptions.classList.add(`${selector}__group`);
-
-    cfgOptions.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical">Вертикальный</label>
-    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" checked>Диапазонный</label>`;
-    panelControl.appendChild(cfgOptions);
-
-    const cfgAddons = document.createElement('div');
-    cfgAddons.classList.add(`${selector}__group`);
-
-    cfgAddons.innerHTML = `<label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-pop-up js-${selector}__is-pop-up" ${config.popUpOfValue ? 'checked' : ''}>Всплывающее значение</label>
-    <label class="${selector}__item"><input type="checkbox" class="${selector}__input ${selector}__is-pop-up-hided js-${selector}__is-pop-up-hided" ${config.popUpIsHided ? 'checked' : ''}>Скрыто по умолчанию</label>
-    <label class="${selector}__item"><input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">Количество делений шкалы</label>
-    <label class="${selector}__item"><input type="checkbox" checked class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>Прогресс бар</label>
-    <label class="${selector}__item"><input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix" value="${config.postfix ? config.postfix : ''}">Постфикс</label>`;
-    panelControl.appendChild(cfgAddons);
+    panelControl.innerHTML = `<label class="${selector}__item">
+      <input type="number" class="${selector}__input ${selector}__min-val js-${selector}__min-val" value="${config.minValue}">
+      <div class="${selector}__item-title">min</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="number" class="${selector}__input ${selector}__max-val js-${selector}__max-val" value="${config.maxValue}">
+      <div class="${selector}__item-title">max</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="${config.step}">
+      <div class="${selector}__item-title">step</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="number" class="${selector}__input ${selector}__val-1 js-${selector}__val-1" value="${config.value1}">
+      <div class="${selector}__item-title">value 1</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="number" class="${selector}__input ${selector}__val-2 js-${selector}__val-2" value="${config.value2}">
+      <div class="${selector}__item-title">value 2</div>
+    </label>
+    <label class="${selector}__item ${selector}__toggle">
+      <input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical">
+      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-title">vertical</div>
+    </label>
+    <label class="${selector}__item ${selector}__toggle">
+      <input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" checked>
+      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-title">range</div>
+    </label>
+    <label class="${selector}__item ${selector}__toggle">
+      <input type="checkbox" class="${selector}__input ${selector}__is-pop-up js-${selector}__is-pop-up" ${config.popUpOfValue ? 'checked' : ''}>
+      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-title">pop-up</div>
+    </label>
+    <label class="${selector}__item ${selector}__toggle">
+      <input type="checkbox" class="${selector}__input ${selector}__is-pop-up-hided js-${selector}__is-pop-up-hided" ${config.popUpIsHided ? 'checked' : ''}>
+      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-title">pop-up hided</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">
+      <div class="${selector}__item-title">scale divisions</div>
+    </label>
+    <label class="${selector}__item ${selector}__toggle">
+      <input type="checkbox" checked class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>
+      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-title">progress bar</div>
+    </label>
+    <label class="${selector}__item">
+      <input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix" value="${config.postfix ? config.postfix : ''}">
+      <div class="${selector}__item-title">postfix</div>
+    </label>`;
   }
 
   public initSlider() {
