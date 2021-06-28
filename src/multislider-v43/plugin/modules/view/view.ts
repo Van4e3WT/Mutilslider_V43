@@ -117,6 +117,7 @@ class SliderView extends EventEmitter {
       thumbSize,
       min,
       max,
+      step,
     } = this;
 
     scale.update({
@@ -125,6 +126,7 @@ class SliderView extends EventEmitter {
       thumbSize,
       min,
       max,
+      step,
     });
   };
 
@@ -244,23 +246,19 @@ class SliderView extends EventEmitter {
     const {
       isVertical,
       scale,
-      min,
-      max,
-      step,
     } = this;
 
-    const delta = max - min;
-    const scaleDivisionsIsInteger = Number.isInteger((delta / (scaleDivisions - 1)) / step);
-
-    const isValidatedScale = scaleDivisions > 1 && scaleDivisionsIsInteger;
-
-    if (!scaleDivisions || !isValidatedScale) return;
+    if (scaleDivisions < 2) return;
 
     if (!isVertical) {
       parent.classList.add('multislider-v43__body_indented');
     }
 
-    scale.init(scaleDivisions, 'multislider-v43__scale', isVertical);
+    scale.init({
+      count: scaleDivisions,
+      selector: 'multislider-v43__scale',
+      isVertical,
+    });
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();

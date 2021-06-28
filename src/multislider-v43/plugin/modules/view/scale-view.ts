@@ -7,13 +7,18 @@ class ScaleView {
     this.scaleDivisions = [];
   }
 
-  public init(n: number, selector: string, isVertical = false) {
+  public init(props) {
     const { scaleDivisions } = this;
+    const {
+      count,
+      selector,
+      isVertical,
+    } = props;
 
     this.scale = document.createElement('div');
     this.scale.classList.add(`${selector}`);
 
-    for (let i = 0; i < n; i += 1) {
+    for (let i = 0; i < count; i += 1) {
       const scaleDivision = document.createElement('div');
 
       scaleDivision.classList.add(`${selector}-division`);
@@ -45,27 +50,31 @@ class ScaleView {
       thumbSize,
       min,
       max,
+      step,
     } = props;
     const n = scaleDivisions.length;
     const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
 
     for (let i = 0; i < n; i += 1) {
-      const proportion = (i / (n - 1));
       let addition: number;
+      let roundCoef = 0.5;
 
-      if (proportion === 0) {
+      if (i === 0) {
         addition = 0;
       } else {
         addition = ((thumbSize / 2) - parseInt(getComputedStyle(parentThumbs).borderWidth, 10));
-        if (proportion === 1) {
+        if (i === n - 1) {
           addition *= 2;
+          roundCoef = 0;
         }
       }
 
-      scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
-
       const delta = max - min;
+      const proportion = Math.floor(((i / (n - 1)) * delta) / step + roundCoef) / (1 / step)
+        / delta;
+
+      scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
       scaleDivisions[i].textContent = `${+((delta * proportion) + min).toFixed(12)}`.replace('.', ',');
       // method pass by 0.300000000000004 when first doesn't work
