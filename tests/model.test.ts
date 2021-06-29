@@ -1,4 +1,3 @@
-import Utils from '../src/multislider-v43/plugin/modules/utils/utils';
 import { ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
 import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/solo-model';
 import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/double-model';
@@ -9,16 +8,9 @@ describe('***MODEL***', () => {
     min: -100,
     max: 100,
     step: 10,
-    value1: 70,
-    value2: 15,
+    value1: 15,
+    value2: 70,
   };
-
-  describe('Swap()', () => {
-    test('should be swapped params', () => {
-      expect(Utils.swap(1, 3)[0]).toBe(3);
-      expect(Utils.swap(1, 3)[1]).toBe(1);
-    });
-  });
 
   describe('Solo Slider ', () => {
     let soloSliderModel: ISliderModel;
@@ -49,7 +41,7 @@ describe('***MODEL***', () => {
     describe('setValue()', () => {
       test('should set new value1', () => {
         const preValue = soloSliderModel.getValue()[0];
-        const newValue = 20;
+        const newValue = 30;
 
         soloSliderModel.setValue({ val1: newValue });
 
