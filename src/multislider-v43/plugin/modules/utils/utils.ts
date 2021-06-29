@@ -32,14 +32,22 @@ function validationConfig(config: Config): Config {
 
   step = step > 0 ? step : 1;
 
-  if (value1 > value2) {
-    [value1, value2] = swap(value1, value2);
+  if (isRange) {
+    if (value1 > value2) {
+      [value1, value2] = swap(value1, value2);
+    }
+    value2 = value2 < maxValue ? value2 : maxValue;
+    value2 = value2 > minValue ? value2 : minValue;
+    value1 = value1 < value2 ? value1 : value2;
+  } else {
+    value1 = value1 < maxValue ? value1 : maxValue;
   }
 
   value1 = value1 > minValue ? value1 : minValue;
-  value2 = value2 < maxValue ? value2 : maxValue;
 
-  scaleOfValues = Math.abs(scaleOfValues);
+  const maxScaleDivisions = Math.floor((maxValue - minValue) / step) + 1;
+  scaleOfValues = Math.abs(scaleOfValues) > maxScaleDivisions
+    ? maxScaleDivisions : Math.abs(scaleOfValues);
 
   const validatedConfig: Config = {
     minValue,

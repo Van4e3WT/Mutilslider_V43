@@ -118,7 +118,7 @@ class ConfigurableSlider {
       postfix: panelControl.querySelector(`.js-${selector}__postfix`),
     };
 
-    panelControl.addEventListener('change', this._updateSlider);
+    panelControl.addEventListener('change', this._handlePanelChange);
 
     this._updateSlider();
   }
@@ -146,7 +146,7 @@ class ConfigurableSlider {
 
     const getValue = $slider.multislider.value;
 
-    const handlerSliderChange = () => {
+    const handleSliderChange = () => {
       const values = getValue();
 
       inputs.value1.value = String(values[0]);
@@ -156,7 +156,43 @@ class ConfigurableSlider {
       }
     };
 
-    $slider.multislider.onChange(handlerSliderChange);
+    $slider.multislider.onChange(handleSliderChange);
+  };
+
+  private _handlePanelChange = (e: Event) => {
+    const { inputs } = this;
+    const { target } = e;
+
+    if (inputs.minValue.value === inputs.maxValue.value) {
+      if (target === inputs.minValue) {
+        inputs.minValue.value = String(+inputs.maxValue.value - +inputs.step.value);
+      }
+      if (target === inputs.maxValue) {
+        inputs.maxValue.value = String(+inputs.minValue.value + +inputs.step.value);
+      }
+    }
+
+    inputs.step.value = +inputs.step.value <= 0 ? String(1) : inputs.step.value;
+
+    if (inputs.isRange.checked) {
+      if (+inputs.value2.value > +inputs.maxValue.value) {
+        inputs.value2.value = inputs.maxValue.value;
+      }
+      if (+inputs.value2.value < +inputs.minValue.value) {
+        inputs.value2.value = inputs.minValue.value;
+      }
+      if (+inputs.value1.value > +inputs.value2.value) {
+        inputs.value1.value = inputs.value2.value;
+      }
+    } else if (+inputs.value1.value > +inputs.maxValue.value) {
+      inputs.value1.value = inputs.maxValue.value;
+    }
+
+    if (+inputs.value1.value < +inputs.minValue.value) {
+      inputs.value1.value = inputs.minValue.value;
+    }
+
+    this._updateSlider();
   };
 }
 
