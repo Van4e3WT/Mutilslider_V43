@@ -157,6 +157,7 @@ class ConfigurableSlider {
     };
 
     $slider.multislider.onChange(handleSliderChange);
+    getValue({});
   };
 
   private _handlePanelChange = (e: Event) => {
