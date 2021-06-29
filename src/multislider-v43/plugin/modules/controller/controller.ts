@@ -160,13 +160,9 @@ class SliderController extends EventEmitter {
 
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 
-      const isSecondValue = model.getValue().length === 2
-        && (Math.abs(scaleDivisionValue - model.getValue()[1])
-          < Math.abs(scaleDivisionValue - model.getValue()[0]));
+      const isSecondValue = this._isSecondValue(scaleDivisionValue);
 
-      const isEquals = model.getValue().length === 2
-        && (Math.abs(scaleDivisionValue - model.getValue()[1])
-          === Math.abs(scaleDivisionValue - model.getValue()[0]));
+      const isEquals = this._isEqualsValues(scaleDivisionValue);
 
       if (isSecondValue) {
         model.setValue({ val2: scaleDivisionValue });
@@ -200,13 +196,9 @@ class SliderController extends EventEmitter {
       const newValue = (model.getMax() - model.getMin())
         * (axis.axis === 'y' ? 1 - proportion : proportion) + model.getMin();
 
-      const isSecondValue = model.getValue().length === 2
-        && (Math.abs(newValue - model.getValue()[1])
-          < Math.abs(newValue - model.getValue()[0]));
+      const isSecondValue = this._isSecondValue(newValue);
 
-      const isEquals = model.getValue().length === 2
-        && (Math.abs(newValue - model.getValue()[1])
-          === Math.abs(newValue - model.getValue()[0]));
+      const isEquals = this._isEqualsValues(newValue);
 
       if (isSecondValue) {
         model.setValue({ val2: newValue });
@@ -222,6 +214,22 @@ class SliderController extends EventEmitter {
     };
 
     bodySlider.addEventListener('click', handleBodyThumbsClick);
+  }
+
+  private _isSecondValue(currentValue: number): boolean {
+    const { model } = this;
+
+    return model.getValue().length === 2
+      && (Math.abs(currentValue - model.getValue()[1])
+        < Math.abs(currentValue - model.getValue()[0]));
+  }
+
+  private _isEqualsValues(currentValue: number): boolean {
+    const { model } = this;
+
+    return model.getValue().length === 2
+      && (Math.abs(currentValue - model.getValue()[1])
+        === Math.abs(currentValue - model.getValue()[0]));
   }
 }
 
