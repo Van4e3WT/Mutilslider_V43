@@ -24,13 +24,21 @@ function validationConfig(config: Config): Config {
     scaleOfValues = 0,
   } = config;
 
+  const delta = maxValue - minValue;
+
   if (minValue > maxValue) {
     [minValue, maxValue] = swap(minValue, maxValue);
   } else if (minValue === maxValue) {
     throw new Error('minValue shouldn\'t be equal maxValue');
   }
 
-  step = step > 0 ? step : 1;
+  if (step > 0) {
+    if (step > delta) {
+      step = delta;
+    }
+  } else {
+    step = 1;
+  }
 
   if (isRange) {
     if (value1 > value2) {
@@ -45,7 +53,7 @@ function validationConfig(config: Config): Config {
 
   value1 = value1 > minValue ? value1 : minValue;
 
-  const maxScaleDivisions = Math.floor((maxValue - minValue) / step) + 1;
+  const maxScaleDivisions = Math.floor(delta / step) + 1;
   scaleOfValues = Math.abs(scaleOfValues) > maxScaleDivisions
     ? maxScaleDivisions : Math.abs(scaleOfValues);
 

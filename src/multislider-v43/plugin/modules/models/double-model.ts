@@ -99,6 +99,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       }
 
       val1 = val1 < min ? min : val1;
+      val1 = val1 > max ? max : val1;
+      val2 = val2 < min ? min : val2;
       val2 = val2 > max ? max : val2;
 
       thumbs[0].value = val1;

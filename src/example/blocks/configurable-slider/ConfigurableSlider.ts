@@ -1,3 +1,5 @@
+import Utils from 'Plugin/modules/utils/utils';
+
 type Config = {
   minValue: HTMLInputElement,
   maxValue: HTMLInputElement
@@ -164,6 +166,11 @@ class ConfigurableSlider {
     const { inputs } = this;
     const { target } = e;
 
+    if (+inputs.minValue.value > +inputs.maxValue.value) {
+      [inputs.minValue.value, inputs.maxValue.value] = Utils
+        .swap(inputs.minValue.value, inputs.maxValue.value);
+    }
+
     if (inputs.minValue.value === inputs.maxValue.value) {
       if (target === inputs.minValue) {
         inputs.minValue.value = String(+inputs.maxValue.value - +inputs.step.value);
@@ -173,9 +180,21 @@ class ConfigurableSlider {
       }
     }
 
-    inputs.step.value = +inputs.step.value <= 0 ? String(1) : inputs.step.value;
+    const delta = +inputs.maxValue.value - +inputs.minValue.value;
+
+    if (+inputs.step.value > 0) {
+      if (+inputs.step.value > delta) {
+        inputs.step.value = String(delta);
+      }
+    } else {
+      inputs.step.value = String(1);
+    }
 
     if (inputs.isRange.checked) {
+      if (+inputs.value1.value > +inputs.value2.value) {
+        [inputs.value1.value, inputs.value2.value] = Utils
+          .swap(inputs.value1.value, inputs.value2.value);
+      }
       if (+inputs.value2.value > +inputs.maxValue.value) {
         inputs.value2.value = inputs.maxValue.value;
       }
@@ -191,6 +210,16 @@ class ConfigurableSlider {
 
     if (+inputs.value1.value < +inputs.minValue.value) {
       inputs.value1.value = inputs.minValue.value;
+    }
+
+    const maxScaleDivisions = Math.floor(delta / +inputs.step.value) + 1;
+
+    if (+inputs.scaleOfValues.value >= 0) {
+      if (+inputs.scaleOfValues.value > maxScaleDivisions) {
+        inputs.scaleOfValues.value = String(maxScaleDivisions);
+      }
+    } else {
+      inputs.scaleOfValues.value = String(0);
     }
 
     this._updateSlider();
