@@ -93,9 +93,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
         const delta1 = val1 - min;
         const delta2 = val2 - min;
 
-        val1 = Math.floor((delta1 / step) + 0.5) / (1 / step) + min;
-        val2 = Math.floor((delta2 / step) + 0.5) / (1 / step) + min;
-        // pass by 0.300000000004 and other
+        val1 = Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+        val2 = Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
       }
 
       val1 = val1 < min ? min : val1;
