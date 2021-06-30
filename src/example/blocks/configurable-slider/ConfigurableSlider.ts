@@ -18,6 +18,8 @@ type Config = {
 class ConfigurableSlider {
   private panelControl: HTMLElement;
 
+  private popUpToggle: HTMLElement;
+
   private slider: HTMLElement;
 
   private selector: string;
@@ -84,7 +86,7 @@ class ConfigurableSlider {
     </label>
     <label class="${selector}__item ${selector}__toggle">
       <input type="checkbox" class="${selector}__input ${selector}__is-pop-up-hided js-${selector}__is-pop-up-hided" ${config.popUpIsHided ? 'checked' : ''}>
-      <div class="${selector}__item-toggle"></div>
+      <div class="${selector}__item-toggle js-${selector}__item-toggle"></div>
       <div class="${selector}__item-title">pop-up hided</div>
     </label>
     <label class="${selector}__item">
@@ -119,6 +121,9 @@ class ConfigurableSlider {
       isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`),
       postfix: panelControl.querySelector(`.js-${selector}__postfix`),
     };
+
+    this.popUpToggle = this.inputs.popUpIsHided.parentElement
+      .querySelector(`.js-${selector}__item-toggle`);
 
     panelControl.addEventListener('change', this._handlePanelChange);
 
@@ -163,7 +168,7 @@ class ConfigurableSlider {
   };
 
   private _handlePanelChange = (e: Event) => {
-    const { inputs } = this;
+    const { inputs, selector, popUpToggle } = this;
     const { target } = e;
 
     if (+inputs.minValue.value > +inputs.maxValue.value) {
@@ -191,6 +196,9 @@ class ConfigurableSlider {
     }
 
     if (inputs.isRange.checked) {
+      inputs.value2.disabled = false;
+      inputs.value2.classList.remove(`${selector}__input_disabled`);
+
       if (+inputs.value1.value > +inputs.value2.value) {
         [inputs.value1.value, inputs.value2.value] = Utils
           .swap(inputs.value1.value, inputs.value2.value);
@@ -204,8 +212,21 @@ class ConfigurableSlider {
       if (+inputs.value1.value > +inputs.value2.value) {
         inputs.value1.value = inputs.value2.value;
       }
-    } else if (+inputs.value1.value > +inputs.maxValue.value) {
-      inputs.value1.value = inputs.maxValue.value;
+    } else {
+      inputs.value2.disabled = true;
+      inputs.value2.classList.add(`${selector}__input_disabled`);
+
+      if (+inputs.value1.value > +inputs.maxValue.value) {
+        inputs.value1.value = inputs.maxValue.value;
+      }
+    }
+
+    if (inputs.popUpOfValue.checked) {
+      inputs.popUpIsHided.disabled = false;
+      popUpToggle.classList.remove(`${selector}__item-toggle_disabled`);
+    } else {
+      inputs.popUpIsHided.disabled = true;
+      popUpToggle.classList.add(`${selector}__item-toggle_disabled`);
     }
 
     if (+inputs.value1.value < +inputs.minValue.value) {
