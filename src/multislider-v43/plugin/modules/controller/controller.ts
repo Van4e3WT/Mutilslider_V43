@@ -213,7 +213,7 @@ class SliderController extends EventEmitter {
       }
     };
 
-    bodySlider.addEventListener('click', handleBodyThumbsClick);
+    bodySlider.addEventListener('pointerdown', handleBodyThumbsClick);
   }
 
   private _isSecondValue(currentValue: number): boolean {
