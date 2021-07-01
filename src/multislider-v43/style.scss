@@ -109,15 +109,13 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
       left: 50%;
       transform: translateX(-50%);
     }
+
+    &_active {
+      background-color: $blue;
+    }
   }
 
-  &__thumb:hover,
-  &__thumb:active {
-    background-color: $blue;
-  }
-
-  &__thumb:hover + &__popup,
-  &__thumb:active + &__popup {
+  &__thumb_active + &__popup {
     display: flex;
   }
 

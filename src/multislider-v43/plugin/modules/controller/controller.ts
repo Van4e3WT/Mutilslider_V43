@@ -90,13 +90,24 @@ class SliderController extends EventEmitter {
 
     for (let i = 0; i < view.thumbs.getLength(); i += 1) {
       let isFocused = false;
+      let isConverted: boolean;
+      let sign: number;
       let pos0: number;
       let value0: number;
 
       const handlePointerDown = (e: Event) => {
         pos0 = e[axis.eventAxis];
         value0 = model.getValue()[i];
+        isConverted = false;
         isFocused = true;
+        sign = 0;
+
+        if (i === 1 && (value0 === model.getValue()[0])) {
+          isConverted = true;
+          view.thumbs.getN(0).classList.add('multislider-v43__thumb_active');
+        } else {
+          view.thumbs.getN(i).classList.add('multislider-v43__thumb_active');
+        }
       };
 
       const handlePointerMove = (e: Event) => {
@@ -109,7 +120,23 @@ class SliderController extends EventEmitter {
           * (model.getMax() - model.getMin()))
           + value0;
 
-        if (i === 0) {
+        const delta = pos1 - pos0;
+
+        if (!sign) {
+          sign = delta;
+        }
+
+        const isNeedSwitchConvert = (delta * axis.dPos > 0) && (delta > 0 === sign > 0);
+
+        if (isConverted && isNeedSwitchConvert) {
+          isConverted = false;
+          view.thumbs.getN(0).classList.remove('multislider-v43__thumb_active');
+          view.thumbs.getN(i).classList.add('multislider-v43__thumb_active');
+        }
+
+        const isSecondConverted = i === 1 && isConverted;
+
+        if (i === 0 || isSecondConverted) {
           model.setValue({ val1: value });
         } else if (i === 1) {
           model.setValue({ val2: value });
@@ -117,6 +144,11 @@ class SliderController extends EventEmitter {
       };
 
       const handlePointerUp = () => {
+        if (isConverted) {
+          view.thumbs.getN(0).classList.remove('multislider-v43__thumb_active');
+        }
+
+        view.thumbs.getN(i).classList.remove('multislider-v43__thumb_active');
         isFocused = false;
       };
 
