@@ -47,9 +47,10 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     return thumbs.map((item) => item.value);
   }
 
-  public setValue(values: { val1: number }, isStepping: boolean = true) {
+  public setValue(props) {
     const { thumbs, step } = this;
-    let { val1 } = values;
+    const { isStepping = true } = props;
+    let { val1 } = props;
 
     const valueIsDefined = val1 !== undefined && val1 !== null;
 
@@ -68,7 +69,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     }
 
     this.emit('valueChanged', {
-      value1: values.val1,
+      value1: props.val1,
     });
   }
 }

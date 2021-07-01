@@ -61,7 +61,7 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     return thumbs.map((item) => item.value);
   }
 
-  public setValue(values: { val1?: number, val2?: number }, isStepping: boolean = true) {
+  public setValue(props) {
     const {
       thumbs,
       step,
@@ -69,7 +69,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       max,
     } = this;
 
-    let { val1, val2 } = values;
+    const { isStepping = true } = props;
+    let { val1, val2 } = props;
 
     const val1IsDefined = (val1 !== undefined && val1 !== null);
     const val2IsDefined = (val2 !== undefined && val2 !== null);

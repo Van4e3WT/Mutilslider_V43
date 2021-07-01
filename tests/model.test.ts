@@ -68,7 +68,7 @@ describe('***MODEL***', () => {
       test('should set not converted to step value', () => {
         const newValue = 33;
 
-        soloSliderModel.setValue({ val1: newValue }, false);
+        soloSliderModel.setValue({ val1: newValue, isStepping: false });
 
         expect(soloSliderModel.getValue()[0]).toBe(newValue);
       });
@@ -172,7 +172,7 @@ describe('***MODEL***', () => {
         const newValue1 = -26;
         const newValue2 = 62;
 
-        doubleSliderModel.setValue({ val1: newValue1, val2: newValue2 }, false);
+        doubleSliderModel.setValue({ val1: newValue1, val2: newValue2, isStepping: false });
 
         expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
         expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
