@@ -24,6 +24,8 @@ class SliderView extends EventEmitter {
 
   private isPopUp: boolean;
 
+  public selector: string;
+
   public isVertical: boolean;
 
   public outputs: AdaptiveInputView;
@@ -34,8 +36,20 @@ class SliderView extends EventEmitter {
 
   public parentThumbs: HTMLDivElement;
 
-  constructor(values: Array<number>, parent: HTMLDivElement, cfg: Config) {
+  constructor(props: {
+    values: Array<number>,
+    parent: HTMLDivElement,
+    cfg: Config,
+    selector: string,
+  }) {
     super();
+
+    const {
+      values,
+      parent,
+      cfg,
+      selector,
+    } = props;
 
     const {
       postfix,
@@ -51,6 +65,7 @@ class SliderView extends EventEmitter {
       scaleOfValues,
     } = cfg;
 
+    this.selector = selector;
     this.scale = new ScaleView();
     this.outputs = new AdaptiveInputView({
       postfix,
@@ -69,22 +84,22 @@ class SliderView extends EventEmitter {
     this._renderHeader(parent, description);
 
     const sliderBody = document.createElement('div');
-    sliderBody.classList.add('multislider-v43__body');
+    sliderBody.classList.add(`${selector}__body`);
 
     if (this.isVertical) {
-      sliderBody.classList.add('multislider-v43__body_vertical');
+      sliderBody.classList.add(`${selector}__body_vertical`);
     }
 
     parent.appendChild(sliderBody);
     this.parentThumbs = sliderBody;
 
     for (let i: number = 0; i < this.length; i += 1) {
-      this.thumbs.add(sliderBody, 'multislider-v43', this.isVertical);
+      this.thumbs.add(sliderBody, selector, this.isVertical);
 
       if (this.isPopUp) {
         this.outputs.createGroup({
           parent: sliderBody,
-          selector: 'multislider-v43__popup',
+          selector: `${selector}__popup`,
           isReadonly: true,
           isHided: popUpIsHided,
           isVertical: this.isVertical,
@@ -175,10 +190,10 @@ class SliderView extends EventEmitter {
   }
 
   private _initOrientation(parent: HTMLDivElement) {
-    const { isVertical } = this;
+    const { isVertical, selector } = this;
 
     if (isVertical) {
-      parent.classList.add('multislider-v43_vertical');
+      parent.classList.add(`${selector}_vertical`);
       this.axis = {
         sizeParent: 'height',
         styleSelector: 'bottom',
@@ -192,51 +207,56 @@ class SliderView extends EventEmitter {
   }
 
   private _renderHeader(parent: HTMLDivElement, title: string) {
-    const { isPopUp, outputs, length } = this;
+    const {
+      isPopUp,
+      outputs,
+      length,
+      selector,
+    } = this;
 
     const sliderHeader = document.createElement('div');
-    sliderHeader.classList.add('multislider-v43__header');
+    sliderHeader.classList.add(`${selector}__header`);
     parent.appendChild(sliderHeader);
 
     const sliderDescription = document.createElement('div');
-    sliderDescription.classList.add('multislider-v43__description');
+    sliderDescription.classList.add(`${selector}__description`);
     sliderDescription.textContent = title;
     sliderHeader.appendChild(sliderDescription);
 
     if (!isPopUp) {
       const sliderOutput = document.createElement('div');
-      sliderOutput.classList.add('multislider-v43__output');
+      sliderOutput.classList.add(`${selector}__output`);
       sliderHeader.appendChild(sliderOutput);
 
       outputs.createGroup({
         parent: sliderOutput,
-        selector: 'multislider-v43__value',
+        selector: `${selector}__value`,
       });
 
       if (length === 2) {
         const sliderSpacer = document.createElement('div');
-        sliderSpacer.classList.add('multislider-v43__spacer');
+        sliderSpacer.classList.add(`${selector}__spacer`);
         sliderSpacer.textContent = '\xa0–\xa0';
         sliderOutput.appendChild(sliderSpacer);
 
         outputs.createGroup({
           parent: sliderOutput,
-          selector: 'multislider-v43__value',
+          selector: `${selector}__value`,
         });
       }
     }
   }
 
   private _renderProgressBar(parent: HTMLDivElement, isProgressBar) {
-    const { isVertical } = this;
+    const { isVertical, selector } = this;
 
     if (!isProgressBar) return;
 
     this.sliderRange = document.createElement('div');
-    this.sliderRange.classList.add('multislider-v43__range');
+    this.sliderRange.classList.add(`${selector}__range`);
 
     if (isVertical) {
-      this.sliderRange.classList.add('multislider-v43__range_vertical');
+      this.sliderRange.classList.add(`${selector}__range_vertical`);
     }
 
     parent.appendChild(this.sliderRange);
@@ -246,17 +266,18 @@ class SliderView extends EventEmitter {
     const {
       isVertical,
       scale,
+      selector,
     } = this;
 
     if (scaleDivisions < 2) return;
 
     if (!isVertical) {
-      parent.classList.add('multislider-v43__body_indented');
+      parent.classList.add(`${selector}__body_indented`);
     }
 
     scale.init({
       count: scaleDivisions,
-      selector: 'multislider-v43__scale',
+      selector: `${selector}__scale`,
       isVertical,
     });
     const scaleDivisionArr = scale.getScale();

@@ -50,9 +50,17 @@ describe('***CONTROLLER***', () => {
       SliderView.prototype.update = jest.fn();
       updateMock = SliderView.prototype.update;
 
-      view = new SliderView(model.getValue(), parent, cfg);
+      view = new SliderView({
+        values: model.getValue(),
+        parent,
+        cfg,
+        selector: 'multislider-v43',
+      });
 
-      controller = new SliderController(model, view);
+      controller = new SliderController({
+        model,
+        view,
+      });
       controller.initListeners();
     });
 
@@ -143,9 +151,17 @@ describe('***CONTROLLER***', () => {
       SliderView.prototype.update = jest.fn();
       updateMock = SliderView.prototype.update;
 
-      view = new SliderView(model.getValue(), parent, cfg);
+      view = new SliderView({
+        values: model.getValue(),
+        parent,
+        cfg,
+        selector: 'multislider-v43',
+      });
 
-      controller = new SliderController(model, view);
+      controller = new SliderController({
+        model,
+        view,
+      });
       controller.initListeners();
     });
 

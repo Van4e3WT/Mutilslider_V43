@@ -10,6 +10,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
 
 (function f($) {
   $.fn.multislider = function multisliderInit(props: Config) {
+    const selector = 'multislider-v43';
     const config = Utils.validationConfig(props);
 
     if (this.length === 0) {
@@ -24,8 +25,8 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       }
     }
 
-    baseElement.classList.remove('multislider-v43_vertical');
-    baseElement.classList.add('multislider-v43');
+    baseElement.classList.remove(`${selector}_vertical`);
+    baseElement.classList.add(selector);
 
     let model: ISliderModel;
     const modelCfg: ModelConfig = {
@@ -42,9 +43,17 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       model = new SoloSliderModel(modelCfg);
     }
 
-    const view = new SliderView(model.getValue(), baseElement, config);
+    const view = new SliderView({
+      values: model.getValue(),
+      parent: baseElement,
+      cfg: config,
+      selector,
+    });
 
-    const controller = new SliderController(model, view);
+    const controller = new SliderController({
+      model,
+      view,
+    });
     controller.initListeners();
 
     $.fn.multislider.value = (values: { val1?: number, val2?: number }) => {

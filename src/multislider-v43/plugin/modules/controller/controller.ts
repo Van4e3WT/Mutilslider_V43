@@ -7,6 +7,8 @@ class SliderController extends EventEmitter {
 
   private view: SliderView;
 
+  private selector: string;
+
   private axis: {
     axis: 'x' | 'y',
     eventAxis: 'pageX' | 'pageY',
@@ -16,11 +18,17 @@ class SliderController extends EventEmitter {
     dPos: -1 | 1;
   };
 
-  constructor(model: ISliderModel, view: SliderView) {
+  constructor(props: {
+    model: ISliderModel,
+    view: SliderView,
+  }) {
     super();
+
+    const { model, view } = props;
 
     this.model = model;
     this.view = view;
+    this.selector = view.selector;
 
     this._initOrientation();
   }
@@ -86,7 +94,12 @@ class SliderController extends EventEmitter {
   };
 
   private _initThumb() {
-    const { view, model, axis } = this;
+    const {
+      view,
+      model,
+      axis,
+      selector,
+    } = this;
 
     for (let i = 0; i < view.thumbs.getLength(); i += 1) {
       let isFocused = false;
@@ -104,9 +117,9 @@ class SliderController extends EventEmitter {
 
         if (i === 1 && (value0 === model.getValue()[0])) {
           isConverted = true;
-          view.thumbs.getN(0).classList.add('multislider-v43__thumb_active');
+          view.thumbs.getN(0).classList.add(`${selector}__thumb_active`);
         } else {
-          view.thumbs.getN(i).classList.add('multislider-v43__thumb_active');
+          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
         }
       };
 
@@ -130,8 +143,8 @@ class SliderController extends EventEmitter {
 
         if (isConverted && isNeedSwitchConvert) {
           isConverted = false;
-          view.thumbs.getN(0).classList.remove('multislider-v43__thumb_active');
-          view.thumbs.getN(i).classList.add('multislider-v43__thumb_active');
+          view.thumbs.getN(0).classList.remove(`${selector}__thumb_active`);
+          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
         }
 
         const isSecondConverted = i === 1 && isConverted;
@@ -145,10 +158,10 @@ class SliderController extends EventEmitter {
 
       const handlePointerUp = () => {
         if (isConverted) {
-          view.thumbs.getN(0).classList.remove('multislider-v43__thumb_active');
+          view.thumbs.getN(0).classList.remove(`${selector}__thumb_active`);
         }
 
-        view.thumbs.getN(i).classList.remove('multislider-v43__thumb_active');
+        view.thumbs.getN(i).classList.remove(`${selector}__thumb_active`);
         isFocused = false;
       };
 
@@ -182,13 +195,13 @@ class SliderController extends EventEmitter {
   }
 
   private _initScale() {
-    const { view, model } = this;
+    const { view, model, selector } = this;
     const scale = view.scale.getScale();
 
     const handleScaleClick = (e: Event) => {
       const target = e.target as HTMLDivElement;
 
-      if (!target.matches('.multislider-v43__scale-division')) return;
+      if (!target.matches(`.${selector}__scale-division`)) return;
 
       const scaleDivisionValue = +(target.textContent).replace(',', '.');
 
@@ -213,13 +226,18 @@ class SliderController extends EventEmitter {
   }
 
   private _initBody() {
-    const { model, view, axis } = this;
+    const {
+      model,
+      view,
+      axis,
+      selector,
+    } = this;
     const bodySlider = view.parentThumbs;
 
     const handleBodyThumbsClick = (e: PointerEvent) => {
       const target = e.target as HTMLDivElement;
 
-      if (!target.classList.contains('multislider-v43__body')) return;
+      if (!target.classList.contains(`${selector}__body`)) return;
 
       const delta = target.getBoundingClientRect()[axis.end]
         - target.getBoundingClientRect()[axis.start];
