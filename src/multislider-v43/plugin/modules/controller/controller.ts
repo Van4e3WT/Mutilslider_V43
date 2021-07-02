@@ -1,3 +1,4 @@
+/* global document */
 import SliderView from '../view/view';
 import EventEmitter from '../utils/event-emitter';
 import ISliderModel from '../models/interfaces/interfaces';
@@ -102,30 +103,12 @@ class SliderController extends EventEmitter {
     } = this;
 
     for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-      let isFocused = false;
       let isConverted: boolean;
       let sign: number;
       let pos0: number;
       let value0: number;
 
-      const handlePointerDown = (e: Event) => {
-        pos0 = e[axis.eventAxis];
-        value0 = model.getValue()[i];
-        isConverted = false;
-        isFocused = true;
-        sign = 0;
-
-        if (i === 1 && (value0 === model.getValue()[0])) {
-          isConverted = true;
-          view.thumbs.getN(0).classList.add(`${selector}__thumb_active`);
-        } else {
-          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
-        }
-      };
-
       const handlePointerMove = (e: Event) => {
-        if (!isFocused) return;
-
         const pos1 = e[axis.eventAxis];
         const value = ((((pos1 - pos0) * axis.dPos)
           / (view.parentThumbs.getBoundingClientRect()[axis.sizeParent]
@@ -162,13 +145,29 @@ class SliderController extends EventEmitter {
         }
 
         view.thumbs.getN(i).classList.remove(`${selector}__thumb_active`);
-        isFocused = false;
+
+        document.removeEventListener('pointermove', handlePointerMove);
+        document.removeEventListener('pointerup', handlePointerUp);
+      };
+
+      const handlePointerDown = (e: Event) => {
+        pos0 = e[axis.eventAxis];
+        value0 = model.getValue()[i];
+        isConverted = false;
+        sign = 0;
+
+        if (i === 1 && (value0 === model.getValue()[0])) {
+          isConverted = true;
+          view.thumbs.getN(0).classList.add(`${selector}__thumb_active`);
+        } else {
+          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
+        }
+
+        document.addEventListener('pointermove', handlePointerMove);
+        document.addEventListener('pointerup', handlePointerUp);
       };
 
       view.thumbs.getN(i).addEventListener('pointerdown', handlePointerDown);
-
-      document.addEventListener('pointermove', handlePointerMove);
-      document.addEventListener('pointerup', handlePointerUp);
     }
   }
 
