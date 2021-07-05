@@ -62,7 +62,7 @@ describe('***VIEW***', () => {
       const isContain = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
 
-        return elem.classList.contains('multislider-v43_vertical');
+        return elem?.classList.contains('multislider-v43_vertical');
       }, selector);
 
       expect(isContain).toBeTruthy();
@@ -90,9 +90,9 @@ describe('***VIEW***', () => {
 
       const isHoverWork = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
-        const tooltip = elem.querySelector(`.${sel}__popup`);
+        const tooltip = elem?.querySelector(`.${sel}__popup`);
 
-        return getComputedStyle(tooltip).display !== 'none';
+        return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
       }, selector);
 
       expect(isHoverWork).toBeTruthy();
@@ -109,8 +109,8 @@ describe('***VIEW***', () => {
       const slidersRange = await page.evaluate((sel: string) => {
         const elem1 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
         const elem2 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
-        const enabled = elem1.querySelector(`.${sel}__range`);
-        const disabled = elem2.querySelector(`.${sel}__range`);
+        const enabled = elem1?.querySelector(`.${sel}__range`);
+        const disabled = elem2?.querySelector(`.${sel}__range`);
 
         return { enabled, disabled };
       }, selector);
@@ -125,7 +125,7 @@ describe('***VIEW***', () => {
       const isContain = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
 
-        return elem.classList.contains('multislider-v43_vertical');
+        return elem?.classList.contains('multislider-v43_vertical');
       }, selector);
 
       expect(isContain).toBeTruthy();
@@ -153,14 +153,13 @@ describe('***VIEW***', () => {
 
       const isHoverWork = await page.evaluate((sel: string) => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
-        const tooltip = elem.querySelector(`.${sel}__popup`);
+        const tooltip = elem?.querySelector(`.${sel}__popup`);
 
-        return getComputedStyle(tooltip).display !== 'none';
+        return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
       }, selector);
 
       expect(isHoverWork).toBeTruthy();
     });
-
     test('should be render scale if it\'s enabled', async () => {
       const sliderParent = await page.$(`.js-${selector}_double.js-${selector}_slider-1`);
       const scaleDivisions = await sliderParent.$$(`.${selector}__scale-division`);
@@ -172,8 +171,8 @@ describe('***VIEW***', () => {
       const slidersRange = await page.evaluate((sel: string) => {
         const elem1 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
         const elem2 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-2`);
-        const enabled = elem1.querySelector(`.${sel}__range`);
-        const disabled = elem2.querySelector(`.${sel}__range`);
+        const enabled = elem1?.querySelector(`.${sel}__range`);
+        const disabled = elem2?.querySelector(`.${sel}__range`);
 
         return { enabled, disabled };
       }, selector);
