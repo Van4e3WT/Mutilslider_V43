@@ -1,3 +1,5 @@
+import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
+
 class AdaptiveInputView {
   private postfix: string;
 
@@ -101,7 +103,7 @@ class AdaptiveInputView {
     groupValues[n].input.style.width = `${groupValues[n].hided.offsetWidth + 2}px`;
   }
 
-  public stylizeN(props: { n: number, prop: 'bottom' | 'left', value: number }) {
+  public stylizeN(props: { n: number, prop: MoveStyleAxis, value: number }) {
     const { groupValues } = this;
     const { n, prop, value } = props;
 

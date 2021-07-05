@@ -1,3 +1,5 @@
+import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
+
 class ThumbsView {
   private thumbs: Array<HTMLDivElement>;
 
@@ -35,14 +37,14 @@ class ThumbsView {
     return thumbs.length;
   }
 
-  public setStyleN(props: { n: number, prop: 'bottom' | 'left', value: number }) {
+  public setStyleN(props: { n: number, prop: MoveStyleAxis, value: number }) {
     const { thumbs } = this;
     const { n, prop, value } = props;
 
     thumbs[n].style[prop] = `${value}px`;
   }
 
-  public getStyleN(props: { n: number, prop: 'bottom' | 'left' }) {
+  public getStyleN(props: { n: number, prop: MoveStyleAxis }) {
     const { thumbs } = this;
     const { n, prop } = props;
 

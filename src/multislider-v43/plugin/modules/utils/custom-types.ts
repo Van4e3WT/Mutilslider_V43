@@ -32,8 +32,17 @@ type ModelConfig = {
   value2?: number,
 };
 
+type MoveStyleAxis = 'bottom' | 'left';
+
+type ViewAxis = {
+  sizeParent: 'height' | 'width',
+  styleSelector: MoveStyleAxis,
+};
+
 export {
   ThumbModel,
   Config,
   ModelConfig,
+  MoveStyleAxis,
+  ViewAxis,
 };
