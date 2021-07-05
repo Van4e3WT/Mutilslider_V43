@@ -2,7 +2,7 @@ import Utils from 'Plugin/modules/utils/utils';
 
 type Config = {
   minValue: HTMLInputElement,
-  maxValue: HTMLInputElement
+  maxValue: HTMLInputElement,
   step: HTMLInputElement,
   value1: HTMLInputElement,
   value2: HTMLInputElement,
@@ -16,19 +16,24 @@ type Config = {
 };
 
 class ConfigurableSlider {
-  private panelControl: HTMLElement;
+  private panelControl: Element;
 
-  private popUpToggle: HTMLElement;
+  private popUpToggle: Element | null | undefined;
 
-  private slider: HTMLElement;
+  private slider: Element;
 
   private selector: string;
 
-  private inputs: Config;
+  private inputs: Config | undefined;
 
   private config: Config;
 
-  constructor(props) {
+  constructor(props: {
+    panel: Element,
+    slider: Element,
+    selector: string,
+    config: Config,
+  }) {
     const {
       panel,
       slider,
@@ -108,22 +113,22 @@ class ConfigurableSlider {
     const { panelControl, selector } = this;
 
     this.inputs = {
-      minValue: panelControl.querySelector(`.js-${selector}__min-val`),
-      maxValue: panelControl.querySelector(`.js-${selector}__max-val`),
-      step: panelControl.querySelector(`.js-${selector}__step`),
-      value1: panelControl.querySelector(`.js-${selector}__val-1`),
-      value2: panelControl.querySelector(`.js-${selector}__val-2`),
-      isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`),
-      isRange: panelControl.querySelector(`.js-${selector}__is-range`),
-      popUpOfValue: panelControl.querySelector(`.js-${selector}__is-pop-up`),
-      popUpIsHided: panelControl.querySelector(`.js-${selector}__is-pop-up-hided`),
-      scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`),
-      isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`),
-      postfix: panelControl.querySelector(`.js-${selector}__postfix`),
+      minValue: panelControl.querySelector(`.js-${selector}__min-val`) as HTMLInputElement,
+      maxValue: panelControl.querySelector(`.js-${selector}__max-val`) as HTMLInputElement,
+      step: panelControl.querySelector(`.js-${selector}__step`) as HTMLInputElement,
+      value1: panelControl.querySelector(`.js-${selector}__val-1`) as HTMLInputElement,
+      value2: panelControl.querySelector(`.js-${selector}__val-2`) as HTMLInputElement,
+      isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) as HTMLInputElement,
+      isRange: panelControl.querySelector(`.js-${selector}__is-range`) as HTMLInputElement,
+      popUpOfValue: panelControl.querySelector(`.js-${selector}__is-pop-up`) as HTMLInputElement,
+      popUpIsHided: panelControl.querySelector(`.js-${selector}__is-pop-up-hided`) as HTMLInputElement,
+      scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`) as HTMLInputElement,
+      isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) as HTMLInputElement,
+      postfix: panelControl.querySelector(`.js-${selector}__postfix`) as HTMLInputElement,
     };
 
     this.popUpToggle = this.inputs.popUpIsHided.parentElement
-      .querySelector(`.js-${selector}__item-toggle`);
+      ?.querySelector(`.js-${selector}__item-toggle`);
 
     panelControl.addEventListener('change', this._handlePanelChange);
 
@@ -133,6 +138,8 @@ class ConfigurableSlider {
   private _updateSlider = () => {
     const { slider, inputs } = this;
     const $slider = $(slider);
+
+    if (!inputs) return;
 
     $slider.multislider({
       minValue: Number(inputs.minValue.value),
@@ -170,6 +177,8 @@ class ConfigurableSlider {
   private _handlePanelChange = (e: Event) => {
     const { inputs, selector, popUpToggle } = this;
     const { target } = e;
+
+    if (!inputs) return;
 
     if (Number(inputs.minValue.value) > Number(inputs.maxValue.value)) {
       [inputs.minValue.value, inputs.maxValue.value] = Utils
@@ -221,12 +230,14 @@ class ConfigurableSlider {
       }
     }
 
-    if (inputs.popUpOfValue.checked) {
-      inputs.popUpIsHided.disabled = false;
-      popUpToggle.classList.remove(`${selector}__item-toggle_disabled`);
-    } else {
-      inputs.popUpIsHided.disabled = true;
-      popUpToggle.classList.add(`${selector}__item-toggle_disabled`);
+    if (popUpToggle) {
+      if (inputs.popUpOfValue.checked) {
+        inputs.popUpIsHided.disabled = false;
+        popUpToggle.classList.remove(`${selector}__item-toggle_disabled`);
+      } else {
+        inputs.popUpIsHided.disabled = true;
+        popUpToggle.classList.add(`${selector}__item-toggle_disabled`);
+      }
     }
 
     if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
