@@ -14,7 +14,7 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
       step,
       min,
       max,
-      value1,
+      value1 = min,
     } = cfg;
 
     this.thumbs = [];
@@ -47,14 +47,16 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
     return thumbs.map((item) => item.value);
   }
 
-  public setValue(props) {
+  public setValue(props: { val1?: number, val2?: number, isStepping?: boolean }) {
     const { thumbs, step } = this;
     const { isStepping = true } = props;
     let { val1 } = props;
 
-    const valueIsDefined = val1 !== undefined && val1 !== null;
+    const valueIsDefined = (val1 !== undefined && val1 !== null);
 
     if (valueIsDefined) {
+      val1 = val1 ?? thumbs[0].value;
+
       if (isStepping) {
         const delta = val1 - thumbs[0].min;
 

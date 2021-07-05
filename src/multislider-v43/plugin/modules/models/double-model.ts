@@ -18,8 +18,8 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
       min,
       max,
       step,
-      value1,
-      value2,
+      value1 = min,
+      value2 = max,
     } = cfg;
 
     this.min = min;
@@ -61,14 +61,13 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
     return thumbs.map((item) => item.value);
   }
 
-  public setValue(props) {
+  public setValue(props: { val1?: number, val2?: number, isStepping?: boolean }) {
     const {
       thumbs,
       step,
       min,
       max,
     } = this;
-
     const { isStepping = true } = props;
     let { val1, val2 } = props;
 
