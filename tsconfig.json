@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "outDir": "./dist/",
     "module": "es6",
     "moduleResolution": "node",

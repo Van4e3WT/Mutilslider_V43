@@ -17,7 +17,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       throw new Error('Not found element for initialization');
     }
 
-    const baseElement: HTMLDivElement = this[0];
+    const baseElement: HTMLElement = this[0];
 
     if (baseElement.childElementCount) {
       while (baseElement.firstChild) {
@@ -64,7 +64,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       return model.getValue();
     };
 
-    $.fn.multislider.onChange = (callback: Function, ...args) => {
+    $.fn.multislider.onChange = (callback: Function, ...args: Array<any>) => {
       model.on('valueChanged', callback.bind(this, ...args));
     };
   };
