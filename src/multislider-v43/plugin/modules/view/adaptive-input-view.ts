@@ -9,7 +9,7 @@ class AdaptiveInputView {
 
   private localeProps: object;
 
-  constructor(props) {
+  constructor(props: { postfix: string | undefined, localeProps: object | undefined, }) {
     const { postfix = '', localeProps = {} } = props;
 
     this.localeProps = localeProps;
@@ -97,12 +97,13 @@ class AdaptiveInputView {
     const { groupValues, localeProps } = this;
 
     groupValues[n].hided.textContent = value.toLocaleString('ru', localeProps);
-    groupValues[n].input.value = groupValues[n].hided.textContent;
+    groupValues[n].input.value = groupValues[n].hided.textContent ?? '';
     groupValues[n].input.style.width = `${groupValues[n].hided.offsetWidth + 2}px`;
   }
 
-  public stylizeN(n: number, prop: string, value: number) {
+  public stylizeN(props: { n: number, prop: 'bottom' | 'left', value: number }) {
     const { groupValues } = this;
+    const { n, prop, value } = props;
 
     groupValues[n].parent.style[prop] = `${value}px`;
   }

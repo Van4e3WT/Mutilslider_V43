@@ -1,3 +1,5 @@
+import { ViewAxis } from 'Plugin/modules/utils/custom-types';
+
 class ScaleView {
   private scale: HTMLDivElement;
 
@@ -5,18 +7,18 @@ class ScaleView {
 
   constructor() {
     this.scaleDivisions = [];
+    this.scale = document.createElement('div');
   }
 
-  public init(props) {
-    const { scaleDivisions } = this;
+  public init(props: { count: number, selector: string, isVertical: boolean }) {
+    const { scaleDivisions, scale } = this;
     const {
       count,
       selector,
       isVertical,
     } = props;
 
-    this.scale = document.createElement('div');
-    this.scale.classList.add(`${selector}`);
+    scale.classList.add(`${selector}`);
 
     for (let i = 0; i < count; i += 1) {
       const scaleDivision = document.createElement('div');
@@ -26,7 +28,7 @@ class ScaleView {
         scaleDivision.classList.add(`${selector}-division_vertical`);
       }
       scaleDivisions.push(scaleDivision);
-      this.scale.appendChild(scaleDivision);
+      scale.appendChild(scaleDivision);
     }
   }
 
@@ -42,7 +44,14 @@ class ScaleView {
     return scaleDivisions;
   }
 
-  public update(props) {
+  public update(props: {
+    parentThumbs: HTMLDivElement,
+    axis: ViewAxis,
+    thumbSize: number,
+    min: number,
+    max: number,
+    step: number,
+  }) {
     const { scaleDivisions } = this;
     const {
       parentThumbs,

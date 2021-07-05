@@ -2,17 +2,14 @@ import ScaleView from './scale-view';
 import ThumbsView from './thumbs-view';
 import AdaptiveInputView from './adaptive-input-view';
 import EventEmitter from '../utils/event-emitter';
-import { Config } from '../utils/custom-types';
+import { Config, ViewAxis } from '../utils/custom-types';
 
 class SliderView extends EventEmitter {
   private thumbSize: number;
 
-  private sliderRange: HTMLDivElement;
+  private sliderRange: HTMLDivElement | undefined;
 
-  private axis: {
-    sizeParent: 'height' | 'width',
-    styleSelector: 'bottom' | 'left',
-  };
+  private axis: ViewAxis;
 
   private min: number;
 
@@ -38,7 +35,7 @@ class SliderView extends EventEmitter {
 
   constructor(props: {
     values: Array<number>,
-    parent: HTMLDivElement,
+    parent: HTMLElement,
     cfg: Config,
     selector: string,
   }) {
@@ -76,10 +73,22 @@ class SliderView extends EventEmitter {
     this.max = maxValue;
     this.step = step;
     this.length = values.length;
-    this.isPopUp = popUpOfValue;
+    this.isPopUp = popUpOfValue ?? false;
 
-    this.isVertical = isVertical;
-    this._initOrientation(parent);
+    this.isVertical = isVertical ?? false;
+
+    if (this.isVertical) {
+      parent.classList.add(`${selector}_vertical`);
+      this.axis = {
+        sizeParent: 'height',
+        styleSelector: 'bottom',
+      };
+    } else {
+      this.axis = {
+        sizeParent: 'width',
+        styleSelector: 'left',
+      };
+    }
 
     this._renderHeader(parent, description);
 
@@ -167,46 +176,33 @@ class SliderView extends EventEmitter {
           / (max - min))
         - parseInt(getComputedStyle(parentThumbs).borderWidth, 10);
 
-      thumbs.setStyleN(i, axis.styleSelector, position);
+      thumbs.setStyleN({ n: i, prop: axis.styleSelector, value: position });
       outputs.updateN(i, thumbsValues[i]);
 
       if (isPopUp) {
-        outputs.stylizeN(i, axis.styleSelector, (position + this.getThumbSize() / 2));
+        outputs.stylizeN({
+          n: i,
+          prop: axis.styleSelector,
+          value: (position + this.getThumbSize() / 2),
+        });
       }
     }
 
     if (sliderRange) {
       if (thumbs.getLength() === 1) {
-        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)
+        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
           + (thumbSize / 2)}px`;
       }
       if (thumbs.getLength() === 2) {
-        sliderRange.style[axis.styleSelector] = `${parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)
+        sliderRange.style[axis.styleSelector] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
           + (thumbSize / 2)}px`;
-        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN(1, axis.styleSelector), 10)
-          - parseInt(thumbs.getStyleN(0, axis.styleSelector), 10)}px`;
+        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 1, prop: axis.styleSelector }), 10)
+          - parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)}px`;
       }
     }
   }
 
-  private _initOrientation(parent: HTMLDivElement) {
-    const { isVertical, selector } = this;
-
-    if (isVertical) {
-      parent.classList.add(`${selector}_vertical`);
-      this.axis = {
-        sizeParent: 'height',
-        styleSelector: 'bottom',
-      };
-    } else {
-      this.axis = {
-        sizeParent: 'width',
-        styleSelector: 'left',
-      };
-    }
-  }
-
-  private _renderHeader(parent: HTMLDivElement, title: string) {
+  private _renderHeader(parent: HTMLElement, title: string = '') {
     const {
       isPopUp,
       outputs,
@@ -247,7 +243,7 @@ class SliderView extends EventEmitter {
     }
   }
 
-  private _renderProgressBar(parent: HTMLDivElement, isProgressBar) {
+  private _renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false) {
     const { isVertical, selector } = this;
 
     if (!isProgressBar) return;
@@ -262,7 +258,7 @@ class SliderView extends EventEmitter {
     parent.appendChild(this.sliderRange);
   }
 
-  private _renderScale(parent: HTMLDivElement, scaleDivisions: number) {
+  private _renderScale(parent: HTMLElement, scaleDivisions: number = 0) {
     const {
       isVertical,
       scale,
