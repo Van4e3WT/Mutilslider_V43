@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = {
+module.exports = (env, options) => ({
   entry: {
     libs: './src/libs/index.ts',
     'multislider-v43': './src/multislider-v43/index.ts',
@@ -14,6 +14,7 @@ module.exports = {
     filename: '[name]/[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
+  devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
   module: {
     rules: [
       {
@@ -76,4 +77,4 @@ module.exports = {
       ],
     }),
   ],
-};
+});
