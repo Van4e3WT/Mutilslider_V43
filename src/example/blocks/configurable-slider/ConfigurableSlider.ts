@@ -135,18 +135,18 @@ class ConfigurableSlider {
     const $slider = $(slider);
 
     $slider.multislider({
-      minValue: +inputs.minValue.value,
-      maxValue: +inputs.maxValue.value,
-      step: +inputs.step.value,
-      value1: +inputs.value1.value,
-      value2: +inputs.value2.value,
+      minValue: Number(inputs.minValue.value),
+      maxValue: Number(inputs.maxValue.value),
+      step: Number(inputs.step.value),
+      value1: Number(inputs.value1.value),
+      value2: Number(inputs.value2.value),
 
       isVertical: inputs.isVertical.checked,
       isRange: inputs.isRange.checked,
 
       popUpOfValue: inputs.popUpOfValue.checked,
       popUpIsHided: inputs.popUpIsHided.checked,
-      scaleOfValues: +inputs.scaleOfValues.value,
+      scaleOfValues: Number(inputs.scaleOfValues.value),
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
     });
@@ -171,24 +171,24 @@ class ConfigurableSlider {
     const { inputs, selector, popUpToggle } = this;
     const { target } = e;
 
-    if (+inputs.minValue.value > +inputs.maxValue.value) {
+    if (Number(inputs.minValue.value) > Number(inputs.maxValue.value)) {
       [inputs.minValue.value, inputs.maxValue.value] = Utils
         .swap(inputs.minValue.value, inputs.maxValue.value);
     }
 
     if (inputs.minValue.value === inputs.maxValue.value) {
       if (target === inputs.minValue) {
-        inputs.minValue.value = String(+inputs.maxValue.value - +inputs.step.value);
+        inputs.minValue.value = String(Number(inputs.maxValue.value) - Number(inputs.step.value));
       }
       if (target === inputs.maxValue) {
-        inputs.maxValue.value = String(+inputs.minValue.value + +inputs.step.value);
+        inputs.maxValue.value = String(Number(inputs.minValue.value) + Number(inputs.step.value));
       }
     }
 
-    const delta = +inputs.maxValue.value - +inputs.minValue.value;
+    const delta = Number(inputs.maxValue.value) - Number(inputs.minValue.value);
 
-    if (+inputs.step.value > 0) {
-      if (+inputs.step.value > delta) {
+    if (Number(inputs.step.value) > 0) {
+      if (Number(inputs.step.value) > delta) {
         inputs.step.value = String(delta);
       }
     } else {
@@ -199,24 +199,24 @@ class ConfigurableSlider {
       inputs.value2.disabled = false;
       inputs.value2.classList.remove(`${selector}__input_disabled`);
 
-      if (+inputs.value1.value > +inputs.value2.value) {
+      if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
         [inputs.value1.value, inputs.value2.value] = Utils
           .swap(inputs.value1.value, inputs.value2.value);
       }
-      if (+inputs.value2.value > +inputs.maxValue.value) {
+      if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
         inputs.value2.value = inputs.maxValue.value;
       }
-      if (+inputs.value2.value < +inputs.minValue.value) {
+      if (Number(inputs.value2.value) < Number(inputs.minValue.value)) {
         inputs.value2.value = inputs.minValue.value;
       }
-      if (+inputs.value1.value > +inputs.value2.value) {
+      if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
         inputs.value1.value = inputs.value2.value;
       }
     } else {
       inputs.value2.disabled = true;
       inputs.value2.classList.add(`${selector}__input_disabled`);
 
-      if (+inputs.value1.value > +inputs.maxValue.value) {
+      if (Number(inputs.value1.value) > Number(inputs.maxValue.value)) {
         inputs.value1.value = inputs.maxValue.value;
       }
     }
@@ -229,15 +229,15 @@ class ConfigurableSlider {
       popUpToggle.classList.add(`${selector}__item-toggle_disabled`);
     }
 
-    if (+inputs.value1.value < +inputs.minValue.value) {
+    if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
       inputs.value1.value = inputs.minValue.value;
     }
 
-    const steppedScaleValues = Math.floor(delta / +inputs.step.value) + 1;
+    const steppedScaleValues = Math.floor(delta / Number(inputs.step.value)) + 1;
     const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
 
-    if (+inputs.scaleOfValues.value >= 0) {
-      if (+inputs.scaleOfValues.value > maxScaleDivisions) {
+    if (Number(inputs.scaleOfValues.value) >= 0) {
+      if (Number(inputs.scaleOfValues.value) > maxScaleDivisions) {
         inputs.scaleOfValues.value = String(maxScaleDivisions);
       }
     } else {

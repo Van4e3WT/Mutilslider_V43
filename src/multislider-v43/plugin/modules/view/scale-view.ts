@@ -86,7 +86,7 @@ class ScaleView {
 
       scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
-      scaleDivisions[i].textContent = `${+((delta * proportion) + min).toFixed(10)}`.replace('.', ',');
+      scaleDivisions[i].textContent = `${Number(((delta * proportion) + min).toFixed(10))}`.replace('.', ',');
       // method pass by 0.300000000000004 when first doesn't work
     }
   }

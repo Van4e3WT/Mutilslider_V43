@@ -173,9 +173,9 @@ class SliderController extends EventEmitter {
 
       if (Number.isInteger(Number(newVal))) {
         if (n === 0) {
-          model.setValue({ val1: +newVal });
+          model.setValue({ val1: Number(newVal) });
         } else {
-          model.setValue({ val2: +newVal });
+          model.setValue({ val2: Number(newVal) });
         }
       } else {
         view.outputs.updateN(n, model.getValue()[n]);
@@ -196,7 +196,7 @@ class SliderController extends EventEmitter {
 
       if (!target.matches(`.${selector}__scale-division`)) return;
 
-      const scaleDivisionValue = +(target.textContent ?? '').replace(',', '.');
+      const scaleDivisionValue = Number((target.textContent ?? '').replace(',', '.'));
 
       const isSecondValue = this._isSecondValue(scaleDivisionValue);
 
