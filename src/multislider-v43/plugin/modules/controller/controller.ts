@@ -31,25 +31,6 @@ class SliderController extends EventEmitter {
     this.view = view;
     this.selector = view.selector;
 
-    this._initOrientation();
-  }
-
-  public initListeners() {
-    const { view } = this;
-
-    this._initUpdate();
-    this._initThumb();
-    this._initOutput();
-    this._initBody();
-
-    if (view.scale.getScales().length) {
-      this._initScale();
-    }
-  }
-
-  private _initOrientation() {
-    const { view } = this;
-
     if (view.isVertical) {
       this.axis = {
         axis: 'y',
@@ -68,6 +49,19 @@ class SliderController extends EventEmitter {
         end: 'right',
         dPos: 1,
       };
+    }
+  }
+
+  public initListeners() {
+    const { view } = this;
+
+    this._initUpdate();
+    this._initThumb();
+    this._initOutput();
+    this._initBody();
+
+    if (view.scale.getScales().length) {
+      this._initScale();
     }
   }
 
@@ -108,7 +102,7 @@ class SliderController extends EventEmitter {
       let pos0: number;
       let value0: number;
 
-      const handlePointerMove = (e: Event) => {
+      const handlePointerMove = (e: PointerEvent) => {
         const pos1 = e[axis.eventAxis];
         const value = ((((pos1 - pos0) * axis.dPos)
           / (view.parentThumbs.getBoundingClientRect()[axis.sizeParent]
@@ -150,7 +144,7 @@ class SliderController extends EventEmitter {
         document.removeEventListener('pointerup', handlePointerUp);
       };
 
-      const handlePointerDown = (e: Event) => {
+      const handlePointerDown = (e: PointerEvent) => {
         pos0 = e[axis.eventAxis];
         value0 = model.getValue()[i];
         isConverted = false;
@@ -202,7 +196,7 @@ class SliderController extends EventEmitter {
 
       if (!target.matches(`.${selector}__scale-division`)) return;
 
-      const scaleDivisionValue = +(target.textContent).replace(',', '.');
+      const scaleDivisionValue = +(target.textContent ?? '').replace(',', '.');
 
       const isSecondValue = this._isSecondValue(scaleDivisionValue);
 
