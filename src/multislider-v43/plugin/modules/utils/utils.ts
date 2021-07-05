@@ -53,7 +53,8 @@ function validationConfig(config: Config): Config {
 
   value1 = value1 > minValue ? value1 : minValue;
 
-  const maxScaleDivisions = Math.floor(delta / step) + 1;
+  const steppedScaleValues = Math.floor(delta / step) + 1;
+  const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
   scaleOfValues = Math.abs(scaleOfValues) > maxScaleDivisions
     ? maxScaleDivisions : Math.abs(scaleOfValues);
 

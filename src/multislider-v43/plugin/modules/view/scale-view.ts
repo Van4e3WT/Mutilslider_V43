@@ -50,11 +50,12 @@ class ScaleView {
       thumbSize,
       min,
       max,
-      step,
     } = props;
+    let { step } = props;
     const n = scaleDivisions.length;
     const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
+    const delta = max - min;
 
     for (let i = 0; i < n; i += 1) {
       let addition: number;
@@ -67,10 +68,10 @@ class ScaleView {
         if (i === n - 1) {
           addition *= 2;
           roundCoef = 0;
+          step = delta;
         }
       }
 
-      const delta = max - min;
       const proportion = Math.floor(((i / (n - 1)) * delta) / step + roundCoef) / (1 / step)
         / delta;
 
