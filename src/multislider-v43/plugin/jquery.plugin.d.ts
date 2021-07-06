@@ -1,3 +1,3 @@
 interface JQuery {
-  multislider: any;
+  multislider: Function & { value?: Function, onChange?: Function };
 }

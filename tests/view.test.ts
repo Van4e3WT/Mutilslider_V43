@@ -1,10 +1,13 @@
+import { Browser } from 'puppeteer/lib/cjs/puppeteer/common/Browser';
+import { Page } from 'puppeteer/lib/cjs/puppeteer/common/Page';
+
 const puppeteer = require('puppeteer');
 
 describe('***VIEW***', () => {
   const URL = 'http://127.0.0.1:5500/dist/index.html';
 
-  let browser: any;
-  let page: any;
+  let browser: Browser;
+  let page: Page;
 
   const selector: string = 'multislider-v43';
 
@@ -35,7 +38,7 @@ describe('***VIEW***', () => {
   });
 
   test('should build foundation DOM struct', async () => {
-    const sliders = await page.evaluate((sel: string) => {
+    const sliders = await page.evaluate((sel) => {
       const arr: Array<object> = [];
       const elems = document.querySelectorAll(`.js-${sel}_solo`);
 
@@ -46,7 +49,7 @@ describe('***VIEW***', () => {
       }
 
       return arr;
-    }, selector);
+    }, selector) as Array<{ elemHeader: Element, elemBody: Element }>;
 
     sliders.forEach((slider: { elemHeader: Element, elemBody: Element }) => {
       expect(slider.elemHeader).not.toBeUndefined();
@@ -59,7 +62,7 @@ describe('***VIEW***', () => {
 
   describe('Solo Slider', () => {
     test('should be add vertical class to slider if he is selected', async () => {
-      const isContain = await page.evaluate((sel: string) => {
+      const isContain = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
 
         return elem?.classList.contains('multislider-v43_vertical');
@@ -69,7 +72,7 @@ describe('***VIEW***', () => {
     });
 
     test('should be contain just one thumb slider', async () => {
-      const sliders = await page.evaluate((sel: Element) => {
+      const sliders = await page.evaluate((sel) => {
         const arr: Array<Array<Element>> = [];
         const elems = Array.from(document.querySelectorAll(`.js-${sel}_solo`));
 
@@ -88,7 +91,7 @@ describe('***VIEW***', () => {
     test('should be render tooltip if activated "pop-up"', async () => {
       await page.hover(`.js-${selector}_solo.js-${selector}_slider-4 .${selector}__thumb`);
 
-      const isHoverWork = await page.evaluate((sel: string) => {
+      const isHoverWork = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
         const tooltip = elem?.querySelector(`.${sel}__popup`);
 
@@ -100,13 +103,14 @@ describe('***VIEW***', () => {
 
     test('should be render scale if it\'s enabled', async () => {
       const sliderParent = await page.$(`.js-${selector}_solo.js-${selector}_slider-3`);
+      if (!sliderParent) return;
       const scaleDivisions = await sliderParent.$$(`.${selector}__scale-division`);
 
       expect(scaleDivisions.length).toBeGreaterThan(0);
     });
 
     test('should be render range element into DOM', async () => {
-      const slidersRange = await page.evaluate((sel: string) => {
+      const slidersRange = await page.evaluate((sel) => {
         const elem1 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
         const elem2 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
         const enabled = elem1?.querySelector(`.${sel}__range`);
@@ -122,7 +126,7 @@ describe('***VIEW***', () => {
 
   describe('Double Slider', () => {
     test('should be add vertical class to slider if he is selected', async () => {
-      const isContain = await page.evaluate((sel: string) => {
+      const isContain = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
 
         return elem?.classList.contains('multislider-v43_vertical');
@@ -132,7 +136,7 @@ describe('***VIEW***', () => {
     });
 
     test('should be contain just two thumbs slider\'s', async () => {
-      const sliders = await page.evaluate((sel: Element) => {
+      const sliders = await page.evaluate((sel) => {
         const arr: Array<Array<Element>> = [];
         const elems = Array.from(document.querySelectorAll(`.js-${sel}_double`));
 
@@ -151,7 +155,7 @@ describe('***VIEW***', () => {
     test('should be render tooltip if activated "pop-up"', async () => {
       await page.hover(`.js-${selector}_double.js-${selector}_slider-1 .${selector}__thumb`);
 
-      const isHoverWork = await page.evaluate((sel: string) => {
+      const isHoverWork = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
         const tooltip = elem?.querySelector(`.${sel}__popup`);
 
@@ -162,13 +166,14 @@ describe('***VIEW***', () => {
     });
     test('should be render scale if it\'s enabled', async () => {
       const sliderParent = await page.$(`.js-${selector}_double.js-${selector}_slider-1`);
+      if (!sliderParent) return;
       const scaleDivisions = await sliderParent.$$(`.${selector}__scale-division`);
 
       expect(scaleDivisions.length).toBeGreaterThan(0);
     });
 
     test('should be render range element into DOM', async () => {
-      const slidersRange = await page.evaluate((sel: string) => {
+      const slidersRange = await page.evaluate((sel) => {
         const elem1 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
         const elem2 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-2`);
         const enabled = elem1?.querySelector(`.${sel}__range`);

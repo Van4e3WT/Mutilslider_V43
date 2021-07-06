@@ -35,7 +35,7 @@ describe('***CONTROLLER***', () => {
     let view: SliderView;
     let controller: SliderController;
 
-    let updateMock: any;
+    let updateMock: jest.Mock;
 
     beforeEach(() => {
       if (cfg.isRange) {
@@ -48,7 +48,7 @@ describe('***CONTROLLER***', () => {
       const parent = document.createElement('div');
 
       SliderView.prototype.update = jest.fn();
-      updateMock = SliderView.prototype.update;
+      updateMock = SliderView.prototype.update as jest.Mock;
 
       view = new SliderView({
         values: model.getValue(),
@@ -136,7 +136,7 @@ describe('***CONTROLLER***', () => {
     let view: SliderView;
     let controller: SliderController;
 
-    let updateMock: any;
+    let updateMock: jest.Mock;
 
     beforeEach(() => {
       if (cfg.isRange) {
@@ -149,7 +149,7 @@ describe('***CONTROLLER***', () => {
       const parent = document.createElement('div');
 
       SliderView.prototype.update = jest.fn();
-      updateMock = SliderView.prototype.update;
+      updateMock = SliderView.prototype.update as jest.Mock;
 
       view = new SliderView({
         values: model.getValue(),

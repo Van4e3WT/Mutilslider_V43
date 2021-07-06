@@ -64,7 +64,7 @@ import ISliderModel from './modules/models/interfaces/interfaces';
       return model.getValue();
     };
 
-    $.fn.multislider.onChange = (callback: Function, ...args: Array<any>) => {
+    $.fn.multislider.onChange = (callback: Function, ...args: Array<unknown>) => {
       model.on('valueChanged', callback.bind(this, ...args));
     };
   };

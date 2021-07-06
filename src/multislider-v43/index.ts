@@ -4,7 +4,21 @@ import './plugin/plugin';
 const $elems = $('.js-multislider-v43');
 
 $elems.each((i, elem) => {
-  const props: any = {};
+  const props: {
+    minValue?: Number,
+    maxValue?: Number,
+    step?: Number,
+    value1?: Number,
+    value2?: Number,
+    isVertical?: boolean,
+    isRange?: boolean,
+    popUpOfValue?: boolean,
+    scaleOfValues?: number,
+    isProgressBar?: boolean,
+    popUpIsHided?: boolean,
+    description?: string | null,
+    postfix?: string | null,
+  } = {};
 
   if (elem.hasAttribute('data-min-value')) props.minValue = Number(elem.getAttribute('data-min-value'));
   if (elem.hasAttribute('data-max-value')) props.maxValue = Number(elem.getAttribute('data-max-value'));

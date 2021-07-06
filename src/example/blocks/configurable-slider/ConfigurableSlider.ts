@@ -159,6 +159,9 @@ class ConfigurableSlider {
     });
 
     const getValue = $slider.multislider.value;
+    const { onChange } = $slider.multislider;
+
+    if (!getValue || !onChange) return;
 
     const handleSliderChange = () => {
       const values = getValue();
@@ -170,7 +173,7 @@ class ConfigurableSlider {
       }
     };
 
-    $slider.multislider.onChange(handleSliderChange);
+    onChange(handleSliderChange);
     getValue({});
   };
 
