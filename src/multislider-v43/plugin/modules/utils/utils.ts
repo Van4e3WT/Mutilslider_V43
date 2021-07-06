@@ -1,9 +1,5 @@
 import { Config } from './custom-types';
 
-function swap(a: any, b: any): Array<any> {
-  return [b, a];
-}
-
 function validationConfig(config: Config): Config {
   const {
     isRange = false,
@@ -27,7 +23,7 @@ function validationConfig(config: Config): Config {
   const delta = maxValue - minValue;
 
   if (minValue > maxValue) {
-    [minValue, maxValue] = swap(minValue, maxValue);
+    [minValue, maxValue] = [maxValue, minValue];
   } else if (minValue === maxValue) {
     throw new Error('minValue shouldn\'t be equal maxValue');
   }
@@ -42,7 +38,7 @@ function validationConfig(config: Config): Config {
 
   if (isRange) {
     if (value1 > value2) {
-      [value1, value2] = swap(value1, value2);
+      [value1, value2] = [value2, value1];
     }
     value2 = value2 < maxValue ? value2 : maxValue;
     value2 = value2 > minValue ? value2 : minValue;
@@ -81,4 +77,4 @@ function validationConfig(config: Config): Config {
   return validatedConfig;
 }
 
-export default { swap, validationConfig };
+export default { validationConfig };

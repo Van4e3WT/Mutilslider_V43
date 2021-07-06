@@ -1,5 +1,3 @@
-import Utils from 'Plugin/modules/utils/utils';
-
 type Config = {
   minValue: HTMLInputElement,
   maxValue: HTMLInputElement,
@@ -184,8 +182,8 @@ class ConfigurableSlider {
     if (!inputs) return;
 
     if (Number(inputs.minValue.value) > Number(inputs.maxValue.value)) {
-      [inputs.minValue.value, inputs.maxValue.value] = Utils
-        .swap(inputs.minValue.value, inputs.maxValue.value);
+      [inputs.minValue.value, inputs.maxValue.value] = [
+        inputs.maxValue.value, inputs.minValue.value];
     }
 
     if (inputs.minValue.value === inputs.maxValue.value) {
@@ -212,8 +210,7 @@ class ConfigurableSlider {
       inputs.value2.classList.remove(`${selector}__input_disabled`);
 
       if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-        [inputs.value1.value, inputs.value2.value] = Utils
-          .swap(inputs.value1.value, inputs.value2.value);
+        [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
       }
       if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
         inputs.value2.value = inputs.maxValue.value;
