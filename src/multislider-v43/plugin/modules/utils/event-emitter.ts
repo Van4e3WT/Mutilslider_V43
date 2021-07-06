@@ -16,6 +16,6 @@ export default class EventEmitter {
   emit(event: string, arg: object) {
     const { events } = this;
 
-    (events[event] || []).slice().forEach((listener) => listener(arg));
+    (events[event] || []).forEach((listener) => listener(arg));
   }
 }
