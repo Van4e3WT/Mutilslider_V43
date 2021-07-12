@@ -5,11 +5,11 @@ const $elems = $('.js-multislider-v43');
 
 $elems.each((i, elem) => {
   const props: {
-    minValue?: Number,
-    maxValue?: Number,
-    step?: Number,
-    value1?: Number,
-    value2?: Number,
+    minValue?: number,
+    maxValue?: number,
+    step?: number,
+    value1?: number,
+    value2?: number,
     isVertical?: boolean,
     isRange?: boolean,
     popUpOfValue?: boolean,
