@@ -244,7 +244,8 @@ class ConfigurableSlider {
       inputs.value1.value = inputs.minValue.value;
     }
 
-    const steppedScaleValues = Math.floor(delta / Number(inputs.step.value)) + 1;
+    const scaleAdditionalCoef = Number.isInteger(delta / Number(inputs.step.value)) ? 1 : 2;
+    const steppedScaleValues = Math.floor(delta / Number(inputs.step.value) + scaleAdditionalCoef);
     const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
 
     if (Number(inputs.scaleOfValues.value) >= 0) {
