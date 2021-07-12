@@ -63,7 +63,9 @@ class SliderView extends EventEmitter {
     } = cfg;
 
     this.selector = selector;
-    this.scale = new ScaleView();
+    this.scale = new ScaleView({
+      localeProps,
+    });
     this.outputs = new AdaptiveInputView({
       postfix,
       localeProps,

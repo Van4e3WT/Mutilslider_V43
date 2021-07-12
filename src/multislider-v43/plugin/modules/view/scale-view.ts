@@ -5,7 +5,13 @@ class ScaleView {
 
   private scaleDivisions: Array<HTMLDivElement>;
 
-  constructor() {
+  private localeProps: object | undefined;
+
+  constructor(props: {
+    localeProps: object | undefined,
+  }) {
+    const { localeProps } = props;
+    this.localeProps = localeProps;
     this.scaleDivisions = [];
     this.scale = document.createElement('div');
   }
@@ -52,7 +58,7 @@ class ScaleView {
     max: number,
     step: number,
   }) {
-    const { scaleDivisions } = this;
+    const { scaleDivisions, localeProps } = this;
     const {
       parentThumbs,
       axis,
@@ -86,8 +92,7 @@ class ScaleView {
 
       scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
-      scaleDivisions[i].textContent = `${Number(((delta * proportion) + min).toFixed(10))}`.replace('.', ',');
-      // method pass by 0.300000000000004 when first doesn't work
+      scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     }
   }
 }
