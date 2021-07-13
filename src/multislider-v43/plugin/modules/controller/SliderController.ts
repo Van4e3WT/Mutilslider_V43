@@ -1,7 +1,7 @@
 /* global document */
-import SliderView from '../view/view';
-import EventEmitter from '../utils/event-emitter';
-import ISliderModel from '../models/interfaces/interfaces';
+import SliderView from '../view/SliderView';
+import EventEmitter from '../utils/EventEmitter';
+import ISliderModel from '../models/interfaces/ISliderModel';
 
 class SliderController extends EventEmitter {
   private model: ISliderModel;

@@ -1,9 +1,9 @@
-import SliderView from '../src/multislider-v43/plugin/modules/view/view';
-import SliderController from '../src/multislider-v43/plugin/modules/controller/controller';
+import SliderView from '../src/multislider-v43/plugin/modules/view/SliderView';
+import SliderController from '../src/multislider-v43/plugin/modules/controller/SliderController';
 import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
-import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/solo-model';
-import ISliderModel from '../src/multislider-v43/plugin/modules/models/interfaces/interfaces';
-import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/double-model';
+import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/SoloSliderModel';
+import ISliderModel from '../src/multislider-v43/plugin/modules/models/interfaces/ISliderModel';
+import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/DoubleSliderModel';
 
 describe('***CONTROLLER***', () => {
   describe('Horizontal', () => {

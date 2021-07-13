@@ -1,7 +1,7 @@
-import ScaleView from './scale-view';
-import ThumbsView from './thumbs-view';
-import AdaptiveInputView from './adaptive-input-view';
-import EventEmitter from '../utils/event-emitter';
+import ScaleView from './ScaleView';
+import ThumbsView from './ThumbsView';
+import AdaptiveInputView from './AdaptiveInputView';
+import EventEmitter from '../utils/EventEmitter';
 import { Config, ViewAxis } from '../utils/custom-types';
 
 class SliderView extends EventEmitter {

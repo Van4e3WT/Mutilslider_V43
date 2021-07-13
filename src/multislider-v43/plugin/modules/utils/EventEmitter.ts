@@ -1,4 +1,4 @@
-export default class EventEmitter {
+class EventEmitter {
   private events: { [key: string]: Array<Function> };
 
   constructor() {
@@ -19,3 +19,5 @@ export default class EventEmitter {
     (events[event] || []).forEach((listener) => listener(arg));
   }
 }
+
+export default EventEmitter;

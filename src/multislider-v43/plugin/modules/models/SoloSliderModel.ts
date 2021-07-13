@@ -1,5 +1,5 @@
-import ISliderModel from './interfaces/interfaces';
-import EventEmitter from '../utils/event-emitter';
+import ISliderModel from './interfaces/ISliderModel';
+import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
 class SoloSliderModel extends EventEmitter implements ISliderModel {
