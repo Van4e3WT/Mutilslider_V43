@@ -51,7 +51,7 @@ class ScaleView {
   }
 
   public update(props: {
-    parentThumbs: HTMLDivElement,
+    thumbsParent: HTMLDivElement,
     axis: ViewAxis,
     thumbSize: number,
     min: number,
@@ -60,7 +60,7 @@ class ScaleView {
   }) {
     const { scaleDivisions, localeProps } = this;
     const {
-      parentThumbs,
+      thumbsParent,
       axis,
       thumbSize,
       min,
@@ -68,7 +68,7 @@ class ScaleView {
     } = props;
     let { step } = props;
     const n = scaleDivisions.length;
-    const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
+    const maxPixelValue = thumbsParent.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
     const delta = max - min;
 
@@ -79,7 +79,7 @@ class ScaleView {
       if (i === 0) {
         addition = 0;
       } else {
-        addition = ((thumbSize / 2) - parseInt(getComputedStyle(parentThumbs).borderWidth, 10));
+        addition = ((thumbSize / 2) - parseInt(getComputedStyle(thumbsParent).borderWidth, 10));
         if (i === n - 1) {
           addition *= 2;
           roundCoef = 0;

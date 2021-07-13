@@ -105,7 +105,7 @@ class SliderController extends EventEmitter {
       const handlePointerMove = (e: PointerEvent) => {
         const pos1 = e[axis.eventAxis];
         const value = ((((pos1 - pos0) * axis.dPos)
-          / (view.parentThumbs.getBoundingClientRect()[axis.sizeParent]
+          / (view.thumbsParent.getBoundingClientRect()[axis.sizeParent]
             - view.getThumbSize()))
           * (model.getMax() - model.getMin()))
           + value0;
@@ -225,7 +225,7 @@ class SliderController extends EventEmitter {
       axis,
       selector,
     } = this;
-    const bodySlider = view.parentThumbs;
+    const bodySlider = view.thumbsParent;
 
     const handleBodyThumbsClick = (e: PointerEvent) => {
       const target = e.target as HTMLDivElement;

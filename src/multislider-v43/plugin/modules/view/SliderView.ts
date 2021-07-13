@@ -17,9 +17,9 @@ class SliderView extends EventEmitter {
 
   private step: number;
 
-  private length: number;
+  private thumbsCount: number;
 
-  private isPopUp: boolean;
+  private tooltipIsActive: boolean;
 
   public selector: string;
 
@@ -31,7 +31,7 @@ class SliderView extends EventEmitter {
 
   public thumbs: ThumbsView;
 
-  public parentThumbs: HTMLDivElement;
+  public thumbsParent: HTMLDivElement;
 
   constructor(props: {
     values: Array<number>,
@@ -74,8 +74,8 @@ class SliderView extends EventEmitter {
     this.min = minValue;
     this.max = maxValue;
     this.step = step;
-    this.length = values.length;
-    this.isPopUp = popUpOfValue ?? false;
+    this.thumbsCount = values.length;
+    this.tooltipIsActive = popUpOfValue ?? false;
 
     this.isVertical = isVertical ?? false;
 
@@ -102,12 +102,12 @@ class SliderView extends EventEmitter {
     }
 
     parent.appendChild(sliderBody);
-    this.parentThumbs = sliderBody;
+    this.thumbsParent = sliderBody;
 
-    for (let i: number = 0; i < this.length; i += 1) {
+    for (let i: number = 0; i < this.thumbsCount; i += 1) {
       this.thumbs.add(sliderBody, selector, this.isVertical);
 
-      if (this.isPopUp) {
+      if (this.tooltipIsActive) {
         this.outputs.createGroup({
           parent: sliderBody,
           selector: `${selector}__popup`,
@@ -138,7 +138,7 @@ class SliderView extends EventEmitter {
   public updateScale = () => {
     const {
       scale,
-      parentThumbs,
+      thumbsParent,
       axis,
       thumbSize,
       min,
@@ -147,7 +147,7 @@ class SliderView extends EventEmitter {
     } = this;
 
     scale.update({
-      parentThumbs,
+      thumbsParent,
       axis,
       thumbSize,
       min,
@@ -158,30 +158,30 @@ class SliderView extends EventEmitter {
 
   public update(thumbsValues: Array<number>) {
     const {
-      parentThumbs,
+      thumbsParent,
       axis,
       thumbSize,
       thumbs,
       min,
       max,
       outputs,
-      isPopUp,
+      tooltipIsActive,
       sliderRange,
     } = this;
 
-    const maxPixelValue = parentThumbs.getBoundingClientRect()[axis.sizeParent]
+    const maxPixelValue = thumbsParent.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
 
     for (let i = 0; i < thumbs.getLength(); i += 1) {
       const position = maxPixelValue
         * ((thumbsValues[i] - min)
           / (max - min))
-        - parseInt(getComputedStyle(parentThumbs).borderWidth, 10);
+        - parseInt(getComputedStyle(thumbsParent).borderWidth, 10);
 
       thumbs.setStyleN({ n: i, prop: axis.styleSelector, value: position });
       outputs.updateN(i, thumbsValues[i]);
 
-      if (isPopUp) {
+      if (tooltipIsActive) {
         outputs.stylizeN({
           n: i,
           prop: axis.styleSelector,
@@ -206,9 +206,9 @@ class SliderView extends EventEmitter {
 
   private renderHeader(parent: HTMLElement, title: string = '') {
     const {
-      isPopUp,
+      tooltipIsActive,
       outputs,
-      length,
+      thumbsCount,
       selector,
     } = this;
 
@@ -221,7 +221,7 @@ class SliderView extends EventEmitter {
     sliderDescription.textContent = title;
     sliderHeader.appendChild(sliderDescription);
 
-    if (!isPopUp) {
+    if (!tooltipIsActive) {
       const sliderOutput = document.createElement('div');
       sliderOutput.classList.add(`${selector}__output`);
       sliderHeader.appendChild(sliderOutput);
@@ -231,7 +231,7 @@ class SliderView extends EventEmitter {
         selector: `${selector}__value`,
       });
 
-      if (length === 2) {
+      if (thumbsCount === 2) {
         const sliderSpacer = document.createElement('div');
         sliderSpacer.classList.add(`${selector}__spacer`);
         sliderSpacer.textContent = '\xa0–\xa0';
