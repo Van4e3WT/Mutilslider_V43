@@ -92,6 +92,7 @@ class ScaleView {
 
       scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
+      scaleDivisions[i].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
       scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     }
   }

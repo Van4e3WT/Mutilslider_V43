@@ -196,7 +196,7 @@ class SliderController extends EventEmitter {
 
       if (!target.matches(`.${selector}__scale-division`)) return;
 
-      const scaleDivisionValue = Number((target.textContent ?? '').replace(',', '.'));
+      const scaleDivisionValue = Number((target.dataset.value ?? ''));
 
       const isSecondValue = this.isSecondValue(scaleDivisionValue);
 
