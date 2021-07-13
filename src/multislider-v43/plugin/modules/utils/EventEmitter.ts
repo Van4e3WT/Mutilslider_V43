@@ -1,4 +1,4 @@
-class EventEmitter {
+abstract class EventEmitter {
   private events: { [key: string]: Array<Function> };
 
   constructor() {
