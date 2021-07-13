@@ -11,7 +11,7 @@ $('.js-multislider-v43_double.js-multislider-v43_slider-1').multislider({
   isVertical: true,
   isRange: true,
 
-  popUpOfValue: true,
+  tooltipOfValue: true,
   scaleOfValues: 11,
   isProgressBar: true,
 
@@ -28,7 +28,7 @@ $('.js-multislider-v43_solo.js-multislider-v43_slider-3').multislider({
   isVertical: true,
   isRange: false,
 
-  popUpOfValue: false,
+  tooltipOfValue: false,
   scaleOfValues: 6,
   isProgressBar: true,
 

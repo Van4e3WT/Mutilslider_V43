@@ -14,8 +14,8 @@ type Config = {
   isVertical?: boolean,
   isRange?: boolean,
 
-  popUpOfValue?: boolean,
-  popUpIsHided?: boolean,
+  tooltipOfValue?: boolean,
+  tooltipIsHided?: boolean,
   scaleOfValues?: number,
   isProgressBar?: boolean,
 

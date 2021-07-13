@@ -115,11 +115,11 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     }
   }
 
-  &__thumb_active + &__popup {
+  &__thumb_active + &__tooltip {
     display: flex;
   }
 
-  &__popup {
+  &__tooltip {
     display: none;
     position: absolute;
     font: inherit;

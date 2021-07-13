@@ -54,10 +54,10 @@ class SliderView extends EventEmitter {
       minValue,
       maxValue,
       step,
-      popUpOfValue,
+      tooltipOfValue,
       isVertical,
       description,
-      popUpIsHided,
+      tooltipIsHided,
       isProgressBar,
       scaleOfValues,
     } = cfg;
@@ -75,7 +75,7 @@ class SliderView extends EventEmitter {
     this.max = maxValue;
     this.step = step;
     this.thumbsCount = values.length;
-    this.tooltipIsActive = popUpOfValue ?? false;
+    this.tooltipIsActive = tooltipOfValue ?? false;
 
     this.isVertical = isVertical ?? false;
 
@@ -110,9 +110,9 @@ class SliderView extends EventEmitter {
       if (this.tooltipIsActive) {
         this.outputs.createGroup({
           parent: sliderBody,
-          selector: `${selector}__popup`,
+          selector: `${selector}__tooltip`,
           isReadonly: true,
-          isHided: popUpIsHided,
+          isHided: tooltipIsHided,
           isVertical: this.isVertical,
         });
       }

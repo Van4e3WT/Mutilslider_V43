@@ -71,7 +71,7 @@ Cкачанный и [собранный проект](#сборка-проек�
 `orientation` – [string] ориентация слайдера, может иметь два значения: `horizontal` или `vertical` (по умолчанию: `horizontal`);    
 `sliderType` – [string] тип слайдера, может иметь два значения: `solo` или `double` (по умолчанию: `solo`);    
 
-`popUpOfValue` – [boolean] позволяет включать/отключать "всплывающее" над бегунком значение слайдера (по умолчанию: `false`);    
+`tooltipOfValue` – [boolean] позволяет включать/отключать "всплывающее" над бегунком значение слайдера (по умолчанию: `false`);    
 `scaleOfValues` – [number] шкала делений, которая позволяет указать числом количество равнораспределенных делений на всем слайдере. Значение 0 подразумевает отключение шкалы значений. Минимальное число делений шкалы – 3, а именно, по краям и в центре (по умолчанию: `0`);    
 `isProgressBar` – [boolean] позволяет включать/отключать `progress bar` (по умолчанию: `true`);    
 `postfix` – [string] позволяет задать постфикс для значения (например валюта) (по умолчанию: '');    
@@ -101,7 +101,7 @@ Cкачанный и [собранный проект](#сборка-проек�
 ```html
   <div class="child js-multislider-v43 double slider-1" data-min-value="-1" data-max-value="1" data-step="0.01"
     data-value1="-0.25" data-value2="0.50" data-orientation="vertical" data-slider-type="double"
-    data-pop-up-of-value="true" data-scale-of-values="9" data-is-progress-bar="false" data-description="My Slider">
+    data-tooltip-of-value="true" data-scale-of-values="9" data-is-progress-bar="false" data-description="My Slider">
   </div>
 ```
 
@@ -129,7 +129,7 @@ ____
     orientation: 'vertical',
     sliderType: 'double',
 
-    popUpOfValue: true,
+    tooltipOfValue: true,
     scaleOfValues: 11,
     isProgressBar: true,
     postfix: '₽',
@@ -152,7 +152,7 @@ ____
     orientation: 'horizontal',
     sliderType: 'double',
 
-    popUpOfValue: false,
+    tooltipOfValue: false,
     scaleOfValues: 9,
     isProgressBar: false,
     postfix: '$',

@@ -6,8 +6,8 @@ type Config = {
   value2: HTMLInputElement,
   isVertical: HTMLInputElement,
   isRange: HTMLInputElement,
-  popUpOfValue: HTMLInputElement,
-  popUpIsHided: HTMLInputElement,
+  tooltipOfValue: HTMLInputElement,
+  tooltipIsHided: HTMLInputElement,
   scaleOfValues: HTMLInputElement,
   isProgressBar: HTMLInputElement,
   postfix: HTMLInputElement,
@@ -16,7 +16,7 @@ type Config = {
 class ConfigurableSlider {
   private panelControl: Element;
 
-  private popUpToggle: Element | null | undefined;
+  private tooltipToggle: Element | null | undefined;
 
   private slider: Element;
 
@@ -83,14 +83,14 @@ class ConfigurableSlider {
       <div class="${selector}__item-title">range</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-pop-up js-${selector}__is-pop-up" ${config.popUpOfValue ? 'checked' : ''}>
+      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip js-${selector}__is-tooltip" ${config.tooltipOfValue ? 'checked' : ''}>
       <div class="${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">pop-up</div>
+      <div class="${selector}__item-title">tooltip</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-pop-up-hided js-${selector}__is-pop-up-hided" ${config.popUpIsHided ? 'checked' : ''}>
+      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip-hided js-${selector}__is-tooltip-hided" ${config.tooltipIsHided ? 'checked' : ''}>
       <div class="${selector}__item-toggle js-${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">pop-up hided</div>
+      <div class="${selector}__item-title">tooltip hided</div>
     </label>
     <label class="${selector}__item">
       <input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">
@@ -118,14 +118,14 @@ class ConfigurableSlider {
       value2: panelControl.querySelector(`.js-${selector}__val-2`) as HTMLInputElement,
       isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) as HTMLInputElement,
       isRange: panelControl.querySelector(`.js-${selector}__is-range`) as HTMLInputElement,
-      popUpOfValue: panelControl.querySelector(`.js-${selector}__is-pop-up`) as HTMLInputElement,
-      popUpIsHided: panelControl.querySelector(`.js-${selector}__is-pop-up-hided`) as HTMLInputElement,
+      tooltipOfValue: panelControl.querySelector(`.js-${selector}__is-tooltip`) as HTMLInputElement,
+      tooltipIsHided: panelControl.querySelector(`.js-${selector}__is-tooltip-hided`) as HTMLInputElement,
       scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`) as HTMLInputElement,
       isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) as HTMLInputElement,
       postfix: panelControl.querySelector(`.js-${selector}__postfix`) as HTMLInputElement,
     };
 
-    this.popUpToggle = this.inputs.popUpIsHided.parentElement
+    this.tooltipToggle = this.inputs.tooltipIsHided.parentElement
       ?.querySelector(`.js-${selector}__item-toggle`);
 
     panelControl.addEventListener('change', this.handlePanelChange);
@@ -149,8 +149,8 @@ class ConfigurableSlider {
       isVertical: inputs.isVertical.checked,
       isRange: inputs.isRange.checked,
 
-      popUpOfValue: inputs.popUpOfValue.checked,
-      popUpIsHided: inputs.popUpIsHided.checked,
+      tooltipOfValue: inputs.tooltipOfValue.checked,
+      tooltipIsHided: inputs.tooltipIsHided.checked,
       scaleOfValues: Number(inputs.scaleOfValues.value),
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
@@ -176,7 +176,7 @@ class ConfigurableSlider {
   };
 
   private handlePanelChange = (e: Event) => {
-    const { inputs, selector, popUpToggle } = this;
+    const { inputs, selector, tooltipToggle } = this;
     const { target } = e;
 
     if (!inputs) return;
@@ -230,13 +230,13 @@ class ConfigurableSlider {
       }
     }
 
-    if (popUpToggle) {
-      if (inputs.popUpOfValue.checked) {
-        inputs.popUpIsHided.disabled = false;
-        popUpToggle.classList.remove(`${selector}__item-toggle_disabled`);
+    if (tooltipToggle) {
+      if (inputs.tooltipOfValue.checked) {
+        inputs.tooltipIsHided.disabled = false;
+        tooltipToggle.classList.remove(`${selector}__item-toggle_disabled`);
       } else {
-        inputs.popUpIsHided.disabled = true;
-        popUpToggle.classList.add(`${selector}__item-toggle_disabled`);
+        inputs.tooltipIsHided.disabled = true;
+        tooltipToggle.classList.add(`${selector}__item-toggle_disabled`);
       }
     }
 

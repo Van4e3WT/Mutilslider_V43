@@ -4,8 +4,8 @@ function validationConfig(config: Config): Config {
   const {
     isRange = false,
     isVertical = false,
-    popUpOfValue = false,
-    popUpIsHided = true,
+    tooltipOfValue = false,
+    tooltipIsHided = true,
     isProgressBar = true,
     postfix,
     description = 'Range Slider',
@@ -65,8 +65,8 @@ function validationConfig(config: Config): Config {
     isVertical,
     isRange,
 
-    popUpOfValue,
-    popUpIsHided,
+    tooltipOfValue,
+    tooltipIsHided,
     scaleOfValues,
     isProgressBar,
 

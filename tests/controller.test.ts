@@ -18,7 +18,7 @@ describe('***CONTROLLER***', () => {
       isVertical: false,
       isRange: true,
 
-      popUpOfValue: false,
+      tooltipOfValue: false,
       scaleOfValues: 3,
       isProgressBar: true,
 
@@ -119,7 +119,7 @@ describe('***CONTROLLER***', () => {
       isVertical: true,
       isRange: false,
 
-      popUpOfValue: false,
+      tooltipOfValue: false,
       scaleOfValues: 0,
       isProgressBar: false,
 

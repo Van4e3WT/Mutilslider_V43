@@ -88,12 +88,12 @@ describe('***VIEW***', () => {
       });
     });
 
-    test('should be render tooltip if activated "pop-up"', async () => {
+    test('should be render tooltip if activated "tooltip"', async () => {
       await page.hover(`.js-${selector}_solo.js-${selector}_slider-4 .${selector}__thumb`);
 
       const isHoverWork = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
-        const tooltip = elem?.querySelector(`.${sel}__popup`);
+        const tooltip = elem?.querySelector(`.${sel}__tooltip`);
 
         return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
       }, selector);
@@ -152,12 +152,12 @@ describe('***VIEW***', () => {
       });
     });
 
-    test('should be render tooltip if activated "pop-up"', async () => {
+    test('should be render tooltip if activated "tooltip"', async () => {
       await page.hover(`.js-${selector}_double.js-${selector}_slider-1 .${selector}__thumb`);
 
       const isHoverWork = await page.evaluate((sel) => {
         const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
-        const tooltip = elem?.querySelector(`.${sel}__popup`);
+        const tooltip = elem?.querySelector(`.${sel}__tooltip`);
 
         return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
       }, selector);
