@@ -92,7 +92,7 @@ class SliderView extends EventEmitter {
       };
     }
 
-    this._renderHeader(parent, description);
+    this.renderHeader(parent, description);
 
     const sliderBody = document.createElement('div');
     sliderBody.classList.add(`${selector}__body`);
@@ -120,9 +120,9 @@ class SliderView extends EventEmitter {
 
     this.thumbSize = this.thumbs.getSize();
 
-    this._renderProgressBar(sliderBody, isProgressBar);
+    this.renderProgressBar(sliderBody, isProgressBar);
 
-    this._renderScale(sliderBody, scaleOfValues);
+    this.renderScale(sliderBody, scaleOfValues);
 
     this.outputs.init();
 
@@ -204,7 +204,7 @@ class SliderView extends EventEmitter {
     }
   }
 
-  private _renderHeader(parent: HTMLElement, title: string = '') {
+  private renderHeader(parent: HTMLElement, title: string = '') {
     const {
       isPopUp,
       outputs,
@@ -245,7 +245,7 @@ class SliderView extends EventEmitter {
     }
   }
 
-  private _renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false) {
+  private renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false) {
     const { isVertical, selector } = this;
 
     if (!isProgressBar) return;
@@ -260,7 +260,7 @@ class SliderView extends EventEmitter {
     parent.appendChild(this.sliderRange);
   }
 
-  private _renderScale(parent: HTMLElement, scaleDivisions: number = 0) {
+  private renderScale(parent: HTMLElement, scaleDivisions: number = 0) {
     const {
       isVertical,
       scale,

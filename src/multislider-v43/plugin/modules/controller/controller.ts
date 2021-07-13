@@ -55,25 +55,25 @@ class SliderController extends EventEmitter {
   public initListeners() {
     const { view } = this;
 
-    this._initUpdate();
-    this._initThumb();
-    this._initOutput();
-    this._initBody();
+    this.initUpdate();
+    this.initThumb();
+    this.initOutput();
+    this.initBody();
 
     if (view.scale.getScales().length) {
-      this._initScale();
+      this.initScale();
     }
   }
 
-  private _initUpdate() {
+  private initUpdate() {
     const { model } = this;
 
-    model.on('valueChanged', this._handleListenerUpdate);
+    model.on('valueChanged', this.handleListenerUpdate);
 
-    window.addEventListener('resize', this._handleListenerUpdate);
+    window.addEventListener('resize', this.handleListenerUpdate);
     window.addEventListener('resize', this.view.updateScale);
 
-    document.addEventListener('DOMContentLoaded', this._handleListenerUpdate);
+    document.addEventListener('DOMContentLoaded', this.handleListenerUpdate);
     document.addEventListener('DOMContentLoaded', this.view.updateScale);
     /*
       That document listeners fix important bug with appearance browser's scroll bar
@@ -82,13 +82,13 @@ class SliderController extends EventEmitter {
     */
   }
 
-  private _handleListenerUpdate = () => {
+  private handleListenerUpdate = () => {
     const { view, model } = this;
 
     view.update.call(view, model.getValue());
   };
 
-  private _initThumb() {
+  private initThumb() {
     const {
       view,
       model,
@@ -165,7 +165,7 @@ class SliderController extends EventEmitter {
     }
   }
 
-  private _initOutput() {
+  private initOutput() {
     const { view, model } = this;
 
     function handleOutputChange(n: number) {
@@ -187,7 +187,7 @@ class SliderController extends EventEmitter {
     });
   }
 
-  private _initScale() {
+  private initScale() {
     const { view, model, selector } = this;
     const scale = view.scale.getScale();
 
@@ -198,9 +198,9 @@ class SliderController extends EventEmitter {
 
       const scaleDivisionValue = Number((target.textContent ?? '').replace(',', '.'));
 
-      const isSecondValue = this._isSecondValue(scaleDivisionValue);
+      const isSecondValue = this.isSecondValue(scaleDivisionValue);
 
-      const isEquals = this._isEqualsValues(scaleDivisionValue);
+      const isEquals = this.isEqualsValues(scaleDivisionValue);
 
       if (isSecondValue) {
         model.setValue({ val2: scaleDivisionValue });
@@ -218,7 +218,7 @@ class SliderController extends EventEmitter {
     scale.addEventListener('click', handleScaleClick);
   }
 
-  private _initBody() {
+  private initBody() {
     const {
       model,
       view,
@@ -239,9 +239,9 @@ class SliderController extends EventEmitter {
       const newValue = (model.getMax() - model.getMin())
         * (axis.axis === 'y' ? 1 - proportion : proportion) + model.getMin();
 
-      const isSecondValue = this._isSecondValue(newValue);
+      const isSecondValue = this.isSecondValue(newValue);
 
-      const isEquals = this._isEqualsValues(newValue);
+      const isEquals = this.isEqualsValues(newValue);
 
       if (isSecondValue) {
         model.setValue({ val2: newValue });
@@ -259,7 +259,7 @@ class SliderController extends EventEmitter {
     bodySlider.addEventListener('pointerdown', handleBodyThumbsClick);
   }
 
-  private _isSecondValue(currentValue: number): boolean {
+  private isSecondValue(currentValue: number): boolean {
     const { model } = this;
 
     return model.getValue().length === 2
@@ -267,7 +267,7 @@ class SliderController extends EventEmitter {
         < Math.abs(currentValue - model.getValue()[0]));
   }
 
-  private _isEqualsValues(currentValue: number): boolean {
+  private isEqualsValues(currentValue: number): boolean {
     const { model } = this;
 
     return model.getValue().length === 2

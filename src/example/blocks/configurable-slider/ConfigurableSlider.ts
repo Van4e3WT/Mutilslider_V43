@@ -128,12 +128,12 @@ class ConfigurableSlider {
     this.popUpToggle = this.inputs.popUpIsHided.parentElement
       ?.querySelector(`.js-${selector}__item-toggle`);
 
-    panelControl.addEventListener('change', this._handlePanelChange);
+    panelControl.addEventListener('change', this.handlePanelChange);
 
-    this._updateSlider();
+    this.updateSlider();
   }
 
-  private _updateSlider = () => {
+  private updateSlider = () => {
     const { slider, inputs } = this;
     const $slider = $(slider);
 
@@ -175,7 +175,7 @@ class ConfigurableSlider {
     getValue({});
   };
 
-  private _handlePanelChange = (e: Event) => {
+  private handlePanelChange = (e: Event) => {
     const { inputs, selector, popUpToggle } = this;
     const { target } = e;
 
@@ -256,7 +256,7 @@ class ConfigurableSlider {
       inputs.scaleOfValues.value = String(0);
     }
 
-    this._updateSlider();
+    this.updateSlider();
   };
 }
 
