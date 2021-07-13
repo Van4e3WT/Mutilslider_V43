@@ -7,7 +7,6 @@ interface ISliderModel extends EventEmitter {
   setValue(props: {
     val1?: number,
     val2?: number,
-    isStepping?: boolean,
   }): void;
 }
 

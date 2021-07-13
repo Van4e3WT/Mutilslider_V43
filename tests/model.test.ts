@@ -65,14 +65,6 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBe(30);
       });
 
-      test('should set not converted to step value', () => {
-        const newValue = 33;
-
-        soloSliderModel.setValue({ val1: newValue, isStepping: false });
-
-        expect(soloSliderModel.getValue()[0]).toBe(newValue);
-      });
-
       test('should set value not greater then max', () => {
         const newValue = soloSliderModel.getMax() + 1000;
 
@@ -166,16 +158,6 @@ describe('***MODEL***', () => {
 
         expect(doubleSliderModel.getValue()[0]).toBe(-30);
         expect(doubleSliderModel.getValue()[1]).toBe(60);
-      });
-
-      test('should not converted to step value', () => {
-        const newValue1 = -26;
-        const newValue2 = 62;
-
-        doubleSliderModel.setValue({ val1: newValue1, val2: newValue2, isStepping: false });
-
-        expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
-        expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
       test('should set value1 no greater then value2', () => {
