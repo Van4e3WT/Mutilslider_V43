@@ -168,10 +168,19 @@ class SliderController extends EventEmitter {
   private initOutput() {
     const { view, model } = this;
 
-    function handleOutputChange(n: number) {
-      const newVal = view.outputs.getIOInputs()[n].value.replace(/,/g, '.');
+    const convertToNumber = (symbol: string): string => {
+      const newSymbol = {
+        ' ': '',
+        ',': '.',
+      }[symbol] ?? '';
 
-      if (Number.isInteger(Number(newVal))) {
+      return newSymbol;
+    };
+
+    function handleOutputChange(n: number) {
+      const newVal = view.outputs.getIOInputs()[n].value.replace(/\s|,/g, convertToNumber);
+
+      if (Number(newVal)) {
         if (n === 0) {
           model.setValue({ val1: Number(newVal) });
         } else {
