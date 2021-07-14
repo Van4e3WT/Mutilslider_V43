@@ -1,6 +1,6 @@
 import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
 
-class IOView {
+class IO {
   private postfix: string;
 
   private groupValues: Array<{
@@ -9,9 +9,12 @@ class IOView {
     hided: HTMLSpanElement
   }>;
 
-  private localeProps: object;
+  private localeProps: Intl.NumberFormatOptions;
 
-  constructor(props: { postfix: string | undefined, localeProps: object | undefined, }) {
+  constructor(props: {
+    postfix: string | undefined,
+    localeProps: Intl.NumberFormatOptions | undefined
+  }) {
     const { postfix = '', localeProps = {} } = props;
 
     this.localeProps = localeProps;
@@ -111,4 +114,4 @@ class IOView {
   }
 }
 
-export default IOView;
+export default IO;

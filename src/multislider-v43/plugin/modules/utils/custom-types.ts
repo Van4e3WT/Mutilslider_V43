@@ -21,7 +21,7 @@ type Config = {
 
   postfix?: string,
   description?: string,
-  localeProps?: object,
+  localeProps?: Intl.NumberFormatOptions,
 };
 
 type ModelConfig = {

@@ -1,10 +1,10 @@
-import ScaleView from './ScaleView';
-import ThumbsView from './ThumbsView';
-import IOView from './IOView';
+import Scale from './Scale';
+import Thumbs from './Thumbs';
+import IO from './IO';
 import EventEmitter from '../utils/EventEmitter';
 import { Config, ViewAxis } from '../utils/custom-types';
 
-class SliderView extends EventEmitter {
+class View extends EventEmitter {
   private thumbSize: number;
 
   private sliderRange: HTMLDivElement | undefined;
@@ -25,11 +25,11 @@ class SliderView extends EventEmitter {
 
   public isVertical: boolean;
 
-  public outputs: IOView;
+  public outputs: IO;
 
-  public scale: ScaleView;
+  public scale: Scale;
 
-  public thumbs: ThumbsView;
+  public thumbs: Thumbs;
 
   public thumbsParent: HTMLDivElement;
 
@@ -63,14 +63,14 @@ class SliderView extends EventEmitter {
     } = cfg;
 
     this.selector = selector;
-    this.scale = new ScaleView({
+    this.scale = new Scale({
       localeProps,
     });
-    this.outputs = new IOView({
+    this.outputs = new IO({
       postfix,
       localeProps,
     });
-    this.thumbs = new ThumbsView();
+    this.thumbs = new Thumbs();
     this.min = minValue;
     this.max = maxValue;
     this.step = step;
@@ -284,4 +284,4 @@ class SliderView extends EventEmitter {
   }
 }
 
-export default SliderView;
+export default View;

@@ -1,6 +1,6 @@
 import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
 
-class ThumbsView {
+class Thumbs {
   private thumbs: Array<HTMLDivElement>;
 
   constructor() {
@@ -52,4 +52,4 @@ class ThumbsView {
   }
 }
 
-export default ThumbsView;
+export default Thumbs;

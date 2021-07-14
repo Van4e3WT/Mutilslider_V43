@@ -1,12 +1,12 @@
 /* global document */
-import SliderView from '../view/SliderView';
+import View from '../view/View';
 import EventEmitter from '../utils/EventEmitter';
 import ISliderModel from '../models/interfaces/ISliderModel';
 
 class SliderController extends EventEmitter {
   private model: ISliderModel;
 
-  private view: SliderView;
+  private view: View;
 
   private selector: string;
 
@@ -21,7 +21,7 @@ class SliderController extends EventEmitter {
 
   constructor(props: {
     model: ISliderModel,
-    view: SliderView,
+    view: View,
   }) {
     super();
 

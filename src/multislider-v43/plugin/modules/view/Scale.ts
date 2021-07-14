@@ -1,16 +1,15 @@
 import { ViewAxis } from 'Plugin/modules/utils/custom-types';
 
-class ScaleView {
+class Scale {
   private scale: HTMLDivElement;
 
   private scaleDivisions: Array<HTMLDivElement>;
 
-  private localeProps: object | undefined;
+  private localeProps: Intl.NumberFormatOptions;
 
-  constructor(props: {
-    localeProps: object | undefined,
-  }) {
-    const { localeProps } = props;
+  constructor(props: { localeProps: Intl.NumberFormatOptions | undefined }) {
+    const { localeProps = {} } = props;
+
     this.localeProps = localeProps;
     this.scaleDivisions = [];
     this.scale = document.createElement('div');
@@ -98,4 +97,4 @@ class ScaleView {
   }
 }
 
-export default ScaleView;
+export default Scale;

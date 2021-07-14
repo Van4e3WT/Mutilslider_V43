@@ -1,4 +1,4 @@
-import SliderView from '../src/multislider-v43/plugin/modules/view/SliderView';
+import View from '../src/multislider-v43/plugin/modules/view/View';
 import SliderController from '../src/multislider-v43/plugin/modules/controller/SliderController';
 import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
 import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/SoloSliderModel';
@@ -32,7 +32,7 @@ describe('***CONTROLLER***', () => {
     };
 
     let model: ISliderModel;
-    let view: SliderView;
+    let view: View;
     let controller: SliderController;
 
     let updateMock: jest.Mock;
@@ -47,10 +47,10 @@ describe('***CONTROLLER***', () => {
 
       const parent = document.createElement('div');
 
-      SliderView.prototype.update = jest.fn();
-      updateMock = SliderView.prototype.update as jest.Mock;
+      View.prototype.update = jest.fn();
+      updateMock = View.prototype.update as jest.Mock;
 
-      view = new SliderView({
+      view = new View({
         values: model.getValue(),
         parent,
         cfg,
@@ -133,7 +133,7 @@ describe('***CONTROLLER***', () => {
     };
 
     let model: ISliderModel;
-    let view: SliderView;
+    let view: View;
     let controller: SliderController;
 
     let updateMock: jest.Mock;
@@ -148,10 +148,10 @@ describe('***CONTROLLER***', () => {
 
       const parent = document.createElement('div');
 
-      SliderView.prototype.update = jest.fn();
-      updateMock = SliderView.prototype.update as jest.Mock;
+      View.prototype.update = jest.fn();
+      updateMock = View.prototype.update as jest.Mock;
 
-      view = new SliderView({
+      view = new View({
         values: model.getValue(),
         parent,
         cfg,

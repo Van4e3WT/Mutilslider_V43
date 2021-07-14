@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import Utils from './modules/utils/utils';
-import SliderView from './modules/view/SliderView';
+import View from './modules/view/View';
 import SliderController from './modules/controller/SliderController';
 import SoloSliderModel from './modules/models/SoloSliderModel';
 import DoubleSliderModel from './modules/models/DoubleSliderModel';
@@ -43,7 +43,7 @@ import ISliderModel from './modules/models/interfaces/ISliderModel';
       model = new SoloSliderModel(modelCfg);
     }
 
-    const view = new SliderView({
+    const view = new View({
       values: model.getValue(),
       parent: baseElement,
       cfg: config,
