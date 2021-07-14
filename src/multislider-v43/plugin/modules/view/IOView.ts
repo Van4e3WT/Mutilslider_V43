@@ -1,6 +1,6 @@
 import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
 
-class AdaptiveInputView {
+class IOView {
   private postfix: string;
 
   private groupValues: Array<{
@@ -89,13 +89,13 @@ class AdaptiveInputView {
     });
   }
 
-  public getValues() {
+  public getIOInputs() {
     const { groupValues } = this;
 
     return groupValues.map((val) => val.input);
   }
 
-  public updateN(n: number, value: number) {
+  public setIO(n: number, value: number) {
     const { groupValues, localeProps } = this;
 
     groupValues[n].hided.textContent = value.toLocaleString('ru', localeProps);
@@ -103,7 +103,7 @@ class AdaptiveInputView {
     groupValues[n].input.style.width = `${groupValues[n].hided.offsetWidth + 2}px`;
   }
 
-  public stylizeN(props: { n: number, prop: MoveStyleAxis, value: number }) {
+  public moveIO(props: { n: number, prop: MoveStyleAxis, value: number }) {
     const { groupValues } = this;
     const { n, prop, value } = props;
 
@@ -111,4 +111,4 @@ class AdaptiveInputView {
   }
 }
 
-export default AdaptiveInputView;
+export default IOView;

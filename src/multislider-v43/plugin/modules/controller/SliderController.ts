@@ -60,7 +60,7 @@ class SliderController extends EventEmitter {
     this.initOutput();
     this.initBody();
 
-    if (view.scale.getScales().length) {
+    if (view.scale.getScaleDivisions().length) {
       this.initScale();
     }
   }
@@ -120,8 +120,8 @@ class SliderController extends EventEmitter {
 
         if (isConverted && isNeedSwitchConvert) {
           isConverted = false;
-          view.thumbs.getN(0).classList.remove(`${selector}__thumb_active`);
-          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
+          view.thumbs.getThumb(0).classList.remove(`${selector}__thumb_active`);
+          view.thumbs.getThumb(i).classList.add(`${selector}__thumb_active`);
         }
 
         const isSecondConverted = i === 1 && isConverted;
@@ -135,10 +135,10 @@ class SliderController extends EventEmitter {
 
       const handlePointerUp = () => {
         if (isConverted) {
-          view.thumbs.getN(0).classList.remove(`${selector}__thumb_active`);
+          view.thumbs.getThumb(0).classList.remove(`${selector}__thumb_active`);
         }
 
-        view.thumbs.getN(i).classList.remove(`${selector}__thumb_active`);
+        view.thumbs.getThumb(i).classList.remove(`${selector}__thumb_active`);
 
         document.removeEventListener('pointermove', handlePointerMove);
         document.removeEventListener('pointerup', handlePointerUp);
@@ -152,16 +152,16 @@ class SliderController extends EventEmitter {
 
         if (i === 1 && (value0 === model.getValue()[0])) {
           isConverted = true;
-          view.thumbs.getN(0).classList.add(`${selector}__thumb_active`);
+          view.thumbs.getThumb(0).classList.add(`${selector}__thumb_active`);
         } else {
-          view.thumbs.getN(i).classList.add(`${selector}__thumb_active`);
+          view.thumbs.getThumb(i).classList.add(`${selector}__thumb_active`);
         }
 
         document.addEventListener('pointermove', handlePointerMove);
         document.addEventListener('pointerup', handlePointerUp);
       };
 
-      view.thumbs.getN(i).addEventListener('pointerdown', handlePointerDown);
+      view.thumbs.getThumb(i).addEventListener('pointerdown', handlePointerDown);
     }
   }
 
@@ -169,7 +169,7 @@ class SliderController extends EventEmitter {
     const { view, model } = this;
 
     function handleOutputChange(n: number) {
-      const newVal = view.outputs.getValues()[n].value.replace(/,/g, '.');
+      const newVal = view.outputs.getIOInputs()[n].value.replace(/,/g, '.');
 
       if (Number.isInteger(Number(newVal))) {
         if (n === 0) {
@@ -178,11 +178,11 @@ class SliderController extends EventEmitter {
           model.setValue({ val2: Number(newVal) });
         }
       } else {
-        view.outputs.updateN(n, model.getValue()[n]);
+        view.outputs.setIO(n, model.getValue()[n]);
       }
     }
 
-    view.outputs.getValues().forEach((output, i) => {
+    view.outputs.getIOInputs().forEach((output, i) => {
       output.addEventListener('change', handleOutputChange.bind(this, i));
     });
   }

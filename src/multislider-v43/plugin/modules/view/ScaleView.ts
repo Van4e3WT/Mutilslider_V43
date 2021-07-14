@@ -44,7 +44,7 @@ class ScaleView {
     return scale;
   }
 
-  public getScales() {
+  public getScaleDivisions() {
     const { scaleDivisions } = this;
 
     return scaleDivisions;

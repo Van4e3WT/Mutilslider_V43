@@ -19,7 +19,7 @@ class ThumbsView {
     thumbs.push(thumb);
   }
 
-  public getN(n: number) {
+  public getThumb(n: number) {
     const { thumbs } = this;
 
     return thumbs[n];
@@ -37,7 +37,7 @@ class ThumbsView {
     return thumbs.length;
   }
 
-  public setStyleN(props: { n: number, prop: MoveStyleAxis, value: number }) {
+  public moveThumb(props: { n: number, prop: MoveStyleAxis, value: number }) {
     const { thumbs } = this;
     const { n, prop, value } = props;
 

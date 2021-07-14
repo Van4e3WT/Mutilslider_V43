@@ -78,29 +78,29 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputs.getValues().forEach((item, i) => {
-        view.outputs.updateN(i, 0);
+      view.outputs.getIOInputs().forEach((item, i) => {
+        view.outputs.setIO(i, 0);
         item.dispatchEvent(new Event('change'));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.outputs.getValues().length);
+      expect(updateMock).toBeCalledTimes(calls + view.outputs.getIOInputs().length);
     });
 
     test('should emit event on click to scale division', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.scale.getScales().forEach((item) => {
+      view.scale.getScaleDivisions().forEach((item) => {
         item.dispatchEvent(new Event('click', { bubbles: true }));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.scale.getScales().length);
+      expect(updateMock).toBeCalledTimes(calls + view.scale.getScaleDivisions().length);
     });
 
     test('should emit event on moving after pointed down', () => {
       const calls = updateMock.mock.calls.length;
 
       for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-        view.thumbs.getN(i).dispatchEvent(new Event('pointerdown'));
+        view.thumbs.getThumb(i).dispatchEvent(new Event('pointerdown'));
         document.dispatchEvent(new Event('pointermove'));
         document.dispatchEvent(new Event('pointerup'));
       }
@@ -178,29 +178,29 @@ describe('***CONTROLLER***', () => {
     test('should emit event on change value in field output value', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.outputs.getValues().forEach((item, i) => {
-        view.outputs.updateN(i, 0);
+      view.outputs.getIOInputs().forEach((item, i) => {
+        view.outputs.setIO(i, 0);
         item.dispatchEvent(new Event('change'));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.outputs.getValues().length);
+      expect(updateMock).toBeCalledTimes(calls + view.outputs.getIOInputs().length);
     });
 
     test('should emit event on click to scale division', () => {
       const calls = updateMock.mock.calls.length;
 
-      view.scale.getScales().forEach((item) => {
+      view.scale.getScaleDivisions().forEach((item) => {
         item.dispatchEvent(new Event('click', { bubbles: true }));
       });
 
-      expect(updateMock).toBeCalledTimes(calls + view.scale.getScales().length);
+      expect(updateMock).toBeCalledTimes(calls + view.scale.getScaleDivisions().length);
     });
 
     test('should emit event on moving after pointed down', () => {
       const calls = updateMock.mock.calls.length;
 
       for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-        view.thumbs.getN(i).dispatchEvent(new Event('pointerdown'));
+        view.thumbs.getThumb(i).dispatchEvent(new Event('pointerdown'));
         document.dispatchEvent(new Event('pointermove'));
         document.dispatchEvent(new Event('pointerup'));
       }

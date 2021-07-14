@@ -1,6 +1,6 @@
 import ScaleView from './ScaleView';
 import ThumbsView from './ThumbsView';
-import AdaptiveInputView from './AdaptiveInputView';
+import IOView from './IOView';
 import EventEmitter from '../utils/EventEmitter';
 import { Config, ViewAxis } from '../utils/custom-types';
 
@@ -25,7 +25,7 @@ class SliderView extends EventEmitter {
 
   public isVertical: boolean;
 
-  public outputs: AdaptiveInputView;
+  public outputs: IOView;
 
   public scale: ScaleView;
 
@@ -66,7 +66,7 @@ class SliderView extends EventEmitter {
     this.scale = new ScaleView({
       localeProps,
     });
-    this.outputs = new AdaptiveInputView({
+    this.outputs = new IOView({
       postfix,
       localeProps,
     });
@@ -178,11 +178,11 @@ class SliderView extends EventEmitter {
           / (max - min))
         - parseInt(getComputedStyle(thumbsParent).borderWidth, 10);
 
-      thumbs.setStyleN({ n: i, prop: axis.styleSelector, value: position });
-      outputs.updateN(i, thumbsValues[i]);
+      thumbs.moveThumb({ n: i, prop: axis.styleSelector, value: position });
+      outputs.setIO(i, thumbsValues[i]);
 
       if (tooltipIsActive) {
-        outputs.stylizeN({
+        outputs.moveIO({
           n: i,
           prop: axis.styleSelector,
           value: (position + this.getThumbSize() / 2),
