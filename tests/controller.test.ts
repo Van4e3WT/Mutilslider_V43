@@ -1,9 +1,9 @@
 import View from '../src/multislider-v43/plugin/modules/view/View';
 import SliderController from '../src/multislider-v43/plugin/modules/controller/SliderController';
 import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
-import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/SoloSliderModel';
-import ISliderModel from '../src/multislider-v43/plugin/modules/models/interfaces/ISliderModel';
-import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/DoubleSliderModel';
+import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
+import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
+import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
 
 describe('***CONTROLLER***', () => {
   describe('Horizontal', () => {
@@ -31,7 +31,7 @@ describe('***CONTROLLER***', () => {
       value1: cfg.value1,
     };
 
-    let model: ISliderModel;
+    let model: IModel;
     let view: View;
     let controller: SliderController;
 
@@ -40,9 +40,9 @@ describe('***CONTROLLER***', () => {
     beforeEach(() => {
       if (cfg.isRange) {
         modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-        model = new DoubleSliderModel(modelConfig);
+        model = new DoubleModel(modelConfig);
       } else {
-        model = new SoloSliderModel(modelConfig);
+        model = new SoloModel(modelConfig);
       }
 
       const parent = document.createElement('div');
@@ -132,7 +132,7 @@ describe('***CONTROLLER***', () => {
       value1: cfg.value1,
     };
 
-    let model: ISliderModel;
+    let model: IModel;
     let view: View;
     let controller: SliderController;
 
@@ -141,9 +141,9 @@ describe('***CONTROLLER***', () => {
     beforeEach(() => {
       if (cfg.isRange) {
         modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-        model = new DoubleSliderModel(modelConfig);
+        model = new DoubleModel(modelConfig);
       } else {
-        model = new SoloSliderModel(modelConfig);
+        model = new SoloModel(modelConfig);
       }
 
       const parent = document.createElement('div');

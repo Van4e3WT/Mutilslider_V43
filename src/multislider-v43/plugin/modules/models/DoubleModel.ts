@@ -1,8 +1,8 @@
-import ISliderModel from './interfaces/ISliderModel';
+import IModel from './interfaces/IModel';
 import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
-class DoubleSliderModel extends EventEmitter implements ISliderModel {
+class DoubleModel extends EventEmitter implements IModel {
   private thumbs: Array<ThumbModel>;
 
   private min: number;
@@ -115,4 +115,4 @@ class DoubleSliderModel extends EventEmitter implements ISliderModel {
   }
 }
 
-export default DoubleSliderModel;
+export default DoubleModel;

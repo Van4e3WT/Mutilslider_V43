@@ -1,6 +1,6 @@
 import EventEmitter from 'Plugin/modules/utils/EventEmitter';
 
-interface ISliderModel extends EventEmitter {
+interface IModel extends EventEmitter {
   getMin(): number;
   getMax(): number;
   getValue(): Array<number>;
@@ -10,4 +10,4 @@ interface ISliderModel extends EventEmitter {
   }): void;
 }
 
-export default ISliderModel;
+export default IModel;

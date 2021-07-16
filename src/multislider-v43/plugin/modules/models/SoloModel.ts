@@ -1,8 +1,8 @@
-import ISliderModel from './interfaces/ISliderModel';
+import IModel from './interfaces/IModel';
 import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
-class SoloSliderModel extends EventEmitter implements ISliderModel {
+class SoloModel extends EventEmitter implements IModel {
   private thumbs: Array<ThumbModel>;
 
   private step: number;
@@ -74,4 +74,4 @@ class SoloSliderModel extends EventEmitter implements ISliderModel {
   }
 }
 
-export default SoloSliderModel;
+export default SoloModel;

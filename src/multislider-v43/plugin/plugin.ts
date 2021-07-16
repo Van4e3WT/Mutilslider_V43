@@ -3,10 +3,10 @@
 import Utils from './modules/utils/utils';
 import View from './modules/view/View';
 import SliderController from './modules/controller/SliderController';
-import SoloSliderModel from './modules/models/SoloSliderModel';
-import DoubleSliderModel from './modules/models/DoubleSliderModel';
+import SoloModel from './modules/models/SoloModel';
+import DoubleModel from './modules/models/DoubleModel';
 import { Config, ModelConfig } from './modules/utils/custom-types';
-import ISliderModel from './modules/models/interfaces/ISliderModel';
+import IModel from './modules/models/interfaces/IModel';
 
 (function f($) {
   $.fn.multislider = function multisliderInit(props: Config) {
@@ -28,7 +28,7 @@ import ISliderModel from './modules/models/interfaces/ISliderModel';
     baseElement.classList.remove(`${selector}_vertical`);
     baseElement.classList.add(selector);
 
-    let model: ISliderModel;
+    let model: IModel;
     const modelCfg: ModelConfig = {
       min: config.minValue,
       max: config.maxValue,
@@ -38,9 +38,9 @@ import ISliderModel from './modules/models/interfaces/ISliderModel';
 
     if (config.isRange) {
       modelCfg.value2 = config.value2;
-      model = new DoubleSliderModel(modelCfg);
+      model = new DoubleModel(modelCfg);
     } else {
-      model = new SoloSliderModel(modelCfg);
+      model = new SoloModel(modelCfg);
     }
 
     const view = new View({

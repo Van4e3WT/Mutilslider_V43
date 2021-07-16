@@ -1,7 +1,7 @@
 import { ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
-import SoloSliderModel from '../src/multislider-v43/plugin/modules/models/SoloSliderModel';
-import DoubleSliderModel from '../src/multislider-v43/plugin/modules/models/DoubleSliderModel';
-import ISliderModel from '../src/multislider-v43/plugin/modules/models/interfaces/ISliderModel';
+import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
+import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
+import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
 
 describe('***MODEL***', () => {
   const modelConfig: ModelConfig = {
@@ -13,10 +13,10 @@ describe('***MODEL***', () => {
   };
 
   describe('Solo Slider ', () => {
-    let soloSliderModel: ISliderModel;
+    let soloSliderModel: IModel;
 
     beforeEach(() => {
-      soloSliderModel = new SoloSliderModel(modelConfig);
+      soloSliderModel = new SoloModel(modelConfig);
     });
 
     test('should be init by constructor', () => {
@@ -86,10 +86,10 @@ describe('***MODEL***', () => {
   });
 
   describe('Double slider', () => {
-    let doubleSliderModel: ISliderModel;
+    let doubleSliderModel: IModel;
 
     beforeEach(() => {
-      doubleSliderModel = new DoubleSliderModel(modelConfig);
+      doubleSliderModel = new DoubleModel(modelConfig);
     });
 
     test('should be init by constructor', () => {
