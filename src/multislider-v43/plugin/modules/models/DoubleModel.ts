@@ -3,7 +3,7 @@ import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
 class DoubleModel extends EventEmitter implements IModel {
-  private thumbs: Array<ThumbModel>;
+  private thumbs: [ThumbModel, ThumbModel];
 
   private min: number;
 
@@ -26,19 +26,16 @@ class DoubleModel extends EventEmitter implements IModel {
     this.max = max;
     this.step = step;
 
-    this.thumbs = [];
-
-    this.thumbs.push({
+    this.thumbs = [{
       min: this.min,
       max: value2,
       value: this.min,
-    });
-
-    this.thumbs.push({
+    },
+    {
       min: value1,
       max: this.max,
       value: this.max,
-    });
+    }];
 
     this.setValue({ val1: value1, val2: value2 });
   }

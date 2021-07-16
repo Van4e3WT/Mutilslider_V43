@@ -3,7 +3,7 @@ import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
 
 class SoloModel extends EventEmitter implements IModel {
-  private thumbs: Array<ThumbModel>;
+  private thumbs: [ThumbModel];
 
   private step: number;
 
@@ -17,14 +17,13 @@ class SoloModel extends EventEmitter implements IModel {
       value1 = min,
     } = cfg;
 
-    this.thumbs = [];
-    this.step = step;
-
-    this.thumbs.push({
+    this.thumbs = [{
       min,
       max,
       value: (max - min) / 2,
-    });
+    }];
+
+    this.step = step;
 
     this.setValue({ val1: value1 });
   }
