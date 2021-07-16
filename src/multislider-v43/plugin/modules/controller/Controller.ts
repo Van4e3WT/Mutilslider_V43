@@ -3,7 +3,7 @@ import View from '../view/View';
 import EventEmitter from '../utils/EventEmitter';
 import IModel from '../models/interfaces/IModel';
 
-class SliderController extends EventEmitter {
+class Controller extends EventEmitter {
   private model: IModel;
 
   private view: View;
@@ -285,4 +285,4 @@ class SliderController extends EventEmitter {
   }
 }
 
-export default SliderController;
+export default Controller;

@@ -2,7 +2,7 @@
 
 import Utils from './modules/utils/utils';
 import View from './modules/view/View';
-import SliderController from './modules/controller/SliderController';
+import Controller from './modules/controller/Controller';
 import SoloModel from './modules/models/SoloModel';
 import DoubleModel from './modules/models/DoubleModel';
 import { Config, ModelConfig } from './modules/utils/custom-types';
@@ -50,7 +50,7 @@ import IModel from './modules/models/interfaces/IModel';
       selector,
     });
 
-    const controller = new SliderController({
+    const controller = new Controller({
       model,
       view,
     });

@@ -1,5 +1,5 @@
 import View from '../src/multislider-v43/plugin/modules/view/View';
-import SliderController from '../src/multislider-v43/plugin/modules/controller/SliderController';
+import Controller from '../src/multislider-v43/plugin/modules/controller/Controller';
 import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
 import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
 import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
@@ -33,7 +33,7 @@ describe('***CONTROLLER***', () => {
 
     let model: IModel;
     let view: View;
-    let controller: SliderController;
+    let controller: Controller;
 
     let updateMock: jest.Mock;
 
@@ -57,7 +57,7 @@ describe('***CONTROLLER***', () => {
         selector: 'multislider-v43',
       });
 
-      controller = new SliderController({
+      controller = new Controller({
         model,
         view,
       });
@@ -134,7 +134,7 @@ describe('***CONTROLLER***', () => {
 
     let model: IModel;
     let view: View;
-    let controller: SliderController;
+    let controller: Controller;
 
     let updateMock: jest.Mock;
 
@@ -158,7 +158,7 @@ describe('***CONTROLLER***', () => {
         selector: 'multislider-v43',
       });
 
-      controller = new SliderController({
+      controller = new Controller({
         model,
         view,
       });
