@@ -1,4 +1,3 @@
-/* global document */
 import View from '../view/View';
 import EventEmitter from '../utils/EventEmitter';
 import IModel from '../models/interfaces/IModel';
@@ -54,7 +53,6 @@ class Controller extends EventEmitter {
 
   public init() {
     this.initUpdate();
-    this.initThumb();
     this.initBody();
   }
 
@@ -82,83 +80,6 @@ class Controller extends EventEmitter {
 
     view.update(model.getValue());
   };
-
-  private initThumb() {
-    const {
-      view,
-      model,
-      axis,
-      selector,
-    } = this;
-
-    for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-      let isConverted: boolean;
-      let sign: number;
-      let pos0: number;
-      let value0: number;
-
-      const handlePointerMove = (e: PointerEvent) => {
-        const pos1 = e[axis.eventAxis];
-        const value = ((((pos1 - pos0) * axis.dPos)
-          / (view.thumbsParent.getBoundingClientRect()[axis.sizeParent]
-            - view.getThumbSize()))
-          * (model.getMax() - model.getMin()))
-          + value0;
-
-        const delta = pos1 - pos0;
-
-        if (!sign) {
-          sign = delta;
-        }
-
-        const isNeedSwitchConvert = (delta * axis.dPos > 0) && (delta > 0 === sign > 0);
-
-        if (isConverted && isNeedSwitchConvert) {
-          isConverted = false;
-          view.thumbs.getThumb(0).classList.remove(`${selector}__thumb_active`);
-          view.thumbs.getThumb(i).classList.add(`${selector}__thumb_active`);
-        }
-
-        const isSecondConverted = i === 1 && isConverted;
-
-        if (i === 0 || isSecondConverted) {
-          model.setValue({ val1: value });
-        } else if (i === 1) {
-          model.setValue({ val2: value });
-        }
-      };
-
-      const handlePointerUp = () => {
-        if (isConverted) {
-          view.thumbs.getThumb(0).classList.remove(`${selector}__thumb_active`);
-        }
-
-        view.thumbs.getThumb(i).classList.remove(`${selector}__thumb_active`);
-
-        document.removeEventListener('pointermove', handlePointerMove);
-        document.removeEventListener('pointerup', handlePointerUp);
-      };
-
-      const handlePointerDown = (e: PointerEvent) => {
-        pos0 = e[axis.eventAxis];
-        value0 = model.getValue()[i];
-        isConverted = false;
-        sign = 0;
-
-        if (i === 1 && (value0 === model.getValue()[0])) {
-          isConverted = true;
-          view.thumbs.getThumb(0).classList.add(`${selector}__thumb_active`);
-        } else {
-          view.thumbs.getThumb(i).classList.add(`${selector}__thumb_active`);
-        }
-
-        document.addEventListener('pointermove', handlePointerMove);
-        document.addEventListener('pointerup', handlePointerUp);
-      };
-
-      view.thumbs.getThumb(i).addEventListener('pointerdown', handlePointerDown);
-    }
-  }
 
   private initBody() {
     const {

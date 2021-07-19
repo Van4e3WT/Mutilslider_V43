@@ -71,7 +71,9 @@ class View extends EventEmitter {
       postfix,
       localeProps,
     });
-    this.thumbs = new Thumbs();
+    this.thumbs = new Thumbs({
+      selector,
+    });
     this.min = minValue;
     this.max = maxValue;
     this.step = step;
@@ -83,13 +85,23 @@ class View extends EventEmitter {
     if (this.isVertical) {
       parent.classList.add(`${selector}_vertical`);
       this.axis = {
-        sizeParent: 'height',
         styleSelector: 'bottom',
+        axis: 'y',
+        eventAxis: 'pageY',
+        sizeParent: 'height',
+        start: 'top',
+        end: 'bottom',
+        dPos: -1,
       };
     } else {
       this.axis = {
-        sizeParent: 'width',
         styleSelector: 'left',
+        axis: 'x',
+        eventAxis: 'pageX',
+        sizeParent: 'width',
+        start: 'left',
+        end: 'right',
+        dPos: 1,
       };
     }
 
@@ -106,7 +118,7 @@ class View extends EventEmitter {
     this.thumbsParent = sliderBody;
 
     for (let i: number = 0; i < this.thumbsCount; i += 1) {
-      this.thumbs.add(sliderBody, selector, this.isVertical);
+      this.thumbs.add(sliderBody, this.isVertical);
 
       if (this.tooltipIsActive) {
         this.outputs.createGroup({
@@ -145,7 +157,14 @@ class View extends EventEmitter {
     getMin: () => number,
     getMax: () => number,
   }) {
-    const { scale, outputs } = this;
+    const {
+      axis,
+      scale,
+      outputs,
+      thumbs,
+      thumbsParent,
+    } = this;
+
     const {
       getValue,
       setValue,
@@ -168,6 +187,15 @@ class View extends EventEmitter {
       in process of rendering sliders, as a result, the value of getBoundingClientRect()
       changes to new, this is the reason for the incorrect display
     */
+
+    thumbs.initEvents({
+      thumbsParent,
+      axis,
+      setValue,
+      getValue,
+      getMin,
+      getMax,
+    });
 
     outputs.initEvents({
       setValue,

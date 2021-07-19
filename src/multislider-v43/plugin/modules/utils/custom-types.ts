@@ -32,11 +32,16 @@ type ModelConfig = {
   value2?: number,
 };
 
-type MoveStyleAxis = 'bottom' | 'left';
+type MoveStyleAxis = 'left' | 'bottom';
 
 type ViewAxis = {
-  sizeParent: 'height' | 'width',
   styleSelector: MoveStyleAxis,
+  axis: 'x' | 'y',
+  eventAxis: 'pageX' | 'pageY',
+  sizeParent: 'width' | 'height',
+  start: 'left' | 'top',
+  end: 'right' | 'bottom',
+  dPos: -1 | 1;
 };
 
 export {
