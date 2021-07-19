@@ -5,32 +5,34 @@ class Scale {
 
   private scaleDivisions: Array<HTMLDivElement>;
 
+  private selector: string;
+
   private localeProps: Intl.NumberFormatOptions;
 
-  constructor(props: { localeProps: Intl.NumberFormatOptions | undefined }) {
-    const { localeProps = {} } = props;
+  constructor(props: { localeProps: Intl.NumberFormatOptions | undefined, selector: string }) {
+    const { localeProps = {}, selector = 'scale' } = props;
 
+    this.selector = selector;
     this.localeProps = localeProps;
     this.scaleDivisions = [];
     this.scale = document.createElement('div');
   }
 
-  public init(props: { count: number, selector: string, isVertical: boolean }) {
-    const { scaleDivisions, scale } = this;
+  public init(props: { count: number, isVertical: boolean }) {
+    const { scaleDivisions, scale, selector } = this;
     const {
       count,
-      selector,
       isVertical,
     } = props;
 
-    scale.classList.add(`${selector}`);
+    scale.classList.add(`${selector}__scale`);
 
     for (let i = 0; i < count; i += 1) {
       const scaleDivision = document.createElement('div');
 
-      scaleDivision.classList.add(`${selector}-division`);
+      scaleDivision.classList.add(`${selector}__scale-division`);
       if (isVertical) {
-        scaleDivision.classList.add(`${selector}-division_vertical`);
+        scaleDivision.classList.add(`${selector}__scale-division_vertical`);
       }
       scaleDivisions.push(scaleDivision);
       scale.appendChild(scaleDivision);
@@ -94,6 +96,47 @@ class Scale {
       scaleDivisions[i].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
       scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     }
+  }
+
+  public initEvents(props: {
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getValue: () => number[],
+  }) {
+    const { scale, selector } = this;
+    const { setValue, getValue } = props;
+
+    const handleScaleClick = (e: Event) => {
+      const target = e.target as HTMLDivElement;
+
+      if (!target.matches(`.${selector}__scale-division`)) return;
+
+      const scaleDivisionValue = Number((target.dataset.value ?? ''));
+
+      const isSecondValue = getValue().length === 2
+        && (Math.abs(scaleDivisionValue - getValue()[1])
+          < Math.abs(scaleDivisionValue - getValue()[0]));
+
+      const isEquals = getValue().length === 2
+        && (Math.abs(scaleDivisionValue - getValue()[1])
+          === Math.abs(scaleDivisionValue - getValue()[0]));
+
+      if (isSecondValue) {
+        setValue({ val2: scaleDivisionValue });
+      } else if (isEquals) {
+        if (getValue()[1] < scaleDivisionValue) {
+          setValue({ val2: scaleDivisionValue });
+        } else {
+          setValue({ val1: scaleDivisionValue });
+        }
+      } else {
+        setValue({ val1: scaleDivisionValue });
+      }
+    };
+
+    scale.addEventListener('click', handleScaleClick);
   }
 }
 

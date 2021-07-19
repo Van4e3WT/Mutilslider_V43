@@ -65,6 +65,7 @@ class View extends EventEmitter {
     this.selector = selector;
     this.scale = new Scale({
       localeProps,
+      selector,
     });
     this.outputs = new IO({
       postfix,
@@ -135,9 +136,25 @@ class View extends EventEmitter {
     return thumbSize;
   }
 
-  public init(getValues: () => number[]) {
+  public init(props: {
+    getValue: () => number[],
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getMin: () => number,
+    getMax: () => number,
+  }) {
+    const { scale } = this;
+    const {
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    } = props;
+
     const handleListenerUpdate = () => {
-      this.update(getValues());
+      this.update(getValue());
     };
 
     window.addEventListener('resize', handleListenerUpdate);
@@ -151,6 +168,13 @@ class View extends EventEmitter {
       in process of rendering sliders, as a result, the value of getBoundingClientRect()
       changes to new, this is the reason for the incorrect display
     */
+
+    if (scale.getScaleDivisions().length) {
+      scale.initEvents({
+        setValue,
+        getValue,
+      });
+    }
   }
 
   public updateScale = () => {
@@ -293,7 +317,6 @@ class View extends EventEmitter {
 
     scale.init({
       count: scaleDivisions,
-      selector: `${selector}__scale`,
       isVertical,
     });
     const scaleDivisionArr = scale.getScale();

@@ -53,24 +53,29 @@ class Controller extends EventEmitter {
   }
 
   public init() {
-    const { view } = this;
-
     this.initUpdate();
     this.initThumb();
     this.initOutput();
     this.initBody();
-
-    if (view.scale.getScaleDivisions().length) {
-      this.initScale();
-    }
   }
 
   private initUpdate() {
     const { model, view } = this;
+    const {
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    } = model;
 
     model.on('valueChanged', this.handleListenerUpdate);
 
-    view.init(model.getValue.bind(model));
+    view.init({
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    });
   }
 
   private handleListenerUpdate = () => {
@@ -185,37 +190,6 @@ class Controller extends EventEmitter {
     view.outputs.getIOInputs().forEach((output, i) => {
       output.addEventListener('change', handleOutputChange.bind(this, i));
     });
-  }
-
-  private initScale() {
-    const { view, model, selector } = this;
-    const scale = view.scale.getScale();
-
-    const handleScaleClick = (e: Event) => {
-      const target = e.target as HTMLDivElement;
-
-      if (!target.matches(`.${selector}__scale-division`)) return;
-
-      const scaleDivisionValue = Number((target.dataset.value ?? ''));
-
-      const isSecondValue = this.isSecondValue(scaleDivisionValue);
-
-      const isEquals = this.isEqualsValues(scaleDivisionValue);
-
-      if (isSecondValue) {
-        model.setValue({ val2: scaleDivisionValue });
-      } else if (isEquals) {
-        if (model.getValue()[1] < scaleDivisionValue) {
-          model.setValue({ val2: scaleDivisionValue });
-        } else {
-          model.setValue({ val1: scaleDivisionValue });
-        }
-      } else {
-        model.setValue({ val1: scaleDivisionValue });
-      }
-    };
-
-    scale.addEventListener('click', handleScaleClick);
   }
 
   private initBody() {
