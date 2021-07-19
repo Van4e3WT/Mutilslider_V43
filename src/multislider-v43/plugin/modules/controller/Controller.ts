@@ -55,7 +55,6 @@ class Controller extends EventEmitter {
   public init() {
     this.initUpdate();
     this.initThumb();
-    this.initOutput();
     this.initBody();
   }
 
@@ -159,37 +158,6 @@ class Controller extends EventEmitter {
 
       view.thumbs.getThumb(i).addEventListener('pointerdown', handlePointerDown);
     }
-  }
-
-  private initOutput() {
-    const { view, model } = this;
-
-    const convertToNumber = (symbol: string): string => {
-      const newSymbol = {
-        ' ': '',
-        ',': '.',
-      }[symbol] ?? '';
-
-      return newSymbol;
-    };
-
-    function handleOutputChange(n: number) {
-      const newVal = view.outputs.getIOInputs()[n].value.replace(/\s|,/g, convertToNumber);
-
-      if (Number(newVal)) {
-        if (n === 0) {
-          model.setValue({ val1: Number(newVal) });
-        } else {
-          model.setValue({ val2: Number(newVal) });
-        }
-      } else {
-        view.outputs.setIO(n, model.getValue()[n]);
-      }
-    }
-
-    view.outputs.getIOInputs().forEach((output, i) => {
-      output.addEventListener('change', handleOutputChange.bind(this, i));
-    });
   }
 
   private initBody() {

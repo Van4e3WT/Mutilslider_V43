@@ -92,6 +92,43 @@ class IO {
     });
   }
 
+  public initEvents(props: {
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getValue: () => number[],
+  }) {
+    const { setValue, getValue } = props;
+
+    const convertToValid = (symbol: string): string => {
+      const newString = {
+        ' ': '',
+        ',': '.',
+      }[symbol] ?? '';
+
+      return newString;
+    };
+
+    const handleOutputChange = (n: number) => {
+      const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, convertToValid);
+
+      if (Number(newVal)) {
+        if (n === 0) {
+          setValue({ val1: Number(newVal) });
+        } else {
+          setValue({ val2: Number(newVal) });
+        }
+      } else {
+        this.setIO(n, getValue()[n]);
+      }
+    };
+
+    this.getIOInputs().forEach((output, i) => {
+      output.addEventListener('change', handleOutputChange.bind(this, i));
+    });
+  }
+
   public getIOInputs() {
     const { groupValues } = this;
 

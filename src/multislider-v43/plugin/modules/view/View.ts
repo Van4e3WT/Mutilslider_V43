@@ -145,7 +145,7 @@ class View extends EventEmitter {
     getMin: () => number,
     getMax: () => number,
   }) {
-    const { scale } = this;
+    const { scale, outputs } = this;
     const {
       getValue,
       setValue,
@@ -168,6 +168,11 @@ class View extends EventEmitter {
       in process of rendering sliders, as a result, the value of getBoundingClientRect()
       changes to new, this is the reason for the incorrect display
     */
+
+    outputs.initEvents({
+      setValue,
+      getValue,
+    });
 
     if (scale.getScaleDivisions().length) {
       scale.initEvents({

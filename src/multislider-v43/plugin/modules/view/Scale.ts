@@ -39,6 +39,47 @@ class Scale {
     }
   }
 
+  public initEvents(props: {
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getValue: () => number[],
+  }) {
+    const { scale, selector } = this;
+    const { setValue, getValue } = props;
+
+    const handleScaleClick = (e: Event) => {
+      const target = e.target as HTMLDivElement;
+
+      if (!target.matches(`.${selector}__scale-division`)) return;
+
+      const scaleDivisionValue = Number((target.dataset.value ?? ''));
+
+      const isSecondValue = getValue().length === 2
+        && (Math.abs(scaleDivisionValue - getValue()[1])
+          < Math.abs(scaleDivisionValue - getValue()[0]));
+
+      const isEquals = getValue().length === 2
+        && (Math.abs(scaleDivisionValue - getValue()[1])
+          === Math.abs(scaleDivisionValue - getValue()[0]));
+
+      if (isSecondValue) {
+        setValue({ val2: scaleDivisionValue });
+      } else if (isEquals) {
+        if (getValue()[1] < scaleDivisionValue) {
+          setValue({ val2: scaleDivisionValue });
+        } else {
+          setValue({ val1: scaleDivisionValue });
+        }
+      } else {
+        setValue({ val1: scaleDivisionValue });
+      }
+    };
+
+    scale.addEventListener('click', handleScaleClick);
+  }
+
   public getScale() {
     const { scale } = this;
 
@@ -96,47 +137,6 @@ class Scale {
       scaleDivisions[i].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
       scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     }
-  }
-
-  public initEvents(props: {
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
-    getValue: () => number[],
-  }) {
-    const { scale, selector } = this;
-    const { setValue, getValue } = props;
-
-    const handleScaleClick = (e: Event) => {
-      const target = e.target as HTMLDivElement;
-
-      if (!target.matches(`.${selector}__scale-division`)) return;
-
-      const scaleDivisionValue = Number((target.dataset.value ?? ''));
-
-      const isSecondValue = getValue().length === 2
-        && (Math.abs(scaleDivisionValue - getValue()[1])
-          < Math.abs(scaleDivisionValue - getValue()[0]));
-
-      const isEquals = getValue().length === 2
-        && (Math.abs(scaleDivisionValue - getValue()[1])
-          === Math.abs(scaleDivisionValue - getValue()[0]));
-
-      if (isSecondValue) {
-        setValue({ val2: scaleDivisionValue });
-      } else if (isEquals) {
-        if (getValue()[1] < scaleDivisionValue) {
-          setValue({ val2: scaleDivisionValue });
-        } else {
-          setValue({ val1: scaleDivisionValue });
-        }
-      } else {
-        setValue({ val1: scaleDivisionValue });
-      }
-    };
-
-    scale.addEventListener('click', handleScaleClick);
   }
 }
 
