@@ -40,25 +40,25 @@ class DoubleModel extends EventEmitter implements IModel {
     this.setValue({ val1: value1, val2: value2 });
   }
 
-  public getMin() {
+  public getMin = () => {
     const { min } = this;
 
     return min;
-  }
+  };
 
-  public getMax() {
+  public getMax = () => {
     const { max } = this;
 
     return max;
-  }
+  };
 
-  public getValue() {
+  public getValue = () => {
     const { thumbs } = this;
 
     return thumbs.map((item) => item.value);
-  }
+  };
 
-  public setValue(props: { val1?: number, val2?: number }) {
+  public setValue = (props: { val1?: number, val2?: number }) => {
     const {
       thumbs,
       step,
@@ -109,7 +109,7 @@ class DoubleModel extends EventEmitter implements IModel {
       value1: val1,
       value2: val2,
     });
-  }
+  };
 }
 
 export default DoubleModel;
