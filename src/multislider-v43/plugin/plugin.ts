@@ -54,7 +54,7 @@ import IModel from './modules/models/interfaces/IModel';
       model,
       view,
     });
-    controller.initListeners();
+    controller.init();
 
     $.fn.multislider.value = (values: { val1?: number, val2?: number }) => {
       if (values) {

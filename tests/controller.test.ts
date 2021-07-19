@@ -61,7 +61,7 @@ describe('***CONTROLLER***', () => {
         model,
         view,
       });
-      controller.initListeners();
+      controller.init();
     });
 
     test('should emit event update view on value changing', () => {
@@ -162,7 +162,7 @@ describe('***CONTROLLER***', () => {
         model,
         view,
       });
-      controller.initListeners();
+      controller.init();
     });
 
     test('should emit event update view on value changing', () => {

@@ -52,7 +52,7 @@ class Controller extends EventEmitter {
     }
   }
 
-  public initListeners() {
+  public init() {
     const { view } = this;
 
     this.initUpdate();
@@ -66,26 +66,17 @@ class Controller extends EventEmitter {
   }
 
   private initUpdate() {
-    const { model } = this;
+    const { model, view } = this;
 
     model.on('valueChanged', this.handleListenerUpdate);
 
-    window.addEventListener('resize', this.handleListenerUpdate);
-    window.addEventListener('resize', this.view.updateScale);
-
-    document.addEventListener('DOMContentLoaded', this.handleListenerUpdate);
-    document.addEventListener('DOMContentLoaded', this.view.updateScale);
-    /*
-      That document listeners fix important bug with appearance browser's scroll bar
-      in process of rendering sliders, as a result, the value of getBoundingClientRect()
-      changes to new, this is the reason for the incorrect display
-    */
+    view.init(model.getValue.bind(model));
   }
 
   private handleListenerUpdate = () => {
     const { view, model } = this;
 
-    view.update.call(view, model.getValue());
+    view.update(model.getValue());
   };
 
   private initThumb() {

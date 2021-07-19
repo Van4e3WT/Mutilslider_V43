@@ -135,6 +135,24 @@ class View extends EventEmitter {
     return thumbSize;
   }
 
+  public init(getValues: () => number[]) {
+    const handleListenerUpdate = () => {
+      this.update(getValues());
+    };
+
+    window.addEventListener('resize', handleListenerUpdate);
+    window.addEventListener('resize', this.updateScale);
+
+    document.addEventListener('DOMContentLoaded', handleListenerUpdate);
+    document.addEventListener('DOMContentLoaded', this.updateScale);
+
+    /*
+      That document listeners fix important bug with appearance browser's scroll bar
+      in process of rendering sliders, as a result, the value of getBoundingClientRect()
+      changes to new, this is the reason for the incorrect display
+    */
+  }
+
   public updateScale = () => {
     const {
       scale,
