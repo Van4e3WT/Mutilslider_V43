@@ -202,6 +202,13 @@ class View extends EventEmitter {
       getValue,
     });
 
+    this.initEvents({
+      setValue,
+      getValue,
+      getMin,
+      getMax,
+    });
+
     if (scale.getScaleDivisions().length) {
       scale.initEvents({
         setValue,
@@ -277,6 +284,60 @@ class View extends EventEmitter {
           - parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)}px`;
       }
     }
+  }
+
+  private initEvents(props: {
+    getValue: () => number[],
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getMin: () => number,
+    getMax: () => number,
+  }) {
+    const { thumbsParent, axis, selector } = this;
+
+    const {
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    } = props;
+
+    const handleBodyThumbsClick = (e: PointerEvent) => {
+      const target = e.target as HTMLDivElement;
+
+      if (!target.classList.contains(`${selector}__body`)) return;
+
+      const delta = target.getBoundingClientRect()[axis.end]
+        - target.getBoundingClientRect()[axis.start];
+      const proportion = (e[axis.axis] - target.getBoundingClientRect()[axis.start]) / delta;
+
+      const newValue = (getMax() - getMin())
+        * (axis.axis === 'y' ? 1 - proportion : proportion) + getMin();
+
+      const isSecondValue = getValue().length === 2
+        && (Math.abs(newValue - getValue()[1])
+          < Math.abs(newValue - getValue()[0]));
+
+      const isEquals = getValue().length === 2
+        && (Math.abs(newValue - getValue()[1])
+          === Math.abs(newValue - getValue()[0]));
+
+      if (isSecondValue) {
+        setValue({ val2: newValue });
+      } else if (isEquals) {
+        if (getValue()[1] < newValue) {
+          setValue({ val2: newValue });
+        } else {
+          setValue({ val1: newValue });
+        }
+      } else {
+        setValue({ val1: newValue });
+      }
+    };
+
+    thumbsParent.addEventListener('pointerdown', handleBodyThumbsClick);
   }
 
   private renderHeader(parent: HTMLElement, title: string = '') {
