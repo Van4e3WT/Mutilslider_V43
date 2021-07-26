@@ -121,7 +121,11 @@ class Scale {
       if (i === 0) {
         addition = 0;
       } else {
-        addition = ((thumbSize / 2) - parseInt(getComputedStyle(thumbsParent).borderWidth, 10));
+        const parentBorderThickness = getComputedStyle(thumbsParent).borderWidth
+          ? getComputedStyle(thumbsParent).borderWidth
+          : getComputedStyle(thumbsParent).borderTopWidth;
+
+        addition = ((thumbSize / 2) - parseInt(parentBorderThickness, 10));
         if (i === n - 1) {
           addition *= 2;
           roundCoef = 0;

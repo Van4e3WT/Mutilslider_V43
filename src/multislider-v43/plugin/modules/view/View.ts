@@ -253,12 +253,14 @@ class View extends EventEmitter {
 
     const maxPixelValue = thumbsParent.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
+    const parentBorderThickness = getComputedStyle(thumbsParent).borderWidth
+      ? getComputedStyle(thumbsParent).borderWidth
+      : getComputedStyle(thumbsParent).borderTopWidth;
 
     for (let i = 0; i < thumbs.getLength(); i += 1) {
       const position = maxPixelValue
         * ((thumbsValues[i] - min)
-          / (max - min))
-        - parseInt(getComputedStyle(thumbsParent).borderWidth, 10);
+          / (max - min)) - parseInt(parentBorderThickness, 10);
 
       thumbs.moveThumb({ n: i, prop: axis.styleSelector, value: position });
       outputs.setIO(i, thumbsValues[i]);
