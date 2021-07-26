@@ -1,6 +1,6 @@
-import View from '../view/View';
-import EventEmitter from '../utils/EventEmitter';
 import IModel from '../models/interfaces/IModel';
+import EventEmitter from '../utils/EventEmitter';
+import View from '../view/View';
 
 class Controller extends EventEmitter {
   private model: IModel;

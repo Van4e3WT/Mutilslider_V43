@@ -1,3 +1,2 @@
-import './style';
-
 import './pages/index';
+import './style';

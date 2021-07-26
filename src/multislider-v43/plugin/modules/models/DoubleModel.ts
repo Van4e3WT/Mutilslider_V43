@@ -1,6 +1,6 @@
-import IModel from './interfaces/IModel';
 import EventEmitter from '../utils/EventEmitter';
 import { ModelConfig, ThumbModel } from '../utils/custom-types';
+import IModel from './interfaces/IModel';
 
 class DoubleModel extends EventEmitter implements IModel {
   private thumbs: [ThumbModel, ThumbModel];

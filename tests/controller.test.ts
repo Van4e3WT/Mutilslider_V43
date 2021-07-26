@@ -1,9 +1,9 @@
+import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
+import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
+import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
 import View from '../src/multislider-v43/plugin/modules/view/View';
 import Controller from '../src/multislider-v43/plugin/modules/controller/Controller';
 import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
-import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
-import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
-import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
 
 describe('***CONTROLLER***', () => {
   describe('Horizontal', () => {

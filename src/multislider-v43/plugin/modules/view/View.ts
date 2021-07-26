@@ -1,8 +1,8 @@
+import EventEmitter from '../utils/EventEmitter';
+import { Config, ViewAxis } from '../utils/custom-types';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';
-import EventEmitter from '../utils/EventEmitter';
-import { Config, ViewAxis } from '../utils/custom-types';
 
 class View extends EventEmitter {
   private thumbSize: number;
@@ -173,7 +173,7 @@ class View extends EventEmitter {
       getMax,
     } = props;
 
-    const additionalListeners = tooltipIsActive ? outputs.getIOparents() : undefined;
+    const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
 
     const handleListenerUpdate = () => {
       this.update(getValue());

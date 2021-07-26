@@ -156,7 +156,7 @@ class IO {
     }
   }
 
-  public getIOparents() {
+  public getIOParents() {
     const { groupValues } = this;
 
     return groupValues.map((val) => val.parent);

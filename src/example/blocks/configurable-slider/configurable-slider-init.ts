@@ -1,7 +1,7 @@
 /* global document */
 
-import './configurable-slider.scss';
 import ConfigurableSlider from './ConfigurableSlider';
+import './configurable-slider.scss';
 
 const BLOCKNAME = 'configurable-slider';
 
