@@ -123,7 +123,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     display: none;
     position: absolute;
     font: inherit;
-    cursor: default;
+    cursor: pointer;
     padding: 4px;
     background-color: white;
     color: $darkShade50;
@@ -131,12 +131,14 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     border-radius: 10px;
     bottom: 12px;
     transform: translateX(-50%);
+    touch-action: none;
     -moz-appearance: textfield;
 
     &-input {
       font: inherit;
       color: $darkShade75;
       border: none;
+      cursor: inherit;
       outline: none;
       -moz-appearance: textfield;
 

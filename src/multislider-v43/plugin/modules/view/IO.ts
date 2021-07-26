@@ -11,12 +11,25 @@ class IO {
 
   private localeProps: Intl.NumberFormatOptions;
 
+  private tooltipOfValue: boolean;
+
+  private tooltipIsHided: boolean;
+
   constructor(props: {
     postfix: string | undefined,
-    localeProps: Intl.NumberFormatOptions | undefined
+    localeProps: Intl.NumberFormatOptions | undefined,
+    tooltipOfValue: boolean | undefined,
+    tooltipIsHided: boolean | undefined,
   }) {
-    const { postfix = '', localeProps = {} } = props;
+    const {
+      postfix = '',
+      localeProps = {},
+      tooltipOfValue = false,
+      tooltipIsHided = false,
+    } = props;
 
+    this.tooltipOfValue = tooltipOfValue;
+    this.tooltipIsHided = tooltipIsHided;
     this.localeProps = localeProps;
     this.postfix = postfix;
     this.groupValues = [];
@@ -25,18 +38,24 @@ class IO {
   public createGroup(props: {
     parent: HTMLDivElement,
     selector: string,
-    isReadonly?: boolean,
-    isHided?: boolean,
     isVertical?: boolean,
   }) {
-    const { postfix, groupValues } = this;
+    const {
+      postfix,
+      groupValues,
+      tooltipOfValue,
+      tooltipIsHided,
+    } = this;
+
     const {
       parent,
       selector,
-      isReadonly = false,
-      isHided = true,
       isVertical = false,
     } = props;
+
+    const preventDefault = (e: MouseEvent) => {
+      e.preventDefault();
+    };
 
     const groupElement = document.createElement('div');
     groupElement.classList.add(selector);
@@ -45,14 +64,19 @@ class IO {
       groupElement.classList.add(`${selector}_vertical`);
     }
 
-    if (isReadonly && !isHided) {
+    if (tooltipOfValue && !tooltipIsHided) {
       groupElement.classList.add(`${selector}_visible`);
     }
 
     const inputElement = document.createElement('input');
     inputElement.type = 'text';
     inputElement.classList.add(`${selector}-input`);
-    inputElement.readOnly = isReadonly;
+    inputElement.readOnly = tooltipOfValue;
+
+    if (tooltipOfValue) {
+      inputElement.addEventListener('mousedown', preventDefault);
+    }
+
     groupElement.appendChild(inputElement);
 
     if (postfix) {
@@ -99,6 +123,7 @@ class IO {
     }) => void,
     getValue: () => number[],
   }) {
+    const { tooltipOfValue } = this;
     const { setValue, getValue } = props;
 
     const convertToValid = (symbol: string): string => {
@@ -124,9 +149,17 @@ class IO {
       }
     };
 
-    this.getIOInputs().forEach((output, i) => {
-      output.addEventListener('change', handleOutputChange.bind(this, i));
-    });
+    if (!tooltipOfValue) {
+      this.getIOInputs().forEach((output, i) => {
+        output.addEventListener('change', handleOutputChange.bind(this, i));
+      });
+    }
+  }
+
+  public getIOparents() {
+    const { groupValues } = this;
+
+    return groupValues.map((val) => val.parent);
   }
 
   public getIOInputs() {

@@ -35,6 +35,7 @@ class Thumbs {
     }) => void,
     getMin: () => number,
     getMax: () => number,
+    additionalListeners?: Array<HTMLElement>,
   }) {
     const { thumbs, selector } = this;
 
@@ -45,6 +46,7 @@ class Thumbs {
       setValue,
       getMin,
       getMax,
+      additionalListeners,
     } = props;
 
     for (let i = 0; i < thumbs.length; i += 1) {
@@ -113,6 +115,9 @@ class Thumbs {
       };
 
       thumbs[i].addEventListener('pointerdown', handlePointerDown);
+      if (additionalListeners) {
+        additionalListeners[i].addEventListener('pointerdown', handlePointerDown);
+      }
     }
   }
 

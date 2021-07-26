@@ -70,6 +70,8 @@ class View extends EventEmitter {
     this.outputs = new IO({
       postfix,
       localeProps,
+      tooltipOfValue,
+      tooltipIsHided,
     });
     this.thumbs = new Thumbs({
       selector,
@@ -124,8 +126,6 @@ class View extends EventEmitter {
         this.outputs.createGroup({
           parent: sliderBody,
           selector: `${selector}__tooltip`,
-          isReadonly: true,
-          isHided: tooltipIsHided,
           isVertical: this.isVertical,
         });
       }
@@ -163,6 +163,7 @@ class View extends EventEmitter {
       outputs,
       thumbs,
       thumbsParent,
+      tooltipIsActive,
     } = this;
 
     const {
@@ -171,6 +172,8 @@ class View extends EventEmitter {
       getMin,
       getMax,
     } = props;
+
+    const additionalListeners = tooltipIsActive ? outputs.getIOparents() : undefined;
 
     const handleListenerUpdate = () => {
       this.update(getValue());
@@ -195,6 +198,7 @@ class View extends EventEmitter {
       getValue,
       getMin,
       getMax,
+      additionalListeners,
     });
 
     outputs.initEvents({
