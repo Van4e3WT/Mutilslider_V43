@@ -14,7 +14,7 @@ module.exports = (env, options) => ({
     filename: '[name]/[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
-  devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
+  devtool: options.mode === 'production' ? false : 'inline-source-map',
   module: {
     rules: [
       {
