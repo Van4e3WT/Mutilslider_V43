@@ -11,7 +11,7 @@ import View from './modules/view/View';
 (function f($) {
   $.fn.multislider = function multisliderInit(props: Config) {
     const selector = 'multislider-v43';
-    const config = Utils.validationConfig(props);
+    const config = Utils.configValidation(props);
 
     if (this.length === 0) {
       throw new Error('Not found element for initialization');

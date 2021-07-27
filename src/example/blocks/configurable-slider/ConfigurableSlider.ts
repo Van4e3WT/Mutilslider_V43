@@ -7,7 +7,7 @@ type Config = {
   isVertical: HTMLInputElement,
   isRange: HTMLInputElement,
   tooltipOfValue: HTMLInputElement,
-  tooltipIsHided: HTMLInputElement,
+  tooltipIsHidden: HTMLInputElement,
   scaleOfValues: HTMLInputElement,
   isProgressBar: HTMLInputElement,
   postfix: HTMLInputElement,
@@ -88,9 +88,9 @@ class ConfigurableSlider {
       <div class="${selector}__item-title">tooltip</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip-hided js-${selector}__is-tooltip-hided" ${config.tooltipIsHided ? 'checked' : ''}>
+      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip-hidden js-${selector}__is-tooltip-hidden" ${config.tooltipIsHidden ? 'checked' : ''}>
       <div class="${selector}__item-toggle js-${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">tooltip hided</div>
+      <div class="${selector}__item-title">tooltip hidden</div>
     </label>
     <label class="${selector}__item">
       <input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">
@@ -119,13 +119,13 @@ class ConfigurableSlider {
       isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) as HTMLInputElement,
       isRange: panelControl.querySelector(`.js-${selector}__is-range`) as HTMLInputElement,
       tooltipOfValue: panelControl.querySelector(`.js-${selector}__is-tooltip`) as HTMLInputElement,
-      tooltipIsHided: panelControl.querySelector(`.js-${selector}__is-tooltip-hided`) as HTMLInputElement,
+      tooltipIsHidden: panelControl.querySelector(`.js-${selector}__is-tooltip-hidden`) as HTMLInputElement,
       scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`) as HTMLInputElement,
       isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) as HTMLInputElement,
       postfix: panelControl.querySelector(`.js-${selector}__postfix`) as HTMLInputElement,
     };
 
-    this.tooltipToggle = this.inputs.tooltipIsHided.parentElement
+    this.tooltipToggle = this.inputs.tooltipIsHidden.parentElement
       ?.querySelector(`.js-${selector}__item-toggle`);
 
     panelControl.addEventListener('change', this.handlePanelChange);
@@ -150,7 +150,7 @@ class ConfigurableSlider {
       isRange: inputs.isRange.checked,
 
       tooltipOfValue: inputs.tooltipOfValue.checked,
-      tooltipIsHided: inputs.tooltipIsHided.checked,
+      tooltipIsHidden: inputs.tooltipIsHidden.checked,
       scaleOfValues: Number(inputs.scaleOfValues.value),
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
@@ -232,10 +232,10 @@ class ConfigurableSlider {
 
     if (tooltipToggle) {
       if (inputs.tooltipOfValue.checked) {
-        inputs.tooltipIsHided.disabled = false;
+        inputs.tooltipIsHidden.disabled = false;
         tooltipToggle.classList.remove(`${selector}__item-toggle_disabled`);
       } else {
-        inputs.tooltipIsHided.disabled = true;
+        inputs.tooltipIsHidden.disabled = true;
         tooltipToggle.classList.add(`${selector}__item-toggle_disabled`);
       }
     }

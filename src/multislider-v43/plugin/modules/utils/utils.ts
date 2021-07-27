@@ -1,11 +1,11 @@
 import { Config } from './custom-types';
 
-function validationConfig(config: Config): Config {
+function configValidation(config: Config): Config {
   const {
     isRange = false,
     isVertical = false,
     tooltipOfValue = false,
-    tooltipIsHided = true,
+    tooltipIsHidden = true,
     isProgressBar = true,
     postfix,
     description = 'Range Slider',
@@ -66,7 +66,7 @@ function validationConfig(config: Config): Config {
     isRange,
 
     tooltipOfValue,
-    tooltipIsHided,
+    tooltipIsHidden,
     scaleOfValues,
     isProgressBar,
 
@@ -78,4 +78,4 @@ function validationConfig(config: Config): Config {
   return validatedConfig;
 }
 
-export default { validationConfig };
+export default { configValidation };

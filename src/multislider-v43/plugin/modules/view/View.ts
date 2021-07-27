@@ -57,7 +57,7 @@ class View extends EventEmitter {
       tooltipOfValue,
       isVertical,
       description,
-      tooltipIsHided,
+      tooltipIsHidden,
       isProgressBar,
       scaleOfValues,
     } = cfg;
@@ -71,7 +71,7 @@ class View extends EventEmitter {
       postfix,
       localeProps,
       tooltipOfValue,
-      tooltipIsHided,
+      tooltipIsHidden,
     });
     this.thumbs = new Thumbs({
       selector,

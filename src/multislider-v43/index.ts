@@ -15,7 +15,7 @@ $elems.each((i, elem) => {
     tooltipOfValue?: boolean,
     scaleOfValues?: number,
     isProgressBar?: boolean,
-    tooltipIsHided?: boolean,
+    tooltipIsHidden?: boolean,
     description?: string | null,
     postfix?: string | null,
   } = {};
@@ -30,7 +30,7 @@ $elems.each((i, elem) => {
   if (elem.hasAttribute('data-tooltip-of-value')) props.tooltipOfValue = (elem.getAttribute('data-tooltip-of-value') === 'true');
   if (elem.hasAttribute('data-scale-of-values')) props.scaleOfValues = Number(elem.getAttribute('data-scale-of-values'));
   if (elem.hasAttribute('data-is-progress-bar')) props.isProgressBar = (elem.getAttribute('data-is-progress-bar') === 'true');
-  if (elem.hasAttribute('data-tooltip-is-hided')) props.tooltipIsHided = (elem.getAttribute('data-tooltip-is-hided') === 'true');
+  if (elem.hasAttribute('data-tooltip-is-hidden')) props.tooltipIsHidden = (elem.getAttribute('data-tooltip-is-hidden') === 'true');
   if (elem.hasAttribute('data-description')) props.description = elem.getAttribute('data-description');
   if (elem.hasAttribute('data-postfix')) props.postfix = elem.getAttribute('data-postfix');
 

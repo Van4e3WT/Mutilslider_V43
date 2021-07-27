@@ -15,7 +15,7 @@ type Config = {
   isRange?: boolean,
 
   tooltipOfValue?: boolean,
-  tooltipIsHided?: boolean,
+  tooltipIsHidden?: boolean,
   scaleOfValues?: number,
   isProgressBar?: boolean,
 
