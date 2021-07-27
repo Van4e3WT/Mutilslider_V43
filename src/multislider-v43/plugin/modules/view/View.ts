@@ -101,12 +101,6 @@ class View extends EventEmitter {
     this.update(values);
   }
 
-  public getThumbSize() {
-    const { thumbSize } = this;
-
-    return thumbSize;
-  }
-
   public init(props: {
     getValue: () => number[],
     setValue: (props: {
@@ -180,27 +174,6 @@ class View extends EventEmitter {
     }
   }
 
-  public updateScale = () => {
-    const {
-      scale,
-      thumbsParent,
-      axis,
-      thumbSize,
-      min,
-      max,
-      step,
-    } = this;
-
-    scale.update({
-      thumbsParent,
-      axis,
-      thumbSize,
-      min,
-      max,
-      step,
-    });
-  };
-
   public update(thumbsValues: Array<number>) {
     const {
       thumbsParent,
@@ -232,7 +205,7 @@ class View extends EventEmitter {
         outputs.moveIO({
           n: i,
           prop: axis.styleSelector,
-          value: (position + this.getThumbSize() / 2),
+          value: (position + thumbSize / 2),
         });
       }
     }
@@ -445,6 +418,27 @@ class View extends EventEmitter {
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();
+  }
+
+  private updateScale() {
+    const {
+      scale,
+      thumbsParent,
+      axis,
+      thumbSize,
+      min,
+      max,
+      step,
+    } = this;
+
+    scale.update({
+      thumbsParent,
+      axis,
+      thumbSize,
+      min,
+      max,
+      step,
+    });
   }
 }
 
