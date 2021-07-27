@@ -46,7 +46,7 @@ class SoloModel extends EventEmitter implements IModel {
     return thumbs.map((item) => item.value);
   };
 
-  public setValue = (props: { val1?: number, val2?: number }) => {
+  public setValue = (props: { val1?: number }) => {
     const { thumbs, step } = this;
     let { val1 } = props;
 
