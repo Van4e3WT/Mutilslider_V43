@@ -17,13 +17,8 @@ class SoloModel extends EventEmitter implements IModel {
       value1 = min,
     } = cfg;
 
-    this.thumbs = [{
-      min,
-      max,
-      value: (max - min) / 2,
-    }];
-
     this.step = step;
+    this.thumbs = this.getDefaultThumb(min, max);
 
     this.setValue({ val1: value1 });
   }
@@ -71,6 +66,14 @@ class SoloModel extends EventEmitter implements IModel {
       value1: props.val1,
     });
   };
+
+  private getDefaultThumb(min: number, max: number): [ThumbModel] {
+    return [{
+      min,
+      max,
+      value: min,
+    }];
+  }
 }
 
 export default SoloModel;

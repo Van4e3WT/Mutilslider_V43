@@ -84,58 +84,17 @@ class View extends EventEmitter {
 
     this.isVertical = isVertical ?? false;
 
-    if (this.isVertical) {
-      parent.classList.add(`${selector}_vertical`);
-      this.axis = {
-        styleSelector: 'bottom',
-        axis: 'y',
-        eventAxis: 'pageY',
-        sizeParent: 'height',
-        start: 'top',
-        end: 'bottom',
-        dPos: -1,
-      };
-    } else {
-      this.axis = {
-        styleSelector: 'left',
-        axis: 'x',
-        eventAxis: 'pageX',
-        sizeParent: 'width',
-        start: 'left',
-        end: 'right',
-        dPos: 1,
-      };
-    }
+    this.axis = this.getAxis(parent);
 
     this.renderHeader(parent, description);
 
-    const sliderBody = document.createElement('div');
-    sliderBody.classList.add(`${selector}__body`);
-
-    if (this.isVertical) {
-      sliderBody.classList.add(`${selector}__body_vertical`);
-    }
-
-    parent.appendChild(sliderBody);
-    this.thumbsParent = sliderBody;
-
-    for (let i: number = 0; i < this.thumbsCount; i += 1) {
-      this.thumbs.add(sliderBody, this.isVertical);
-
-      if (this.tooltipIsActive) {
-        this.outputs.createGroup({
-          parent: sliderBody,
-          selector: `${selector}__tooltip`,
-          isVertical: this.isVertical,
-        });
-      }
-    }
+    this.thumbsParent = this.renderBody(parent);
 
     this.thumbSize = this.thumbs.getSize();
 
-    this.renderProgressBar(sliderBody, isProgressBar);
+    this.renderProgressBar(this.thumbsParent, isProgressBar);
 
-    this.renderScale(sliderBody, scaleOfValues);
+    this.renderScale(this.thumbsParent, scaleOfValues);
 
     this.outputs.init();
 
@@ -292,6 +251,36 @@ class View extends EventEmitter {
     }
   }
 
+  private getAxis(parent: HTMLElement): ViewAxis {
+    const { isVertical, selector } = this;
+    let resultAxis: ViewAxis;
+
+    if (isVertical) {
+      parent.classList.add(`${selector}_vertical`);
+      resultAxis = {
+        styleSelector: 'bottom',
+        axis: 'y',
+        eventAxis: 'pageY',
+        sizeParent: 'height',
+        start: 'top',
+        end: 'bottom',
+        dPos: -1,
+      };
+    } else {
+      resultAxis = {
+        styleSelector: 'left',
+        axis: 'x',
+        eventAxis: 'pageX',
+        sizeParent: 'width',
+        start: 'left',
+        end: 'right',
+        dPos: 1,
+      };
+    }
+
+    return resultAxis;
+  }
+
   private initEvents(props: {
     getValue: () => number[],
     setValue: (props: {
@@ -385,6 +374,40 @@ class View extends EventEmitter {
         });
       }
     }
+  }
+
+  private renderBody(parent: HTMLElement): HTMLDivElement {
+    const {
+      selector,
+      isVertical,
+      thumbs,
+      outputs,
+      thumbsCount,
+      tooltipIsActive,
+    } = this;
+
+    const sliderBody = document.createElement('div');
+    sliderBody.classList.add(`${selector}__body`);
+
+    if (isVertical) {
+      sliderBody.classList.add(`${selector}__body_vertical`);
+    }
+
+    parent.appendChild(sliderBody);
+
+    for (let i: number = 0; i < thumbsCount; i += 1) {
+      thumbs.add(sliderBody, isVertical);
+
+      if (tooltipIsActive) {
+        outputs.createGroup({
+          parent: sliderBody,
+          selector: `${selector}__tooltip`,
+          isVertical,
+        });
+      }
+    }
+
+    return sliderBody;
   }
 
   private renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false) {

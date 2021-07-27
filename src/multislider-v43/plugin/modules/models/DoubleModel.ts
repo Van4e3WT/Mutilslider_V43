@@ -26,16 +26,7 @@ class DoubleModel extends EventEmitter implements IModel {
     this.max = max;
     this.step = step;
 
-    this.thumbs = [{
-      min: this.min,
-      max: value2,
-      value: this.min,
-    },
-    {
-      min: value1,
-      max: this.max,
-      value: this.max,
-    }];
+    this.thumbs = this.getDefaultThumbs();
 
     this.setValue({ val1: value1, val2: value2 });
   }
@@ -110,6 +101,23 @@ class DoubleModel extends EventEmitter implements IModel {
       value2: val2,
     });
   };
+
+  private getDefaultThumbs(): [ThumbModel, ThumbModel] {
+    const { min, max } = this;
+
+    return [
+      {
+        min,
+        max,
+        value: min,
+      },
+      {
+        min,
+        max,
+        value: max,
+      },
+    ];
+  }
 }
 
 export default DoubleModel;
