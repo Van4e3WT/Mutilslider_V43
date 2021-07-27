@@ -420,7 +420,7 @@ class View extends EventEmitter {
     this.updateScale();
   }
 
-  private updateScale() {
+  private updateScale = () => {
     const {
       scale,
       thumbsParent,
@@ -439,7 +439,7 @@ class View extends EventEmitter {
       max,
       step,
     });
-  }
+  };
 }
 
 export default View;
