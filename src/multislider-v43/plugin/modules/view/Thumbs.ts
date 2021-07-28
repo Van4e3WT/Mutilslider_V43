@@ -1,5 +1,5 @@
 /* global document */
-import { MoveStyleAxis, ViewAxis } from 'Plugin/modules/utils/custom-types';
+import { MoveStyleAxis, ThumbData, ViewAxis } from 'Plugin/modules/utils/custom-types';
 
 class Thumbs {
   private thumbs: Array<HTMLDivElement>;
@@ -37,7 +37,7 @@ class Thumbs {
     getMax: () => number,
     additionalListeners?: Array<HTMLElement>,
   }) {
-    const { thumbs, selector } = this;
+    const { thumbs } = this;
 
     const {
       thumbsParent,
@@ -50,69 +50,26 @@ class Thumbs {
     } = props;
 
     for (let i = 0; i < thumbs.length; i += 1) {
-      let isConverted: boolean;
-      let sign: number;
-      let pos0: number;
-      let value0: number;
+      const unionData: ThumbData = {
+        n: i,
+        thumbsParent,
+        axis,
 
-      const handlePointerMove = (e: PointerEvent) => {
-        const pos1 = e[axis.eventAxis];
-        const value = ((((pos1 - pos0) * axis.dPos)
-          / (thumbsParent.getBoundingClientRect()[axis.sizeParent]
-            - this.getSize()))
-          * (getMax() - getMin()))
-          + value0;
+        getValue,
+        setValue,
+        getMin,
+        getMax,
 
-        const delta = pos1 - pos0;
-
-        if (!sign) {
-          sign = delta;
-        }
-
-        const isNeedSwitchConvert = (delta * axis.dPos > 0) && (delta > 0 === sign > 0);
-
-        if (isConverted && isNeedSwitchConvert) {
-          isConverted = false;
-          thumbs[0].classList.remove(`${selector}__thumb_active`);
-          thumbs[i].classList.add(`${selector}__thumb_active`);
-        }
-
-        const isSecondConverted = i === 1 && isConverted;
-
-        if (i === 0 || isSecondConverted) {
-          setValue({ val1: value });
-        } else if (i === 1) {
-          setValue({ val2: value });
-        }
+        vars: {},
       };
 
-      const handlePointerUp = () => {
-        if (isConverted) {
-          thumbs[0].classList.remove(`${selector}__thumb_active`);
-        }
+      const handlePointerMove = this.handlePointerMove.bind(null, unionData);
+      unionData.handlePointerMove = handlePointerMove;
 
-        thumbs[i].classList.remove(`${selector}__thumb_active`);
+      const handlePointerUp = this.handlePointerUp.bind(null, unionData);
+      unionData.handlePointerUp = handlePointerUp;
 
-        document.removeEventListener('pointermove', handlePointerMove);
-        document.removeEventListener('pointerup', handlePointerUp);
-      };
-
-      const handlePointerDown = (e: PointerEvent) => {
-        pos0 = e[axis.eventAxis];
-        value0 = getValue()[i];
-        isConverted = false;
-        sign = 0;
-
-        if (i === 1 && (value0 === getValue()[0])) {
-          isConverted = true;
-          thumbs[0].classList.add(`${selector}__thumb_active`);
-        } else {
-          thumbs[i].classList.add(`${selector}__thumb_active`);
-        }
-
-        document.addEventListener('pointermove', handlePointerMove);
-        document.addEventListener('pointerup', handlePointerUp);
-      };
+      const handlePointerDown = this.handlePointerDown.bind(null, unionData);
 
       thumbs[i].addEventListener('pointerdown', handlePointerDown);
       if (additionalListeners) {
@@ -152,6 +109,100 @@ class Thumbs {
 
     return thumbs[n].style[prop];
   }
+
+  private handlePointerMove = (data: ThumbData, e: PointerEvent) => {
+    const { thumbs, selector } = this;
+    const {
+      n,
+      axis,
+      thumbsParent,
+      setValue,
+      getMin,
+      getMax,
+      vars,
+    } = data;
+
+    if (!(vars.pos0 && vars.value0)) return;
+
+    const pos1 = e[axis.eventAxis];
+    const value = ((((pos1 - vars.pos0) * axis.dPos)
+      / (thumbsParent.getBoundingClientRect()[axis.sizeParent]
+        - this.getSize()))
+      * (getMax() - getMin()))
+      + vars.value0;
+
+    const delta = pos1 - vars.pos0;
+
+    if (!vars.sign) {
+      vars.sign = delta;
+    }
+
+    const isNeedSwitchConvert = (delta * axis.dPos > 0) && (delta > 0 === vars.sign > 0);
+
+    if (vars.isConverted && isNeedSwitchConvert) {
+      vars.isConverted = false;
+      thumbs[0].classList.remove(`${selector}__thumb_active`);
+      thumbs[n].classList.add(`${selector}__thumb_active`);
+    }
+
+    const isSecondConverted = n === 1 && vars.isConverted;
+
+    if (n === 0 || isSecondConverted) {
+      setValue({ val1: value });
+    } else if (n === 1) {
+      setValue({ val2: value });
+    }
+  };
+
+  private handlePointerUp = (data: ThumbData) => {
+    const { thumbs, selector } = this;
+    const {
+      n,
+      vars,
+      handlePointerMove,
+      handlePointerUp,
+    } = data;
+
+    if (vars.isConverted) {
+      thumbs[0].classList.remove(`${selector}__thumb_active`);
+    }
+
+    thumbs[n].classList.remove(`${selector}__thumb_active`);
+
+    if (!(handlePointerMove && handlePointerUp)) return;
+
+    document.removeEventListener('pointermove', handlePointerMove);
+    document.removeEventListener('pointerup', handlePointerUp);
+  };
+
+  private handlePointerDown = (data: ThumbData, e: PointerEvent) => {
+    const { thumbs, selector } = this;
+    const {
+      n,
+      axis,
+      getValue,
+      vars,
+      handlePointerMove,
+      handlePointerUp,
+    } = data;
+
+    vars.pos0 = e[axis.eventAxis];
+    vars.value0 = getValue()[n];
+    vars.isConverted = false;
+    vars.sign = 0;
+
+    if (n === 1 && (vars.value0 === getValue()[0])) {
+      vars.isConverted = true;
+      thumbs[0].classList.add(`${selector}__thumb_active`);
+    } else {
+      thumbs[n].classList.add(`${selector}__thumb_active`);
+    }
+
+    if (!(handlePointerMove && handlePointerUp)) return;
+
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+  };
 }
 
 export default Thumbs;

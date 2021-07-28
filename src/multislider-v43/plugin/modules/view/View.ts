@@ -128,14 +128,10 @@ class View extends EventEmitter {
 
     const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
 
-    const handleListenerUpdate = () => {
-      this.update(getValue());
-    };
-
-    window.addEventListener('resize', handleListenerUpdate);
+    window.addEventListener('resize', this.handleListenerUpdate.bind(null, getValue));
     window.addEventListener('resize', this.updateScale);
 
-    document.addEventListener('DOMContentLoaded', handleListenerUpdate);
+    document.addEventListener('DOMContentLoaded', this.handleListenerUpdate.bind(null, getValue));
     document.addEventListener('DOMContentLoaded', this.updateScale);
 
     /*
@@ -263,7 +259,7 @@ class View extends EventEmitter {
     getMin: () => number,
     getMax: () => number,
   }) {
-    const { thumbsParent, axis, selector } = this;
+    const { thumbsParent } = this;
 
     const {
       getValue,
@@ -272,40 +268,12 @@ class View extends EventEmitter {
       getMax,
     } = props;
 
-    const handleBodyThumbsClick = (e: PointerEvent) => {
-      const target = e.target as HTMLDivElement;
-
-      if (!target.classList.contains(`${selector}__body`)) return;
-
-      const delta = target.getBoundingClientRect()[axis.end]
-        - target.getBoundingClientRect()[axis.start];
-      const proportion = (e[axis.axis] - target.getBoundingClientRect()[axis.start]) / delta;
-
-      const newValue = (getMax() - getMin())
-        * (axis.axis === 'y' ? 1 - proportion : proportion) + getMin();
-
-      const isSecondValue = getValue().length === 2
-        && (Math.abs(newValue - getValue()[1])
-          < Math.abs(newValue - getValue()[0]));
-
-      const isEquals = getValue().length === 2
-        && (Math.abs(newValue - getValue()[1])
-          === Math.abs(newValue - getValue()[0]));
-
-      if (isSecondValue) {
-        setValue({ val2: newValue });
-      } else if (isEquals) {
-        if (getValue()[1] < newValue) {
-          setValue({ val2: newValue });
-        } else {
-          setValue({ val1: newValue });
-        }
-      } else {
-        setValue({ val1: newValue });
-      }
-    };
-
-    thumbsParent.addEventListener('pointerdown', handleBodyThumbsClick);
+    thumbsParent.addEventListener('pointerdown', this.handleBodyThumbsClick.bind(null, {
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    }));
   }
 
   private renderHeader(parent: HTMLElement, title: string = '') {
@@ -439,6 +407,59 @@ class View extends EventEmitter {
       max,
       step,
     });
+  };
+
+  private handleListenerUpdate = (getValue: Function) => {
+    this.update(getValue());
+  };
+
+  private handleBodyThumbsClick = (props: {
+    getValue: () => number[],
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getMin: () => number,
+    getMax: () => number,
+  }, e: PointerEvent) => {
+    const { axis, selector } = this;
+    const {
+      getValue,
+      setValue,
+      getMin,
+      getMax,
+    } = props;
+
+    const target = e.target as HTMLDivElement;
+
+    if (!target.classList.contains(`${selector}__body`)) return;
+
+    const delta = target.getBoundingClientRect()[axis.end]
+      - target.getBoundingClientRect()[axis.start];
+    const proportion = (e[axis.axis] - target.getBoundingClientRect()[axis.start]) / delta;
+
+    const newValue = (getMax() - getMin())
+      * (axis.axis === 'y' ? 1 - proportion : proportion) + getMin();
+
+    const isSecondValue = getValue().length === 2
+      && (Math.abs(newValue - getValue()[1])
+        < Math.abs(newValue - getValue()[0]));
+
+    const isEquals = getValue().length === 2
+      && (Math.abs(newValue - getValue()[1])
+        === Math.abs(newValue - getValue()[0]));
+
+    if (isSecondValue) {
+      setValue({ val2: newValue });
+    } else if (isEquals) {
+      if (getValue()[1] < newValue) {
+        setValue({ val2: newValue });
+      } else {
+        setValue({ val1: newValue });
+      }
+    } else {
+      setValue({ val1: newValue });
+    }
   };
 }
 

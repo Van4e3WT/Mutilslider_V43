@@ -53,10 +53,6 @@ class IO {
       isVertical = false,
     } = props;
 
-    const preventDefault = (e: MouseEvent) => {
-      e.preventDefault();
-    };
-
     const parentElement = document.createElement('div');
     parentElement.classList.add(selector);
 
@@ -74,7 +70,7 @@ class IO {
     inputElement.readOnly = tooltipOfValue;
 
     if (tooltipOfValue) {
-      inputElement.addEventListener('mousedown', preventDefault);
+      inputElement.addEventListener('mousedown', this.preventDefault);
     }
 
     parentElement.appendChild(inputElement);
@@ -101,18 +97,9 @@ class IO {
   public init() {
     const { valueGroup } = this;
 
-    function handleInputUpdate(i: number) {
-      const { value } = valueGroup[i].input;
-
-      if (value) {
-        valueGroup[i].hidden.textContent = value;
-        valueGroup[i].input.style.width = `${valueGroup[i].hidden.offsetWidth + 2}px`;
-      }
-    }
-
     valueGroup.forEach((value, i) => {
-      valueGroup[i].input.addEventListener('input', handleInputUpdate.bind(this, i));
-      window.addEventListener('load', handleInputUpdate.bind(this, i));
+      valueGroup[i].input.addEventListener('input', this.handleInputUpdate.bind(null, i));
+      window.addEventListener('load', this.handleInputUpdate.bind(null, i));
     });
   }
 
@@ -126,32 +113,13 @@ class IO {
     const { tooltipOfValue } = this;
     const { setValue, getValue } = props;
 
-    const convertToValid = (symbol: string): string => {
-      const newString = {
-        ' ': '',
-        ',': '.',
-      }[symbol] ?? '';
-
-      return newString;
-    };
-
-    const handleOutputChange = (n: number) => {
-      const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, convertToValid);
-
-      if (Number(newVal)) {
-        if (n === 0) {
-          setValue({ val1: Number(newVal) });
-        } else {
-          setValue({ val2: Number(newVal) });
-        }
-      } else {
-        this.setIO(n, getValue()[n]);
-      }
-    };
-
     if (!tooltipOfValue) {
       this.getIOInputs().forEach((output, i) => {
-        output.addEventListener('change', handleOutputChange.bind(this, i));
+        output.addEventListener('change', this.handleOutputChange.bind(null, {
+          n: i,
+          getValue,
+          setValue,
+        }));
       });
     }
   }
@@ -182,6 +150,51 @@ class IO {
 
     valueGroup[n].parent.style[prop] = `${value}px`;
   }
+
+  private convertToValid = (symbol: string): string => {
+    const newString = {
+      ' ': '',
+      ',': '.',
+    }[symbol] ?? '';
+
+    return newString;
+  };
+
+  private handleInputUpdate = (i: number) => {
+    const { valueGroup } = this;
+    const { value } = valueGroup[i].input;
+
+    if (value) {
+      valueGroup[i].hidden.textContent = value;
+      valueGroup[i].input.style.width = `${valueGroup[i].hidden.offsetWidth + 2}px`;
+    }
+  };
+
+  private handleOutputChange = (props: {
+    n: number,
+    getValue: () => number[],
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+  }) => {
+    const { n, getValue, setValue } = props;
+    const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, this.convertToValid);
+
+    if (Number(newVal)) {
+      if (n === 0) {
+        setValue({ val1: Number(newVal) });
+      } else {
+        setValue({ val2: Number(newVal) });
+      }
+    } else {
+      this.setIO(n, getValue()[n]);
+    }
+  };
+
+  private preventDefault = (e: MouseEvent) => {
+    e.preventDefault();
+  };
 }
 
 export default IO;

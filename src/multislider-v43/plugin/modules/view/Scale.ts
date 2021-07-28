@@ -49,35 +49,11 @@ class Scale {
     const { scale, selector } = this;
     const { setValue, getValue } = props;
 
-    const handleScaleClick = (e: Event) => {
-      const target = e.target as HTMLDivElement;
-
-      if (!target.matches(`.${selector}__scale-division`)) return;
-
-      const scaleDivisionValue = Number((target.dataset.value ?? ''));
-
-      const isSecondValue = getValue().length === 2
-        && (Math.abs(scaleDivisionValue - getValue()[1])
-          < Math.abs(scaleDivisionValue - getValue()[0]));
-
-      const isEquals = getValue().length === 2
-        && (Math.abs(scaleDivisionValue - getValue()[1])
-          === Math.abs(scaleDivisionValue - getValue()[0]));
-
-      if (isSecondValue) {
-        setValue({ val2: scaleDivisionValue });
-      } else if (isEquals) {
-        if (getValue()[1] < scaleDivisionValue) {
-          setValue({ val2: scaleDivisionValue });
-        } else {
-          setValue({ val1: scaleDivisionValue });
-        }
-      } else {
-        setValue({ val1: scaleDivisionValue });
-      }
-    };
-
-    scale.addEventListener('click', handleScaleClick);
+    scale.addEventListener('click', this.handleScaleClick.bind(null, {
+      selector,
+      setValue,
+      getValue,
+    }));
   }
 
   public getScale() {
@@ -142,6 +118,42 @@ class Scale {
       scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     }
   }
+
+  private handleScaleClick = (props: {
+    selector: string,
+    setValue: (props: {
+      val1?: number,
+      val2?: number,
+    }) => void,
+    getValue: () => number[],
+  }, e: Event) => {
+    const { selector, setValue, getValue } = props;
+    const target = e.target as HTMLDivElement;
+
+    if (!target.matches(`.${selector}__scale-division`)) return;
+
+    const scaleDivisionValue = Number((target.dataset.value ?? ''));
+
+    const isSecondValue = getValue().length === 2
+      && (Math.abs(scaleDivisionValue - getValue()[1])
+        < Math.abs(scaleDivisionValue - getValue()[0]));
+
+    const isEquals = getValue().length === 2
+      && (Math.abs(scaleDivisionValue - getValue()[1])
+        === Math.abs(scaleDivisionValue - getValue()[0]));
+
+    if (isSecondValue) {
+      setValue({ val2: scaleDivisionValue });
+    } else if (isEquals) {
+      if (getValue()[1] < scaleDivisionValue) {
+        setValue({ val2: scaleDivisionValue });
+      } else {
+        setValue({ val1: scaleDivisionValue });
+      }
+    } else {
+      setValue({ val1: scaleDivisionValue });
+    }
+  };
 }
 
 export default Scale;

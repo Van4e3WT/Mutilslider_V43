@@ -44,10 +44,35 @@ type ViewAxis = {
   dPos: -1 | 1;
 };
 
+type ThumbData = {
+  n: number,
+  thumbsParent: HTMLDivElement,
+  axis: ViewAxis,
+
+  getValue: () => number[],
+  setValue: (props: {
+    val1?: number,
+    val2?: number,
+  }) => void,
+  getMin: () => number,
+  getMax: () => number,
+
+  vars: {
+    isConverted?: boolean,
+    sign?: number,
+    pos0?: number,
+    value0?: number,
+  },
+
+  handlePointerMove?: (e: PointerEvent) => void,
+  handlePointerUp?: () => void,
+};
+
 export {
   ThumbModel,
   Config,
   ModelConfig,
   MoveStyleAxis,
   ViewAxis,
+  ThumbData,
 };

@@ -161,18 +161,22 @@ class ConfigurableSlider {
 
     if (!getValue || !onChange) return;
 
-    const handleSliderChange = () => {
-      const values = getValue();
-
-      inputs.value1.value = String(values[0]);
-
-      if (values.length === 2) {
-        inputs.value2.value = String(values[1]);
-      }
-    };
-
-    onChange(handleSliderChange);
+    onChange(this.handleSliderChange, getValue);
     getValue({});
+  };
+
+  private handleSliderChange = (getVal: Function) => {
+    const { inputs } = this;
+
+    if (!inputs) return;
+
+    const values = getVal();
+
+    inputs.value1.value = String(values[0]);
+
+    if (values.length === 2) {
+      inputs.value2.value = String(values[1]);
+    }
   };
 
   private handlePanelChange = (e: Event) => {
