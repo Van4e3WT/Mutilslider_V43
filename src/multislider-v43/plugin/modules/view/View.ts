@@ -422,7 +422,7 @@ class View extends EventEmitter {
     getMin: () => number,
     getMax: () => number,
   }, e: PointerEvent) => {
-    const { axis, selector } = this;
+    const { axis, selector, thumbSize } = this;
     const {
       getValue,
       setValue,
@@ -435,8 +435,23 @@ class View extends EventEmitter {
     if (!target.classList.contains(`${selector}__body`)) return;
 
     const delta = target.getBoundingClientRect()[axis.end]
-      - target.getBoundingClientRect()[axis.start];
-    const proportion = (e[axis.axis] - target.getBoundingClientRect()[axis.start]) / delta;
+      - target.getBoundingClientRect()[axis.start] - thumbSize;
+
+    const pointerPosOnAxis = e[axis.axis];
+    const targetStartPosOnAxis = target.getBoundingClientRect()[axis.start];
+
+    let damper;
+
+    if (pointerPosOnAxis - targetStartPosOnAxis < thumbSize / 2) {
+      damper = pointerPosOnAxis - targetStartPosOnAxis;
+    } else if (pointerPosOnAxis - targetStartPosOnAxis - thumbSize / 2 > delta) {
+      damper = pointerPosOnAxis - targetStartPosOnAxis - delta;
+    } else {
+      damper = thumbSize / 2;
+    }
+
+    const proportion = (pointerPosOnAxis - targetStartPosOnAxis
+      - damper) / delta;
 
     const newValue = (getMax() - getMin())
       * (axis.axis === 'y' ? 1 - proportion : proportion) + getMin();
