@@ -109,7 +109,7 @@ class View extends EventEmitter {
     }) => void,
     getMin: () => number,
     getMax: () => number,
-  }) {
+  }): void {
     const {
       axis,
       scale,
@@ -170,7 +170,7 @@ class View extends EventEmitter {
     }
   }
 
-  public update(thumbsValues: Array<number>) {
+  public update(thumbsValues: Array<number>): void {
     const {
       thumbsParent,
       axis,
@@ -258,7 +258,7 @@ class View extends EventEmitter {
     }) => void,
     getMin: () => number,
     getMax: () => number,
-  }) {
+  }): void {
     const { thumbsParent } = this;
 
     const {
@@ -276,7 +276,7 @@ class View extends EventEmitter {
     }));
   }
 
-  private renderHeader(parent: HTMLElement, title: string = '') {
+  private renderHeader(parent: HTMLElement, title: string = ''): void {
     const {
       tooltipIsActive,
       outputs,
@@ -351,7 +351,7 @@ class View extends EventEmitter {
     return sliderBody;
   }
 
-  private renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false) {
+  private renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false): void {
     const { isVertical, selector } = this;
 
     if (!isProgressBar) return;
@@ -366,7 +366,7 @@ class View extends EventEmitter {
     parent.appendChild(this.sliderRange);
   }
 
-  private renderScale(parent: HTMLElement, scaleDivisions: number = 0) {
+  private renderScale(parent: HTMLElement, scaleDivisions: number = 0): void {
     const {
       isVertical,
       scale,
@@ -388,7 +388,7 @@ class View extends EventEmitter {
     this.updateScale();
   }
 
-  private updateScale = () => {
+  private updateScale = (): void => {
     const {
       scale,
       thumbsParent,
@@ -409,7 +409,7 @@ class View extends EventEmitter {
     });
   };
 
-  private handleListenerUpdate = (getValue: Function) => {
+  private handleListenerUpdate = (getValue: Function): void => {
     this.update(getValue());
   };
 
@@ -421,7 +421,7 @@ class View extends EventEmitter {
     }) => void,
     getMin: () => number,
     getMax: () => number,
-  }, e: PointerEvent) => {
+  }, e: PointerEvent): void => {
     const { axis, selector, thumbSize } = this;
     const {
       getValue,

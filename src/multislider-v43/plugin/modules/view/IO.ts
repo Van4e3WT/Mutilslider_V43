@@ -39,7 +39,7 @@ class IO {
     parent: HTMLDivElement,
     selector: string,
     isVertical?: boolean,
-  }) {
+  }): void {
     const {
       postfix,
       valueGroup,
@@ -94,7 +94,7 @@ class IO {
     parent.appendChild(hiddenElement);
   }
 
-  public init() {
+  public init(): void {
     const { valueGroup } = this;
 
     valueGroup.forEach((value, i) => {
@@ -109,7 +109,7 @@ class IO {
       val2?: number,
     }) => void,
     getValue: () => number[],
-  }) {
+  }): void {
     const { tooltipOfValue } = this;
     const { setValue, getValue } = props;
 
@@ -124,19 +124,19 @@ class IO {
     }
   }
 
-  public getIOParents() {
+  public getIOParents(): Array<HTMLDivElement> {
     const { valueGroup } = this;
 
     return valueGroup.map((val) => val.parent);
   }
 
-  public getIOInputs() {
+  public getIOInputs(): Array<HTMLInputElement> {
     const { valueGroup } = this;
 
     return valueGroup.map((val) => val.input);
   }
 
-  public setIO(n: number, value: number) {
+  public setIO(n: number, value: number): void {
     const { valueGroup, localeProps } = this;
 
     valueGroup[n].hidden.textContent = value.toLocaleString('ru', localeProps);
@@ -144,7 +144,7 @@ class IO {
     valueGroup[n].input.style.width = `${valueGroup[n].hidden.offsetWidth + 2}px`;
   }
 
-  public moveIO(props: { n: number, prop: MoveStyleAxis, value: number }) {
+  public moveIO(props: { n: number, prop: MoveStyleAxis, value: number }): void {
     const { valueGroup } = this;
     const { n, prop, value } = props;
 
@@ -160,7 +160,7 @@ class IO {
     return newString;
   };
 
-  private handleInputUpdate = (i: number) => {
+  private handleInputUpdate = (i: number): void => {
     const { valueGroup } = this;
     const { value } = valueGroup[i].input;
 
@@ -177,7 +177,7 @@ class IO {
       val1?: number,
       val2?: number,
     }) => void,
-  }) => {
+  }): void => {
     const { n, getValue, setValue } = props;
     const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, this.convertToValid);
 
@@ -192,7 +192,7 @@ class IO {
     }
   };
 
-  private preventDefault = (e: MouseEvent) => {
+  private preventDefault = (e: MouseEvent): void => {
     e.preventDefault();
   };
 }

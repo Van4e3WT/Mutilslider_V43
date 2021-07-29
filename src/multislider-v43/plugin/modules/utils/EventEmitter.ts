@@ -5,7 +5,7 @@ abstract class EventEmitter {
     this.events = {};
   }
 
-  on(event: string, listener: Function) {
+  on(event: string, listener: Function): EventEmitter {
     const { events } = this;
 
     (events[event] || (events[event] = [])).push(listener);
@@ -13,7 +13,7 @@ abstract class EventEmitter {
     return this;
   }
 
-  emit(event: string, arg: object) {
+  emit(event: string, arg: object): void {
     const { events } = this;
 
     (events[event] || []).forEach((listener) => listener(arg));

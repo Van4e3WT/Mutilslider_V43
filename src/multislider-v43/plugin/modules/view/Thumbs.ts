@@ -13,7 +13,7 @@ class Thumbs {
     this.thumbs = [];
   }
 
-  public add(parent: HTMLDivElement, isVertical = false) {
+  public add(parent: HTMLDivElement, isVertical = false): void {
     const { thumbs, selector } = this;
     const thumb = document.createElement('div');
 
@@ -36,7 +36,7 @@ class Thumbs {
     getMin: () => number,
     getMax: () => number,
     additionalListeners?: Array<HTMLElement>,
-  }) {
+  }): void {
     const { thumbs } = this;
 
     const {
@@ -78,39 +78,39 @@ class Thumbs {
     }
   }
 
-  public getThumb(n: number) {
+  public getThumb(n: number): HTMLDivElement {
     const { thumbs } = this;
 
     return thumbs[n];
   }
 
-  public getSize() {
+  public getSize(): number {
     const { thumbs } = this;
 
     return parseInt(getComputedStyle(thumbs[0]).width, 10);
   }
 
-  public getLength() {
+  public getLength(): number {
     const { thumbs } = this;
 
     return thumbs.length;
   }
 
-  public moveThumb(props: { n: number, prop: MoveStyleAxis, value: number }) {
+  public moveThumb(props: { n: number, prop: MoveStyleAxis, value: number }): void {
     const { thumbs } = this;
     const { n, prop, value } = props;
 
     thumbs[n].style[prop] = `${value}px`;
   }
 
-  public getStyleN(props: { n: number, prop: MoveStyleAxis }) {
+  public getStyleN(props: { n: number, prop: MoveStyleAxis }): string {
     const { thumbs } = this;
     const { n, prop } = props;
 
     return thumbs[n].style[prop];
   }
 
-  private handlePointerMove = (data: ThumbData, e: PointerEvent) => {
+  private handlePointerMove = (data: ThumbData, e: PointerEvent): void => {
     const { thumbs, selector } = this;
     const {
       n,
@@ -154,7 +154,7 @@ class Thumbs {
     }
   };
 
-  private handlePointerUp = (data: ThumbData) => {
+  private handlePointerUp = (data: ThumbData): void => {
     const { thumbs, selector } = this;
     const {
       n,
@@ -175,7 +175,7 @@ class Thumbs {
     document.removeEventListener('pointerup', handlePointerUp);
   };
 
-  private handlePointerDown = (data: ThumbData, e: PointerEvent) => {
+  private handlePointerDown = (data: ThumbData, e: PointerEvent): void => {
     const { thumbs, selector } = this;
     const {
       n,

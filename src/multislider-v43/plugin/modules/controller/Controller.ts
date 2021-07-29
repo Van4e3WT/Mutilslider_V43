@@ -19,7 +19,7 @@ class Controller extends EventEmitter {
     this.view = view;
   }
 
-  public init() {
+  public init(): void {
     const { model, view } = this;
     const {
       getValue,
@@ -38,7 +38,7 @@ class Controller extends EventEmitter {
     });
   }
 
-  private handleModelUpdate = () => {
+  private handleModelUpdate = (): void => {
     const { view, model } = this;
 
     view.update(model.getValue());

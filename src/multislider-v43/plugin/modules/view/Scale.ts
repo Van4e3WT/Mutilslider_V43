@@ -18,7 +18,7 @@ class Scale {
     this.scale = document.createElement('div');
   }
 
-  public init(props: { count: number, isVertical: boolean }) {
+  public init(props: { count: number, isVertical: boolean }): void {
     const { scaleDivisions, scale, selector } = this;
     const {
       count,
@@ -45,7 +45,7 @@ class Scale {
       val2?: number,
     }) => void,
     getValue: () => number[],
-  }) {
+  }): void {
     const { scale, selector } = this;
     const { setValue, getValue } = props;
 
@@ -56,13 +56,13 @@ class Scale {
     }));
   }
 
-  public getScale() {
+  public getScale(): HTMLDivElement {
     const { scale } = this;
 
     return scale;
   }
 
-  public getScaleDivisions() {
+  public getScaleDivisions(): Array<HTMLDivElement> {
     const { scaleDivisions } = this;
 
     return scaleDivisions;
@@ -75,7 +75,7 @@ class Scale {
     min: number,
     max: number,
     step: number,
-  }) {
+  }): void {
     const { scaleDivisions, localeProps } = this;
     const {
       thumbsParent,
@@ -126,7 +126,7 @@ class Scale {
       val2?: number,
     }) => void,
     getValue: () => number[],
-  }, e: Event) => {
+  }, e: Event): void => {
     const { selector, setValue, getValue } = props;
     const target = e.target as HTMLDivElement;
 

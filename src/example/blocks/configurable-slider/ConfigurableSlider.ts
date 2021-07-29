@@ -45,7 +45,7 @@ class ConfigurableSlider {
     this.config = config;
   }
 
-  public initPanelControl() {
+  public initPanelControl(): void {
     const {
       panelControl,
       selector,
@@ -107,7 +107,7 @@ class ConfigurableSlider {
     </label>`;
   }
 
-  public initSlider() {
+  public initSlider(): void {
     const { panelControl, selector } = this;
 
     this.inputs = {
@@ -133,7 +133,7 @@ class ConfigurableSlider {
     this.updateSlider();
   }
 
-  private updateSlider = () => {
+  private updateSlider = (): void => {
     const { slider, inputs } = this;
     const $slider = $(slider);
 
@@ -165,7 +165,7 @@ class ConfigurableSlider {
     getValue({});
   };
 
-  private handleSliderChange = (getVal: Function) => {
+  private handleSliderChange = (getVal: Function): void => {
     const { inputs } = this;
 
     if (!inputs) return;
@@ -179,7 +179,7 @@ class ConfigurableSlider {
     }
   };
 
-  private handlePanelChange = (e: Event) => {
+  private handlePanelChange = (e: Event): void => {
     const { inputs, selector, tooltipToggle } = this;
     const { target } = e;
 

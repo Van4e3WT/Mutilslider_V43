@@ -23,25 +23,25 @@ class SoloModel extends EventEmitter implements IModel {
     this.setValue({ val1: value1 });
   }
 
-  public getMin = () => {
+  public getMin = (): number => {
     const { thumbs } = this;
 
     return thumbs[0].min;
   };
 
-  public getMax = () => {
+  public getMax = (): number => {
     const { thumbs } = this;
 
     return thumbs[0].max;
   };
 
-  public getValue = () => {
+  public getValue = (): Array<number> => {
     const { thumbs } = this;
 
     return thumbs.map((item) => item.value);
   };
 
-  public setValue = (props: { val1?: number }) => {
+  public setValue = (props: { val1?: number }): void => {
     const { thumbs, step } = this;
     let { val1 } = props;
 
