@@ -1,3 +1,5 @@
+include ~Example/blocks/index-page/index-page.pug
+
 doctype html
 html(lang="ru")
   head
@@ -18,7 +20,5 @@ html(lang="ru")
     title Sliders Examples
   body
     - const sliders = require('./configurable-sliders.json');
-
-    include ~Example/blocks/index-page/index-page.pug
 
     +index-page(sliders)
