@@ -1,5 +1,5 @@
 import EventEmitter from '../utils/EventEmitter';
-import { Config, ViewAxis } from '../utils/custom-types';
+import { Config, MoveStyleAxis, ViewAxis } from '../utils/custom-types';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';
@@ -179,8 +179,6 @@ class View extends EventEmitter {
       min,
       max,
       outputs,
-      tooltipIsActive,
-      sliderRange,
     } = this;
 
     const maxPixelValue = thumbsParent.getBoundingClientRect()[axis.sizeParent]
@@ -197,27 +195,14 @@ class View extends EventEmitter {
       thumbs.moveThumb({ n: i, prop: axis.styleSelector, value: position });
       outputs.setIO(i, thumbsValues[i]);
 
-      if (tooltipIsActive) {
-        outputs.moveIO({
-          n: i,
-          prop: axis.styleSelector,
-          value: (position + thumbSize / 2),
-        });
-      }
+      this.moveTooltip({
+        n: i,
+        prop: axis.styleSelector,
+        value: (position + thumbSize / 2),
+      });
     }
 
-    if (sliderRange) {
-      if (thumbs.getLength() === 1) {
-        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
-          + (thumbSize / 2)}px`;
-      }
-      if (thumbs.getLength() === 2) {
-        sliderRange.style[axis.styleSelector] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
-          + (thumbSize / 2)}px`;
-        sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 1, prop: axis.styleSelector }), 10)
-          - parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)}px`;
-      }
-    }
+    this.updateSliderRange();
   }
 
   private getAxis(parent: HTMLElement): ViewAxis {
@@ -386,6 +371,37 @@ class View extends EventEmitter {
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();
+  }
+
+  private moveTooltip(props: { n: number, prop: MoveStyleAxis, value: number }): void {
+    const { outputs, tooltipIsActive } = this;
+
+    if (!tooltipIsActive) return;
+
+    outputs.moveIO(props);
+  }
+
+  private updateSliderRange(): void {
+    const {
+      thumbs,
+      sliderRange,
+      thumbSize,
+      axis,
+    } = this;
+
+    if (!sliderRange) return;
+
+    if (thumbs.getLength() === 1) {
+      sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
+        + (thumbSize / 2)}px`;
+    }
+
+    if (thumbs.getLength() === 2) {
+      sliderRange.style[axis.styleSelector] = `${parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)
+        + (thumbSize / 2)}px`;
+      sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 1, prop: axis.styleSelector }), 10)
+        - parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)}px`;
+    }
   }
 
   private updateScale = (): void => {
