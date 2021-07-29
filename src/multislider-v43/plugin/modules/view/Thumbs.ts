@@ -122,16 +122,16 @@ class Thumbs {
       vars,
     } = data;
 
-    if (!(vars.pos0 && vars.value0)) return;
+    if (!(vars.startPos && vars.startValue)) return;
 
     const pos1 = e[axis.eventAxis];
-    const value = ((((pos1 - vars.pos0) * axis.dPos)
+    const value = ((((pos1 - vars.startPos) * axis.dPos)
       / (thumbsParent.getBoundingClientRect()[axis.sizeParent]
         - this.getSize()))
       * (getMax() - getMin()))
-      + vars.value0;
+      + vars.startValue;
 
-    const delta = pos1 - vars.pos0;
+    const delta = pos1 - vars.startPos;
 
     if (!vars.sign) {
       vars.sign = delta;
@@ -186,12 +186,12 @@ class Thumbs {
       handlePointerUp,
     } = data;
 
-    vars.pos0 = e[axis.eventAxis];
-    vars.value0 = getValue()[n];
+    vars.startPos = e[axis.eventAxis];
+    vars.startValue = getValue()[n];
     vars.isConverted = false;
     vars.sign = 0;
 
-    if (n === 1 && (vars.value0 === getValue()[0])) {
+    if (n === 1 && (vars.startValue === getValue()[0])) {
       vars.isConverted = true;
       thumbs[0].classList.add(`${selector}__thumb_active`);
     } else {

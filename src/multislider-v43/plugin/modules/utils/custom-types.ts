@@ -60,8 +60,8 @@ type ThumbData = {
   vars: {
     isConverted?: boolean,
     sign?: number,
-    pos0?: number,
-    value0?: number,
+    startPos?: number,
+    startValue?: number,
   },
 
   handlePointerMove?: (e: PointerEvent) => void,
