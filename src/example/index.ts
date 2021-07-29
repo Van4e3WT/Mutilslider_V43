@@ -1,2 +1,2 @@
 import './pages/index';
-import './style';
+import './style.scss';
