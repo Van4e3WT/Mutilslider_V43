@@ -60,7 +60,7 @@ module.exports = (env, options) => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/example/pages/index/index.pug',
+      template: './src/example/pages/main/index.pug',
       filename: 'index.html',
       inject: 'body',
     }),
