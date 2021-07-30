@@ -4,14 +4,12 @@
   grid-auto-rows: 900px;
   grid-gap: 5px;
 
+  @media (max-width: 1440px) {
+    grid-template-columns: 100%;
+  }
+
   &__item {
     background-color: #1f20410A;
     padding: 10px;
-
-    @media (max-width: 1440px) {
-      &:nth-child(n) {
-        grid-column: -1 / 1;
-      }
-    }
   }
 }

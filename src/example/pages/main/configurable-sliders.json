@@ -12,8 +12,7 @@
       "tooltipIsHidden": false,
       "scaleOfValues": 11,
       "isProgressBar": true,
-      "postfix": "₽",
-      "description": "Slider Example 1"
+      "postfix": "₽"
     },
     {
       "minValue": -1,
@@ -27,8 +26,7 @@
       "tooltipIsHidden": true,
       "scaleOfValues": 9,
       "isProgressBar": false,
-      "postfix": "π",
-      "description": "Slider Example 2"
+      "postfix": "π"
     },
     {
       "minValue": 1,
@@ -42,8 +40,7 @@
       "tooltipIsHidden": true,
       "scaleOfValues": 0,
       "isProgressBar": false,
-      "postfix": "",
-      "description": "Slider Example 3"
+      "postfix": ""
     }
   ]
 }

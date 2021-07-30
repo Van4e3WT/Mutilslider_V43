@@ -11,7 +11,6 @@ type Config = {
   scaleOfValues: HTMLInputElement,
   isProgressBar: HTMLInputElement,
   postfix: HTMLInputElement,
-  description?: string,
 };
 
 class ConfigurableSlider {
@@ -25,105 +24,38 @@ class ConfigurableSlider {
 
   private inputs: Config | undefined;
 
-  private config: Config;
-
   constructor(props: {
     panel: Element,
     slider: Element,
     selector: string,
-    config: Config,
   }) {
     const {
       panel,
       slider,
       selector,
-      config,
     } = props;
 
     this.panelControl = panel;
     this.slider = slider;
     this.selector = selector;
-    this.config = config;
   }
 
-  public initPanelControl(): void {
-    const {
-      panelControl,
-      selector,
-      config,
-    } = this;
-
-    panelControl.innerHTML = `<label class="${selector}__item">
-      <input type="number" class="${selector}__input ${selector}__min-val js-${selector}__min-val" value="${config.minValue}">
-      <div class="${selector}__item-title">min</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="number" class="${selector}__input ${selector}__max-val js-${selector}__max-val" value="${config.maxValue}">
-      <div class="${selector}__item-title">max</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="number" class="${selector}__input ${selector}__step js-${selector}__step" value="${config.step}">
-      <div class="${selector}__item-title">step</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="number" class="${selector}__input ${selector}__val-1 js-${selector}__val-1" value="${config.value1}">
-      <div class="${selector}__item-title">value 1</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="number" class="${selector}__input ${selector}__val-2 js-${selector}__val-2" value="${config.value2}">
-      <div class="${selector}__item-title">value 2</div>
-    </label>
-    <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical" ${config.isVertical ? 'checked' : ''}>
-      <div class="${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">vertical</div>
-    </label>
-    <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" ${config.isRange ? 'checked' : ''}>
-      <div class="${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">range</div>
-    </label>
-    <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip js-${selector}__is-tooltip" ${config.tooltipOfValue ? 'checked' : ''}>
-      <div class="${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">tooltip</div>
-    </label>
-    <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-tooltip-hidden js-${selector}__is-tooltip-hidden" ${config.tooltipIsHidden ? 'checked' : ''}>
-      <div class="${selector}__item-toggle js-${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">tooltip hidden</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="number" value="${config.scaleOfValues}" class="${selector}__input ${selector}__scale-divisions js-${selector}__scale-divisions">
-      <div class="${selector}__item-title">scale divisions</div>
-    </label>
-    <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>
-      <div class="${selector}__item-toggle"></div>
-      <div class="${selector}__item-title">progress bar</div>
-    </label>
-    <label class="${selector}__item">
-      <input type="text" class="${selector}__input ${selector}__postfix js-${selector}__postfix" value="${config.postfix ? config.postfix : ''}">
-      <div class="${selector}__item-title">postfix</div>
-    </label>`;
-  }
-
-  public initSlider(): void {
-    const { panelControl, selector } = this;
+  public init(): void {
+    const { panelControl, selector, callError } = this;
 
     this.inputs = {
-      minValue: panelControl.querySelector(`.js-${selector}__min-val`) as HTMLInputElement,
-      maxValue: panelControl.querySelector(`.js-${selector}__max-val`) as HTMLInputElement,
-      step: panelControl.querySelector(`.js-${selector}__step`) as HTMLInputElement,
-      value1: panelControl.querySelector(`.js-${selector}__val-1`) as HTMLInputElement,
-      value2: panelControl.querySelector(`.js-${selector}__val-2`) as HTMLInputElement,
-      isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) as HTMLInputElement,
-      isRange: panelControl.querySelector(`.js-${selector}__is-range`) as HTMLInputElement,
-      tooltipOfValue: panelControl.querySelector(`.js-${selector}__is-tooltip`) as HTMLInputElement,
-      tooltipIsHidden: panelControl.querySelector(`.js-${selector}__is-tooltip-hidden`) as HTMLInputElement,
-      scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-divisions`) as HTMLInputElement,
-      isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) as HTMLInputElement,
-      postfix: panelControl.querySelector(`.js-${selector}__postfix`) as HTMLInputElement,
+      minValue: panelControl.querySelector(`.js-${selector}__min-val`) ?? callError(),
+      maxValue: panelControl.querySelector(`.js-${selector}__max-val`) ?? callError(),
+      step: panelControl.querySelector(`.js-${selector}__step`) ?? callError(),
+      value1: panelControl.querySelector(`.js-${selector}__val-1`) ?? callError(),
+      value2: panelControl.querySelector(`.js-${selector}__val-2`) ?? callError(),
+      isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) ?? callError(),
+      isRange: panelControl.querySelector(`.js-${selector}__is-range`) ?? callError(),
+      tooltipOfValue: panelControl.querySelector(`.js-${selector}__tooltip-of-value`) ?? callError(),
+      tooltipIsHidden: panelControl.querySelector(`.js-${selector}__tooltip-is-hidden`) ?? callError(),
+      scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-of-values`) ?? callError(),
+      isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) ?? callError(),
+      postfix: panelControl.querySelector(`.js-${selector}__postfix`) ?? callError(),
     };
 
     this.tooltipToggle = this.inputs.tooltipIsHidden.parentElement
@@ -135,7 +67,7 @@ class ConfigurableSlider {
   }
 
   private updateSlider = (): void => {
-    const { slider, inputs, config } = this;
+    const { slider, inputs } = this;
     const $slider = $(slider);
 
     if (!inputs) return;
@@ -155,8 +87,6 @@ class ConfigurableSlider {
       scaleOfValues: Number(inputs.scaleOfValues.value),
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
-
-      description: config.description,
     });
 
     const getValue = $slider.multislider.value;
@@ -265,6 +195,10 @@ class ConfigurableSlider {
 
     this.updateSlider();
   };
+
+  private callError(): HTMLInputElement {
+    throw Error('The configurable panel doesn\'t contain a required element');
+  }
 }
 
 export default ConfigurableSlider;

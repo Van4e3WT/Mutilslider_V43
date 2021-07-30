@@ -1,4 +1,69 @@
 mixin configurable-slider(config)
-  .configurable-slider.js-configurable-slider(data-config=config)
+  .configurable-slider.js-configurable-slider
     .configurable-slider__panel.js-configurable-slider__panel
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__min-val.js-configurable-slider__min-val(
+          type="number", value=config.minValue
+        )
+        .configurable-slider__item-title min
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__max-val.js-configurable-slider__max-val(
+          type="number", value=config.maxValue
+        )
+        .configurable-slider__item-title max
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__step.js-configurable-slider__step(
+          type="number", value=config.step
+        )
+        .configurable-slider__item-title step
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__val-1.js-configurable-slider__val-1(
+          type="number", value=config.value1
+        )
+        .configurable-slider__item-title value 1
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__val-2.js-configurable-slider__val-2(
+          type="number", value=config.value2
+        )
+        .configurable-slider__item-title value 2
+      label.configurable-slider__item.configurable-slider__toggle
+        input.configurable-slider__input.configurable-slider__is-vertical.js-configurable-slider__is-vertical(
+          type="checkbox", checked=config.isVertical
+        )
+        .configurable-slider__item-toggle
+        .configurable-slider__item-title vertical
+      label.configurable-slider__item.configurable-slider__toggle
+        input.configurable-slider__input.configurable-slider__is-range.js-configurable-slider__is-range(
+          type="checkbox", checked=config.isRange
+        )
+        .configurable-slider__item-toggle
+        .configurable-slider__item-title range
+      label.configurable-slider__item.configurable-slider__toggle
+        input.configurable-slider__input.configurable-slider__tooltip-of-value.js-configurable-slider__tooltip-of-value(
+          type="checkbox", checked=config.tooltipOfValue
+        )
+        .configurable-slider__item-toggle
+        .configurable-slider__item-title tooltip
+      label.configurable-slider__item.configurable-slider__toggle
+        input.configurable-slider__input.configurable-slider__tooltip-is-hidden.js-configurable-slider__tooltip-is-hidden(
+          type="checkbox", checked=config.tooltipIsHidden
+        )
+        .configurable-slider__item-toggle
+        .configurable-slider__item-title tooltip hidden
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__scale-of-values.js-configurable-slider__scale-of-values(
+          type="number", value=config.scaleOfValues
+        )
+        .configurable-slider__item-title scale divisions
+      label.configurable-slider__item.configurable-slider__toggle
+        input.configurable-slider__input.configurable-slider__is-progress-bar.js-configurable-slider__is-progress-bar(
+          type="checkbox", checked=config.isProgressBar
+        )
+        .configurable-slider__item-toggle
+        .configurable-slider__item-title progress bar
+      label.configurable-slider__item
+        input.configurable-slider__input.configurable-slider__postfix.js-configurable-slider__postfix(
+          type="text", value=config.postfix
+        )
+        .configurable-slider__item-title postfix
     .configurable-slider__slider.js-configurable-slider__slider
