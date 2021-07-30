@@ -128,10 +128,10 @@ class Scale {
     getValue: () => number[],
   }, e: Event): void => {
     const { selector, setValue, getValue } = props;
-    const target = e.target as HTMLDivElement;
 
-    if (!target.matches(`.${selector}__scale-division`)) return;
+    if (!(e.target instanceof HTMLElement) || !e.target.matches(`.${selector}__scale-division`)) return;
 
+    const { target } = e;
     const scaleDivisionValue = Number((target.dataset.value ?? ''));
 
     const isSecondValue = getValue().length === 2

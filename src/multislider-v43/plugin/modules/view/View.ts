@@ -446,10 +446,9 @@ class View extends EventEmitter {
       getMax,
     } = props;
 
-    const target = e.target as HTMLDivElement;
+    if (!(e.target instanceof HTMLElement) || !e.target.classList.contains(`${selector}__body`)) return;
 
-    if (!target.classList.contains(`${selector}__body`)) return;
-
+    const { target } = e;
     const delta = target.getBoundingClientRect()[axis.end]
       - target.getBoundingClientRect()[axis.start] - thumbSize;
 
