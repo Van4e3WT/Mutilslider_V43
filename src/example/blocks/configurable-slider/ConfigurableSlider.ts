@@ -11,6 +11,7 @@ type Config = {
   scaleOfValues: HTMLInputElement,
   isProgressBar: HTMLInputElement,
   postfix: HTMLInputElement,
+  description?: string,
 };
 
 class ConfigurableSlider {
@@ -73,12 +74,12 @@ class ConfigurableSlider {
       <div class="${selector}__item-title">value 2</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical">
+      <input type="checkbox" class="${selector}__input ${selector}__is-vertical js-${selector}__is-vertical" ${config.isVertical ? 'checked' : ''}>
       <div class="${selector}__item-toggle"></div>
       <div class="${selector}__item-title">vertical</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" checked>
+      <input type="checkbox" class="${selector}__input ${selector}__is-range js-${selector}__is-range" ${config.isRange ? 'checked' : ''}>
       <div class="${selector}__item-toggle"></div>
       <div class="${selector}__item-title">range</div>
     </label>
@@ -97,7 +98,7 @@ class ConfigurableSlider {
       <div class="${selector}__item-title">scale divisions</div>
     </label>
     <label class="${selector}__item ${selector}__toggle">
-      <input type="checkbox" checked class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>
+      <input type="checkbox" class="${selector}__input ${selector}__is-progress-bar js-${selector}__is-progress-bar" ${config.isProgressBar ? 'checked' : ''}>
       <div class="${selector}__item-toggle"></div>
       <div class="${selector}__item-title">progress bar</div>
     </label>
@@ -134,7 +135,7 @@ class ConfigurableSlider {
   }
 
   private updateSlider = (): void => {
-    const { slider, inputs } = this;
+    const { slider, inputs, config } = this;
     const $slider = $(slider);
 
     if (!inputs) return;
@@ -154,6 +155,8 @@ class ConfigurableSlider {
       scaleOfValues: Number(inputs.scaleOfValues.value),
       isProgressBar: inputs.isProgressBar.checked,
       postfix: inputs.postfix.value,
+
+      description: config.description,
     });
 
     const getValue = $slider.multislider.value;
