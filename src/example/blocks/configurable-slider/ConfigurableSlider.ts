@@ -66,36 +66,115 @@ class ConfigurableSlider {
     this.updateSlider();
   }
 
-  private updateSlider = (): void => {
+  private updateSlider = (target: EventTarget | null = null): void => {
     const { slider, inputs } = this;
     const $slider = $(slider);
 
     if (!inputs) return;
 
-    $slider.multislider({
-      minValue: Number(inputs.minValue.value),
-      maxValue: Number(inputs.maxValue.value),
-      step: Number(inputs.step.value),
-      value1: Number(inputs.value1.value),
-      value2: Number(inputs.value2.value),
+    this.toggleInputsConditions();
 
-      isVertical: inputs.isVertical.checked,
-      isRange: inputs.isRange.checked,
+    try {
+      $slider.multislider({
+        minValue: Number(inputs.minValue.value),
+        maxValue: Number(inputs.maxValue.value),
+        step: Number(inputs.step.value),
+        value1: Number(inputs.value1.value),
+        value2: Number(inputs.value2.value),
 
-      tooltipOfValue: inputs.tooltipOfValue.checked,
-      tooltipIsHidden: inputs.tooltipIsHidden.checked,
-      scaleOfValues: Number(inputs.scaleOfValues.value),
-      isProgressBar: inputs.isProgressBar.checked,
-      postfix: inputs.postfix.value,
-    });
+        isVertical: inputs.isVertical.checked,
+        isRange: inputs.isRange.checked,
 
-    const getValue = $slider.multislider.value;
-    const { onChange } = $slider.multislider;
+        tooltipOfValue: inputs.tooltipOfValue.checked,
+        tooltipIsHidden: inputs.tooltipIsHidden.checked,
+        scaleOfValues: Number(inputs.scaleOfValues.value),
+        isProgressBar: inputs.isProgressBar.checked,
+        postfix: inputs.postfix.value,
+      });
 
-    if (!getValue || !onChange) return;
+      const getValue = $slider.multislider.value;
+      const { onChange } = $slider.multislider;
 
-    onChange(this.handleSliderChange, getValue);
-    getValue({});
+      if (!getValue || !onChange) return;
+
+      onChange(this.handleSliderChange, getValue);
+      getValue({});
+    } catch (err) {
+      const shouldRecalcBoundaries = target === inputs.minValue || target === inputs.maxValue;
+      const shouldRecalcStep = target === inputs.step || shouldRecalcBoundaries;
+      const shouldRecalcScale = target === inputs.scaleOfValues || shouldRecalcStep;
+      const shouldRecalcValues = target === inputs.value1 || target === inputs.value2
+        || shouldRecalcStep;
+
+      if (shouldRecalcBoundaries) {
+        if (inputs.minValue.value > inputs.maxValue.value) {
+          [inputs.minValue.value, inputs.maxValue.value] = [
+            inputs.maxValue.value, inputs.minValue.value];
+        } else if (inputs.minValue.value === inputs.maxValue.value) {
+          if (target === inputs.minValue) {
+            inputs.minValue.value = String(Number(inputs.maxValue.value)
+              - Number(inputs.step.value));
+          }
+
+          if (target === inputs.maxValue) {
+            inputs.maxValue.value = String(Number(inputs.minValue.value)
+              + Number(inputs.step.value));
+          }
+        }
+      }
+
+      const delta = Number(inputs.maxValue.value) - Number(inputs.minValue.value);
+
+      if (shouldRecalcStep) {
+        if (Number(inputs.step.value) > 0) {
+          if (Number(inputs.step.value) > delta) {
+            inputs.step.value = String(delta);
+          }
+        } else {
+          inputs.step.value = String(1);
+        }
+      }
+
+      if (shouldRecalcValues) {
+        if (inputs.isRange.checked) {
+          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
+            [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
+          }
+          if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
+            inputs.value2.value = inputs.maxValue.value;
+          }
+          if (Number(inputs.value2.value) < Number(inputs.minValue.value)) {
+            inputs.value2.value = inputs.minValue.value;
+          }
+          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
+            inputs.value1.value = inputs.value2.value;
+          }
+        } else if (Number(inputs.value1.value) > Number(inputs.maxValue.value)) {
+          inputs.value1.value = inputs.maxValue.value;
+        }
+
+        if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
+          inputs.value1.value = inputs.minValue.value;
+        }
+      }
+
+      const scaleAdditionalCoef = Number.isInteger(delta / Number(inputs.step.value)) ? 1 : 2;
+      const steppedScaleValues = Math.floor(delta
+        / Number(inputs.step.value) + scaleAdditionalCoef);
+      const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
+
+      if (shouldRecalcScale) {
+        if (Number(inputs.scaleOfValues.value) >= 0) {
+          if (Number(inputs.scaleOfValues.value) > maxScaleDivisions) {
+            inputs.scaleOfValues.value = String(maxScaleDivisions);
+          }
+        } else {
+          inputs.scaleOfValues.value = String(0);
+        }
+      }
+
+      this.updateSlider();
+    }
   };
 
   private handleSliderChange = (getVal: Function): void => {
@@ -113,58 +192,22 @@ class ConfigurableSlider {
   };
 
   private handlePanelChange = (e: Event): void => {
-    const { inputs, selector, tooltipToggle } = this;
     const { target } = e;
 
+    this.updateSlider(target);
+  };
+
+  private toggleInputsConditions(): void {
+    const { inputs, selector, tooltipToggle } = this;
+
     if (!inputs) return;
-
-    if (Number(inputs.minValue.value) > Number(inputs.maxValue.value)) {
-      [inputs.minValue.value, inputs.maxValue.value] = [
-        inputs.maxValue.value, inputs.minValue.value];
-    }
-
-    if (inputs.minValue.value === inputs.maxValue.value) {
-      if (target === inputs.minValue) {
-        inputs.minValue.value = String(Number(inputs.maxValue.value) - Number(inputs.step.value));
-      }
-      if (target === inputs.maxValue) {
-        inputs.maxValue.value = String(Number(inputs.minValue.value) + Number(inputs.step.value));
-      }
-    }
-
-    const delta = Number(inputs.maxValue.value) - Number(inputs.minValue.value);
-
-    if (Number(inputs.step.value) > 0) {
-      if (Number(inputs.step.value) > delta) {
-        inputs.step.value = String(delta);
-      }
-    } else {
-      inputs.step.value = String(1);
-    }
 
     if (inputs.isRange.checked) {
       inputs.value2.disabled = false;
       inputs.value2.classList.remove(`${selector}__input_disabled`);
-
-      if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-        [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
-      }
-      if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
-        inputs.value2.value = inputs.maxValue.value;
-      }
-      if (Number(inputs.value2.value) < Number(inputs.minValue.value)) {
-        inputs.value2.value = inputs.minValue.value;
-      }
-      if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-        inputs.value1.value = inputs.value2.value;
-      }
     } else {
       inputs.value2.disabled = true;
       inputs.value2.classList.add(`${selector}__input_disabled`);
-
-      if (Number(inputs.value1.value) > Number(inputs.maxValue.value)) {
-        inputs.value1.value = inputs.maxValue.value;
-      }
     }
 
     if (tooltipToggle) {
@@ -176,25 +219,7 @@ class ConfigurableSlider {
         tooltipToggle.classList.add(`${selector}__item-toggle_disabled`);
       }
     }
-
-    if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
-      inputs.value1.value = inputs.minValue.value;
-    }
-
-    const scaleAdditionalCoef = Number.isInteger(delta / Number(inputs.step.value)) ? 1 : 2;
-    const steppedScaleValues = Math.floor(delta / Number(inputs.step.value) + scaleAdditionalCoef);
-    const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
-
-    if (Number(inputs.scaleOfValues.value) >= 0) {
-      if (Number(inputs.scaleOfValues.value) > maxScaleDivisions) {
-        inputs.scaleOfValues.value = String(maxScaleDivisions);
-      }
-    } else {
-      inputs.scaleOfValues.value = String(0);
-    }
-
-    this.updateSlider();
-  };
+  }
 
   private callError(): HTMLInputElement {
     throw Error('The configurable panel doesn\'t contain a required element');

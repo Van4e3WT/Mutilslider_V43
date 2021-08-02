@@ -1,9 +1,18 @@
 import { Config } from './custom-types';
+import ValidationError from './ValidationError';
+
+function callValidationError(message: string): number {
+  throw new ValidationError(message);
+}
 
 function configValidation(config: Config): Config {
   const {
+    minValue = 0,
+    maxValue = 1000,
+    step = 1,
     isRange = false,
     isVertical = false,
+    scaleOfValues = 0,
     tooltipOfValue = false,
     tooltipIsHidden = true,
     isProgressBar = true,
@@ -12,48 +21,50 @@ function configValidation(config: Config): Config {
     localeProps,
   } = config;
   let {
-    minValue = 0,
-    maxValue = 1000,
-    step = 1,
     value1 = minValue,
     value2 = maxValue,
-    scaleOfValues = 0,
   } = config;
 
   const delta = maxValue - minValue;
 
   if (minValue > maxValue) {
-    [minValue, maxValue] = [maxValue, minValue];
+    callValidationError('minValue shouldn\'t be more that maxValue');
   } else if (minValue === maxValue) {
-    throw new Error('minValue shouldn\'t be equal maxValue');
+    callValidationError('boundaries shouldn\'t be equal');
   }
 
   if (step > 0) {
     if (step > delta) {
-      step = delta;
+      callValidationError('step shouldn\'t be more than the difference between min and max values');
     }
   } else {
-    step = 1;
+    callValidationError('step shouldn\'t be less 0');
   }
 
   if (isRange) {
     if (value1 > value2) {
-      [value1, value2] = [value2, value1];
+      callValidationError('value1 shouldn\'t be more that value2');
     }
-    value2 = value2 < maxValue ? value2 : maxValue;
-    value2 = value2 > minValue ? value2 : minValue;
-    value1 = value1 < value2 ? value1 : value2;
+    value2 = value2 <= maxValue ? value2 : callValidationError('value2 shouldn\'t be more that maxValue');
+    value2 = value2 >= minValue ? value2 : callValidationError('value2 shouldn\'t be less that minValue');
+    value1 = value1 <= value2 ? value1 : callValidationError('value1 shouldn\'t be more that value2');
   } else {
-    value1 = value1 < maxValue ? value1 : maxValue;
+    value1 = value1 <= maxValue ? value1 : callValidationError('value1 shouldn\'t be more that maxValue');
   }
 
-  value1 = value1 > minValue ? value1 : minValue;
+  value1 = value1 >= minValue ? value1 : callValidationError('value1 shouldn\'t be less that minValue');
 
   const scaleAdditionalCoef = Number.isInteger(delta / step) ? 1 : 2;
   const steppedScaleValues = Math.floor(delta / step + scaleAdditionalCoef);
   const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
-  scaleOfValues = Math.abs(scaleOfValues) > maxScaleDivisions
-    ? maxScaleDivisions : Math.abs(scaleOfValues);
+
+  if (scaleOfValues >= 0) {
+    if (scaleOfValues > maxScaleDivisions) {
+      callValidationError('scale divisions should be less than the max possible value');
+    }
+  } else {
+    callValidationError('scale divisions should be a natural number or zero');
+  }
 
   const validatedConfig: Config = {
     minValue,
