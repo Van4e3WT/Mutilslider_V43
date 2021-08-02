@@ -70,6 +70,7 @@ $blue: #66D2EA;
     border: 2px solid rgba($darkShade, .5);
     border-radius: 12px;
     padding: 2px 5px;
+    width: 70px;
     outline: none;
 
     &:focus {
@@ -79,10 +80,6 @@ $blue: #66D2EA;
     &_disabled {
       border-color: rgba($darkShade, .25);
       background-color: rgba($darkShade, .05);
-    }
-
-    &[type='number'], &[type='text'] {
-      width: 70px;
     }
   }
 
