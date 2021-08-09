@@ -67,22 +67,20 @@ class DoubleModel extends EventEmitter implements IModel {
       val2 = val2 ?? thumbs[1].value;
 
       if (val1 > val2) {
-        if (val1IsDefined) {
+        if (val1IsDefined && !val2IsDefined) {
           val1 = val2;
-        }
-
-        if (val2IsDefined) {
+        } else if (val2IsDefined && !val1IsDefined) {
           val2 = val1;
+        } else {
+          [val1, val2] = [val2, val1];
         }
       }
 
       const delta1 = val1 - min;
       const delta2 = val2 - min;
 
-      val1 = val1 >= max ? max
-        : Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
-      val2 = val2 >= max ? max
-        : Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      val1 = Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      val2 = Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
 
       val1 = val1 < min ? min : val1;
       val1 = val1 > max ? max : val1;
