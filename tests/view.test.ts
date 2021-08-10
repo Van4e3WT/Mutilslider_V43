@@ -1,189 +1,330 @@
-import { Browser } from 'puppeteer/lib/cjs/puppeteer/common/Browser';
-import { Page } from 'puppeteer/lib/cjs/puppeteer/common/Page';
-
-const puppeteer = require('puppeteer');
+import IO from 'Plugin/modules/view/IO';
+import Scale from 'Plugin/modules/view/Scale';
+import Thumbs from 'Plugin/modules/view/Thumbs';
 
 describe('***VIEW***', () => {
-  const URL = 'http://127.0.0.1:5500/dist/index.html';
+  const selector = 'multislider-v43';
 
-  let browser: Browser;
-  let page: Page;
+  describe('IO', () => {
+    let io: IO;
 
-  const selector: string = 'multislider-v43';
+    beforeEach(() => {
+      io = new IO({
+        postfix: 'C',
+        localeProps: {},
+        tooltipOfValue: true,
+        tooltipIsHidden: false,
+      });
 
-  beforeEach(async () => {
-    browser = await puppeteer.launch({
-      headless: true,
-      ignoreHTTPSErrors: true,
-      args: [
-        '-start-maximized',
-      ],
-      devTools: true,
+      const parent = document.createElement('div');
+
+      io.createGroup({
+        parent,
+        selector,
+        isVertical: true,
+      });
+
+      io.createGroup({
+        parent,
+        selector,
+        isVertical: true,
+      });
     });
 
-    page = await browser.newPage();
-
-    await page.setViewport({
-      width: 1920,
-      height: 1080,
+    test('should return IO parents', () => {
+      expect(io.getIOParents().length).toBe(2);
     });
 
-    await page.goto(URL, {
-      waitUntil: ['networkidle0', 'domcontentloaded'],
+    test('should return IO inputs', () => {
+      expect(io.getIOInputs().length).toBe(2);
     });
-  });
 
-  afterEach(async () => {
-    await browser.close();
-  });
+    test('should set new value', () => {
+      io.setIO(0, 30);
 
-  test('should build foundation DOM struct', async () => {
-    const sliders = await page.evaluate((sel) => {
-      const arr: Array<object> = [];
-      const elems = document.querySelectorAll(`.js-${sel}_solo`);
+      expect(io.getIOInputs()[0].value).toBe('30');
+    });
 
-      for (let i = 0; i < elems.length; i += 1) {
-        const elemHeader = elems[i].querySelector(`.${sel}__header`);
-        const elemBody = elems[i].querySelector(`.${sel}__body`);
-        arr.push({ elemHeader, elemBody });
+    test('should move IO', () => {
+      const prop = 'bottom';
+
+      io.moveIO({
+        n: 0,
+        prop,
+        value: 0,
+      });
+
+      expect(io.getIOParents()[0].style[prop]).toBe('0px');
+    });
+
+    test('should prevent text highlighting', () => {
+      const mockHandle = jest.fn();
+
+      io.getIOInputs().forEach((item) => {
+        item.addEventListener('mousedown', mockHandle);
+        item.dispatchEvent(new MouseEvent('mousedown'));
+      });
+
+      expect(mockHandle).toBeCalledTimes(io.getIOInputs().length);
+    });
+
+    test('should init value group listeners', () => {
+      const mockHandle = jest.fn();
+
+      io.init();
+      io.getIOInputs()[0].value = '40';
+
+      io.getIOInputs().forEach((item) => {
+        item.addEventListener('input', mockHandle);
+        item.dispatchEvent(new Event('input'));
+      });
+
+      expect(mockHandle).toHaveBeenCalledTimes(io.getIOInputs().length);
+    });
+
+    test('should init "change" events on inputs', () => {
+      const customIO = new IO({});
+      const parent = document.createElement('div');
+
+      const mockHandle = jest.fn();
+      const mockSetValue = jest.fn();
+      const mockGetValue = jest.fn();
+      mockGetValue.mockReturnValue([20, 15, 10]);
+
+      for (let i = 0; i < 3; i += 1) {
+        customIO.createGroup({
+          parent,
+          selector,
+        });
       }
 
-      return arr;
-    }, selector) as Array<{ elemHeader: Element, elemBody: Element }>;
+      customIO.initEvents({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+      });
 
-    sliders.forEach((slider: { elemHeader: Element, elemBody: Element }) => {
-      expect(slider.elemHeader).not.toBeUndefined();
-      expect(slider.elemHeader).not.toBeNull();
+      customIO.getIOInputs()[0].value = '20,0';
+      customIO.getIOInputs()[1].value = '20 0';
 
-      expect(slider.elemBody).not.toBeUndefined();
-      expect(slider.elemBody).not.toBeNull();
+      customIO.getIOInputs().forEach((item) => {
+        item.addEventListener('change', mockHandle);
+        item.dispatchEvent(new Event('change'));
+      });
+
+      expect(mockHandle).toHaveBeenCalledTimes(customIO.getIOInputs().length);
     });
   });
 
-  describe('Solo Slider', () => {
-    test('should be add vertical class to slider if he is selected', async () => {
-      const isContain = await page.evaluate((sel) => {
-        const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
+  describe('Scale', () => {
+    let scale: Scale;
+    beforeEach(() => {
+      scale = new Scale({
+        selector,
+      });
 
-        return elem?.classList.contains('multislider-v43_vertical');
-      }, selector);
-
-      expect(isContain).toBeTruthy();
-    });
-
-    test('should be contain just one thumb slider', async () => {
-      const sliders = await page.evaluate((sel) => {
-        const arr: Array<Array<Element>> = [];
-        const elems = Array.from(document.querySelectorAll(`.js-${sel}_solo`));
-
-        elems.forEach((elem) => {
-          const sliderThumb = Array.from(elem.querySelectorAll(`.${sel}__thumb`));
-          arr.push(sliderThumb);
-        });
-        return arr;
-      }, selector);
-
-      sliders.forEach((slider: Array<Element>) => {
-        expect(slider.length).toBe(1);
+      scale.init({
+        count: 5,
+        isVertical: true,
       });
     });
 
-    test('should be render tooltip if activated "tooltip"', async () => {
-      await page.hover(`.js-${selector}_solo.js-${selector}_slider-4 .${selector}__thumb`);
+    test('should init with different parameters', () => {
+      const scaleDefault = new Scale({
+        localeProps: {},
+      });
 
-      const isHoverWork = await page.evaluate((sel) => {
-        const elem = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
-        const tooltip = elem?.querySelector(`.${sel}__tooltip`);
+      scale.init({
+        count: 5,
+        isVertical: false,
+      });
 
-        return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
-      }, selector);
-
-      expect(isHoverWork).toBeTruthy();
+      expect(scaleDefault.getScaleDivisions()).toBeDefined();
     });
 
-    test('should be render scale if it\'s enabled', async () => {
-      const sliderParent = await page.$(`.js-${selector}_solo.js-${selector}_slider-3`);
-      if (!sliderParent) return;
-      const scaleDivisions = await sliderParent.$$(`.${selector}__scale-division`);
-
-      expect(scaleDivisions.length).toBeGreaterThan(0);
+    test('should return scale', () => {
+      expect(scale.getScale()).toBeDefined();
     });
 
-    test('should be render range element into DOM', async () => {
-      const slidersRange = await page.evaluate((sel) => {
-        const elem1 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-3`);
-        const elem2 = document.querySelector(`.js-${sel}_solo.js-${sel}_slider-4`);
-        const enabled = elem1?.querySelector(`.${sel}__range`);
-        const disabled = elem2?.querySelector(`.${sel}__range`);
+    test('should return scale divisions', () => {
+      expect(scale.getScaleDivisions()).toBeDefined();
+    });
 
-        return { enabled, disabled };
-      }, selector);
+    test('should update scale data', () => {
+      const thumbsParent = document.createElement('div');
 
-      expect(slidersRange.enabled).toBeTruthy();
-      expect(slidersRange.disabled).toBeFalsy();
+      scale.update({
+        thumbsParent,
+        axis: {
+          styleSelector: 'left',
+          axis: 'x',
+          eventAxis: 'clientX',
+          sizeParent: 'width',
+          start: 'left',
+          end: 'right',
+          dPos: -1,
+        },
+        thumbSize: 24,
+        min: -100,
+        max: 100,
+        step: 10,
+      });
+
+      scale.getScaleDivisions().forEach((item) => {
+        expect(item.dataset.value).toBeDefined();
+      });
+    });
+
+    test('should init "click" events on scale', () => {
+      const gradientArray = [[-50, 50], [20, 70], [-100, -100], [20, 80], [-50, 50]];
+      const mockSetValue = jest.fn();
+      const mockGetValue = jest.fn();
+      const mockHandle = jest.fn();
+
+      const thumbsParent = document.createElement('div');
+
+      scale.update({
+        thumbsParent,
+        axis: {
+          styleSelector: 'left',
+          axis: 'x',
+          eventAxis: 'clientX',
+          sizeParent: 'width',
+          start: 'left',
+          end: 'right',
+          dPos: -1,
+        },
+        thumbSize: 24,
+        min: -100,
+        max: 100,
+        step: 10,
+      });
+
+      scale.getScale().addEventListener('click', mockHandle);
+      scale.initEvents({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+      });
+
+      scale.getScale().dispatchEvent(new Event('click'));
+
+      scale.getScaleDivisions().forEach((item, i) => {
+        mockGetValue.mockReturnValue(gradientArray[i]);
+        item.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+
+      expect(mockHandle).toHaveBeenCalledTimes(scale.getScaleDivisions().length + 1);
     });
   });
 
-  describe('Double Slider', () => {
-    test('should be add vertical class to slider if he is selected', async () => {
-      const isContain = await page.evaluate((sel) => {
-        const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
-
-        return elem?.classList.contains('multislider-v43_vertical');
-      }, selector);
-
-      expect(isContain).toBeTruthy();
-    });
-
-    test('should be contain just two thumbs slider\'s', async () => {
-      const sliders = await page.evaluate((sel) => {
-        const arr: Array<Array<Element>> = [];
-        const elems = Array.from(document.querySelectorAll(`.js-${sel}_double`));
-
-        elems.forEach((elem) => {
-          const sliderThumb = Array.from(elem.querySelectorAll(`.${sel}__thumb`));
-          arr.push(sliderThumb);
-        });
-        return arr;
-      }, selector);
-
-      sliders.forEach((slider: Array<Element>) => {
-        expect(slider.length).toBe(2);
+  describe('Thumb', () => {
+    let thumbs: Thumbs;
+    beforeEach(() => {
+      thumbs = new Thumbs({
+        selector,
       });
+
+      const parent = document.createElement('div');
+
+      for (let i = 0; i < 2; i += 1) {
+        thumbs.add(parent, true);
+      }
     });
 
-    test('should be render tooltip if activated "tooltip"', async () => {
-      await page.hover(`.js-${selector}_double.js-${selector}_slider-1 .${selector}__thumb`);
-
-      const isHoverWork = await page.evaluate((sel) => {
-        const elem = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
-        const tooltip = elem?.querySelector(`.${sel}__tooltip`);
-
-        return tooltip ? getComputedStyle(tooltip).display !== 'none' : null;
-      }, selector);
-
-      expect(isHoverWork).toBeTruthy();
-    });
-    test('should be render scale if it\'s enabled', async () => {
-      const sliderParent = await page.$(`.js-${selector}_double.js-${selector}_slider-1`);
-      if (!sliderParent) return;
-      const scaleDivisions = await sliderParent.$$(`.${selector}__scale-division`);
-
-      expect(scaleDivisions.length).toBeGreaterThan(0);
+    test('should return length', () => {
+      expect(thumbs.getLength()).toBe(2);
     });
 
-    test('should be render range element into DOM', async () => {
-      const slidersRange = await page.evaluate((sel) => {
-        const elem1 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-1`);
-        const elem2 = document.querySelector(`.js-${sel}_double.js-${sel}_slider-2`);
-        const enabled = elem1?.querySelector(`.${sel}__range`);
-        const disabled = elem2?.querySelector(`.${sel}__range`);
+    test('should return thumb', () => {
+      for (let i = 0; i < thumbs.getLength(); i += 1) {
+        expect(thumbs.getThumb(i)).toBeDefined();
+      }
+    });
 
-        return { enabled, disabled };
-      }, selector);
+    test('should return computed size', () => {
+      thumbs.getThumb(0).style.width = '24px';
 
-      expect(slidersRange.enabled).toBeTruthy();
-      expect(slidersRange.disabled).toBeFalsy();
+      expect(thumbs.getSize()).toBe(24);
+    });
+
+    test('should be able to set and get thumb style', () => {
+      const startValue = 32;
+
+      thumbs.moveThumb({
+        n: 0,
+        prop: 'bottom',
+        value: startValue,
+      });
+
+      const finishValue = thumbs.getStyleN({
+        n: 0,
+        prop: 'bottom',
+      });
+
+      expect(finishValue).toBe(`${startValue}px`);
+    });
+
+    test('should init thumb events', () => {
+      const thumbsParent = document.createElement('div');
+
+      const mockSetValue = jest.fn();
+      const mockGetMin = jest.fn();
+      const mockGetMax = jest.fn();
+      const mockGetValue = jest.fn()
+        .mockReturnValue([20, 20]);
+      const decoyArray: Array<HTMLElement> = [];
+
+      for (let i = 0; i < thumbs.getLength(); i += 1) {
+        const decoy = document.createElement('div');
+        decoyArray.push(decoy);
+      }
+
+      thumbs.initEvents({
+        thumbsParent,
+        axis: {
+          styleSelector: 'bottom',
+          axis: 'y',
+          eventAxis: 'clientY',
+          sizeParent: 'height',
+          start: 'top',
+          end: 'bottom',
+          dPos: 1,
+        },
+        getValue: mockGetValue,
+        setValue: mockSetValue,
+        getMin: mockGetMin,
+        getMax: mockGetMax,
+        additionalListeners: decoyArray,
+      });
+
+      for (let i = 0; i < thumbs.getLength(); i += 1) {
+        const thumbExample = thumbs.getThumb(i);
+
+        thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
+          clientX: (i + 1) * 10,
+          clientY: (i + 1) * 10,
+        }));
+        document.dispatchEvent(new MouseEvent('pointermove', {
+          clientX: (i + 2) * 10,
+          clientY: (i + 2) * 10,
+        }));
+        document.dispatchEvent(new Event('pointerup'));
+      }
+
+      // another testing config
+
+      for (let i = 0; i < thumbs.getLength(); i += 1) {
+        const thumbExample = thumbs.getThumb(i);
+
+        thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
+          clientX: (i + 3) * 10,
+          clientY: (i + 3) * 10,
+        }));
+        document.dispatchEvent(new MouseEvent('pointermove', {
+          clientX: (i + 2) * 10,
+          clientY: (i + 2) * 10,
+        }));
+        document.dispatchEvent(new Event('pointerup'));
+      }
     });
   });
 });
