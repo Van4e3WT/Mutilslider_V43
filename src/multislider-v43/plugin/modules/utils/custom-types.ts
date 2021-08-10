@@ -37,7 +37,7 @@ type MoveStyleAxis = 'left' | 'bottom';
 type ViewAxis = {
   styleSelector: MoveStyleAxis,
   axis: 'x' | 'y',
-  eventAxis: 'pageX' | 'pageY',
+  eventAxis: 'clientX' | 'clientY',
   sizeParent: 'width' | 'height',
   start: 'left' | 'top',
   end: 'right' | 'bottom',

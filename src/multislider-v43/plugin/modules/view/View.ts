@@ -214,7 +214,7 @@ class View extends EventEmitter {
       resultAxis = {
         styleSelector: 'bottom',
         axis: 'y',
-        eventAxis: 'pageY',
+        eventAxis: 'clientY',
         sizeParent: 'height',
         start: 'top',
         end: 'bottom',
@@ -224,7 +224,7 @@ class View extends EventEmitter {
       resultAxis = {
         styleSelector: 'left',
         axis: 'x',
-        eventAxis: 'pageX',
+        eventAxis: 'clientX',
         sizeParent: 'width',
         start: 'left',
         end: 'right',
