@@ -9,7 +9,7 @@ class Scale {
 
   private localeProps: Intl.NumberFormatOptions;
 
-  constructor(props: { localeProps: Intl.NumberFormatOptions | undefined, selector: string }) {
+  constructor(props: { localeProps?: Intl.NumberFormatOptions | undefined, selector?: string }) {
     const { localeProps = {}, selector = 'scale' } = props;
 
     this.selector = selector;

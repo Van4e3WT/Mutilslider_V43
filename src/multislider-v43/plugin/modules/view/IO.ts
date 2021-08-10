@@ -16,10 +16,10 @@ class IO {
   private tooltipIsHidden: boolean;
 
   constructor(props: {
-    postfix: string | undefined,
-    localeProps: Intl.NumberFormatOptions | undefined,
-    tooltipOfValue: boolean | undefined,
-    tooltipIsHidden: boolean | undefined,
+    postfix?: string | undefined,
+    localeProps?: Intl.NumberFormatOptions | undefined,
+    tooltipOfValue?: boolean | undefined,
+    tooltipIsHidden?: boolean | undefined,
   }) {
     const {
       postfix = '',
@@ -113,15 +113,15 @@ class IO {
     const { tooltipOfValue } = this;
     const { setValue, getValue } = props;
 
-    if (!tooltipOfValue) {
-      this.getIOInputs().forEach((output, i) => {
-        output.addEventListener('change', this.handleOutputChange.bind(null, {
-          n: i,
-          getValue,
-          setValue,
-        }));
-      });
-    }
+    if (tooltipOfValue) return;
+
+    this.getIOInputs().forEach((output, i) => {
+      output.addEventListener('change', this.handleOutputChange.bind(null, {
+        n: i,
+        getValue,
+        setValue,
+      }));
+    });
   }
 
   public getIOParents(): Array<HTMLDivElement> {
@@ -145,8 +145,10 @@ class IO {
   }
 
   public moveIO(props: { n: number, prop: MoveStyleAxis, value: number }): void {
-    const { valueGroup } = this;
+    const { valueGroup, tooltipOfValue } = this;
     const { n, prop, value } = props;
+
+    if (!tooltipOfValue) return;
 
     valueGroup[n].parent.style[prop] = `${value}px`;
   }
@@ -155,9 +157,9 @@ class IO {
     const newString = {
       ' ': '',
       ',': '.',
-    }[symbol] ?? '';
+    }[symbol];
 
-    return newString;
+    return newString ?? '';
   };
 
   private handleInputUpdate = (i: number): void => {
