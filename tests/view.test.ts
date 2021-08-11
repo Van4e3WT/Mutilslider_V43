@@ -1,6 +1,8 @@
+import { Config } from 'Plugin/modules/utils/custom-types';
 import IO from 'Plugin/modules/view/IO';
 import Scale from 'Plugin/modules/view/Scale';
 import Thumbs from 'Plugin/modules/view/Thumbs';
+import View from 'Plugin/modules/view/View';
 
 describe('***VIEW***', () => {
   const selector = 'multislider-v43';
@@ -269,8 +271,8 @@ describe('***VIEW***', () => {
       const mockSetValue = jest.fn();
       const mockGetMin = jest.fn();
       const mockGetMax = jest.fn();
-      const mockGetValue = jest.fn()
-        .mockReturnValue([20, 20]);
+      const mockGetValue = jest.fn().mockReturnValue([20, 20]);
+
       const decoyArray: Array<HTMLElement> = [];
 
       for (let i = 0; i < thumbs.getLength(); i += 1) {
@@ -325,6 +327,176 @@ describe('***VIEW***', () => {
         }));
         document.dispatchEvent(new Event('pointerup'));
       }
+    });
+  });
+
+  describe('View', () => {
+    let parent: HTMLElement;
+
+    let mockSetValue: jest.Mock;
+    let mockGetMin: jest.Mock;
+    let mockGetMax: jest.Mock;
+    let mockGetValue: jest.Mock;
+
+    beforeEach(() => {
+      parent = document.createElement('div');
+
+      mockSetValue = jest.fn();
+      mockGetMin = jest.fn();
+      mockGetMax = jest.fn();
+      mockGetValue = jest.fn();
+    });
+
+    test('should init solo slider', () => {
+      const cfg: Config = {
+        minValue: -100,
+        maxValue: 100,
+        value1: 20,
+        step: 10,
+        isProgressBar: true,
+        isRange: false,
+        isVertical: false,
+        scaleOfValues: 5,
+        tooltipOfValue: true,
+        tooltipIsHidden: false,
+        description: 'Test slider',
+        postfix: 'C',
+        localeProps: {},
+      };
+
+      const view = new View({
+        values: [20],
+        selector,
+        parent,
+        cfg,
+      });
+
+      mockGetValue.mockReturnValue([20]);
+
+      view.init({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+        getMin: mockGetMin,
+        getMax: mockGetMax,
+      });
+
+      expect(view).toBeDefined();
+    });
+
+    test('should init double slider', () => {
+      const cfg: Config = {
+        minValue: -100,
+        maxValue: 100,
+        value1: 20,
+        value2: 70,
+        step: 10,
+        isProgressBar: true,
+        isRange: true,
+        isVertical: true,
+        scaleOfValues: 5,
+        tooltipOfValue: false,
+        tooltipIsHidden: false,
+        description: 'Test slider',
+        postfix: 'C',
+        localeProps: {},
+      };
+
+      const view = new View({
+        values: [20, 70],
+        selector,
+        parent,
+        cfg,
+      });
+
+      mockGetValue.mockReturnValue([20, 70]);
+
+      view.init({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+        getMin: mockGetMin,
+        getMax: mockGetMax,
+      });
+
+      expect(view).toBeDefined();
+    });
+
+    test('should call update listeners', () => {
+      const cfg: Config = {
+        minValue: -100,
+        maxValue: 100,
+        step: 10,
+        isRange: true,
+      };
+
+      const view = new View({
+        values: [20, 70],
+        selector,
+        parent,
+        cfg,
+      });
+
+      mockGetValue.mockReturnValue([20, 70]);
+
+      view.init({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+        getMin: mockGetMin,
+        getMax: mockGetMax,
+      });
+
+      const mockUpdate = jest.fn();
+
+      view.update = mockUpdate;
+
+      window.dispatchEvent(new Event('resize'));
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+
+      expect(mockUpdate).toHaveBeenCalledTimes(2);
+    });
+
+    test('should listen clicks on view body', () => {
+      mockGetMin.mockReturnValue(-100);
+      mockGetMax.mockReturnValue(100);
+
+      const cfg: Config = {
+        minValue: -100,
+        maxValue: 100,
+        value1: 20,
+        value2: 70,
+        step: 10,
+        isProgressBar: true,
+        isRange: true,
+        isVertical: false,
+        scaleOfValues: 5,
+        tooltipOfValue: true,
+        tooltipIsHidden: true,
+        description: 'Test slider',
+        postfix: 'C',
+      };
+
+      const view = new View({
+        values: [30, 60],
+        selector,
+        parent,
+        cfg,
+      });
+
+      mockGetValue.mockReturnValue([30, 60]);
+
+      view.init({
+        setValue: mockSetValue,
+        getValue: mockGetValue,
+        getMin: mockGetMin,
+        getMax: mockGetMax,
+      });
+
+      const mockBodyHandle = jest.fn();
+
+      view.thumbsParent.addEventListener('pointerdown', mockBodyHandle);
+
+      view.thumbsParent.dispatchEvent(new MouseEvent('pointerdown'));
+
+      expect(mockBodyHandle).toHaveBeenCalled();
     });
   });
 });
