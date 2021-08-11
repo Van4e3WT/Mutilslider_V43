@@ -1,211 +1,73 @@
-import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
-import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
-import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
-import View from '../src/multislider-v43/plugin/modules/view/View';
-import Controller from '../src/multislider-v43/plugin/modules/controller/Controller';
-import type { Config, ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
+import IModel from 'Plugin/modules/models/interfaces/IModel';
+import DoubleModel from 'Plugin/modules/models/DoubleModel';
+import Controller from 'Plugin/modules/controller/Controller';
+import { Config } from 'Plugin/modules/utils/custom-types';
+import View from 'Plugin/modules/view/View';
 
 describe('***CONTROLLER***', () => {
-  describe('Horizontal', () => {
-    const cfg: Config = {
+  const selector = 'multislider-v43';
 
-      minValue: 0,
-      maxValue: 1000,
-      step: 1,
-      value1: 25,
-      value2: 75,
+  const cfg: Config = {
+    minValue: 0,
+    maxValue: 1000,
+    value1: 110,
+    value2: 490,
+    step: 1,
 
-      isVertical: false,
-      isRange: true,
+    isProgressBar: true,
 
-      tooltipOfValue: false,
-      scaleOfValues: 3,
-      isProgressBar: true,
+    isRange: true,
+    isVertical: false,
+    scaleOfValues: 5,
 
-      description: 'Range Slider',
-    };
-    const modelConfig: ModelConfig = {
+    tooltipOfValue: true,
+    tooltipIsHidden: true,
+  };
+
+  let controller: Controller;
+  let model: IModel;
+  let view: View;
+  let parent: HTMLElement;
+
+  beforeEach(() => {
+    parent = document.createElement('div');
+
+    view = new View({
+      parent,
+      cfg,
+      selector,
+      values: [110, 490],
+    });
+
+    model = new DoubleModel({
       min: cfg.minValue,
       max: cfg.maxValue,
       step: cfg.step,
       value1: cfg.value1,
-    };
-
-    let model: IModel;
-    let view: View;
-    let controller: Controller;
-
-    let updateMock: jest.Mock;
-
-    beforeEach(() => {
-      if (cfg.isRange) {
-        modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-        model = new DoubleModel(modelConfig);
-      } else {
-        model = new SoloModel(modelConfig);
-      }
-
-      const parent = document.createElement('div');
-
-      View.prototype.update = jest.fn();
-      updateMock = View.prototype.update as jest.Mock;
-
-      view = new View({
-        values: model.getValue(),
-        parent,
-        cfg,
-        selector: 'multislider-v43',
-      });
-
-      controller = new Controller({
-        model,
-        view,
-      });
-      controller.init();
+      value2: cfg.value2,
     });
 
-    test('should emit event update view on value changing', () => {
-      const calls = updateMock.mock.calls.length;
-
-      model.emit('valueChanged', {
-        val1: modelConfig.value1,
-        val2: modelConfig.value2,
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + 1);
-    });
-
-    test('should emit event on change value in field output value', () => {
-      const calls = updateMock.mock.calls.length;
-
-      view.outputs.getIOInputs().forEach((item, i) => {
-        view.outputs.setIO(i, 0);
-        item.dispatchEvent(new Event('change'));
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + view.outputs.getIOInputs().length);
-    });
-
-    test('should emit event on click to scale division', () => {
-      const calls = updateMock.mock.calls.length;
-
-      view.scale.getScaleDivisions().forEach((item) => {
-        item.dispatchEvent(new Event('click', { bubbles: true }));
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + view.scale.getScaleDivisions().length);
-    });
-
-    test('should emit event on moving after pointed down', () => {
-      const calls = updateMock.mock.calls.length;
-
-      for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-        view.thumbs.getThumb(i).dispatchEvent(new Event('pointerdown'));
-        document.dispatchEvent(new Event('pointermove'));
-        document.dispatchEvent(new Event('pointerup'));
-      }
-
-      expect(updateMock).toBeCalledTimes(calls + view.thumbs.getLength());
+    controller = new Controller({
+      model,
+      view,
     });
   });
-  describe('Vertical', () => {
-    const cfg: Config = {
 
-      minValue: 0,
-      maxValue: 100,
-      step: 1,
-      value1: 5,
+  test('should init controller', () => {
+    controller.init();
 
-      isVertical: true,
-      isRange: false,
+    expect(controller).toBeDefined();
+  });
 
-      tooltipOfValue: false,
-      scaleOfValues: 0,
-      isProgressBar: false,
+  test('should call handlers when the event is emitted', () => {
+    controller.init();
 
-      description: 'Range Slider',
-    };
-    const modelConfig: ModelConfig = {
-      min: cfg.minValue,
-      max: cfg.maxValue,
-      step: cfg.step,
-      value1: cfg.value1,
-    };
+    const mockUpdate = jest.fn();
 
-    let model: IModel;
-    let view: View;
-    let controller: Controller;
+    view.update = mockUpdate;
 
-    let updateMock: jest.Mock;
+    model.emit('valueChanged', {});
 
-    beforeEach(() => {
-      if (cfg.isRange) {
-        modelConfig.value2 = cfg.value2 ?? cfg.maxValue;
-        model = new DoubleModel(modelConfig);
-      } else {
-        model = new SoloModel(modelConfig);
-      }
-
-      const parent = document.createElement('div');
-
-      View.prototype.update = jest.fn();
-      updateMock = View.prototype.update as jest.Mock;
-
-      view = new View({
-        values: model.getValue(),
-        parent,
-        cfg,
-        selector: 'multislider-v43',
-      });
-
-      controller = new Controller({
-        model,
-        view,
-      });
-      controller.init();
-    });
-
-    test('should emit event update view on value changing', () => {
-      const calls = updateMock.mock.calls.length;
-
-      model.emit('valueChanged', {
-        val1: modelConfig.value1,
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + 1);
-    });
-
-    test('should emit event on change value in field output value', () => {
-      const calls = updateMock.mock.calls.length;
-
-      view.outputs.getIOInputs().forEach((item, i) => {
-        view.outputs.setIO(i, 0);
-        item.dispatchEvent(new Event('change'));
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + view.outputs.getIOInputs().length);
-    });
-
-    test('should emit event on click to scale division', () => {
-      const calls = updateMock.mock.calls.length;
-
-      view.scale.getScaleDivisions().forEach((item) => {
-        item.dispatchEvent(new Event('click', { bubbles: true }));
-      });
-
-      expect(updateMock).toBeCalledTimes(calls + view.scale.getScaleDivisions().length);
-    });
-
-    test('should emit event on moving after pointed down', () => {
-      const calls = updateMock.mock.calls.length;
-
-      for (let i = 0; i < view.thumbs.getLength(); i += 1) {
-        view.thumbs.getThumb(i).dispatchEvent(new Event('pointerdown'));
-        document.dispatchEvent(new Event('pointermove'));
-        document.dispatchEvent(new Event('pointerup'));
-      }
-
-      expect(updateMock).toBeCalledTimes(calls + view.thumbs.getLength());
-    });
+    expect(mockUpdate).toHaveBeenCalled();
   });
 });
