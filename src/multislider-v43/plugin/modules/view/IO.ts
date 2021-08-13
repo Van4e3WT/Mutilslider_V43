@@ -153,11 +153,11 @@ class IO {
     valueGroup[n].parent.style[prop] = `${value}px`;
   }
 
-  private convertToValid = (symbol: string): string => {
+  private convertToValid = (token: string): string => {
     const newString = {
       ' ': '',
       ',': '.',
-    }[symbol];
+    }[token];
 
     return newString ?? '';
   };
