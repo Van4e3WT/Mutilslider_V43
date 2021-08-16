@@ -185,7 +185,7 @@ class View extends EventEmitter {
       - thumbSize;
     const parentBorderThickness = thumbsParent.clientLeft;
 
-    for (let i = 0; i < thumbs.getLength(); i += 1) {
+    for (let i = 0; i < thumbs.getLength(); ++i) {
       const position = maxPixelValue
         * ((thumbsValues[i] - min)
           / (max - min)) - parentBorderThickness;
@@ -319,7 +319,7 @@ class View extends EventEmitter {
 
     parent.appendChild(sliderBody);
 
-    for (let i: number = 0; i < thumbsCount; i += 1) {
+    for (let i: number = 0; i < thumbsCount; ++i) {
       thumbs.add(sliderBody, isVertical);
 
       if (tooltipIsActive) {

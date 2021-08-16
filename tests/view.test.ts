@@ -93,7 +93,7 @@ describe('***VIEW***', () => {
       const mockGetValue = jest.fn();
       mockGetValue.mockReturnValue([20, 15, 10]);
 
-      for (let i = 0; i < 3; i += 1) {
+      for (let i = 0; i < 3; ++i) {
         customIO.createGroup({
           parent,
           selector,
@@ -227,7 +227,7 @@ describe('***VIEW***', () => {
 
       const parent = document.createElement('div');
 
-      for (let i = 0; i < 2; i += 1) {
+      for (let i = 0; i < 2; ++i) {
         thumbs.add(parent, true);
       }
     });
@@ -237,7 +237,7 @@ describe('***VIEW***', () => {
     });
 
     test('should return thumb', () => {
-      for (let i = 0; i < thumbs.getLength(); i += 1) {
+      for (let i = 0; i < thumbs.getLength(); ++i) {
         expect(thumbs.getThumb(i)).toBeDefined();
       }
     });
@@ -275,7 +275,7 @@ describe('***VIEW***', () => {
 
       const decoyArray: Array<HTMLElement> = [];
 
-      for (let i = 0; i < thumbs.getLength(); i += 1) {
+      for (let i = 0; i < thumbs.getLength(); ++i) {
         const decoy = document.createElement('div');
         decoyArray.push(decoy);
       }
@@ -298,7 +298,7 @@ describe('***VIEW***', () => {
         additionalListeners: decoyArray,
       });
 
-      for (let i = 0; i < thumbs.getLength(); i += 1) {
+      for (let i = 0; i < thumbs.getLength(); ++i) {
         const thumbExample = thumbs.getThumb(i);
 
         thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
@@ -314,7 +314,7 @@ describe('***VIEW***', () => {
 
       // another testing config
 
-      for (let i = 0; i < thumbs.getLength(); i += 1) {
+      for (let i = 0; i < thumbs.getLength(); ++i) {
         const thumbExample = thumbs.getThumb(i);
 
         thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
