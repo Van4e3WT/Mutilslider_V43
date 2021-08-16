@@ -135,24 +135,37 @@ describe('***VIEW***', () => {
         localeProps: {},
       });
 
-      scale.init({
-        count: 5,
+      scaleDefault.init({
+        count: 7,
         isVertical: false,
       });
 
-      expect(scaleDefault.getScaleDivisions()).toBeDefined();
+      const scaleDivisions = scaleDefault.getScaleDivisions();
+
+      scaleDivisions.forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLElement);
+      });
+
+      expect(scaleDivisions.length).toBe(7);
     });
 
     test('should return scale', () => {
-      expect(scale.getScale()).toBeDefined();
+      expect(scale.getScale()).toBeInstanceOf(HTMLDivElement);
     });
 
     test('should return scale divisions', () => {
-      expect(scale.getScaleDivisions()).toBeDefined();
+      const scaleDivisions = scale.getScaleDivisions();
+
+      scaleDivisions.forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLElement);
+      });
+
+      expect(scaleDivisions.length).toBe(5);
     });
 
     test('should update scale data', () => {
       const thumbsParent = document.createElement('div');
+      const result = [-100, -50, 0, 50, 100];
 
       scale.update({
         thumbsParent,
@@ -171,8 +184,8 @@ describe('***VIEW***', () => {
         step: 10,
       });
 
-      scale.getScaleDivisions().forEach((item) => {
-        expect(item.dataset.value).toBeDefined();
+      scale.getScaleDivisions().forEach((item, i) => {
+        expect(Number(item.dataset.value)).toBe(result[i]);
       });
     });
 
@@ -238,7 +251,7 @@ describe('***VIEW***', () => {
 
     test('should return thumb', () => {
       for (let i = 0; i < thumbs.getLength(); ++i) {
-        expect(thumbs.getThumb(i)).toBeDefined();
+        expect(thumbs.getThumb(i)).toBeInstanceOf(HTMLElement);
       }
     });
 
@@ -380,7 +393,20 @@ describe('***VIEW***', () => {
         getMax: mockGetMax,
       });
 
-      expect(view).toBeDefined();
+      expect(view.selector).toBe(selector);
+      expect(view.thumbsParent).toBeInstanceOf(HTMLElement);
+
+      for (let i = 0; i < view.thumbs.getLength(); ++i) {
+        expect(view.thumbs.getThumb(i)).toBeInstanceOf(HTMLElement);
+      }
+
+      view.scale.getScaleDivisions().forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLElement);
+      });
+
+      view.outputs.getIOInputs().forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLInputElement);
+      });
     });
 
     test('should init double slider', () => {
@@ -417,7 +443,20 @@ describe('***VIEW***', () => {
         getMax: mockGetMax,
       });
 
-      expect(view).toBeDefined();
+      expect(view.selector).toBe(selector);
+      expect(view.thumbsParent).toBeInstanceOf(HTMLElement);
+
+      for (let i = 0; i < view.thumbs.getLength(); ++i) {
+        expect(view.thumbs.getThumb(i)).toBeInstanceOf(HTMLElement);
+      }
+
+      view.scale.getScaleDivisions().forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLElement);
+      });
+
+      view.outputs.getIOInputs().forEach((item) => {
+        expect(item).toBeInstanceOf(HTMLInputElement);
+      });
     });
 
     test('should call update listeners', () => {

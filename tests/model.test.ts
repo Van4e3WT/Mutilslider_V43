@@ -20,9 +20,9 @@ describe('***MODEL***', () => {
     });
 
     test('should be init by constructor', () => {
-      expect(soloSliderModel.getValue()).toBeDefined();
-      expect(soloSliderModel.getMin()).toBeDefined();
-      expect(soloSliderModel.getMax()).toBeDefined();
+      expect(soloSliderModel.getValue()).toEqual([20]);
+      expect(soloSliderModel.getMin()).toBe(-100);
+      expect(soloSliderModel.getMax()).toBe(100);
     });
 
     test('getMin() should return the min value', () => {
@@ -34,7 +34,7 @@ describe('***MODEL***', () => {
     });
 
     test('getValue() should return the array', () => {
-      expect(soloSliderModel.getValue()).not.toBeUndefined();
+      expect(soloSliderModel.getValue()).toBeDefined();
       expect(soloSliderModel.getValue()).toBeInstanceOf(Array);
     });
 
@@ -54,8 +54,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0])
-          .toBeLessThanOrEqual(soloSliderModel.getMax());
+        expect(soloSliderModel.getValue()[0]).toBeLessThanOrEqual(soloSliderModel.getMax());
       });
 
       test('should limit value not less than min', () => {
@@ -63,8 +62,7 @@ describe('***MODEL***', () => {
 
         soloSliderModel.setValue({ val1: newValue });
 
-        expect(soloSliderModel.getValue()[0])
-          .toBeGreaterThanOrEqual(soloSliderModel.getMin());
+        expect(soloSliderModel.getValue()[0]).toBeGreaterThanOrEqual(soloSliderModel.getMin());
       });
 
       test('should by default convert value to step', () => {
@@ -112,9 +110,9 @@ describe('***MODEL***', () => {
     });
 
     test('should be init by constructor', () => {
-      expect(doubleSliderModel.getValue()).toBeDefined();
-      expect(doubleSliderModel.getMin()).toBeDefined();
-      expect(doubleSliderModel.getMax()).toBeDefined();
+      expect(doubleSliderModel.getValue()).toEqual([20, 70]);
+      expect(doubleSliderModel.getMin()).toBe(-100);
+      expect(doubleSliderModel.getMax()).toBe(100);
     });
 
     test('getMin() should return the min value', () => {
@@ -126,7 +124,7 @@ describe('***MODEL***', () => {
     });
 
     test('getValue() should return the array', () => {
-      expect(doubleSliderModel.getValue()).not.toBeUndefined();
+      expect(doubleSliderModel.getValue()).toBeDefined();
       expect(doubleSliderModel.getValue()).toBeInstanceOf(Array);
     });
 
@@ -200,8 +198,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val1: newValue1 });
 
-        expect(doubleSliderModel.getValue()[0])
-          .toBeGreaterThanOrEqual(doubleSliderModel.getMin());
+        expect(doubleSliderModel.getValue()[0]).toBeGreaterThanOrEqual(doubleSliderModel.getMin());
       });
 
       test('should limit value2 no greater then max', () => {
@@ -209,8 +206,7 @@ describe('***MODEL***', () => {
 
         doubleSliderModel.setValue({ val2: newValue2 });
 
-        expect(doubleSliderModel.getValue()[1])
-          .toBeLessThanOrEqual(doubleSliderModel.getMax());
+        expect(doubleSliderModel.getValue()[1]).toBeLessThanOrEqual(doubleSliderModel.getMax());
       });
 
       test('should limit both values no greater then max', () => {

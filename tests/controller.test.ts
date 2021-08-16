@@ -53,12 +53,6 @@ describe('***CONTROLLER***', () => {
     });
   });
 
-  test('should init controller', () => {
-    controller.init();
-
-    expect(controller).toBeDefined();
-  });
-
   test('should call handlers when the event is emitted', () => {
     controller.init();
 
