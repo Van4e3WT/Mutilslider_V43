@@ -16,10 +16,10 @@ class IO {
   private tooltipIsHidden: boolean;
 
   constructor(props: {
-    postfix?: string | undefined,
-    localeProps?: Intl.NumberFormatOptions | undefined,
-    tooltipOfValue?: boolean | undefined,
-    tooltipIsHidden?: boolean | undefined,
+    postfix?: string,
+    localeProps?: Intl.NumberFormatOptions,
+    tooltipOfValue?: boolean,
+    tooltipIsHidden?: boolean,
   }) {
     const {
       postfix = '',
