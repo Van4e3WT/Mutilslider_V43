@@ -423,7 +423,7 @@ class View extends EventEmitter {
     });
   };
 
-  private handleListenerUpdate = (getValue: Function): void => {
+  private handleListenerUpdate = (getValue: () => Array<number>): void => {
     this.update(getValue());
   };
 

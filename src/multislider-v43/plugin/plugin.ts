@@ -56,7 +56,7 @@ import View from './modules/view/View';
     });
     controller.init();
 
-    $.fn.multislider.value = (values: { val1?: number, val2?: number }) => {
+    $.fn.multislider.value = (values: { val1?: number, val2?: number }): Array<number> => {
       if (values) {
         model.setValue({ val1: values.val1, val2: values.val2 });
       }
@@ -64,7 +64,7 @@ import View from './modules/view/View';
       return model.getValue();
     };
 
-    $.fn.multislider.onChange = (callback: Function, ...args: Array<unknown>) => {
+    $.fn.multislider.onChange = (callback: Function, ...args: Array<unknown>): void => {
       model.on('valueChanged', callback.bind(this, ...args));
     };
   };

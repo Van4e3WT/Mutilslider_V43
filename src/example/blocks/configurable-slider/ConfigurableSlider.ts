@@ -177,7 +177,7 @@ class ConfigurableSlider {
     }
   };
 
-  private handleSliderChange = (getVal: Function): void => {
+  private handleSliderChange = (getVal: () => Array<number>): void => {
     const { inputs } = this;
 
     if (!inputs) return;
