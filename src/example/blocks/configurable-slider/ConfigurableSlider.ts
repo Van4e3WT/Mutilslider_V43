@@ -24,6 +24,8 @@ class ConfigurableSlider {
 
   private inputs: Config | undefined;
 
+  private prevInputValue: string | undefined;
+
   constructor(props: {
     panel: Element,
     slider: Element,
@@ -61,6 +63,7 @@ class ConfigurableSlider {
     this.tooltipToggle = this.inputs.tooltipIsHidden.parentElement
       ?.querySelector(`.js-${selector}__item-toggle`);
 
+    panelControl.addEventListener('focusin', this.handlePanelFocus);
     panelControl.addEventListener('change', this.handlePanelChange);
 
     this.updateSlider();
@@ -100,78 +103,13 @@ class ConfigurableSlider {
       onChange(this.handleSliderChange, getValue);
       getValue({});
     } catch (err) {
-      const shouldRecalcBoundaries = target === inputs.minValue || target === inputs.maxValue;
-      const shouldRecalcStep = target === inputs.step || shouldRecalcBoundaries;
-      const shouldRecalcScale = target === inputs.scaleOfValues || shouldRecalcStep;
-      const shouldRecalcValues = target === inputs.value1 || target === inputs.value2
-        || shouldRecalcStep;
+      const { prevInputValue } = this;
 
-      if (shouldRecalcBoundaries) {
-        if (inputs.minValue.value > inputs.maxValue.value) {
-          [inputs.minValue.value, inputs.maxValue.value] = [
-            inputs.maxValue.value, inputs.minValue.value];
-        } else if (inputs.minValue.value === inputs.maxValue.value) {
-          if (target === inputs.minValue) {
-            inputs.minValue.value = String(Number(inputs.maxValue.value)
-              - Number(inputs.step.value));
-          }
+      if (!(target instanceof HTMLInputElement) || !prevInputValue) return;
 
-          if (target === inputs.maxValue) {
-            inputs.maxValue.value = String(Number(inputs.minValue.value)
-              + Number(inputs.step.value));
-          }
-        }
-      }
+      const input: HTMLInputElement = target;
 
-      const delta = Number(inputs.maxValue.value) - Number(inputs.minValue.value);
-
-      if (shouldRecalcStep) {
-        if (Number(inputs.step.value) > 0) {
-          if (Number(inputs.step.value) > delta) {
-            inputs.step.value = String(delta);
-          }
-        } else {
-          inputs.step.value = String(1);
-        }
-      }
-
-      if (shouldRecalcValues) {
-        if (inputs.isRange.checked) {
-          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-            [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
-          }
-          if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
-            inputs.value2.value = inputs.maxValue.value;
-          }
-          if (Number(inputs.value2.value) < Number(inputs.minValue.value)) {
-            inputs.value2.value = inputs.minValue.value;
-          }
-          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-            inputs.value1.value = inputs.value2.value;
-          }
-        } else if (Number(inputs.value1.value) > Number(inputs.maxValue.value)) {
-          inputs.value1.value = inputs.maxValue.value;
-        }
-
-        if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
-          inputs.value1.value = inputs.minValue.value;
-        }
-      }
-
-      const scaleAdditionalCoef = Number.isInteger(delta / Number(inputs.step.value)) ? 1 : 2;
-      const steppedScaleValues = Math.floor(delta
-        / Number(inputs.step.value) + scaleAdditionalCoef);
-      const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
-
-      if (shouldRecalcScale) {
-        if (Number(inputs.scaleOfValues.value) >= 0) {
-          if (Number(inputs.scaleOfValues.value) > maxScaleDivisions) {
-            inputs.scaleOfValues.value = String(maxScaleDivisions);
-          }
-        } else {
-          inputs.scaleOfValues.value = String(0);
-        }
-      }
+      input.value = prevInputValue;
 
       this.updateSlider();
     }
@@ -189,6 +127,14 @@ class ConfigurableSlider {
     if (values.length === 2) {
       inputs.value2.value = String(values[1]);
     }
+  };
+
+  private handlePanelFocus = (e: Event) => {
+    const { target } = e;
+
+    if (!(target instanceof HTMLInputElement)) return;
+
+    this.prevInputValue = target.value;
   };
 
   private handlePanelChange = (e: Event): void => {
