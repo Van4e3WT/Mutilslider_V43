@@ -122,7 +122,8 @@ class Thumbs {
       vars,
     } = data;
 
-    if (!(vars.startPos && vars.startValue)) return;
+    if (!(vars.startPos !== undefined
+      && vars.startValue !== undefined)) return;
 
     const pos1 = e[axis.eventAxis];
     const value = ((((pos1 - vars.startPos) * axis.dPos)
