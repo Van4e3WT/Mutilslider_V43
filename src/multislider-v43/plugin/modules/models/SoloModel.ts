@@ -45,11 +45,12 @@ class SoloModel extends EventEmitter implements IModel {
     const { thumbs, step } = this;
     let { val1 } = props;
 
-    if (val1) {
+    if (val1 !== undefined) {
       const delta = val1 - thumbs[0].min;
 
-      val1 = Number(String((Math.floor((delta / step) + 0.5) / (1 / step) + thumbs[0].min)
-        .toFixed(10)));
+      val1 = val1 >= thumbs[0].max ? thumbs[0].max
+        : Number(String((Math.floor((delta / step) + 0.5) / (1 / step) + thumbs[0].min)
+          .toFixed(10)));
 
       val1 = val1 > thumbs[0].max ? thumbs[0].max : val1;
       val1 = val1 < thumbs[0].min ? thumbs[0].min : val1;

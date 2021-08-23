@@ -78,8 +78,10 @@ class DoubleModel extends EventEmitter implements IModel {
       const delta1 = val1 - min;
       const delta2 = val2 - min;
 
-      val1 = Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
-      val2 = Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      val1 = val1 >= max ? max
+        : Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      val2 = val2 >= max ? max
+        : Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
 
       val1 = val1 < min ? min : val1;
       val1 = val1 > max ? max : val1;
