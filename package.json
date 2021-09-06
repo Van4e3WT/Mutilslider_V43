@@ -1,8 +1,7 @@
 {
   "name": "multislider-v43",
   "version": "1.0.0",
-  "description": "JQuery plugin range slider",
-  "private": true,
+  "description": "Configurable jQuery range slider plugin",
   "scripts": {
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
@@ -12,8 +11,13 @@
     "watch": "webpack --watch --mode=development",
     "start": "webpack serve --open --mode development"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Van4e3WT/Mutilslider_V43.git"
+  },
   "author": "Ivan G",
   "license": "MIT",
+  "homepage": "https://github.com/Van4e3WT/Mutilslider_V43#readme",
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
