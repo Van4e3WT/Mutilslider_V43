@@ -120,7 +120,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
   }
 
   &__tooltip {
-    display: none;
+    display: flex;
     position: absolute;
     font: inherit;
     cursor: pointer;
@@ -158,10 +158,6 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     &_vertical {
       right: 12px;
       transform: translateY(50%);
-    }
-
-    &_visible {
-      display: flex;
     }
   }
 

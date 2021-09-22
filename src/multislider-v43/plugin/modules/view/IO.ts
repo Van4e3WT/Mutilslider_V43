@@ -13,23 +13,18 @@ class IO {
 
   private tooltipOfValue: boolean;
 
-  private tooltipIsHidden: boolean;
-
   constructor(props: {
     postfix?: string,
     localeProps?: Intl.NumberFormatOptions,
     tooltipOfValue?: boolean,
-    tooltipIsHidden?: boolean,
   }) {
     const {
       postfix = '',
       localeProps = {},
       tooltipOfValue = false,
-      tooltipIsHidden = false,
     } = props;
 
     this.tooltipOfValue = tooltipOfValue;
-    this.tooltipIsHidden = tooltipIsHidden;
     this.localeProps = localeProps;
     this.postfix = postfix;
     this.valueGroup = [];
@@ -44,7 +39,6 @@ class IO {
       postfix,
       valueGroup,
       tooltipOfValue,
-      tooltipIsHidden,
     } = this;
 
     const {
@@ -58,10 +52,6 @@ class IO {
 
     if (isVertical) {
       parentElement.classList.add(`${selector}_vertical`);
-    }
-
-    if (tooltipOfValue && !tooltipIsHidden) {
-      parentElement.classList.add(`${selector}_visible`);
     }
 
     const inputElement = document.createElement('input');

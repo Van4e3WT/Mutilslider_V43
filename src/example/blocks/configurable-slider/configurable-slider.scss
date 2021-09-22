@@ -42,15 +42,6 @@ $blue: #66D2EA;
         background-color: rgba($darkShade, .5);
         border-radius: 50%;
       }
-
-      &_disabled {
-        border-color: rgba($darkShade, .25);
-        background-color: rgba($darkShade, .05);
-
-        &::before {
-          background-color: rgba($darkShade, .25);
-        }
-      }
     }
   }
 

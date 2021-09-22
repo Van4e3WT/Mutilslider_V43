@@ -7,7 +7,6 @@ type Config = {
   isVertical: HTMLInputElement,
   isRange: HTMLInputElement,
   tooltipOfValue: HTMLInputElement,
-  tooltipIsHidden: HTMLInputElement,
   scaleOfValues: HTMLInputElement,
   isProgressBar: HTMLInputElement,
   postfix: HTMLInputElement,
@@ -15,8 +14,6 @@ type Config = {
 
 class ConfigurableSlider {
   private panelControl: Element;
-
-  private tooltipToggle: Element | null | undefined;
 
   private slider: Element;
 
@@ -54,14 +51,10 @@ class ConfigurableSlider {
       isVertical: panelControl.querySelector(`.js-${selector}__is-vertical`) ?? callError(),
       isRange: panelControl.querySelector(`.js-${selector}__is-range`) ?? callError(),
       tooltipOfValue: panelControl.querySelector(`.js-${selector}__tooltip-of-value`) ?? callError(),
-      tooltipIsHidden: panelControl.querySelector(`.js-${selector}__tooltip-is-hidden`) ?? callError(),
       scaleOfValues: panelControl.querySelector(`.js-${selector}__scale-of-values`) ?? callError(),
       isProgressBar: panelControl.querySelector(`.js-${selector}__is-progress-bar`) ?? callError(),
       postfix: panelControl.querySelector(`.js-${selector}__postfix`) ?? callError(),
     };
-
-    this.tooltipToggle = this.inputs.tooltipIsHidden.parentElement
-      ?.querySelector(`.js-${selector}__item-toggle`);
 
     panelControl.addEventListener('focusin', this.handlePanelFocus);
     panelControl.addEventListener('change', this.handlePanelChange);
@@ -89,7 +82,6 @@ class ConfigurableSlider {
         isRange: inputs.isRange.checked,
 
         tooltipOfValue: inputs.tooltipOfValue.checked,
-        tooltipIsHidden: inputs.tooltipIsHidden.checked,
         scaleOfValues: Number(inputs.scaleOfValues.value),
         isProgressBar: inputs.isProgressBar.checked,
         postfix: inputs.postfix.value,
@@ -144,7 +136,7 @@ class ConfigurableSlider {
   };
 
   private toggleInputsConditions(): void {
-    const { inputs, selector, tooltipToggle } = this;
+    const { inputs, selector } = this;
 
     if (!inputs) return;
 
@@ -154,16 +146,6 @@ class ConfigurableSlider {
     } else {
       inputs.value2.disabled = true;
       inputs.value2.classList.add(`${selector}__input_disabled`);
-    }
-
-    if (tooltipToggle) {
-      if (inputs.tooltipOfValue.checked) {
-        inputs.tooltipIsHidden.disabled = false;
-        tooltipToggle.classList.remove(`${selector}__item-toggle_disabled`);
-      } else {
-        inputs.tooltipIsHidden.disabled = true;
-        tooltipToggle.classList.add(`${selector}__item-toggle_disabled`);
-      }
     }
   }
 

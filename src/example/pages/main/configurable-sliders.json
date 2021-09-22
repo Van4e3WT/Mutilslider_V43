@@ -9,7 +9,6 @@
       "isVertical": true,
       "isRange": true,
       "tooltipOfValue": true,
-      "tooltipIsHidden": false,
       "scaleOfValues": 11,
       "isProgressBar": true,
       "postfix": "₽"
@@ -23,7 +22,6 @@
       "isVertical": false,
       "isRange": true,
       "tooltipOfValue": false,
-      "tooltipIsHidden": true,
       "scaleOfValues": 9,
       "isProgressBar": false,
       "postfix": "π"
@@ -37,7 +35,6 @@
       "isVertical": false,
       "isRange": false,
       "tooltipOfValue": true,
-      "tooltipIsHidden": true,
       "scaleOfValues": 0,
       "isProgressBar": false,
       "postfix": ""

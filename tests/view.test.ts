@@ -15,7 +15,6 @@ describe('***VIEW***', () => {
         postfix: 'C',
         localeProps: {},
         tooltipOfValue: true,
-        tooltipIsHidden: false,
       });
 
       const parent = document.createElement('div');
@@ -371,7 +370,6 @@ describe('***VIEW***', () => {
         isVertical: false,
         scaleOfValues: 5,
         tooltipOfValue: true,
-        tooltipIsHidden: false,
         description: 'Test slider',
         postfix: 'C',
         localeProps: {},
@@ -421,7 +419,6 @@ describe('***VIEW***', () => {
         isVertical: true,
         scaleOfValues: 5,
         tooltipOfValue: false,
-        tooltipIsHidden: false,
         description: 'Test slider',
         postfix: 'C',
         localeProps: {},
@@ -508,7 +505,6 @@ describe('***VIEW***', () => {
         isVertical: false,
         scaleOfValues: 5,
         tooltipOfValue: true,
-        tooltipIsHidden: true,
         description: 'Test slider',
         postfix: 'C',
       };

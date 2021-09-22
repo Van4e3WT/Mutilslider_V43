@@ -21,7 +21,6 @@ describe('***CONTROLLER***', () => {
     scaleOfValues: 5,
 
     tooltipOfValue: true,
-    tooltipIsHidden: true,
   };
 
   let controller: Controller;

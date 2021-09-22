@@ -14,7 +14,6 @@ function configValidation(config: Config): Config {
     isVertical = false,
     scaleOfValues = 0,
     tooltipOfValue = false,
-    tooltipIsHidden = false,
     isProgressBar = false,
     postfix,
     description = 'Range Slider',
@@ -77,7 +76,6 @@ function configValidation(config: Config): Config {
     isRange,
 
     tooltipOfValue,
-    tooltipIsHidden,
     scaleOfValues,
     isProgressBar,
 

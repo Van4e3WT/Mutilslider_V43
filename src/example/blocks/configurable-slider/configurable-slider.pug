@@ -44,12 +44,6 @@ mixin configurable-slider(config)
         )
         .configurable-slider__item-toggle.js-configurable-slider__item-toggle
         .configurable-slider__item-title tooltip
-      label.configurable-slider__item.configurable-slider__toggle
-        input.configurable-slider__input.configurable-slider__tooltip-is-hidden.js-configurable-slider__tooltip-is-hidden(
-          type="checkbox", checked=config.tooltipIsHidden
-        )
-        .configurable-slider__item-toggle.js-configurable-slider__item-toggle
-        .configurable-slider__item-title tooltip hidden
       label.configurable-slider__item
         input.configurable-slider__input.configurable-slider__scale-of-values.js-configurable-slider__scale-of-values(
           type="number", value=config.scaleOfValues
