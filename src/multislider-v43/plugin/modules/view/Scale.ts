@@ -13,7 +13,7 @@ class Scale {
     const { localeProps = {}, selector = 'scale' } = props;
 
     this.selector = selector;
-    this.localeProps = localeProps;
+    this.localeProps = { maximumFractionDigits: 10, ...localeProps };
     this.scaleDivisions = [];
     this.scale = document.createElement('div');
   }

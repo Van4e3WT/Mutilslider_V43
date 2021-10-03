@@ -25,7 +25,7 @@ class IO {
     } = props;
 
     this.tooltipOfValue = tooltipOfValue;
-    this.localeProps = localeProps;
+    this.localeProps = { maximumFractionDigits: 10, ...localeProps };
     this.postfix = postfix;
     this.valueGroup = [];
   }
