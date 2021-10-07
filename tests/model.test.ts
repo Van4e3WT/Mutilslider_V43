@@ -1,7 +1,7 @@
-import IModel from '../src/multislider-v43/plugin/modules/models/interfaces/IModel';
-import SoloModel from '../src/multislider-v43/plugin/modules/models/SoloModel';
-import DoubleModel from '../src/multislider-v43/plugin/modules/models/DoubleModel';
-import { ModelConfig } from '../src/multislider-v43/plugin/modules/utils/custom-types';
+import IModel from 'Plugin/modules/models/interfaces/IModel';
+import SoloModel from 'Plugin/modules/models/SoloModel';
+import DoubleModel from 'Plugin/modules/models/DoubleModel';
+import { ModelConfig } from 'Plugin/custom-types';
 
 describe('***MODEL***', () => {
   const modelConfig: ModelConfig = {

@@ -1,4 +1,5 @@
-import { Config } from './custom-types';
+import { Config } from 'Plugin/custom-types';
+
 import ValidationError from './ValidationError';
 
 function callValidationError(message: string): number {

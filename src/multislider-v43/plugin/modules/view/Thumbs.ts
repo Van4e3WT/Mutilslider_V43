@@ -1,5 +1,5 @@
 /* global document */
-import { MoveStyleAxis, ThumbData, ViewAxis } from 'Plugin/modules/utils/custom-types';
+import { MoveStyleAxis, ThumbData, ViewAxis } from 'Plugin/custom-types';
 
 class Thumbs {
   private thumbs: Array<HTMLDivElement>;

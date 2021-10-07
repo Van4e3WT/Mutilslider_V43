@@ -1,4 +1,4 @@
-import { ViewAxis } from 'Plugin/modules/utils/custom-types';
+import { ViewAxis } from 'Plugin/custom-types';
 
 class Scale {
   private scale: HTMLDivElement;

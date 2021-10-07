@@ -1,5 +1,6 @@
+import { ModelConfig, ThumbModel } from 'Plugin/custom-types';
+
 import EventEmitter from '../utils/EventEmitter';
-import { ModelConfig, ThumbModel } from '../utils/custom-types';
 import IModel from './interfaces/IModel';
 
 class SoloModel extends EventEmitter implements IModel {

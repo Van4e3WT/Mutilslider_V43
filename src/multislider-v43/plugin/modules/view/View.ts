@@ -1,5 +1,6 @@
+import { Config, MoveStyleAxis, ViewAxis } from 'Plugin/custom-types';
+
 import EventEmitter from '../utils/EventEmitter';
-import { Config, MoveStyleAxis, ViewAxis } from '../utils/custom-types';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';

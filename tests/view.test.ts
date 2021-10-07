@@ -1,8 +1,8 @@
-import { Config } from 'Plugin/modules/utils/custom-types';
 import IO from 'Plugin/modules/view/IO';
 import Scale from 'Plugin/modules/view/Scale';
 import Thumbs from 'Plugin/modules/view/Thumbs';
 import View from 'Plugin/modules/view/View';
+import { Config } from 'Plugin/custom-types';
 
 describe('***VIEW***', () => {
   const selector = 'multislider-v43';

@@ -1,4 +1,4 @@
-import { MoveStyleAxis } from 'Plugin/modules/utils/custom-types';
+import { MoveStyleAxis } from 'Plugin/custom-types';
 
 class IO {
   private postfix: string;

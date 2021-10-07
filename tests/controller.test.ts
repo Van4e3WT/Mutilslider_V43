@@ -1,8 +1,8 @@
 import IModel from 'Plugin/modules/models/interfaces/IModel';
 import DoubleModel from 'Plugin/modules/models/DoubleModel';
 import Controller from 'Plugin/modules/controller/Controller';
-import { Config } from 'Plugin/modules/utils/custom-types';
 import View from 'Plugin/modules/view/View';
+import { Config } from 'Plugin/custom-types';
 
 describe('***CONTROLLER***', () => {
   const selector = 'multislider-v43';
