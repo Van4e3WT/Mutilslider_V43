@@ -71,7 +71,7 @@ module.exports = (env, options) => ({
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src/static'),
+          from: path.resolve(__dirname, 'public'),
           to: path.resolve(__dirname, 'dist/example/assets'),
         },
       ],
