@@ -1,15 +1,12 @@
-$darkShade: #1F2041;
-$darkShade75: rgba($darkShade, 0.75);
-$darkShade50: rgba($darkShade, 0.50);
-$darkShade25: rgba($darkShade, 0.25);
-$darkShade10: rgba($darkShade, 0.10);
-$darkShade05: rgba($darkShade, 0.05);
-$purple: #BC9CFF;
-$green: #6FCF97;
-$blue: #66D2EA;
-$shadow: 0px 0px 50px -25px $darkShade;
-$gradientColor: linear-gradient(to right, $blue, $green);
-$gradientColorVertical: linear-gradient(to top, $blue, $green);
+$textColor: #1F2041;
+$textColor75: rgba($textColor, 0.75);
+$textColor50: rgba($textColor, 0.50);
+$textColor25: rgba($textColor, 0.25);
+$primaryColor: #6FCF97;
+$secondaryColor: #66D2EA;
+$shadow: 0px 0px 50px -25px $textColor;
+$gradientColor: linear-gradient(to right, $secondaryColor, $primaryColor);
+$gradientColorVertical: linear-gradient(to top, $secondaryColor, $primaryColor);
 
 .multislider-v43 {
   position: relative;
@@ -34,14 +31,14 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     text-transform: uppercase;
     text-align: center;
     font-weight: bold;
-    color: $darkShade;
+    color: $textColor;
   }
 
   &__output {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $darkShade75;
+    color: $textColor75;
   }
 
   &__value {
@@ -75,7 +72,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     position: relative;
     width: 100%;
     height: 7px;
-    border: 2px solid $darkShade25;
+    border: 2px solid $textColor25;
     border-radius: 7px;
     cursor: pointer;
     
@@ -97,7 +94,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     left: 0px;
     height: 16px;
     width: 16px;
-    background-color: $green;
+    background-color: $primaryColor;
     border: 2px solid white;
     border-radius: 50%;
     z-index: 1;
@@ -111,7 +108,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     }
 
     &_active {
-      background-color: $blue;
+      background-color: $secondaryColor;
     }
   }
 
@@ -126,8 +123,8 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     cursor: pointer;
     padding: 4px;
     background-color: white;
-    color: $darkShade50;
-    border: 2px solid $green;
+    color: $textColor50;
+    border: 2px solid $primaryColor;
     border-radius: 10px;
     bottom: 12px;
     transform: translateX(-50%);
@@ -136,7 +133,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
 
     &-input {
       font: inherit;
-      color: $darkShade75;
+      color: $textColor75;
       border: none;
       cursor: inherit;
       outline: none;
@@ -185,10 +182,10 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
     position: absolute;
     margin-top: 18px;
     transform: translateX(-50%);
-    color: $darkShade75;
+    color: $textColor75;
 
     &:hover {
-      color: $darkShade50;
+      color: $textColor50;
       transition: color 0.3s;
     }
 
@@ -200,7 +197,7 @@ $gradientColorVertical: linear-gradient(to top, $blue, $green);
       height: 7px;
       width: 2px;
       transform: translateX(-50%);
-      background-color: $darkShade50;
+      background-color: $textColor50;
       pointer-events: none;
     }
 
