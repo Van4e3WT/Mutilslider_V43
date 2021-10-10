@@ -8,9 +8,10 @@ import Utils from './modules/utils/utils';
 import View from './modules/view/View';
 import { Config, ModelConfig } from './custom-types';
 
+const SELECTOR = 'multislider-v43';
+
 (function f($) {
   $.fn.multislider = function multisliderInit(props: Config) {
-    const selector = 'multislider-v43';
     const config = Utils.configValidation(props);
 
     if (this.length === 0) {
@@ -25,8 +26,8 @@ import { Config, ModelConfig } from './custom-types';
       }
     }
 
-    baseElement.classList.remove(`${selector}_vertical`);
-    baseElement.classList.add(selector);
+    baseElement.classList.remove(`${SELECTOR}_vertical`);
+    baseElement.classList.add(SELECTOR);
 
     let model: IModel;
     const modelCfg: ModelConfig = {
@@ -47,7 +48,7 @@ import { Config, ModelConfig } from './custom-types';
       values: model.getValue(),
       parent: baseElement,
       cfg: config,
-      selector,
+      selector: SELECTOR,
     });
 
     const controller = new Controller({
