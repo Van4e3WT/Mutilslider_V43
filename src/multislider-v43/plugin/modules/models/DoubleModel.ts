@@ -59,42 +59,52 @@ class DoubleModel extends EventEmitter implements IModel {
     } = this;
     let { val1, val2 } = props;
 
+    const valuesAreNotDefined = (val1 === undefined) && (val2 === undefined);
+
+    if (valuesAreNotDefined) {
+      this.emit('valueChanged', {
+        value1: val1,
+        value2: val2,
+      });
+
+      return;
+    }
+
+    val1 = val1 ?? thumbs[0].value;
+    val2 = val2 ?? thumbs[1].value;
+
     const value1IsDefined = (val1 !== undefined);
     const value2IsDefined = (val2 !== undefined);
+    const value1GreaterValue2 = val1 > val2;
+    const onlyValue1isDefined = value1IsDefined && !value2IsDefined;
+    const onlyValue2isDefined = value2IsDefined && !value1IsDefined;
 
-    if (value1IsDefined || value2IsDefined) {
-      val1 = val1 ?? thumbs[0].value;
-      val2 = val2 ?? thumbs[1].value;
-
-      if (val1 > val2) {
-        if (value1IsDefined && !value2IsDefined) {
-          val1 = val2;
-        } else if (value2IsDefined && !value1IsDefined) {
-          val2 = val1;
-        } else {
-          [val1, val2] = [val2, val1];
-        }
-      }
-
-      const delta1 = val1 - min;
-      const delta2 = val2 - min;
-
-      val1 = val1 >= max ? max
-        : Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
-      val2 = val2 >= max ? max
-        : Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
-
-      val1 = val1 < min ? min : val1;
-      val1 = val1 > max ? max : val1;
-      val2 = val2 < min ? min : val2;
-      val2 = val2 > max ? max : val2;
-
-      thumbs[0].value = val1;
-      thumbs[0].max = val2;
-
-      thumbs[1].value = val2;
-      thumbs[1].min = val1;
+    if (value1GreaterValue2 && onlyValue1isDefined) {
+      val1 = val2;
+    } else if (value1GreaterValue2 && onlyValue2isDefined) {
+      val2 = val1;
+    } else if (value1GreaterValue2) {
+      [val1, val2] = [val2, val1];
     }
+
+    const delta1 = val1 - min;
+    const delta2 = val2 - min;
+
+    val1 = val1 >= max ? max
+      : Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+    val2 = val2 >= max ? max
+      : Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+
+    val1 = val1 < min ? min : val1;
+    val1 = val1 > max ? max : val1;
+    val2 = val2 < min ? min : val2;
+    val2 = val2 > max ? max : val2;
+
+    thumbs[0].value = val1;
+    thumbs[0].max = val2;
+
+    thumbs[1].value = val2;
+    thumbs[1].min = val1;
 
     this.emit('valueChanged', {
       value1: val1,

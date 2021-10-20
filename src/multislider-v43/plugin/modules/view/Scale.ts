@@ -140,14 +140,10 @@ class Scale {
       && (Math.abs(scaleDivisionValue - getValue()[1])
         === Math.abs(scaleDivisionValue - getValue()[0]));
 
-    if (isSecondValue) {
+    const newValIsGreaterCurrentEqualVals = isEquals && (getValue()[1] < scaleDivisionValue);
+
+    if (isSecondValue || newValIsGreaterCurrentEqualVals) {
       setValue({ val2: scaleDivisionValue });
-    } else if (isEquals) {
-      if (getValue()[1] < scaleDivisionValue) {
-        setValue({ val2: scaleDivisionValue });
-      } else {
-        setValue({ val1: scaleDivisionValue });
-      }
     } else {
       setValue({ val1: scaleDivisionValue });
     }

@@ -98,71 +98,87 @@ class ConfigurableSlider {
       const shouldRecalcValues = target === inputs.value1 || target === inputs.value2
         || target === inputs.isRange || shouldRecalcStep;
 
-      if (shouldRecalcBoundaries) {
-        if (Number(inputs.minValue.value) > Number(inputs.maxValue.value)) {
-          [inputs.minValue.value, inputs.maxValue.value] = [
-            inputs.maxValue.value, inputs.minValue.value];
-        } else if (inputs.minValue.value === inputs.maxValue.value) {
-          if (target === inputs.minValue) {
-            inputs.minValue.value = String(Number(inputs.maxValue.value)
-              - Number(inputs.step.value));
-          }
+      const minValGreaterThenMaxVal = Number(inputs.minValue.value) > Number(inputs.maxValue.value);
+      const boundariesAreEqual = inputs.minValue.value === inputs.maxValue.value;
+      const minBoundaryIsConflict = boundariesAreEqual && (target === inputs.minValue);
+      const maxBoundaryIsConflict = boundariesAreEqual && (target === inputs.maxValue);
 
-          if (target === inputs.maxValue) {
-            inputs.maxValue.value = String(Number(inputs.minValue.value)
-              + Number(inputs.step.value));
-          }
-        }
+      if (shouldRecalcBoundaries && minValGreaterThenMaxVal) {
+        [inputs.minValue.value, inputs.maxValue.value] = [
+          inputs.maxValue.value, inputs.minValue.value];
+      } else if (shouldRecalcBoundaries && minBoundaryIsConflict) {
+        inputs.minValue.value = String(Number(inputs.maxValue.value)
+          - Number(inputs.step.value));
+      } else if (shouldRecalcBoundaries && maxBoundaryIsConflict) {
+        inputs.maxValue.value = String(Number(inputs.minValue.value)
+          + Number(inputs.step.value));
       }
 
       const delta = Number(inputs.maxValue.value) - Number(inputs.minValue.value);
 
-      if (shouldRecalcStep) {
-        if (Number(inputs.step.value) > 0) {
-          if (Number(inputs.step.value) > delta) {
-            inputs.step.value = String(delta);
-          }
-        } else {
-          inputs.step.value = String(1);
-        }
+      const isStepGreaterDelta = Number(inputs.step.value) > delta;
+      const isStepLessOrEqualZero = Number(inputs.step.value) <= 0;
+
+      if (shouldRecalcStep && isStepGreaterDelta) {
+        inputs.step.value = String(delta);
+      } else if (shouldRecalcStep && isStepLessOrEqualZero) {
+        inputs.step.value = String(1);
       }
 
-      if (shouldRecalcValues) {
-        if (inputs.isRange.checked) {
-          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-            [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
-          }
-          if (Number(inputs.value2.value) > Number(inputs.maxValue.value)) {
-            inputs.value2.value = inputs.maxValue.value;
-          }
-          if (Number(inputs.value2.value) < Number(inputs.minValue.value)) {
-            inputs.value2.value = inputs.minValue.value;
-          }
-          if (Number(inputs.value1.value) > Number(inputs.value2.value)) {
-            inputs.value1.value = inputs.value2.value;
-          }
-        } else if (Number(inputs.value1.value) > Number(inputs.maxValue.value)) {
-          inputs.value1.value = inputs.maxValue.value;
-        }
+      const shouldRecalcRangeValues = (): boolean => (
+        shouldRecalcValues && inputs.isRange.checked
+      );
+      const val1GreaterVal2 = (): boolean => (
+        Number(inputs.value1.value) > Number(inputs.value2.value)
+      );
+      const val2GreaterMax = (): boolean => (
+        Number(inputs.value2.value) > Number(inputs.maxValue.value)
+      );
+      const val2LessMin = (): boolean => (
+        Number(inputs.value2.value) < Number(inputs.minValue.value)
+      );
+      const val1GreaterMax = (): boolean => (
+        Number(inputs.value1.value) > Number(inputs.maxValue.value)
+      );
+      const val1LessMin = (): boolean => (
+        Number(inputs.value1.value) < Number(inputs.minValue.value)
+      );
 
-        if (Number(inputs.value1.value) < Number(inputs.minValue.value)) {
-          inputs.value1.value = inputs.minValue.value;
-        }
+      if (shouldRecalcRangeValues() && val1GreaterVal2()) {
+        [inputs.value1.value, inputs.value2.value] = [inputs.value2.value, inputs.value1.value];
+      }
+
+      if (shouldRecalcRangeValues() && val2GreaterMax()) {
+        inputs.value2.value = inputs.maxValue.value;
+      }
+
+      if (shouldRecalcRangeValues() && val2LessMin()) {
+        inputs.value2.value = inputs.minValue.value;
+      }
+
+      if (shouldRecalcRangeValues() && val1GreaterVal2()) {
+        inputs.value1.value = inputs.value2.value;
+      }
+
+      if (shouldRecalcValues && val1GreaterMax()) {
+        inputs.value1.value = inputs.maxValue.value;
+      }
+
+      if (shouldRecalcValues && val1LessMin()) {
+        inputs.value1.value = inputs.minValue.value;
       }
 
       const scaleAdditionalCoef = Number.isInteger(delta / Number(inputs.step.value)) ? 1 : 2;
       const steppedScaleValues = Math.floor(delta
         / Number(inputs.step.value) + scaleAdditionalCoef);
       const maxScaleDivisions = steppedScaleValues > 35 ? 35 : steppedScaleValues;
+      const scaleDivisionsIsGreaterMax = Number(inputs.scaleOfValues.value) > maxScaleDivisions;
+      const scaleDivisionsIsLessZero = Number(inputs.scaleOfValues.value) < 0;
 
-      if (shouldRecalcScale) {
-        if (Number(inputs.scaleOfValues.value) >= 0) {
-          if (Number(inputs.scaleOfValues.value) > maxScaleDivisions) {
-            inputs.scaleOfValues.value = String(maxScaleDivisions);
-          }
-        } else {
-          inputs.scaleOfValues.value = String(0);
-        }
+      if (shouldRecalcScale && scaleDivisionsIsGreaterMax) {
+        inputs.scaleOfValues.value = String(maxScaleDivisions);
+      } else if (shouldRecalcScale && scaleDivisionsIsLessZero) {
+        inputs.scaleOfValues.value = String(0);
       }
 
       this.updateSlider();

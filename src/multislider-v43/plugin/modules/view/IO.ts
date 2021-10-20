@@ -173,12 +173,13 @@ class IO {
     const { n, getValue, setValue } = props;
     const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, this.convertToValid);
 
-    if (Number(newVal)) {
-      if (n === 0) {
-        setValue({ val1: Number(newVal) });
-      } else {
-        setValue({ val2: Number(newVal) });
-      }
+    const isNewValue1Correct = Number(newVal) && n === 0;
+    const isNewValue2Correct = Number(newVal) && n === 1;
+
+    if (isNewValue1Correct) {
+      setValue({ val1: Number(newVal) });
+    } else if (isNewValue2Correct) {
+      setValue({ val2: Number(newVal) });
     } else {
       this.setIO(n, getValue()[n]);
     }

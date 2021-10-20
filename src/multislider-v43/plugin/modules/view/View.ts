@@ -275,8 +275,10 @@ class View extends EventEmitter {
     sliderDescription.textContent = title;
     sliderHeader.appendChild(sliderDescription);
 
+    let sliderOutput: HTMLDivElement | undefined;
+
     if (!tooltipIsActive) {
-      const sliderOutput = document.createElement('div');
+      sliderOutput = document.createElement('div');
       sliderOutput.classList.add(`${selector}__output`);
       sliderHeader.appendChild(sliderOutput);
 
@@ -284,18 +286,20 @@ class View extends EventEmitter {
         parent: sliderOutput,
         selector: `${selector}__value`,
       });
+    }
 
-      if (thumbsCount === 2) {
-        const sliderSpacer = document.createElement('div');
-        sliderSpacer.classList.add(`${selector}__spacer`);
-        sliderSpacer.textContent = '\xa0–\xa0';
-        sliderOutput.appendChild(sliderSpacer);
+    const isThumbsEqualTwo = thumbsCount === 2;
 
-        outputs.createGroup({
-          parent: sliderOutput,
-          selector: `${selector}__value`,
-        });
-      }
+    if (sliderOutput && isThumbsEqualTwo) {
+      const sliderSpacer = document.createElement('div');
+      sliderSpacer.classList.add(`${selector}__spacer`);
+      sliderSpacer.textContent = '\xa0–\xa0';
+      sliderOutput.appendChild(sliderSpacer);
+
+      outputs.createGroup({
+        parent: sliderOutput,
+        selector: `${selector}__value`,
+      });
     }
   }
 
@@ -476,14 +480,10 @@ class View extends EventEmitter {
       && (Math.abs(newValue - getValue()[1])
         === Math.abs(newValue - getValue()[0]));
 
-    if (isSecondValue) {
+    const newValIsGreaterCurrentEqualVals = isEquals && (getValue()[1] < newValue);
+
+    if (isSecondValue || newValIsGreaterCurrentEqualVals) {
       setValue({ val2: newValue });
-    } else if (isEquals) {
-      if (getValue()[1] < newValue) {
-        setValue({ val2: newValue });
-      } else {
-        setValue({ val1: newValue });
-      }
     } else {
       setValue({ val1: newValue });
     }
