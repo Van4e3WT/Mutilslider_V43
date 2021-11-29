@@ -87,7 +87,7 @@ class IO {
   public init(): void {
     const { valueGroup } = this;
 
-    valueGroup.forEach((value, i) => {
+    valueGroup.forEach((_value, i) => {
       valueGroup[i].input.addEventListener('input', this.handleInputUpdate.bind(null, i));
       window.addEventListener('load', this.handleInputUpdate.bind(null, i));
     });
