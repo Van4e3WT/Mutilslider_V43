@@ -85,12 +85,11 @@ class Scale {
       max,
     } = props;
     let { step } = props;
-    const n = scaleDivisions.length;
     const maxPixelValue = thumbsParent.getBoundingClientRect()[axis.sizeParent]
       - thumbSize;
     const delta = max - min;
 
-    for (let i = 0; i < n; ++i) {
+    for (let i = 0; i < scaleDivisions.length; ++i) {
       let addition: number;
       let roundCoef = 0.5;
 
@@ -100,15 +99,15 @@ class Scale {
         const parentBorderThickness = thumbsParent.clientLeft;
 
         addition = ((thumbSize / 2) - parentBorderThickness);
-        if (i === n - 1) {
+        if (i === scaleDivisions.length - 1) {
           addition *= 2;
           roundCoef = 0;
           step = delta;
         }
       }
 
-      const proportion = Math.floor(((i / (n - 1)) * delta) / step + roundCoef) / (1 / step)
-        / delta;
+      const proportion = Math.floor(((i / (scaleDivisions.length - 1)) * delta) / step + roundCoef)
+        / (1 / step) / delta;
 
       scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
