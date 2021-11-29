@@ -12,7 +12,9 @@ function handleConfigurableSliderInit() {
     const panel = item.querySelector(`.js-${BLOCKNAME}__panel`);
     const slider = item.querySelector(`.js-${BLOCKNAME}__slider`);
 
-    if (!panel || !slider) return;
+    const isMissedParam = !panel || !slider;
+
+    if (isMissedParam) return;
 
     const cfgSlider = new ConfigurableSlider({
       panel,

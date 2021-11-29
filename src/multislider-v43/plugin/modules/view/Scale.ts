@@ -127,7 +127,8 @@ class Scale {
   }, e: Event): void => {
     const { selector, setValue, getValue } = props;
 
-    if (!(e.target instanceof HTMLElement) || !e.target.matches(`.${selector}__scale-division`)) return;
+    if (!(e.target instanceof HTMLElement)
+      || !e.target.matches(`.${selector}__scale-division`)) return;
 
     const { target } = e;
     const scaleDivisionValue = Number((target.dataset.value ?? ''));

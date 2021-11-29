@@ -447,7 +447,8 @@ class View extends EventEmitter {
       getMax,
     } = props;
 
-    if (!(e.target instanceof HTMLElement) || !e.target.classList.contains(`${selector}__body`)) return;
+    if (!(e.target instanceof HTMLElement)
+      || !e.target.classList.contains(`${selector}__body`)) return;
 
     const { target } = e;
     const delta = target.getBoundingClientRect()[axis.end]
@@ -458,9 +459,9 @@ class View extends EventEmitter {
 
     let damper;
 
-    if (pointerPosOnAxis - targetStartPosOnAxis < thumbSize / 2) {
+    if ((pointerPosOnAxis - targetStartPosOnAxis) < thumbSize / 2) {
       damper = pointerPosOnAxis - targetStartPosOnAxis;
-    } else if (pointerPosOnAxis - targetStartPosOnAxis - thumbSize / 2 > delta) {
+    } else if ((pointerPosOnAxis - targetStartPosOnAxis - thumbSize / 2) > delta) {
       damper = pointerPosOnAxis - targetStartPosOnAxis - delta;
     } else {
       damper = thumbSize / 2;

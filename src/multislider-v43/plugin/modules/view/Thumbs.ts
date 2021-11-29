@@ -147,8 +147,9 @@ class Thumbs {
     }
 
     const isSecondConverted = n === 1 && vars.isConverted;
+    const shouldSetVal1 = n === 0 || isSecondConverted;
 
-    if (n === 0 || isSecondConverted) {
+    if (shouldSetVal1) {
       setValue({ val1: value });
     } else if (n === 1) {
       setValue({ val2: value });
@@ -192,7 +193,9 @@ class Thumbs {
     vars.isConverted = false;
     vars.sign = 0;
 
-    if (n === 1 && (vars.startValue === getValue()[0])) {
+    const shouldConvertThumbMove = n === 1 && (vars.startValue === getValue()[0]);
+
+    if (shouldConvertThumbMove) {
       vars.isConverted = true;
       thumbs[0].classList.add(`${selector}__thumb_active`);
     } else {
