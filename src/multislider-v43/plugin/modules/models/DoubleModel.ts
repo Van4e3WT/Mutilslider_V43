@@ -70,11 +70,12 @@ class DoubleModel extends EventEmitter implements IModel {
       return;
     }
 
+    const value1IsDefined = (val1 !== undefined);
+    const value2IsDefined = (val2 !== undefined);
+
     val1 = val1 ?? thumbs[0].value;
     val2 = val2 ?? thumbs[1].value;
 
-    const value1IsDefined = (val1 !== undefined);
-    const value2IsDefined = (val2 !== undefined);
     const value1GreaterValue2 = val1 > val2;
     const onlyValue1isDefined = value1IsDefined && !value2IsDefined;
     const onlyValue2isDefined = value2IsDefined && !value1IsDefined;
