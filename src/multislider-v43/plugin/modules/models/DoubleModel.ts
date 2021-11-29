@@ -1,6 +1,6 @@
 import { ModelConfig, ThumbModel } from 'Plugin/custom-types';
 
-import EventEmitter from '../utils/EventEmitter';
+import EventEmitter, { EventTypes } from '../utils/EventEmitter';
 import IModel from './interfaces/IModel';
 
 class DoubleModel extends EventEmitter implements IModel {
@@ -61,7 +61,7 @@ class DoubleModel extends EventEmitter implements IModel {
     const valuesAreNotDefined = (val1 === undefined) && (val2 === undefined);
 
     if (valuesAreNotDefined) {
-      this.emit('valueChanged', {
+      this.emit(EventTypes.VALUE_CHANGED, {
         value1: val1,
         value2: val2,
       });
@@ -103,7 +103,7 @@ class DoubleModel extends EventEmitter implements IModel {
     thumbs[1].value = val2;
     thumbs[1].min = val1;
 
-    this.emit('valueChanged', {
+    this.emit(EventTypes.VALUE_CHANGED, {
       value1: val1,
       value2: val2,
     });

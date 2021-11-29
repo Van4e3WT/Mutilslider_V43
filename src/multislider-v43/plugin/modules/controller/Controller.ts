@@ -1,5 +1,5 @@
 import IModel from '../models/interfaces/IModel';
-import EventEmitter from '../utils/EventEmitter';
+import EventEmitter, { EventTypes } from '../utils/EventEmitter';
 import View from '../view/View';
 
 class Controller extends EventEmitter {
@@ -28,7 +28,7 @@ class Controller extends EventEmitter {
       getMax,
     } = model;
 
-    model.on('valueChanged', this.handleModelUpdate);
+    model.on(EventTypes.VALUE_CHANGED, this.handleModelUpdate);
 
     view.init({
       getValue,

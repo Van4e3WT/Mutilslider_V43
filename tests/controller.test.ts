@@ -2,6 +2,7 @@ import IModel from 'Plugin/modules/models/interfaces/IModel';
 import DoubleModel from 'Plugin/modules/models/DoubleModel';
 import Controller from 'Plugin/modules/controller/Controller';
 import View from 'Plugin/modules/view/View';
+import { EventTypes } from 'Plugin/modules/utils/EventEmitter';
 import { Config } from 'Plugin/custom-types';
 
 describe('***CONTROLLER***', () => {
@@ -59,7 +60,7 @@ describe('***CONTROLLER***', () => {
 
     view.update = mockUpdate;
 
-    model.emit('valueChanged', {});
+    model.emit(EventTypes.VALUE_CHANGED, {});
 
     expect(mockUpdate).toHaveBeenCalled();
   });

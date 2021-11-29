@@ -20,4 +20,9 @@ abstract class EventEmitter {
   }
 }
 
+enum EventTypes {
+  VALUE_CHANGED = 'VALUE_CHANGED',
+}
+
+export { EventTypes };
 export default EventEmitter;
