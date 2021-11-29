@@ -53,7 +53,6 @@ class DoubleModel extends EventEmitter implements IModel {
   public setValue = (props: { val1?: number, val2?: number }): void => {
     const {
       thumbs,
-      step,
       min,
       max,
     } = this;
@@ -88,13 +87,10 @@ class DoubleModel extends EventEmitter implements IModel {
       [val1, val2] = [val2, val1];
     }
 
-    const delta1 = val1 - min;
-    const delta2 = val2 - min;
-
     val1 = val1 >= max ? max
-      : Number(String((Math.floor((delta1 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      : this.convertNumberToStep(val1);
     val2 = val2 >= max ? max
-      : Number(String((Math.floor((delta2 / step) + 0.5) / (1 / step) + min).toFixed(10)));
+      : this.convertNumberToStep(val2);
 
     val1 = val1 < min ? min : val1;
     val1 = val1 > max ? max : val1;
@@ -128,6 +124,17 @@ class DoubleModel extends EventEmitter implements IModel {
         value: max,
       },
     ];
+  }
+
+  private convertNumberToStep(value: number): number {
+    const {
+      step,
+      min,
+    } = this;
+
+    const delta = value - min;
+
+    return Number(String((Math.floor((delta / step) + 0.5) / (1 / step) + min).toFixed(10)));
   }
 }
 
