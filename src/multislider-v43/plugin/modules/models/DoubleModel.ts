@@ -92,10 +92,10 @@ class DoubleModel extends EventEmitter implements IModel {
     val2 = val2 >= max ? max
       : this.convertNumberToStep(val2);
 
-    val1 = val1 < min ? min : val1;
-    val1 = val1 > max ? max : val1;
-    val2 = val2 < min ? min : val2;
-    val2 = val2 > max ? max : val2;
+    val1 = Math.max(val1, min);
+    val1 = Math.min(val1, max);
+    val2 = Math.max(val2, min);
+    val2 = Math.min(val2, max);
 
     thumbs[0].value = val1;
     thumbs[0].max = val2;
