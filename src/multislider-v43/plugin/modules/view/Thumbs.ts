@@ -49,7 +49,7 @@ class Thumbs {
       additionalListeners,
     } = props;
 
-    for (let i = 0; i < thumbs.length; ++i) {
+    for (let i = 0; i < thumbs.length; i++) {
       const unionData: ThumbData = {
         n: i,
         thumbsParent,

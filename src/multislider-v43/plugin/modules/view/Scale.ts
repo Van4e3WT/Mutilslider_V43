@@ -27,7 +27,7 @@ class Scale {
 
     scale.classList.add(`${selector}__scale`);
 
-    for (let i = 0; i < count; ++i) {
+    for (let i = 0; i < count; i++) {
       const scaleDivision = document.createElement('div');
 
       scaleDivision.classList.add(`${selector}__scale-division`);
@@ -89,7 +89,7 @@ class Scale {
       - thumbSize;
     const delta = max - min;
 
-    for (let i = 0; i < scaleDivisions.length; ++i) {
+    for (let i = 0; i < scaleDivisions.length; i++) {
       let addition: number;
       let roundCoef = 0.5;
 
