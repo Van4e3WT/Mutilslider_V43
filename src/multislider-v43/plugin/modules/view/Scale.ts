@@ -27,16 +27,17 @@ class Scale {
 
     scale.classList.add(`${selector}__scale`);
 
-    for (let i = 0; i < count; i++) {
+    new Array(count).fill(null).forEach(() => {
       const scaleDivision = document.createElement('div');
 
       scaleDivision.classList.add(`${selector}__scale-division`);
       if (isVertical) {
         scaleDivision.classList.add(`${selector}__scale-division_vertical`);
       }
+
       scaleDivisions.push(scaleDivision);
       scale.appendChild(scaleDivision);
-    }
+    });
   }
 
   public initEvents(props: {
