@@ -4,6 +4,9 @@ import Thumbs from 'Plugin/modules/view/Thumbs';
 import View from 'Plugin/modules/view/View';
 import { Config } from 'Plugin/custom-types';
 
+const IO_COUNT = 3;
+const THUMB_COUNT = 2;
+
 describe('***VIEW***', () => {
   const selector = 'multislider-v43';
 
@@ -92,7 +95,7 @@ describe('***VIEW***', () => {
       const mockGetValue = jest.fn();
       mockGetValue.mockReturnValue([20, 15, 10]);
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < IO_COUNT; i++) {
         customIO.createGroup({
           parent,
           selector,
@@ -239,7 +242,7 @@ describe('***VIEW***', () => {
 
       const parent = document.createElement('div');
 
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < THUMB_COUNT; i++) {
         thumbs.add(parent, true);
       }
     });
