@@ -26,6 +26,7 @@ enum ModelEvents {
 
 enum ViewEvents {
   VALUE_CHANGED = 'VALUE_CHANGED',
+  BODY_CLICKED = 'BODY_CLICKED',
 }
 
 export { ModelEvents, ViewEvents };

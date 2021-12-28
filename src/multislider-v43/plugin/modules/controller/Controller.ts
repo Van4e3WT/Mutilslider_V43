@@ -31,14 +31,14 @@ class Controller extends EventEmitter {
     model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
 
     view.on(ViewEvents.VALUE_CHANGED, this.handleViewUpdate);
+    view.on(ViewEvents.BODY_CLICKED, this.handleViewBodyUpdate);
 
     view.init({
       getValue,
       setValue,
       getMin,
       getMax,
-    });
-    // вместо этого должно быть что-то типо: view.on(..., соответствующий метод)
+    }); // удОли
   }
 
   private handleModelUpdate = (): void => {
@@ -54,6 +54,17 @@ class Controller extends EventEmitter {
     const { model } = this;
 
     model.setValue(props);
+  };
+
+  private handleViewBodyUpdate = (props: { e: PointerEvent }): void => {
+    const { view, model } = this;
+    const { e } = props;
+
+    view.moveThumbToClickedPos({
+      value: model.getValue(),
+      min: model.getMin(),
+      max: model.getMax(),
+    }, e);
   };
 }
 

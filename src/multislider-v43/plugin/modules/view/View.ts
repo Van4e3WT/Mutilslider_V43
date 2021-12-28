@@ -1,6 +1,6 @@
 import { Config, MoveStyleAxis, ViewAxis } from 'Plugin/custom-types';
 
-import EventEmitter from '../utils/EventEmitter';
+import EventEmitter, { ViewEvents } from '../utils/EventEmitter';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';
@@ -154,12 +154,7 @@ class View extends EventEmitter {
       getValue,
     });
 
-    this.initEvents({
-      setValue,
-      getValue,
-      getMin,
-      getMax,
-    });
+    this.initEvents();
 
     if (scale.getScaleDivisions().length) {
       scale.initEvents({
@@ -202,6 +197,61 @@ class View extends EventEmitter {
     this.updateSliderRange();
   }
 
+  public moveThumbToClickedPos = (props: {
+    value: number[],
+    min: number,
+    max: number,
+  }, e: PointerEvent): void => {
+    const { axis, selector, thumbSize } = this;
+    const {
+      value,
+      min,
+      max,
+    } = props;
+
+    if (!(e.target instanceof HTMLElement)
+      || !e.target.classList.contains(`${selector}__body`)) return;
+
+    const { target } = e;
+    const delta = target.getBoundingClientRect()[axis.end]
+      - target.getBoundingClientRect()[axis.start] - thumbSize;
+
+    const pointerPosOnAxis = e[axis.axis];
+    const targetStartPosOnAxis = target.getBoundingClientRect()[axis.start];
+
+    let damper;
+
+    if ((pointerPosOnAxis - targetStartPosOnAxis) < thumbSize / 2) {
+      damper = pointerPosOnAxis - targetStartPosOnAxis;
+    } else if ((pointerPosOnAxis - targetStartPosOnAxis - thumbSize / 2) > delta) {
+      damper = pointerPosOnAxis - targetStartPosOnAxis - delta;
+    } else {
+      damper = thumbSize / 2;
+    }
+
+    const proportion = (pointerPosOnAxis - targetStartPosOnAxis
+      - damper) / delta;
+
+    const newValue = (max - min)
+      * (axis.axis === 'y' ? 1 - proportion : proportion) + min;
+
+    const isSecondValue = value.length === 2
+      && (Math.abs(newValue - value[1])
+        < Math.abs(newValue - value[0]));
+
+    const isEquals = value.length === 2
+      && (Math.abs(newValue - value[1])
+        === Math.abs(newValue - value[0]));
+
+    const newValIsGreaterCurrentEqualVals = isEquals && (value[1] < newValue);
+
+    if (isSecondValue || newValIsGreaterCurrentEqualVals) {
+      this.emit(ViewEvents.VALUE_CHANGED, { val2: newValue });
+    } else {
+      this.emit(ViewEvents.VALUE_CHANGED, { val1: newValue });
+    }
+  };
+
   private getAxis(parent: HTMLElement): ViewAxis {
     const { isVertical, selector } = this;
     let resultAxis: ViewAxis;
@@ -232,30 +282,10 @@ class View extends EventEmitter {
     return resultAxis;
   }
 
-  private initEvents(props: {
-    getValue: () => number[],
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
-    getMin: () => number,
-    getMax: () => number,
-  }): void {
+  private initEvents(): void {
     const { thumbsParent } = this;
 
-    const {
-      getValue,
-      setValue,
-      getMin,
-      getMax,
-    } = props;
-
-    thumbsParent.addEventListener('pointerdown', this.handleBodyThumbsClick.bind(null, {
-      getValue,
-      setValue,
-      getMin,
-      getMax,
-    }));
+    thumbsParent.addEventListener('pointerdown', this.handleBodyThumbsClick);
   }
 
   private renderHeader(parent: HTMLElement, title: string = ''): void {
@@ -430,64 +460,8 @@ class View extends EventEmitter {
     this.update(getValue());
   };
 
-  private handleBodyThumbsClick = (props: {
-    getValue: () => number[],
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
-    getMin: () => number,
-    getMax: () => number,
-  }, e: PointerEvent): void => {
-    const { axis, selector, thumbSize } = this;
-    const {
-      getValue,
-      setValue,
-      getMin,
-      getMax,
-    } = props;
-
-    if (!(e.target instanceof HTMLElement)
-      || !e.target.classList.contains(`${selector}__body`)) return;
-
-    const { target } = e;
-    const delta = target.getBoundingClientRect()[axis.end]
-      - target.getBoundingClientRect()[axis.start] - thumbSize;
-
-    const pointerPosOnAxis = e[axis.axis];
-    const targetStartPosOnAxis = target.getBoundingClientRect()[axis.start];
-
-    let damper;
-
-    if ((pointerPosOnAxis - targetStartPosOnAxis) < thumbSize / 2) {
-      damper = pointerPosOnAxis - targetStartPosOnAxis;
-    } else if ((pointerPosOnAxis - targetStartPosOnAxis - thumbSize / 2) > delta) {
-      damper = pointerPosOnAxis - targetStartPosOnAxis - delta;
-    } else {
-      damper = thumbSize / 2;
-    }
-
-    const proportion = (pointerPosOnAxis - targetStartPosOnAxis
-      - damper) / delta;
-
-    const newValue = (getMax() - getMin())
-      * (axis.axis === 'y' ? 1 - proportion : proportion) + getMin();
-
-    const isSecondValue = getValue().length === 2
-      && (Math.abs(newValue - getValue()[1])
-        < Math.abs(newValue - getValue()[0]));
-
-    const isEquals = getValue().length === 2
-      && (Math.abs(newValue - getValue()[1])
-        === Math.abs(newValue - getValue()[0]));
-
-    const newValIsGreaterCurrentEqualVals = isEquals && (getValue()[1] < newValue);
-
-    if (isSecondValue || newValIsGreaterCurrentEqualVals) {
-      setValue({ val2: newValue });
-    } else {
-      setValue({ val1: newValue });
-    }
+  private handleBodyThumbsClick = (e: PointerEvent) => {
+    this.emit(ViewEvents.BODY_CLICKED, { e });
   };
 }
 
