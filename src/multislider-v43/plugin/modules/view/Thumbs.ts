@@ -49,9 +49,9 @@ class Thumbs {
       additionalListeners,
     } = props;
 
-    for (let i = 0; i < thumbs.length; i++) {
+    thumbs.forEach((_thumb, index) => {
       const unionData: ThumbData = {
-        n: i,
+        n: index,
         thumbsParent,
         axis,
 
@@ -71,11 +71,11 @@ class Thumbs {
 
       const handlePointerDown = this.handlePointerDown.bind(null, unionData);
 
-      thumbs[i].addEventListener('pointerdown', handlePointerDown);
+      thumbs[index].addEventListener('pointerdown', handlePointerDown);
       if (additionalListeners) {
-        additionalListeners[i].addEventListener('pointerdown', handlePointerDown);
+        additionalListeners[index].addEventListener('pointerdown', handlePointerDown);
       }
-    }
+    });
   }
 
   public getThumb(n: number): HTMLDivElement {

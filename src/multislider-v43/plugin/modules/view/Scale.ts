@@ -90,31 +90,31 @@ class Scale {
       - thumbSize;
     const delta = max - min;
 
-    for (let i = 0; i < scaleDivisions.length; i++) {
+    scaleDivisions.forEach((_scaleDivision, index) => {
       let addition: number;
       let roundCoef = 0.5;
 
-      if (i === 0) {
+      if (index === 0) {
         addition = 0;
       } else {
         const parentBorderThickness = thumbsParent.clientLeft;
 
         addition = ((thumbSize / 2) - parentBorderThickness);
-        if (i === scaleDivisions.length - 1) {
+        if (index === scaleDivisions.length - 1) {
           addition *= 2;
           roundCoef = 0;
           step = delta;
         }
       }
 
-      const proportion = Math.floor(((i / (scaleDivisions.length - 1)) * delta) / step + roundCoef)
-        / (1 / step) / delta;
+      const proportion = Math.floor(((index / (scaleDivisions.length - 1)) * delta) / step
+        + roundCoef) / (1 / step) / delta;
 
-      scaleDivisions[i].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
+      scaleDivisions[index].style[axis.styleSelector] = `${proportion * maxPixelValue + addition}px`;
 
-      scaleDivisions[i].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
-      scaleDivisions[i].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
-    }
+      scaleDivisions[index].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
+      scaleDivisions[index].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
+    });
   }
 
   private handleScaleClick = (props: {
