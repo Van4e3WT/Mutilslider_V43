@@ -1,5 +1,5 @@
 import IModel from '../models/interfaces/IModel';
-import EventEmitter, { EventTypes } from '../utils/EventEmitter';
+import EventEmitter, { ModelEvents, ViewEvents } from '../utils/EventEmitter';
 import View from '../view/View';
 
 class Controller extends EventEmitter {
@@ -28,7 +28,9 @@ class Controller extends EventEmitter {
       getMax,
     } = model;
 
-    model.on(EventTypes.VALUE_CHANGED, this.handleModelUpdate);
+    model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
+
+    view.on(ViewEvents.VALUE_CHANGED, this.handleViewUpdate);
 
     view.init({
       getValue,
@@ -36,12 +38,22 @@ class Controller extends EventEmitter {
       getMin,
       getMax,
     });
+    // вместо этого должно быть что-то типо: view.on(..., соответствующий метод)
   }
 
   private handleModelUpdate = (): void => {
     const { view, model } = this;
 
     view.update(model.getValue());
+  };
+
+  private handleViewUpdate = (props: {
+    val1?: number,
+    val2?: number,
+  }): void => {
+    const { model } = this;
+
+    model.setValue(props);
   };
 }
 

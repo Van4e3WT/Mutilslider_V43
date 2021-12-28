@@ -4,7 +4,7 @@ import IModel from './modules/models/interfaces/IModel';
 import SoloModel from './modules/models/SoloModel';
 import DoubleModel from './modules/models/DoubleModel';
 import Controller from './modules/controller/Controller';
-import { EventTypes } from './modules/utils/EventEmitter';
+import { ModelEvents } from './modules/utils/EventEmitter';
 import Utils from './modules/utils/utils';
 import View from './modules/view/View';
 import { Config, ModelConfig } from './custom-types';
@@ -67,7 +67,7 @@ const SELECTOR = 'multislider-v43';
     };
 
     $.fn.multislider.onChange = (callback: Function, ...args: Array<unknown>): void => {
-      model.on(EventTypes.VALUE_CHANGED, callback.bind(this, ...args));
+      model.on(ModelEvents.VALUE_CHANGED, callback.bind(this, ...args));
     };
   };
 }(jQuery));

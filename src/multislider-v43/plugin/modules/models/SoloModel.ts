@@ -1,6 +1,6 @@
+import EventEmitter, { ModelEvents } from 'Plugin/modules/utils/EventEmitter';
 import { ModelConfig, ThumbModel } from 'Plugin/custom-types';
 
-import EventEmitter, { EventTypes } from '../utils/EventEmitter';
 import IModel from './interfaces/IModel';
 
 class SoloModel extends EventEmitter implements IModel {
@@ -59,7 +59,7 @@ class SoloModel extends EventEmitter implements IModel {
       thumbs[0].value = val1;
     }
 
-    this.emit(EventTypes.VALUE_CHANGED, {
+    this.emit(ModelEvents.VALUE_CHANGED, {
       value1: props.val1,
     });
   };

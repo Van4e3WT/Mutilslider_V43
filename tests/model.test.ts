@@ -1,7 +1,7 @@
 import IModel from 'Plugin/modules/models/interfaces/IModel';
 import SoloModel from 'Plugin/modules/models/SoloModel';
 import DoubleModel from 'Plugin/modules/models/DoubleModel';
-import { EventTypes } from 'Plugin/modules/utils/EventEmitter';
+import { ModelEvents } from 'Plugin/modules/utils/EventEmitter';
 import { ModelConfig } from 'Plugin/custom-types';
 
 describe('***MODEL***', () => {
@@ -85,7 +85,7 @@ describe('***MODEL***', () => {
       test('should call the event', () => {
         const mockEvent = jest.fn();
 
-        soloSliderModel.on(EventTypes.VALUE_CHANGED, mockEvent);
+        soloSliderModel.on(ModelEvents.VALUE_CHANGED, mockEvent);
         soloSliderModel.setValue({});
 
         expect(mockEvent).toHaveBeenCalledTimes(1);
@@ -258,7 +258,7 @@ describe('***MODEL***', () => {
       test('should call the event', () => {
         const mockEvent = jest.fn();
 
-        doubleSliderModel.on(EventTypes.VALUE_CHANGED, mockEvent);
+        doubleSliderModel.on(ModelEvents.VALUE_CHANGED, mockEvent);
         doubleSliderModel.setValue({});
 
         expect(mockEvent).toHaveBeenCalledTimes(1);
