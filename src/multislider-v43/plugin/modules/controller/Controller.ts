@@ -21,9 +21,6 @@ class Controller extends EventEmitter {
 
   public init(): void {
     const { model, view } = this;
-    const {
-      getValue,
-    } = model;
 
     model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
 
@@ -31,9 +28,7 @@ class Controller extends EventEmitter {
     view.on(ViewEvents.VALUE_CHANGED, this.handleViewUpdate);
     view.on(ViewEvents.BODY_CLICKED, this.handleViewBodyUpdate);
 
-    view.init({
-      getValue,
-    }); // удОли
+    view.init();
   }
 
   private handleModelUpdate = (): void => {

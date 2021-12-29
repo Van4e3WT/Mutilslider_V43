@@ -31,7 +31,6 @@ class Thumbs extends EventEmitter {
   public initEvents(props: {
     thumbsParent: HTMLDivElement,
     axis: ViewAxis,
-    getValue: () => number[],
     min: number,
     max: number,
     additionalListeners?: Array<HTMLElement>,
@@ -41,7 +40,6 @@ class Thumbs extends EventEmitter {
     const {
       thumbsParent,
       axis,
-      getValue,
       min,
       max,
       additionalListeners,
@@ -52,21 +50,18 @@ class Thumbs extends EventEmitter {
         n: index,
         thumbsParent,
         axis,
-
-        getValue,
         min,
         max,
-
         vars: {},
       };
 
-      const handlePointerMove = this.handlePointerMove.bind(null, unionData);
+      const handlePointerMove = this.handlePointerMove.bind(this, unionData);
       unionData.handlePointerMove = handlePointerMove;
 
-      const handlePointerUp = this.handlePointerUp.bind(null, unionData);
+      const handlePointerUp = this.handlePointerUp.bind(this, unionData);
       unionData.handlePointerUp = handlePointerUp;
 
-      const handlePointerDown = this.handlePointerDown.bind(null, unionData);
+      const handlePointerDown = this.handlePointerDown.bind(this, unionData);
 
       thumbs[index].addEventListener('pointerdown', handlePointerDown);
       if (additionalListeners) {
@@ -173,23 +168,22 @@ class Thumbs extends EventEmitter {
     document.removeEventListener('pointerup', handlePointerUp);
   };
 
-  private handlePointerDown = (data: ThumbData, e: PointerEvent): void => {
+  private calculatePointerMove = (data: ThumbData, e: PointerEvent, value: Array<number>): void => {
     const { thumbs, selector } = this;
     const {
       n,
       axis,
-      getValue,
       vars,
       handlePointerMove,
       handlePointerUp,
     } = data;
 
     vars.startPos = e[axis.eventAxis];
-    vars.startValue = getValue()[n];
+    vars.startValue = value[n];
     vars.isConverted = false;
     vars.sign = 0;
 
-    const shouldConvertThumbMove = n === 1 && (vars.startValue === getValue()[0]);
+    const shouldConvertThumbMove = n === 1 && (vars.startValue === value[0]);
 
     if (shouldConvertThumbMove) {
       vars.isConverted = true;
@@ -202,6 +196,12 @@ class Thumbs extends EventEmitter {
 
     document.addEventListener('pointermove', handlePointerMove);
     document.addEventListener('pointerup', handlePointerUp);
+  };
+
+  private handlePointerDown = (data: ThumbData, e: PointerEvent): void => {
+    this.emit(SubViewEvents.VALUE_CALCULATED, {
+      handler: this.calculatePointerMove.bind(this, data, e),
+    });
   };
 }
 

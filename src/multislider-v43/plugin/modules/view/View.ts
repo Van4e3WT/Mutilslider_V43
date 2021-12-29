@@ -100,9 +100,7 @@ class View extends EventEmitter {
     this.update(values);
   }
 
-  public init(props: {
-    getValue: () => number[],
-  }): void {
+  public init(): void {
     const {
       min,
       max,
@@ -113,10 +111,6 @@ class View extends EventEmitter {
       thumbsParent,
       tooltipIsActive,
     } = this;
-
-    const {
-      getValue,
-    } = props;
 
     const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
 
@@ -133,12 +127,12 @@ class View extends EventEmitter {
     */
 
     thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
+    thumbs.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
     thumbs.initEvents({
       thumbsParent,
       min,
       max,
       axis,
-      getValue,
       additionalListeners,
     });
 

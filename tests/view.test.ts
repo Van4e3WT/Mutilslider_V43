@@ -275,8 +275,6 @@ describe('***VIEW***', () => {
     test('should init thumb events', () => {
       const thumbsParent = document.createElement('div');
 
-      const mockGetValue = jest.fn().mockReturnValue([20, 20]);
-
       const decoyArray: Array<HTMLElement> = [];
 
       for (let i = 0; i < thumbs.getLength(); i++) {
@@ -295,7 +293,6 @@ describe('***VIEW***', () => {
           end: 'bottom',
           dPos: 1,
         },
-        getValue: mockGetValue,
         min: -100,
         max: 100,
         additionalListeners: decoyArray,
@@ -373,9 +370,7 @@ describe('***VIEW***', () => {
 
       mockGetValue.mockReturnValue([20]);
 
-      view.init({
-        getValue: mockGetValue,
-      });
+      view.init();
 
       expect(view.selector).toBe(selector);
       expect(view.thumbsParent).toBeInstanceOf(HTMLElement);
@@ -419,9 +414,7 @@ describe('***VIEW***', () => {
 
       mockGetValue.mockReturnValue([20, 70]);
 
-      view.init({
-        getValue: mockGetValue,
-      });
+      view.init();
 
       expect(view.selector).toBe(selector);
       expect(view.thumbsParent).toBeInstanceOf(HTMLElement);
@@ -456,9 +449,7 @@ describe('***VIEW***', () => {
 
       mockGetValue.mockReturnValue([20, 70]);
 
-      view.init({
-        getValue: mockGetValue,
-      });
+      view.init();
 
       const mockUpdate = jest.fn();
 
@@ -498,9 +489,7 @@ describe('***VIEW***', () => {
 
       mockGetValue.mockReturnValue([30, 60]);
 
-      view.init({
-        getValue: mockGetValue,
-      });
+      view.init();
 
       const mockBodyHandle = jest.fn();
 

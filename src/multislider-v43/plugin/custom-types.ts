@@ -48,7 +48,6 @@ type ThumbData = {
   thumbsParent: HTMLDivElement,
   axis: ViewAxis,
 
-  getValue: () => number[],
   min: number,
   max: number,
 
