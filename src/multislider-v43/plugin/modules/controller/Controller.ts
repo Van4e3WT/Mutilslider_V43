@@ -50,11 +50,13 @@ class Controller extends EventEmitter {
     model.setValue(props);
   };
 
-  private handleViewBodyUpdate = (props: { e: PointerEvent }): void => {
-    const { view, model } = this;
-    const { e } = props;
+  private handleViewBodyUpdate = (props: {
+    handler: (values: Array<number>) => void,
+  }): void => {
+    const { model } = this;
+    const { handler } = props;
 
-    view.moveThumbToClickedPos(model.getValue(), e);
+    handler(model.getValue());
   };
 }
 

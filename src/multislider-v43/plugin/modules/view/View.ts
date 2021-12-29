@@ -190,7 +190,7 @@ class View extends EventEmitter {
     this.updateSliderRange();
   }
 
-  public moveThumbToClickedPos = (value: number[], e: PointerEvent): void => {
+  private moveThumbToClickedPos = (e: PointerEvent, value: number[]): void => {
     const {
       min,
       max,
@@ -447,7 +447,9 @@ class View extends EventEmitter {
   };
 
   private handleBodyThumbsClick = (e: PointerEvent) => {
-    this.emit(ViewEvents.BODY_CLICKED, { e });
+    this.emit(ViewEvents.BODY_CLICKED, {
+      handler: this.moveThumbToClickedPos.bind(this, e),
+    });
   };
 
   private handleSubViewChange = (props: {
