@@ -49,8 +49,8 @@ type ThumbData = {
   axis: ViewAxis,
 
   getValue: () => number[],
-  getMin: () => number,
-  getMax: () => number,
+  min: number,
+  max: number,
 
   vars: {
     isConverted?: boolean,

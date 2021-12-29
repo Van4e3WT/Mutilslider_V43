@@ -102,10 +102,10 @@ class View extends EventEmitter {
 
   public init(props: {
     getValue: () => number[],
-    getMin: () => number,
-    getMax: () => number,
   }): void {
     const {
+      min,
+      max,
       axis,
       scale,
       outputs,
@@ -116,8 +116,6 @@ class View extends EventEmitter {
 
     const {
       getValue,
-      getMin,
-      getMax,
     } = props;
 
     const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
@@ -136,10 +134,10 @@ class View extends EventEmitter {
 
     thumbs.initEvents({
       thumbsParent,
+      min,
+      max,
       axis,
       getValue,
-      getMin,
-      getMax,
       additionalListeners,
     });
     thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
@@ -192,17 +190,14 @@ class View extends EventEmitter {
     this.updateSliderRange();
   }
 
-  public moveThumbToClickedPos = (props: {
-    value: number[],
-    min: number,
-    max: number,
-  }, e: PointerEvent): void => {
-    const { axis, selector, thumbSize } = this;
+  public moveThumbToClickedPos = (value: number[], e: PointerEvent): void => {
     const {
-      value,
       min,
       max,
-    } = props;
+      axis,
+      selector,
+      thumbSize,
+    } = this;
 
     if (!(e.target instanceof HTMLElement)
       || !e.target.classList.contains(`${selector}__body`)) return;

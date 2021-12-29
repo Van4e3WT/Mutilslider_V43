@@ -279,8 +279,6 @@ describe('***VIEW***', () => {
     test('should init thumb events', () => {
       const thumbsParent = document.createElement('div');
 
-      const mockGetMin = jest.fn();
-      const mockGetMax = jest.fn();
       const mockGetValue = jest.fn().mockReturnValue([20, 20]);
 
       const decoyArray: Array<HTMLElement> = [];
@@ -302,8 +300,8 @@ describe('***VIEW***', () => {
           dPos: 1,
         },
         getValue: mockGetValue,
-        getMin: mockGetMin,
-        getMax: mockGetMax,
+        min: -100,
+        max: 100,
         additionalListeners: decoyArray,
       });
 
@@ -381,8 +379,6 @@ describe('***VIEW***', () => {
 
       view.init({
         getValue: mockGetValue,
-        getMin: mockGetMin,
-        getMax: mockGetMax,
       });
 
       expect(view.selector).toBe(selector);
@@ -429,8 +425,6 @@ describe('***VIEW***', () => {
 
       view.init({
         getValue: mockGetValue,
-        getMin: mockGetMin,
-        getMax: mockGetMax,
       });
 
       expect(view.selector).toBe(selector);
@@ -468,8 +462,6 @@ describe('***VIEW***', () => {
 
       view.init({
         getValue: mockGetValue,
-        getMin: mockGetMin,
-        getMax: mockGetMax,
       });
 
       const mockUpdate = jest.fn();
@@ -512,8 +504,6 @@ describe('***VIEW***', () => {
 
       view.init({
         getValue: mockGetValue,
-        getMin: mockGetMin,
-        getMax: mockGetMax,
       });
 
       const mockBodyHandle = jest.fn();

@@ -32,8 +32,8 @@ class Thumbs extends EventEmitter {
     thumbsParent: HTMLDivElement,
     axis: ViewAxis,
     getValue: () => number[],
-    getMin: () => number,
-    getMax: () => number,
+    min: number,
+    max: number,
     additionalListeners?: Array<HTMLElement>,
   }): void {
     const { thumbs } = this;
@@ -42,8 +42,8 @@ class Thumbs extends EventEmitter {
       thumbsParent,
       axis,
       getValue,
-      getMin,
-      getMax,
+      min,
+      max,
       additionalListeners,
     } = props;
 
@@ -54,8 +54,8 @@ class Thumbs extends EventEmitter {
         axis,
 
         getValue,
-        getMin,
-        getMax,
+        min,
+        max,
 
         vars: {},
       };
@@ -113,8 +113,8 @@ class Thumbs extends EventEmitter {
       n,
       axis,
       thumbsParent,
-      getMin,
-      getMax,
+      min,
+      max,
       vars,
     } = data;
 
@@ -125,7 +125,7 @@ class Thumbs extends EventEmitter {
     const value = ((((pos1 - vars.startPos) * axis.dPos)
       / (thumbsParent.getBoundingClientRect()[axis.sizeParent]
         - this.getSize()))
-      * (getMax() - getMin()))
+      * (max - min))
       + vars.startValue;
 
     const delta = pos1 - vars.startPos;

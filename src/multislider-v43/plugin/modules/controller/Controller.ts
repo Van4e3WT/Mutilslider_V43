@@ -23,8 +23,6 @@ class Controller extends EventEmitter {
     const { model, view } = this;
     const {
       getValue,
-      getMin,
-      getMax,
     } = model;
 
     model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
@@ -34,8 +32,6 @@ class Controller extends EventEmitter {
 
     view.init({
       getValue,
-      getMin,
-      getMax,
     }); // удОли
   }
 
@@ -58,11 +54,7 @@ class Controller extends EventEmitter {
     const { view, model } = this;
     const { e } = props;
 
-    view.moveThumbToClickedPos({
-      value: model.getValue(),
-      min: model.getMin(),
-      max: model.getMax(),
-    }, e);
+    view.moveThumbToClickedPos(model.getValue(), e);
   };
 }
 
