@@ -1,6 +1,6 @@
 import { Config, MoveStyleAxis, ViewAxis } from 'Plugin/custom-types';
 
-import EventEmitter, { ViewEvents, ThumbEvents } from '../utils/EventEmitter';
+import EventEmitter, { ViewEvents, SubViewEvents } from '../utils/EventEmitter';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';
@@ -147,12 +147,12 @@ class View extends EventEmitter {
       getMax,
       additionalListeners,
     });
-    thumbs.on(ThumbEvents.VALUE_CHANGED, this.handleThumbChange);
+    thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
 
     outputs.initEvents({
-      setValue,
       getValue,
     });
+    outputs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
 
     this.initEvents();
 
@@ -464,7 +464,7 @@ class View extends EventEmitter {
     this.emit(ViewEvents.BODY_CLICKED, { e });
   };
 
-  private handleThumbChange = (props: {
+  private handleSubViewChange = (props: {
     val1?: number,
     val2?: number,
   }) => {

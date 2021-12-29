@@ -1,6 +1,6 @@
 /* global document */
 import { MoveStyleAxis, ThumbData, ViewAxis } from 'Plugin/custom-types';
-import EventEmitter, { ThumbEvents } from '../utils/EventEmitter';
+import EventEmitter, { SubViewEvents } from '../utils/EventEmitter';
 
 class Thumbs extends EventEmitter {
   private thumbs: Array<HTMLDivElement>;
@@ -146,9 +146,9 @@ class Thumbs extends EventEmitter {
     const shouldSetVal1 = n === 0 || isSecondConverted;
 
     if (shouldSetVal1) {
-      this.emit(ThumbEvents.VALUE_CHANGED, { val1: value });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val1: value });
     } else if (n === 1) {
-      this.emit(ThumbEvents.VALUE_CHANGED, { val2: value });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val2: value });
     }
   };
 

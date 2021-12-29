@@ -1,6 +1,8 @@
 import { MoveStyleAxis } from 'Plugin/custom-types';
 
-class IO {
+import EventEmitter, { SubViewEvents } from '../utils/EventEmitter';
+
+class IO extends EventEmitter {
   private postfix: string;
 
   private valueGroup: Array<{
@@ -18,6 +20,8 @@ class IO {
     localeProps?: Intl.NumberFormatOptions,
     tooltipOfValue?: boolean,
   }) {
+    super();
+
     const {
       postfix = '',
       localeProps = {},
@@ -94,14 +98,10 @@ class IO {
   }
 
   public initEvents(props: {
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
     getValue: () => number[],
   }): void {
     const { tooltipOfValue } = this;
-    const { setValue, getValue } = props;
+    const { getValue } = props;
 
     if (tooltipOfValue) return;
 
@@ -109,7 +109,6 @@ class IO {
       output.addEventListener('change', this.handleOutputChange.bind(null, {
         n: i,
         getValue,
-        setValue,
       }));
     });
   }
@@ -165,21 +164,17 @@ class IO {
   private handleOutputChange = (props: {
     n: number,
     getValue: () => number[],
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
   }): void => {
-    const { n, getValue, setValue } = props;
+    const { n, getValue } = props;
     const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, this.convertToValid);
 
     const isNewValue1Correct = Number(newVal) && n === 0;
     const isNewValue2Correct = Number(newVal) && n === 1;
 
     if (isNewValue1Correct) {
-      setValue({ val1: Number(newVal) });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val1: Number(newVal) });
     } else if (isNewValue2Correct) {
-      setValue({ val2: Number(newVal) });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val2: Number(newVal) });
     } else {
       this.setIO(n, getValue()[n]);
     }

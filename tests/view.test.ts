@@ -91,7 +91,6 @@ describe('***VIEW***', () => {
       const parent = document.createElement('div');
 
       const mockHandle = jest.fn();
-      const mockSetValue = jest.fn();
       const mockGetValue = jest.fn();
       mockGetValue.mockReturnValue([20, 15, 10]);
 
@@ -103,7 +102,6 @@ describe('***VIEW***', () => {
       }
 
       customIO.initEvents({
-        setValue: mockSetValue,
         getValue: mockGetValue,
       });
 
