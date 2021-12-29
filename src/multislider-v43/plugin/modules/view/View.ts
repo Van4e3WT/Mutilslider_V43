@@ -1,6 +1,6 @@
 import { Config, MoveStyleAxis, ViewAxis } from 'Plugin/custom-types';
 
-import EventEmitter, { ViewEvents } from '../utils/EventEmitter';
+import EventEmitter, { ViewEvents, ThumbEvents } from '../utils/EventEmitter';
 import Scale from './Scale';
 import Thumbs from './Thumbs';
 import IO from './IO';
@@ -142,12 +142,12 @@ class View extends EventEmitter {
     thumbs.initEvents({
       thumbsParent,
       axis,
-      setValue,
       getValue,
       getMin,
       getMax,
       additionalListeners,
     });
+    thumbs.on(ThumbEvents.VALUE_CHANGED, this.handleThumbChange);
 
     outputs.initEvents({
       setValue,
@@ -462,6 +462,13 @@ class View extends EventEmitter {
 
   private handleBodyThumbsClick = (e: PointerEvent) => {
     this.emit(ViewEvents.BODY_CLICKED, { e });
+  };
+
+  private handleThumbChange = (props: {
+    val1?: number,
+    val2?: number,
+  }) => {
+    this.emit(ViewEvents.VALUE_CHANGED, props);
   };
 }
 

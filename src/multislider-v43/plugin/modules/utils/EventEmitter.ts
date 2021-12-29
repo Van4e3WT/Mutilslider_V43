@@ -29,5 +29,9 @@ enum ViewEvents {
   BODY_CLICKED = 'BODY_CLICKED',
 }
 
-export { ModelEvents, ViewEvents };
+enum ThumbEvents {
+  VALUE_CHANGED = 'VALUE_CHANGED',
+}
+
+export { ModelEvents, ViewEvents, ThumbEvents };
 export default EventEmitter;

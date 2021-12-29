@@ -49,10 +49,6 @@ type ThumbData = {
   axis: ViewAxis,
 
   getValue: () => number[],
-  setValue: (props: {
-    val1?: number,
-    val2?: number,
-  }) => void,
   getMin: () => number,
   getMax: () => number,
 

@@ -1,12 +1,15 @@
 /* global document */
 import { MoveStyleAxis, ThumbData, ViewAxis } from 'Plugin/custom-types';
+import EventEmitter, { ThumbEvents } from '../utils/EventEmitter';
 
-class Thumbs {
+class Thumbs extends EventEmitter {
   private thumbs: Array<HTMLDivElement>;
 
   private selector: string;
 
   constructor(props: { selector: string }) {
+    super();
+
     const { selector } = props;
 
     this.selector = selector;
@@ -29,10 +32,6 @@ class Thumbs {
     thumbsParent: HTMLDivElement,
     axis: ViewAxis,
     getValue: () => number[],
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
     getMin: () => number,
     getMax: () => number,
     additionalListeners?: Array<HTMLElement>,
@@ -43,7 +42,6 @@ class Thumbs {
       thumbsParent,
       axis,
       getValue,
-      setValue,
       getMin,
       getMax,
       additionalListeners,
@@ -56,7 +54,6 @@ class Thumbs {
         axis,
 
         getValue,
-        setValue,
         getMin,
         getMax,
 
@@ -116,7 +113,6 @@ class Thumbs {
       n,
       axis,
       thumbsParent,
-      setValue,
       getMin,
       getMax,
       vars,
@@ -150,9 +146,9 @@ class Thumbs {
     const shouldSetVal1 = n === 0 || isSecondConverted;
 
     if (shouldSetVal1) {
-      setValue({ val1: value });
+      this.emit(ThumbEvents.VALUE_CHANGED, { val1: value });
     } else if (n === 1) {
-      setValue({ val2: value });
+      this.emit(ThumbEvents.VALUE_CHANGED, { val2: value });
     }
   };
 

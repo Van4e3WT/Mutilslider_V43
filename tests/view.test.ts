@@ -283,7 +283,6 @@ describe('***VIEW***', () => {
     test('should init thumb events', () => {
       const thumbsParent = document.createElement('div');
 
-      const mockSetValue = jest.fn();
       const mockGetMin = jest.fn();
       const mockGetMax = jest.fn();
       const mockGetValue = jest.fn().mockReturnValue([20, 20]);
@@ -307,7 +306,6 @@ describe('***VIEW***', () => {
           dPos: 1,
         },
         getValue: mockGetValue,
-        setValue: mockSetValue,
         getMin: mockGetMin,
         getMax: mockGetMax,
         additionalListeners: decoyArray,
