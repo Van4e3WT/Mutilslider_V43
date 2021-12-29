@@ -143,9 +143,8 @@ class View extends EventEmitter {
     });
 
     outputs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
-    outputs.initEvents({
-      getValue,
-    });
+    outputs.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
+    outputs.initEvents();
 
     this.initEvents();
 

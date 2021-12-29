@@ -101,9 +101,7 @@ describe('***VIEW***', () => {
         });
       }
 
-      customIO.initEvents({
-        getValue: mockGetValue,
-      });
+      customIO.initEvents();
 
       customIO.getIOInputs()[0].value = '20,0';
       customIO.getIOInputs()[1].value = '20 0';

@@ -92,24 +92,18 @@ class IO extends EventEmitter {
     const { valueGroup } = this;
 
     valueGroup.forEach((_value, i) => {
-      valueGroup[i].input.addEventListener('input', this.handleInputUpdate.bind(null, i));
-      window.addEventListener('load', this.handleInputUpdate.bind(null, i));
+      valueGroup[i].input.addEventListener('input', this.handleInputUpdate.bind(this, i));
+      window.addEventListener('load', this.handleInputUpdate.bind(this, i));
     });
   }
 
-  public initEvents(props: {
-    getValue: () => number[],
-  }): void {
+  public initEvents(): void {
     const { tooltipOfValue } = this;
-    const { getValue } = props;
 
     if (tooltipOfValue) return;
 
     this.getIOInputs().forEach((output, i) => {
-      output.addEventListener('change', this.handleOutputChange.bind(null, {
-        n: i,
-        getValue,
-      }));
+      output.addEventListener('change', this.handleOutputChange.bind(this, i));
     });
   }
 
@@ -161,11 +155,7 @@ class IO extends EventEmitter {
     }
   };
 
-  private handleOutputChange = (props: {
-    n: number,
-    getValue: () => number[],
-  }): void => {
-    const { n, getValue } = props;
+  private calculateNewOutput = (n: number, value: number[]): void => {
     const newVal = this.getIOInputs()[n].value.replace(/\s|,/g, this.convertToValid);
 
     const isNewValue1Correct = Number(newVal) && n === 0;
@@ -176,8 +166,14 @@ class IO extends EventEmitter {
     } else if (isNewValue2Correct) {
       this.emit(SubViewEvents.VALUE_CHANGED, { val2: Number(newVal) });
     } else {
-      this.setIO(n, getValue()[n]);
+      this.setIO(n, value[n]);
     }
+  };
+
+  private handleOutputChange = (index: number): void => {
+    this.emit(SubViewEvents.VALUE_CALCULATED, {
+      handler: this.calculateNewOutput.bind(this, index),
+    });
   };
 
   private preventDefault = (e: MouseEvent): void => {
