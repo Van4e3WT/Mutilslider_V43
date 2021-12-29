@@ -23,7 +23,6 @@ class Controller extends EventEmitter {
     const { model, view } = this;
     const {
       getValue,
-      setValue,
       getMin,
       getMax,
     } = model;
@@ -35,7 +34,6 @@ class Controller extends EventEmitter {
 
     view.init({
       getValue,
-      setValue,
       getMin,
       getMax,
     }); // удОли

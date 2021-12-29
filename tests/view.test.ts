@@ -191,7 +191,6 @@ describe('***VIEW***', () => {
 
     test('should init "click" events on scale', () => {
       const gradientArray = [[-50, 50], [20, 70], [-100, -100], [20, 80], [-50, 50]];
-      const mockSetValue = jest.fn();
       const mockGetValue = jest.fn();
       const mockHandle = jest.fn();
 
@@ -216,7 +215,6 @@ describe('***VIEW***', () => {
 
       scale.getScale().addEventListener('click', mockHandle);
       scale.initEvents({
-        setValue: mockSetValue,
         getValue: mockGetValue,
       });
 
@@ -344,7 +342,6 @@ describe('***VIEW***', () => {
   describe('View', () => {
     let parent: HTMLElement;
 
-    let mockSetValue: jest.Mock;
     let mockGetMin: jest.Mock;
     let mockGetMax: jest.Mock;
     let mockGetValue: jest.Mock;
@@ -352,7 +349,6 @@ describe('***VIEW***', () => {
     beforeEach(() => {
       parent = document.createElement('div');
 
-      mockSetValue = jest.fn();
       mockGetMin = jest.fn();
       mockGetMax = jest.fn();
       mockGetValue = jest.fn();
@@ -384,7 +380,6 @@ describe('***VIEW***', () => {
       mockGetValue.mockReturnValue([20]);
 
       view.init({
-        setValue: mockSetValue,
         getValue: mockGetValue,
         getMin: mockGetMin,
         getMax: mockGetMax,
@@ -433,7 +428,6 @@ describe('***VIEW***', () => {
       mockGetValue.mockReturnValue([20, 70]);
 
       view.init({
-        setValue: mockSetValue,
         getValue: mockGetValue,
         getMin: mockGetMin,
         getMax: mockGetMax,
@@ -473,7 +467,6 @@ describe('***VIEW***', () => {
       mockGetValue.mockReturnValue([20, 70]);
 
       view.init({
-        setValue: mockSetValue,
         getValue: mockGetValue,
         getMin: mockGetMin,
         getMax: mockGetMax,
@@ -518,7 +511,6 @@ describe('***VIEW***', () => {
       mockGetValue.mockReturnValue([30, 60]);
 
       view.init({
-        setValue: mockSetValue,
         getValue: mockGetValue,
         getMin: mockGetMin,
         getMax: mockGetMax,

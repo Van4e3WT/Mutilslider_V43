@@ -102,10 +102,6 @@ class View extends EventEmitter {
 
   public init(props: {
     getValue: () => number[],
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
     getMin: () => number,
     getMax: () => number,
   }): void {
@@ -120,7 +116,6 @@ class View extends EventEmitter {
 
     const {
       getValue,
-      setValue,
       getMin,
       getMax,
     } = props;
@@ -158,9 +153,9 @@ class View extends EventEmitter {
 
     if (scale.getScaleDivisions().length) {
       scale.initEvents({
-        setValue,
         getValue,
       });
+      scale.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
     }
   }
 

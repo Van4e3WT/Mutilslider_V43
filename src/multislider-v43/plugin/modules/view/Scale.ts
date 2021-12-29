@@ -1,6 +1,7 @@
 import { ViewAxis } from 'Plugin/custom-types';
+import EventEmitter, { SubViewEvents } from '../utils/EventEmitter';
 
-class Scale {
+class Scale extends EventEmitter {
   private scale: HTMLDivElement;
 
   private scaleDivisions: Array<HTMLDivElement>;
@@ -10,6 +11,8 @@ class Scale {
   private localeProps: Intl.NumberFormatOptions;
 
   constructor(props: { localeProps?: Intl.NumberFormatOptions, selector?: string }) {
+    super();
+
     const { localeProps = {}, selector = 'scale' } = props;
 
     this.selector = selector;
@@ -41,18 +44,13 @@ class Scale {
   }
 
   public initEvents(props: {
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
     getValue: () => number[],
   }): void {
     const { scale, selector } = this;
-    const { setValue, getValue } = props;
+    const { getValue } = props;
 
     scale.addEventListener('click', this.handleScaleClick.bind(null, {
       selector,
-      setValue,
       getValue,
     }));
   }
@@ -119,13 +117,9 @@ class Scale {
 
   private handleScaleClick = (props: {
     selector: string,
-    setValue: (props: {
-      val1?: number,
-      val2?: number,
-    }) => void,
     getValue: () => number[],
   }, e: Event): void => {
-    const { selector, setValue, getValue } = props;
+    const { selector, getValue } = props;
 
     if (!(e.target instanceof HTMLElement)
       || !e.target.matches(`.${selector}__scale-division`)) return;
@@ -144,9 +138,9 @@ class Scale {
     const newValIsGreaterCurrentEqualVals = isEquals && (getValue()[1] < scaleDivisionValue);
 
     if (isSecondValue || newValIsGreaterCurrentEqualVals) {
-      setValue({ val2: scaleDivisionValue });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val2: scaleDivisionValue });
     } else {
-      setValue({ val1: scaleDivisionValue });
+      this.emit(SubViewEvents.VALUE_CHANGED, { val1: scaleDivisionValue });
     }
   };
 }
