@@ -120,10 +120,10 @@ class View extends EventEmitter {
 
     const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
 
-    window.addEventListener('resize', this.handleListenerUpdate.bind(null, getValue));
+    window.addEventListener('resize', this.handleSubViewChange.bind(null, {}));
     window.addEventListener('resize', this.updateScale);
 
-    document.addEventListener('DOMContentLoaded', this.handleListenerUpdate.bind(null, getValue));
+    document.addEventListener('DOMContentLoaded', this.handleSubViewChange.bind(null, {}));
     document.addEventListener('DOMContentLoaded', this.updateScale);
 
     /*
@@ -444,10 +444,6 @@ class View extends EventEmitter {
       max,
       step,
     });
-  };
-
-  private handleListenerUpdate = (getValue: () => Array<number>): void => {
-    this.update(getValue());
   };
 
   private handleBodyThumbsClick = (e: PointerEvent) => {
