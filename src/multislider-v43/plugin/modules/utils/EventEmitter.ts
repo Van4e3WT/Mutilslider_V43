@@ -26,11 +26,13 @@ enum ModelEvents {
 
 enum ViewEvents {
   VALUE_CHANGED = 'VALUE_CHANGED',
+  VALUE_CALCULATED = 'VALUE_CALCULATED',
   BODY_CLICKED = 'BODY_CLICKED',
 }
 
 enum SubViewEvents {
   VALUE_CHANGED = 'VALUE_CHANGED',
+  VALUE_CALCULATED = 'VALUE_CALCULATED',
 }
 
 export { ModelEvents, ViewEvents, SubViewEvents };

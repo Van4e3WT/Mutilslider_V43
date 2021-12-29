@@ -27,6 +27,7 @@ class Controller extends EventEmitter {
 
     model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
 
+    view.on(ViewEvents.VALUE_CALCULATED, this.handleViewCalculate);
     view.on(ViewEvents.VALUE_CHANGED, this.handleViewUpdate);
     view.on(ViewEvents.BODY_CLICKED, this.handleViewBodyUpdate);
 
@@ -51,6 +52,15 @@ class Controller extends EventEmitter {
   };
 
   private handleViewBodyUpdate = (props: {
+    handler: (values: Array<number>) => void,
+  }): void => {
+    const { model } = this;
+    const { handler } = props;
+
+    handler(model.getValue());
+  };
+
+  private handleViewCalculate = (props: {
     handler: (values: Array<number>) => void,
   }): void => {
     const { model } = this;

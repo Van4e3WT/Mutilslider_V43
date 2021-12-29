@@ -214,9 +214,7 @@ describe('***VIEW***', () => {
       });
 
       scale.getScale().addEventListener('click', mockHandle);
-      scale.initEvents({
-        getValue: mockGetValue,
-      });
+      scale.initEvents();
 
       scale.getScale().dispatchEvent(new Event('click'));
 

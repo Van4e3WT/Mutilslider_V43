@@ -43,16 +43,10 @@ class Scale extends EventEmitter {
     });
   }
 
-  public initEvents(props: {
-    getValue: () => number[],
-  }): void {
-    const { scale, selector } = this;
-    const { getValue } = props;
+  public initEvents(): void {
+    const { scale } = this;
 
-    scale.addEventListener('click', this.handleScaleClick.bind(null, {
-      selector,
-      getValue,
-    }));
+    scale.addEventListener('click', this.handleScaleClick);
   }
 
   public getScale(): HTMLDivElement {
@@ -115,11 +109,8 @@ class Scale extends EventEmitter {
     });
   }
 
-  private handleScaleClick = (props: {
-    selector: string,
-    getValue: () => number[],
-  }, e: Event): void => {
-    const { selector, getValue } = props;
+  private calculateNewValue = (e: Event, value: Array<number>): void => {
+    const { selector } = this;
 
     if (!(e.target instanceof HTMLElement)
       || !e.target.matches(`.${selector}__scale-division`)) return;
@@ -127,21 +118,27 @@ class Scale extends EventEmitter {
     const { target } = e;
     const scaleDivisionValue = Number((target.dataset.value ?? ''));
 
-    const isSecondValue = getValue().length === 2
-      && (Math.abs(scaleDivisionValue - getValue()[1])
-        < Math.abs(scaleDivisionValue - getValue()[0]));
+    const isSecondValue = value.length === 2
+      && (Math.abs(scaleDivisionValue - value[1])
+        < Math.abs(scaleDivisionValue - value[0]));
 
-    const isEquals = getValue().length === 2
-      && (Math.abs(scaleDivisionValue - getValue()[1])
-        === Math.abs(scaleDivisionValue - getValue()[0]));
+    const isEquals = value.length === 2
+      && (Math.abs(scaleDivisionValue - value[1])
+        === Math.abs(scaleDivisionValue - value[0]));
 
-    const newValIsGreaterCurrentEqualVals = isEquals && (getValue()[1] < scaleDivisionValue);
+    const newValIsGreaterCurrentEqualVals = isEquals && (value[1] < scaleDivisionValue);
 
     if (isSecondValue || newValIsGreaterCurrentEqualVals) {
       this.emit(SubViewEvents.VALUE_CHANGED, { val2: scaleDivisionValue });
     } else {
       this.emit(SubViewEvents.VALUE_CHANGED, { val1: scaleDivisionValue });
     }
+  };
+
+  private handleScaleClick = (e: Event) => {
+    this.emit(SubViewEvents.VALUE_CALCULATED, {
+      handler: this.calculateNewValue.bind(this, e),
+    });
   };
 }
 

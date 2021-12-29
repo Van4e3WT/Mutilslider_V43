@@ -132,6 +132,7 @@ class View extends EventEmitter {
       changes to new, this is the reason for the incorrect display
     */
 
+    thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
     thumbs.initEvents({
       thumbsParent,
       min,
@@ -140,20 +141,18 @@ class View extends EventEmitter {
       getValue,
       additionalListeners,
     });
-    thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
 
+    outputs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
     outputs.initEvents({
       getValue,
     });
-    outputs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
 
     this.initEvents();
 
     if (scale.getScaleDivisions().length) {
-      scale.initEvents({
-        getValue,
-      });
       scale.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
+      scale.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
+      scale.initEvents();
     }
   }
 
@@ -457,6 +456,10 @@ class View extends EventEmitter {
     val2?: number,
   }) => {
     this.emit(ViewEvents.VALUE_CHANGED, props);
+  };
+
+  private handleSubViewCalculate = (props: { handler: (value: Array<number>) => void }) => {
+    this.emit(ViewEvents.VALUE_CALCULATED, props);
   };
 }
 
