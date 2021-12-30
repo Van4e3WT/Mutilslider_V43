@@ -439,7 +439,7 @@ class View extends EventEmitter {
   };
 
   private handleBodyThumbsClick = (e: PointerEvent) => {
-    this.emit(ViewEvents.BODY_CLICKED, {
+    this.emit(ViewEvents.VALUE_CALCULATED, {
       handler: this.moveThumbToClickedPos.bind(this, e),
     });
   };

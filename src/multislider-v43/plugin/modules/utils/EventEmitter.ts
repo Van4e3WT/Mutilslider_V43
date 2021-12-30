@@ -27,7 +27,6 @@ enum ModelEvents {
 enum ViewEvents {
   VALUE_CHANGED = 'VALUE_CHANGED',
   VALUE_CALCULATED = 'VALUE_CALCULATED',
-  BODY_CLICKED = 'BODY_CLICKED',
 }
 
 enum SubViewEvents {
