@@ -61,7 +61,7 @@ class DoubleModel extends EventEmitter implements IModel {
     const valuesAreNotDefined = (val1 === undefined) && (val2 === undefined);
 
     if (valuesAreNotDefined) {
-      this.emit(ModelEvents.VALUE_CHANGED, {
+      this.emit(ModelEvents.CHANGE_VALUE, {
         value1: val1,
         value2: val2,
       });
@@ -103,7 +103,7 @@ class DoubleModel extends EventEmitter implements IModel {
     thumbs[1].value = val2;
     thumbs[1].min = val1;
 
-    this.emit(ModelEvents.VALUE_CHANGED, {
+    this.emit(ModelEvents.CHANGE_VALUE, {
       value1: val1,
       value2: val2,
     });

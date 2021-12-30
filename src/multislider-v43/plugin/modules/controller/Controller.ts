@@ -22,10 +22,10 @@ class Controller extends EventEmitter {
   public init(): void {
     const { model, view } = this;
 
-    model.on(ModelEvents.VALUE_CHANGED, this.handleModelUpdate);
+    model.on(ModelEvents.CHANGE_VALUE, this.handleModelUpdate);
 
-    view.on(ViewEvents.VALUE_CALCULATED, this.handleViewCalculate);
-    view.on(ViewEvents.VALUE_CHANGED, this.handleViewUpdate);
+    view.on(ViewEvents.CALCULATE_VALUE, this.handleViewCalculate);
+    view.on(ViewEvents.CHANGE_VALUE, this.handleViewUpdate);
 
     view.init();
   }

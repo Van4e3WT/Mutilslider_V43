@@ -126,8 +126,8 @@ class View extends EventEmitter {
       changes to new, this is the reason for the incorrect display
     */
 
-    thumbs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
-    thumbs.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
+    thumbs.on(SubViewEvents.CHANGE_VALUE, this.handleSubViewChange);
+    thumbs.on(SubViewEvents.CALCULATE_VALUE, this.handleSubViewCalculate);
     thumbs.initEvents({
       thumbsParent,
       min,
@@ -136,15 +136,15 @@ class View extends EventEmitter {
       additionalListeners,
     });
 
-    outputs.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
-    outputs.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
+    outputs.on(SubViewEvents.CHANGE_VALUE, this.handleSubViewChange);
+    outputs.on(SubViewEvents.CALCULATE_VALUE, this.handleSubViewCalculate);
     outputs.initEvents();
 
     this.initEvents();
 
     if (scale.getScaleDivisions().length) {
-      scale.on(SubViewEvents.VALUE_CHANGED, this.handleSubViewChange);
-      scale.on(SubViewEvents.VALUE_CALCULATED, this.handleSubViewCalculate);
+      scale.on(SubViewEvents.CHANGE_VALUE, this.handleSubViewChange);
+      scale.on(SubViewEvents.CALCULATE_VALUE, this.handleSubViewCalculate);
       scale.initEvents();
     }
   }
@@ -228,9 +228,9 @@ class View extends EventEmitter {
     const newValIsGreaterCurrentEqualVals = isEquals && (value[1] < newValue);
 
     if (isSecondValue || newValIsGreaterCurrentEqualVals) {
-      this.emit(ViewEvents.VALUE_CHANGED, { val2: newValue });
+      this.emit(ViewEvents.CHANGE_VALUE, { val2: newValue });
     } else {
-      this.emit(ViewEvents.VALUE_CHANGED, { val1: newValue });
+      this.emit(ViewEvents.CHANGE_VALUE, { val1: newValue });
     }
   };
 
@@ -439,7 +439,7 @@ class View extends EventEmitter {
   };
 
   private handleBodyThumbsClick = (e: PointerEvent) => {
-    this.emit(ViewEvents.VALUE_CALCULATED, {
+    this.emit(ViewEvents.CALCULATE_VALUE, {
       handler: this.moveThumbToClickedPos.bind(this, e),
     });
   };
@@ -448,11 +448,11 @@ class View extends EventEmitter {
     val1?: number,
     val2?: number,
   }) => {
-    this.emit(ViewEvents.VALUE_CHANGED, props);
+    this.emit(ViewEvents.CHANGE_VALUE, props);
   };
 
   private handleSubViewCalculate = (props: { handler: (value: Array<number>) => void }) => {
-    this.emit(ViewEvents.VALUE_CALCULATED, props);
+    this.emit(ViewEvents.CALCULATE_VALUE, props);
   };
 }
 

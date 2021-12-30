@@ -162,16 +162,16 @@ class IO extends EventEmitter {
     const isNewValue2Correct = Number(newVal) && n === 1;
 
     if (isNewValue1Correct) {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val1: Number(newVal) });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val1: Number(newVal) });
     } else if (isNewValue2Correct) {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val2: Number(newVal) });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val2: Number(newVal) });
     } else {
       this.setIO(n, value[n]);
     }
   };
 
   private handleOutputChange = (index: number): void => {
-    this.emit(SubViewEvents.VALUE_CALCULATED, {
+    this.emit(SubViewEvents.CALCULATE_VALUE, {
       handler: this.calculateNewOutput.bind(this, index),
     });
   };

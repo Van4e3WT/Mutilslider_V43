@@ -141,9 +141,9 @@ class Thumbs extends EventEmitter {
     const shouldSetVal1 = n === 0 || isSecondConverted;
 
     if (shouldSetVal1) {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val1: value });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val1: value });
     } else if (n === 1) {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val2: value });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val2: value });
     }
   };
 
@@ -199,7 +199,7 @@ class Thumbs extends EventEmitter {
   };
 
   private handlePointerDown = (data: ThumbData, e: PointerEvent): void => {
-    this.emit(SubViewEvents.VALUE_CALCULATED, {
+    this.emit(SubViewEvents.CALCULATE_VALUE, {
       handler: this.calculatePointerMove.bind(this, data, e),
     });
   };

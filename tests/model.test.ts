@@ -85,7 +85,7 @@ describe('***MODEL***', () => {
       test('should call the event', () => {
         const mockEvent = jest.fn();
 
-        soloSliderModel.on(ModelEvents.VALUE_CHANGED, mockEvent);
+        soloSliderModel.on(ModelEvents.CHANGE_VALUE, mockEvent);
         soloSliderModel.setValue({});
 
         expect(mockEvent).toHaveBeenCalledTimes(1);
@@ -258,7 +258,7 @@ describe('***MODEL***', () => {
       test('should call the event', () => {
         const mockEvent = jest.fn();
 
-        doubleSliderModel.on(ModelEvents.VALUE_CHANGED, mockEvent);
+        doubleSliderModel.on(ModelEvents.CHANGE_VALUE, mockEvent);
         doubleSliderModel.setValue({});
 
         expect(mockEvent).toHaveBeenCalledTimes(1);

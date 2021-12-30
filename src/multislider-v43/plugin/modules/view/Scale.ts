@@ -129,14 +129,14 @@ class Scale extends EventEmitter {
     const newValIsGreaterCurrentEqualVals = isEquals && (value[1] < scaleDivisionValue);
 
     if (isSecondValue || newValIsGreaterCurrentEqualVals) {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val2: scaleDivisionValue });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val2: scaleDivisionValue });
     } else {
-      this.emit(SubViewEvents.VALUE_CHANGED, { val1: scaleDivisionValue });
+      this.emit(SubViewEvents.CHANGE_VALUE, { val1: scaleDivisionValue });
     }
   };
 
   private handleScaleClick = (e: Event) => {
-    this.emit(SubViewEvents.VALUE_CALCULATED, {
+    this.emit(SubViewEvents.CALCULATE_VALUE, {
       handler: this.calculateNewValue.bind(this, e),
     });
   };

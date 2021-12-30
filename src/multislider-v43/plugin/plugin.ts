@@ -67,7 +67,7 @@ const SELECTOR = 'multislider-v43';
     };
 
     $.fn.multislider.onChange = (callback: Function, ...args: Array<unknown>): void => {
-      model.on(ModelEvents.VALUE_CHANGED, callback.bind(this, ...args));
+      model.on(ModelEvents.CHANGE_VALUE, callback.bind(this, ...args));
     };
   };
 }(jQuery));

@@ -60,7 +60,7 @@ describe('***CONTROLLER***', () => {
 
     view.update = mockUpdate;
 
-    model.emit(ModelEvents.VALUE_CHANGED, {});
+    model.emit(ModelEvents.CHANGE_VALUE, {});
 
     expect(mockUpdate).toHaveBeenCalled();
   });

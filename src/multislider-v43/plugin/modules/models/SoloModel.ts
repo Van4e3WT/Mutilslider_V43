@@ -59,7 +59,7 @@ class SoloModel extends EventEmitter implements IModel {
       thumbs[0].value = val1;
     }
 
-    this.emit(ModelEvents.VALUE_CHANGED, {
+    this.emit(ModelEvents.CHANGE_VALUE, {
       value1: props.val1,
     });
   };
