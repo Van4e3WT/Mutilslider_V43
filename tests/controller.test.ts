@@ -2,7 +2,7 @@ import IModel from 'Plugin/modules/models/interfaces/IModel';
 import DoubleModel from 'Plugin/modules/models/DoubleModel';
 import Controller from 'Plugin/modules/controller/Controller';
 import View from 'Plugin/modules/view/View';
-import { ModelEvents } from 'Plugin/modules/utils/EventEmitter';
+import { ModelEvents, ViewEvents } from 'Plugin/modules/utils/EventEmitter';
 import { Config } from 'Plugin/custom-types';
 
 describe('***CONTROLLER***', () => {
@@ -53,7 +53,7 @@ describe('***CONTROLLER***', () => {
     });
   });
 
-  test('should call handlers when the event is emitted', () => {
+  test('must update view after update model', () => {
     controller.init();
 
     const mockUpdate = jest.fn();
@@ -63,5 +63,27 @@ describe('***CONTROLLER***', () => {
     model.emit(ModelEvents.CHANGE_VALUE, {});
 
     expect(mockUpdate).toHaveBeenCalled();
+  });
+
+  test('must calculate new value after update view', () => {
+    controller.init();
+
+    const mockHandler = jest.fn();
+
+    view.emit(ViewEvents.CALCULATE_VALUE, { handler: mockHandler });
+
+    expect(mockHandler).toHaveBeenCalled();
+  });
+
+  test('must update model after update view', () => {
+    controller.init();
+
+    const mockSet = jest.fn();
+
+    model.setValue = mockSet;
+
+    view.emit(ViewEvents.CHANGE_VALUE, {});
+
+    expect(mockSet).toHaveBeenCalled();
   });
 });
