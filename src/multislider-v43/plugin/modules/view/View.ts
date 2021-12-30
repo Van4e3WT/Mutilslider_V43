@@ -114,10 +114,10 @@ class View extends EventEmitter {
 
     const additionalListeners = tooltipIsActive ? outputs.getIOParents() : undefined;
 
-    window.addEventListener('resize', this.handleSubViewChange.bind(null, {}));
+    window.addEventListener('resize', this.handleSubViewChange.bind(this, {}));
     window.addEventListener('resize', this.updateScale);
 
-    document.addEventListener('DOMContentLoaded', this.handleSubViewChange.bind(null, {}));
+    document.addEventListener('DOMContentLoaded', this.handleSubViewChange.bind(this, {}));
     document.addEventListener('DOMContentLoaded', this.updateScale);
 
     /*
