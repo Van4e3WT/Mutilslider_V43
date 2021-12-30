@@ -34,11 +34,11 @@ class IO extends EventEmitter {
     this.valueGroup = [];
   }
 
-  public createGroup(props: {
+  public createGroup = (props: {
     parent: HTMLDivElement,
     selector: string,
     isVertical?: boolean,
-  }): void {
+  }): void => {
     const {
       postfix,
       valueGroup,
@@ -86,18 +86,18 @@ class IO extends EventEmitter {
 
     parent.appendChild(parentElement);
     parent.appendChild(hiddenElement);
-  }
+  };
 
-  public init(): void {
+  public init = (): void => {
     const { valueGroup } = this;
 
     valueGroup.forEach((_value, i) => {
       valueGroup[i].input.addEventListener('input', this.handleInputUpdate.bind(this, i));
       window.addEventListener('load', this.handleInputUpdate.bind(this, i));
     });
-  }
+  };
 
-  public initEvents(): void {
+  public initEvents = (): void => {
     const { tooltipOfValue } = this;
 
     if (tooltipOfValue) return;
@@ -105,36 +105,36 @@ class IO extends EventEmitter {
     this.getIOInputs().forEach((output, i) => {
       output.addEventListener('change', this.handleOutputChange.bind(this, i));
     });
-  }
+  };
 
-  public getIOParents(): Array<HTMLDivElement> {
+  public getIOParents = (): Array<HTMLDivElement> => {
     const { valueGroup } = this;
 
     return valueGroup.map((val) => val.parent);
-  }
+  };
 
-  public getIOInputs(): Array<HTMLInputElement> {
+  public getIOInputs = (): Array<HTMLInputElement> => {
     const { valueGroup } = this;
 
     return valueGroup.map((val) => val.input);
-  }
+  };
 
-  public setIO(n: number, value: number): void {
+  public setIO = (n: number, value: number): void => {
     const { valueGroup, localeProps } = this;
 
     valueGroup[n].hidden.textContent = value.toLocaleString('ru', localeProps);
     valueGroup[n].input.value = valueGroup[n].hidden.textContent ?? '';
     valueGroup[n].input.style.width = `${valueGroup[n].hidden.offsetWidth + 2}px`;
-  }
+  };
 
-  public moveIO(props: { n: number, prop: MoveStyleAxis, value: number }): void {
+  public moveIO = (props: { n: number, prop: MoveStyleAxis, value: number }): void => {
     const { valueGroup, tooltipOfValue } = this;
     const { n, prop, value } = props;
 
     if (!tooltipOfValue) return;
 
     valueGroup[n].parent.style[prop] = `${value}px`;
-  }
+  };
 
   private convertToValid = (token: string): string => {
     const newString = {

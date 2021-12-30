@@ -16,7 +16,7 @@ class Thumbs extends EventEmitter {
     this.thumbs = [];
   }
 
-  public add(parent: HTMLDivElement, isVertical = false): void {
+  public add = (parent: HTMLDivElement, isVertical = false): void => {
     const { thumbs, selector } = this;
     const thumb = document.createElement('div');
 
@@ -26,15 +26,15 @@ class Thumbs extends EventEmitter {
     }
     parent.appendChild(thumb);
     thumbs.push(thumb);
-  }
+  };
 
-  public initEvents(props: {
+  public initEvents = (props: {
     thumbsParent: HTMLDivElement,
     axis: ViewAxis,
     min: number,
     max: number,
     additionalListeners?: Array<HTMLElement>,
-  }): void {
+  }): void => {
     const { thumbs } = this;
 
     const {
@@ -68,39 +68,39 @@ class Thumbs extends EventEmitter {
         additionalListeners[index].addEventListener('pointerdown', handlePointerDown);
       }
     });
-  }
+  };
 
-  public getThumb(n: number): HTMLDivElement {
+  public getThumb = (n: number): HTMLDivElement => {
     const { thumbs } = this;
 
     return thumbs[n];
-  }
+  };
 
-  public getSize(): number {
+  public getSize = (): number => {
     const { thumbs } = this;
 
     return parseInt(getComputedStyle(thumbs[0]).width, 10);
-  }
+  };
 
-  public getLength(): number {
+  public getLength = (): number => {
     const { thumbs } = this;
 
     return thumbs.length;
-  }
+  };
 
-  public moveThumb(props: { n: number, prop: MoveStyleAxis, value: number }): void {
+  public moveThumb = (props: { n: number, prop: MoveStyleAxis, value: number }): void => {
     const { thumbs } = this;
     const { n, prop, value } = props;
 
     thumbs[n].style[prop] = `${value}px`;
-  }
+  };
 
-  public getStyleN(props: { n: number, prop: MoveStyleAxis }): string {
+  public getStyleN = (props: { n: number, prop: MoveStyleAxis }): string => {
     const { thumbs } = this;
     const { n, prop } = props;
 
     return thumbs[n].style[prop];
-  }
+  };
 
   private handlePointerMove = (data: ThumbData, e: PointerEvent): void => {
     const { thumbs, selector } = this;

@@ -64,13 +64,13 @@ class SoloModel extends EventEmitter implements IModel {
     });
   };
 
-  private getDefaultThumb(min: number, max: number): [ThumbModel] {
-    return [{
+  private getDefaultThumb = (min: number, max: number): [ThumbModel] => (
+    [{
       min,
       max,
       value: min,
-    }];
-  }
+    }]
+  );
 }
 
 export default SoloModel;

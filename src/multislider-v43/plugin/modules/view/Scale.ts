@@ -21,7 +21,7 @@ class Scale extends EventEmitter {
     this.scale = document.createElement('div');
   }
 
-  public init(props: { count: number, isVertical: boolean }): void {
+  public init = (props: { count: number, isVertical: boolean }): void => {
     const { scaleDivisions, scale, selector } = this;
     const {
       count,
@@ -41,34 +41,34 @@ class Scale extends EventEmitter {
       scaleDivisions.push(scaleDivision);
       scale.appendChild(scaleDivision);
     });
-  }
+  };
 
-  public initEvents(): void {
+  public initEvents = (): void => {
     const { scale } = this;
 
     scale.addEventListener('click', this.handleScaleClick);
-  }
+  };
 
-  public getScale(): HTMLDivElement {
+  public getScale = (): HTMLDivElement => {
     const { scale } = this;
 
     return scale;
-  }
+  };
 
-  public getScaleDivisions(): Array<HTMLDivElement> {
+  public getScaleDivisions = (): Array<HTMLDivElement> => {
     const { scaleDivisions } = this;
 
     return scaleDivisions;
-  }
+  };
 
-  public update(props: {
+  public update = (props: {
     thumbsParent: HTMLDivElement,
     axis: ViewAxis,
     thumbSize: number,
     min: number,
     max: number,
     step: number,
-  }): void {
+  }): void => {
     const { scaleDivisions, localeProps } = this;
     const {
       thumbsParent,
@@ -107,7 +107,7 @@ class Scale extends EventEmitter {
       scaleDivisions[index].dataset.value = ((delta * proportion) + min).toLocaleString('en-US', { useGrouping: false });
       scaleDivisions[index].textContent = ((delta * proportion) + min).toLocaleString('ru', localeProps);
     });
-  }
+  };
 
   private calculateNewValue = (e: Event, value: Array<number>): void => {
     const { selector } = this;

@@ -109,7 +109,7 @@ class DoubleModel extends EventEmitter implements IModel {
     });
   };
 
-  private getDefaultThumbs(): [ThumbModel, ThumbModel] {
+  private getDefaultThumbs = (): [ThumbModel, ThumbModel] => {
     const { min, max } = this;
 
     return [
@@ -124,9 +124,9 @@ class DoubleModel extends EventEmitter implements IModel {
         value: max,
       },
     ];
-  }
+  };
 
-  private convertNumberToStep(value: number): number {
+  private convertNumberToStep = (value: number): number => {
     const {
       step,
       min,
@@ -135,7 +135,7 @@ class DoubleModel extends EventEmitter implements IModel {
     const delta = value - min;
 
     return Number(String((Math.floor((delta / step) + 0.5) / (1 / step) + min).toFixed(10)));
-  }
+  };
 }
 
 export default DoubleModel;

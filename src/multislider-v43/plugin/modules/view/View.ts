@@ -100,7 +100,7 @@ class View extends EventEmitter {
     this.update(values);
   }
 
-  public init(): void {
+  public init = (): void => {
     const {
       min,
       max,
@@ -147,9 +147,9 @@ class View extends EventEmitter {
       scale.on(SubViewEvents.CALCULATE_VALUE, this.handleSubViewCalculate);
       scale.initEvents();
     }
-  }
+  };
 
-  public update(thumbsValues: Array<number>): void {
+  public update = (thumbsValues: Array<number>): void => {
     const {
       thumbsParent,
       axis,
@@ -180,7 +180,7 @@ class View extends EventEmitter {
     }
 
     this.updateSliderRange();
-  }
+  };
 
   private moveThumbToClickedPos = (e: PointerEvent, value: number[]): void => {
     const {
@@ -234,7 +234,7 @@ class View extends EventEmitter {
     }
   };
 
-  private getAxis(parent: HTMLElement): ViewAxis {
+  private getAxis = (parent: HTMLElement): ViewAxis => {
     const { isVertical, selector } = this;
     let resultAxis: ViewAxis;
 
@@ -262,15 +262,15 @@ class View extends EventEmitter {
     }
 
     return resultAxis;
-  }
+  };
 
-  private initEvents(): void {
+  private initEvents = (): void => {
     const { thumbsParent } = this;
 
     thumbsParent.addEventListener('pointerdown', this.handleBodyThumbsClick);
-  }
+  };
 
-  private renderHeader(parent: HTMLElement, title: string = ''): void {
+  private renderHeader = (parent: HTMLElement, title: string = ''): void => {
     const {
       tooltipIsActive,
       outputs,
@@ -313,9 +313,9 @@ class View extends EventEmitter {
         selector: `${selector}__value`,
       });
     }
-  }
+  };
 
-  private renderBody(parent: HTMLElement): HTMLDivElement {
+  private renderBody = (parent: HTMLElement): HTMLDivElement => {
     const {
       selector,
       isVertical,
@@ -347,9 +347,9 @@ class View extends EventEmitter {
     }
 
     return sliderBody;
-  }
+  };
 
-  private renderProgressBar(parent: HTMLElement, isProgressBar: boolean = false): void {
+  private renderProgressBar = (parent: HTMLElement, isProgressBar: boolean = false): void => {
     const { isVertical, selector } = this;
 
     if (!isProgressBar) return;
@@ -362,9 +362,9 @@ class View extends EventEmitter {
     }
 
     parent.appendChild(this.sliderRange);
-  }
+  };
 
-  private renderScale(parent: HTMLElement, scaleDivisions: number = 0): void {
+  private renderScale = (parent: HTMLElement, scaleDivisions: number = 0): void => {
     const {
       isVertical,
       scale,
@@ -384,17 +384,17 @@ class View extends EventEmitter {
     const scaleDivisionArr = scale.getScale();
     parent.appendChild(scaleDivisionArr);
     this.updateScale();
-  }
+  };
 
-  private moveTooltip(props: { n: number, prop: MoveStyleAxis, value: number }): void {
+  private moveTooltip = (props: { n: number, prop: MoveStyleAxis, value: number }): void => {
     const { outputs, tooltipIsActive } = this;
 
     if (!tooltipIsActive) return;
 
     outputs.moveIO(props);
-  }
+  };
 
-  private updateSliderRange(): void {
+  private updateSliderRange = (): void => {
     const {
       thumbs,
       sliderRange,
@@ -415,7 +415,7 @@ class View extends EventEmitter {
       sliderRange.style[axis.sizeParent] = `${parseInt(thumbs.getStyleN({ n: 1, prop: axis.styleSelector }), 10)
         - parseInt(thumbs.getStyleN({ n: 0, prop: axis.styleSelector }), 10)}px`;
     }
-  }
+  };
 
   private updateScale = (): void => {
     const {

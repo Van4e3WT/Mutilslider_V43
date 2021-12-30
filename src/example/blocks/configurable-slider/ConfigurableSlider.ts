@@ -37,7 +37,7 @@ class ConfigurableSlider {
     this.selector = selector;
   }
 
-  public init(): void {
+  public init = (): void => {
     const { panelControl, selector, callError } = this;
 
     this.inputs = {
@@ -57,7 +57,7 @@ class ConfigurableSlider {
     panelControl.addEventListener('change', this.handlePanelChange);
 
     this.updateSlider();
-  }
+  };
 
   private updateSlider = (target: EventTarget | null = null): void => {
     const { slider, inputs } = this;
@@ -207,7 +207,7 @@ class ConfigurableSlider {
     this.updateSlider(target);
   };
 
-  private toggleInputsConditions(): void {
+  private toggleInputsConditions = (): void => {
     const { inputs, selector } = this;
 
     if (!inputs) return;
@@ -219,11 +219,11 @@ class ConfigurableSlider {
       inputs.value2.disabled = true;
       inputs.value2.classList.add(`${selector}__input_disabled`);
     }
-  }
+  };
 
-  private callError(): HTMLInputElement {
+  private callError = (): HTMLInputElement => {
     throw Error('The configurable panel doesn\'t contain a required element');
-  }
+  };
 }
 
 export default ConfigurableSlider;
