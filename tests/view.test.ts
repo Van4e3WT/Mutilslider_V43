@@ -2,116 +2,140 @@ import IO from 'Plugin/modules/view/IO';
 import Scale from 'Plugin/modules/view/Scale';
 import Thumbs from 'Plugin/modules/view/Thumbs';
 import View from 'Plugin/modules/view/View';
+import { SubViewEvents } from 'Plugin/modules/utils/EventEmitter';
 import { Config } from 'Plugin/custom-types';
 
-const IO_COUNT = 3;
+const IO_COUNT = 2;
 const THUMB_COUNT = 2;
 
 describe('***VIEW***', () => {
   const selector = 'multislider-v43';
 
+  let io: IO;
+
   describe('IO', () => {
-    let io: IO;
-
-    beforeEach(() => {
-      io = new IO({
-        postfix: 'C',
-        localeProps: {},
-        tooltipOfValue: true,
-      });
-
-      const parent = document.createElement('div');
-
-      io.createGroup({
-        parent,
-        selector,
-        isVertical: true,
-      });
-
-      io.createGroup({
-        parent,
-        selector,
-        isVertical: true,
-      });
-    });
-
-    test('should return IO parents', () => {
-      expect(io.getIOParents().length).toBe(2);
-    });
-
-    test('should return IO inputs', () => {
-      expect(io.getIOInputs().length).toBe(2);
-    });
-
-    test('should set new value', () => {
-      io.setIO(0, 30);
-
-      expect(io.getIOInputs()[0].value).toBe('30');
-    });
-
-    test('should move IO', () => {
-      const prop = 'bottom';
-
-      io.moveIO({
-        n: 0,
-        prop,
-        value: 0,
-      });
-
-      expect(io.getIOParents()[0].style[prop]).toBe('0px');
-    });
-
-    test('should prevent text highlighting', () => {
-      const mockHandle = jest.fn();
-
-      io.getIOInputs().forEach((item) => {
-        item.addEventListener('mousedown', mockHandle);
-        item.dispatchEvent(new MouseEvent('mousedown'));
-      });
-
-      expect(mockHandle).toBeCalledTimes(io.getIOInputs().length);
-    });
-
-    test('should init value group listeners', () => {
-      const mockHandle = jest.fn();
-
-      io.init();
-      io.getIOInputs()[0].value = '40';
-
-      io.getIOInputs().forEach((item) => {
-        item.addEventListener('input', mockHandle);
-        item.dispatchEvent(new Event('input'));
-      });
-
-      expect(mockHandle).toHaveBeenCalledTimes(io.getIOInputs().length);
-    });
-
-    test('should init "change" events on inputs', () => {
-      const customIO = new IO({});
-      const parent = document.createElement('div');
-
-      const mockHandle = jest.fn();
-      const mockGetValue = jest.fn();
-      mockGetValue.mockReturnValue([20, 15, 10]);
-
-      for (let i = 0; i < IO_COUNT; i++) {
-        customIO.createGroup({
-          parent,
-          selector,
+    describe('non-interactive', () => {
+      beforeEach(() => {
+        io = new IO({
+          postfix: 'C',
+          localeProps: {},
+          tooltipOfValue: true,
         });
-      }
 
-      customIO.initEvents();
+        const parent = document.createElement('div');
 
-      customIO.getIOInputs()[0].value = '20,0';
-      customIO.getIOInputs()[1].value = '20 0';
-
-      customIO.getIOInputs().forEach((item) => {
-        item.addEventListener('change', mockHandle);
-        item.dispatchEvent(new Event('change'));
+        for (let i = 0; i < IO_COUNT; i += 1) {
+          io.createGroup({
+            parent,
+            selector,
+            isVertical: true,
+          });
+        }
       });
 
-      expect(mockHandle).toHaveBeenCalledTimes(customIO.getIOInputs().length);
+      test('must return IO parents', () => {
+        expect(io.getIOParents().length).toBe(2);
+      });
+
+      test('must return IO inputs', () => {
+        expect(io.getIOInputs().length).toBe(2);
+      });
+
+      test('must set new value', () => {
+        io.setIO(0, 30);
+
+        expect(io.getIOInputs()[0].value).toBe('30');
+      });
+
+      test('must move IO', () => {
+        const prop = 'bottom';
+
+        io.moveIO({
+          n: 0,
+          prop,
+          value: 0,
+        });
+
+        expect(io.getIOParents()[0].style[prop]).toBe('0px');
+      });
+
+      test('must prevent text highlighting', () => {
+        const mockHandle = jest.fn();
+
+        io.getIOInputs().forEach((item) => {
+          item.addEventListener('mousedown', mockHandle);
+          item.dispatchEvent(new MouseEvent('mousedown'));
+        });
+
+        expect(mockHandle).toBeCalledTimes(io.getIOInputs().length);
+      });
+
+      test('must init value group listeners', () => {
+        const mockHandle = jest.fn();
+
+        io.init();
+        io.getIOInputs()[0].value = '40';
+
+        io.getIOInputs().forEach((item) => {
+          item.addEventListener('input', mockHandle);
+          item.dispatchEvent(new Event('input'));
+        });
+
+        expect(mockHandle).toHaveBeenCalledTimes(io.getIOInputs().length);
+      });
+    });
+
+    describe('interactive', () => {
+      beforeEach(() => {
+        io = new IO({});
+
+        const parent = document.createElement('div');
+
+        for (let i = 0; i < IO_COUNT; i++) {
+          io.createGroup({
+            parent,
+            selector,
+          });
+        }
+
+        io.initEvents();
+      });
+
+      test('must emit a calculate event and invoke handler', () => {
+        const mockCalculateHandler = jest.fn(({ handler }) => {
+          handler([10, 20]);
+        });
+
+        io.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
+
+        io.getIOInputs()[0].value = ' 10.0';
+        io.getIOInputs()[1].value = 'dfg';
+
+        io.getIOInputs().forEach((output) => {
+          output.dispatchEvent(new Event('change'));
+        });
+
+        expect(mockCalculateHandler).toHaveBeenCalledTimes(io.getIOInputs().length);
+      });
+
+      test('must emit a change event and invoke handler', () => {
+        const mockChangeHandler = jest.fn();
+        const mockCalculateHandler = jest.fn(({ handler }) => {
+          handler([15, 20]);
+        });
+
+        io.on(SubViewEvents.CHANGE_VALUE, mockChangeHandler);
+        io.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
+
+        io.getIOInputs()[0].value = '10';
+        io.getIOInputs()[1].value = '15,0';
+
+        io.getIOInputs().forEach((output) => {
+          output.dispatchEvent(new Event('change'));
+        });
+
+        expect(mockChangeHandler).toHaveBeenCalledTimes(io.getIOInputs().length);
+      });
     });
   });
 
