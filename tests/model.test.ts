@@ -20,27 +20,27 @@ describe('***MODEL***', () => {
       soloSliderModel = new SoloModel(modelConfig);
     });
 
-    test('should be init by constructor', () => {
+    test('must be init by constructor', () => {
       expect(soloSliderModel.getValue()).toEqual([20]);
       expect(soloSliderModel.getMin()).toBe(-100);
       expect(soloSliderModel.getMax()).toBe(100);
     });
 
-    test('getMin() should return the min value', () => {
+    test('getMin() must return the min value', () => {
       expect(soloSliderModel.getMin()).toBe(modelConfig.min);
     });
 
-    test('getMax() should return the max value', () => {
+    test('getMax() must return the max value', () => {
       expect(soloSliderModel.getMax()).toBe(modelConfig.max);
     });
 
-    test('getValue() should return the array', () => {
+    test('getValue() must return the array', () => {
       expect(soloSliderModel.getValue()).toBeDefined();
       expect(soloSliderModel.getValue()).toBeInstanceOf(Array);
     });
 
     describe('setValue()', () => {
-      test('should set new value1', () => {
+      test('must set new value1', () => {
         const preValue = soloSliderModel.getValue()[0];
         const newValue = 30;
 
@@ -50,7 +50,7 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBe(newValue);
       });
 
-      test('should limit value not greater than max', () => {
+      test('must limit value not greater than max', () => {
         const newValue = soloSliderModel.getMax() + 1000;
 
         soloSliderModel.setValue({ val1: newValue });
@@ -58,7 +58,7 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBeLessThanOrEqual(soloSliderModel.getMax());
       });
 
-      test('should limit value not less than min', () => {
+      test('must limit value not less than min', () => {
         const newValue = soloSliderModel.getMin() - 1000;
 
         soloSliderModel.setValue({ val1: newValue });
@@ -66,7 +66,7 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBeGreaterThanOrEqual(soloSliderModel.getMin());
       });
 
-      test('should by default convert value to step', () => {
+      test('must by default convert value to step', () => {
         const newValue = 33;
 
         soloSliderModel.setValue({ val1: newValue });
@@ -74,7 +74,7 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBe(30);
       });
 
-      test('should handle empty object', () => {
+      test('must handle empty object', () => {
         const preValue = soloSliderModel.getValue()[0];
 
         soloSliderModel.setValue({});
@@ -82,7 +82,7 @@ describe('***MODEL***', () => {
         expect(soloSliderModel.getValue()[0]).toBe(preValue);
       });
 
-      test('should call the event', () => {
+      test('must call the event', () => {
         const mockEvent = jest.fn();
 
         soloSliderModel.on(ModelEvents.CHANGE_VALUE, mockEvent);
@@ -92,7 +92,7 @@ describe('***MODEL***', () => {
       });
     });
 
-    test('should set default value1 to min', () => {
+    test('must set default value1 to min', () => {
       const defaultSoloModel = new SoloModel({
         min: -100,
         max: 100,
@@ -110,27 +110,27 @@ describe('***MODEL***', () => {
       doubleSliderModel = new DoubleModel(modelConfig);
     });
 
-    test('should be init by constructor', () => {
+    test('must be init by constructor', () => {
       expect(doubleSliderModel.getValue()).toEqual([20, 70]);
       expect(doubleSliderModel.getMin()).toBe(-100);
       expect(doubleSliderModel.getMax()).toBe(100);
     });
 
-    test('getMin() should return the min value', () => {
+    test('getMin() must return the min value', () => {
       expect(doubleSliderModel.getMin()).toBe(modelConfig.min);
     });
 
-    test('getMax() should return the max value', () => {
+    test('getMax() must return the max value', () => {
       expect(doubleSliderModel.getMax()).toBe(modelConfig.max);
     });
 
-    test('getValue() should return the array', () => {
+    test('getValue() must return the array', () => {
       expect(doubleSliderModel.getValue()).toBeDefined();
       expect(doubleSliderModel.getValue()).toBeInstanceOf(Array);
     });
 
     describe('setValue()', () => {
-      test('should set new value1', () => {
+      test('must set new value1', () => {
         const newValue1 = 40;
 
         doubleSliderModel.setValue({ val1: newValue1 });
@@ -138,7 +138,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[0]).toBe(newValue1);
       });
 
-      test('should set new value2', () => {
+      test('must set new value2', () => {
         const newValue2 = 60;
 
         doubleSliderModel.setValue({ val2: newValue2 });
@@ -146,7 +146,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
-      test('should set both values', () => {
+      test('must set both values', () => {
         const newValue1 = 40;
         const newValue2 = 60;
 
@@ -159,7 +159,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(newValue2);
       });
 
-      test('should swap values if value1 greater than value2 (input: value1, value2)', () => {
+      test('must swap values if value1 greater than value2 (input: value1, value2)', () => {
         const newValue1 = 60;
         const newValue2 = 40;
 
@@ -172,7 +172,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(newValue1);
       });
 
-      test('should limit value1 no greater than value2 (input: value1)', () => {
+      test('must limit value1 no greater than value2 (input: value1)', () => {
         const newValue1 = 80;
 
         doubleSliderModel.setValue({
@@ -183,7 +183,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(modelConfig.value2);
       });
 
-      test('should limit value2 no less than value1 (input: value2)', () => {
+      test('must limit value2 no less than value1 (input: value2)', () => {
         const newValue2 = 10;
 
         doubleSliderModel.setValue({
@@ -194,7 +194,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(modelConfig.value1);
       });
 
-      test('should limit value1 no less then min', () => {
+      test('must limit value1 no less then min', () => {
         const newValue1 = doubleSliderModel.getMin() - 1000;
 
         doubleSliderModel.setValue({ val1: newValue1 });
@@ -202,7 +202,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[0]).toBeGreaterThanOrEqual(doubleSliderModel.getMin());
       });
 
-      test('should limit value2 no greater then max', () => {
+      test('must limit value2 no greater then max', () => {
         const newValue2 = doubleSliderModel.getMax() + 1000;
 
         doubleSliderModel.setValue({ val2: newValue2 });
@@ -210,7 +210,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBeLessThanOrEqual(doubleSliderModel.getMax());
       });
 
-      test('should limit both values no greater then max', () => {
+      test('must limit both values no greater then max', () => {
         const defaultDoubleModel = new DoubleModel({
           min: -100,
           max: 100,
@@ -223,7 +223,7 @@ describe('***MODEL***', () => {
         expect(defaultDoubleModel.getValue()[1]).toBe(defaultDoubleModel.getMax());
       });
 
-      test('should limit both values no less then min', () => {
+      test('must limit both values no less then min', () => {
         const defaultDoubleModel = new DoubleModel({
           min: -100,
           max: 100,
@@ -236,7 +236,7 @@ describe('***MODEL***', () => {
         expect(defaultDoubleModel.getValue()[1]).toBe(defaultDoubleModel.getMin());
       });
 
-      test('should by default convert value to step', () => {
+      test('must by default convert value to step', () => {
         const newValue1 = -26;
         const newValue2 = 62;
 
@@ -246,7 +246,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(60);
       });
 
-      test('should handle empty object', () => {
+      test('must handle empty object', () => {
         const preValues = doubleSliderModel.getValue();
 
         doubleSliderModel.setValue({});
@@ -255,7 +255,7 @@ describe('***MODEL***', () => {
         expect(doubleSliderModel.getValue()[1]).toBe(preValues[1]);
       });
 
-      test('should call the event', () => {
+      test('must call the event', () => {
         const mockEvent = jest.fn();
 
         doubleSliderModel.on(ModelEvents.CHANGE_VALUE, mockEvent);
@@ -265,7 +265,7 @@ describe('***MODEL***', () => {
       });
     });
 
-    test('should set default value1 to min and value2 to max', () => {
+    test('must set default value1 to min and value2 to max', () => {
       const defaultDoubleModel = new DoubleModel({
         min: -100,
         max: 100,
