@@ -312,23 +312,23 @@ describe('***VIEW***', () => {
       }
     });
 
-    test('should return length', () => {
+    test('must return length', () => {
       expect(thumbs.getLength()).toBe(2);
     });
 
-    test('should return thumb', () => {
+    test('must return thumb', () => {
       for (let i = 0; i < thumbs.getLength(); i++) {
         expect(thumbs.getThumb(i)).toBeInstanceOf(HTMLElement);
       }
     });
 
-    test('should return computed size', () => {
+    test('must return computed size', () => {
       thumbs.getThumb(0).style.width = '24px';
 
       expect(thumbs.getSize()).toBe(24);
     });
 
-    test('should be able to set and get thumb style', () => {
+    test('must be able to set and get thumb style', () => {
       const startValue = 32;
 
       thumbs.moveThumb({
@@ -345,61 +345,81 @@ describe('***VIEW***', () => {
       expect(finishValue).toBe(`${startValue}px`);
     });
 
-    test('should init thumb events', () => {
-      const thumbsParent = document.createElement('div');
+    describe('initialized events', () => {
+      let thumbsParent: HTMLDivElement;
 
-      const decoyArray: Array<HTMLElement> = [];
+      beforeEach(() => {
+        thumbsParent = document.createElement('div');
 
-      for (let i = 0; i < thumbs.getLength(); i++) {
-        const decoy = document.createElement('div');
-        decoyArray.push(decoy);
-      }
+        const decoyArray: Array<HTMLElement> = [];
 
-      thumbs.initEvents({
-        thumbsParent,
-        axis: {
-          styleSelector: 'bottom',
-          axis: 'y',
-          eventAxis: 'clientY',
-          sizeParent: 'height',
-          start: 'top',
-          end: 'bottom',
-          dPos: 1,
-        },
-        min: -100,
-        max: 100,
-        additionalListeners: decoyArray,
+        for (let i = 0; i < thumbs.getLength(); i++) {
+          const decoy = document.createElement('div');
+          decoyArray.push(decoy);
+        }
+
+        thumbs.initEvents({
+          thumbsParent,
+          axis: {
+            styleSelector: 'bottom',
+            axis: 'y',
+            eventAxis: 'clientY',
+            sizeParent: 'height',
+            start: 'top',
+            end: 'bottom',
+            dPos: 1,
+          },
+          min: -100,
+          max: 100,
+          additionalListeners: decoyArray,
+        });
       });
 
-      for (let i = 0; i < thumbs.getLength(); i++) {
-        const thumbExample = thumbs.getThumb(i);
+      test('must emit a calculate event and invoke the handler', () => {
+        const mockHandlerCalculate = jest.fn();
 
-        thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
-          clientX: (i + 1) * 10,
-          clientY: (i + 1) * 10,
-        }));
-        document.dispatchEvent(new MouseEvent('pointermove', {
-          clientX: (i + 2) * 10,
-          clientY: (i + 2) * 10,
-        }));
-        document.dispatchEvent(new Event('pointerup'));
-      }
+        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
 
-      // another testing config
+        for (let i = 0; i < thumbs.getLength(); i++) {
+          thumbs.getThumb(i).dispatchEvent(new MouseEvent('pointerdown', {
+            clientX: (i + 3) * 10,
+            clientY: (i + 3) * 10,
+          }));
 
-      for (let i = 0; i < thumbs.getLength(); i++) {
-        const thumbExample = thumbs.getThumb(i);
+          document.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: (i + 2) * 10,
+            clientY: (i + 2) * 10,
+          }));
 
-        thumbExample.dispatchEvent(new MouseEvent('pointerdown', {
-          clientX: (i + 3) * 10,
-          clientY: (i + 3) * 10,
-        }));
-        document.dispatchEvent(new MouseEvent('pointermove', {
-          clientX: (i + 2) * 10,
-          clientY: (i + 2) * 10,
-        }));
-        document.dispatchEvent(new Event('pointerup'));
-      }
+          document.dispatchEvent(new Event('pointerup'));
+        }
+
+        expect(mockHandlerCalculate).toHaveBeenCalledTimes(thumbs.getLength());
+      });
+
+      test('must emit a change event and invoke the handler', () => {
+        const mockHandlerChange = jest.fn();
+        const mockHandlerCalculate = jest.fn(({ handler }) => {
+          handler([50, 50]);
+        });
+
+        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
+        thumbs.on(SubViewEvents.CHANGE_VALUE, mockHandlerChange);
+
+        for (let i = 0; i < thumbs.getLength(); i++) {
+          thumbs.getThumb(i).dispatchEvent(new MouseEvent('pointerdown', {
+            clientX: (i + 3) * 10 * (-1) ** i,
+            clientY: (i + 3) * 10 * (-1) ** i,
+          }));
+
+          document.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: (i + 2) * 10,
+            clientY: (i + 2) * 10,
+          }));
+
+          document.dispatchEvent(new Event('pointerup'));
+        }
+      });
     });
   });
 
