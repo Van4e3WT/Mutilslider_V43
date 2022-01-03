@@ -2,7 +2,7 @@ import IO from 'Plugin/modules/view/IO';
 import Scale from 'Plugin/modules/view/Scale';
 import Thumbs from 'Plugin/modules/view/Thumbs';
 import View from 'Plugin/modules/view/View';
-import { SubViewEvents } from 'Plugin/modules/utils/EventEmitter';
+import { SubViewEvents, ViewEvents } from 'Plugin/modules/utils/EventEmitter';
 import { Config } from 'Plugin/custom-types';
 
 const IO_COUNT = 2;
@@ -440,7 +440,7 @@ describe('***VIEW***', () => {
       mockGetValue = jest.fn();
     });
 
-    test('should init solo slider', () => {
+    test('must init solo slider', () => {
       const cfg: Config = {
         minValue: -100,
         maxValue: 100,
@@ -483,7 +483,7 @@ describe('***VIEW***', () => {
       });
     });
 
-    test('should init double slider', () => {
+    test('must init double slider', () => {
       const cfg: Config = {
         minValue: -100,
         maxValue: 100,
@@ -527,7 +527,7 @@ describe('***VIEW***', () => {
       });
     });
 
-    test('should call update listeners', () => {
+    test('must emit a change event and invoke handler', () => {
       const cfg: Config = {
         minValue: -100,
         maxValue: 100,
@@ -546,17 +546,17 @@ describe('***VIEW***', () => {
 
       view.init();
 
-      const mockUpdate = jest.fn();
+      const mockChangeHandler = jest.fn();
 
-      view.update = mockUpdate;
+      view.on(ViewEvents.CHANGE_VALUE, mockChangeHandler);
 
       window.dispatchEvent(new Event('resize'));
       document.dispatchEvent(new Event('DOMContentLoaded'));
 
-      expect(mockUpdate).toHaveBeenCalledTimes(2);
+      expect(mockChangeHandler).toHaveBeenCalledTimes(2);
     });
 
-    test('should listen clicks on view body', () => {
+    test('must listen clicks on view body', () => {
       mockGetMin.mockReturnValue(-100);
       mockGetMax.mockReturnValue(100);
 
@@ -586,13 +586,78 @@ describe('***VIEW***', () => {
 
       view.init();
 
-      const mockBodyHandle = jest.fn();
+      const mockChangeHandler = jest.fn(({ handler }) => {
+        handler([20, 70]);
+      });
 
-      view.thumbsParent.addEventListener('pointerdown', mockBodyHandle);
+      view.on(ViewEvents.CALCULATE_VALUE, mockChangeHandler);
 
       view.thumbsParent.dispatchEvent(new MouseEvent('pointerdown'));
 
-      expect(mockBodyHandle).toHaveBeenCalled();
+      expect(mockChangeHandler).toHaveBeenCalled();
+    });
+
+    test('must emit a calculate event and invoke handler', () => {
+      mockGetMin.mockReturnValue(-100);
+      mockGetMax.mockReturnValue(100);
+
+      const cfg: Config = {
+        minValue: -100,
+        maxValue: 100,
+        value1: 20,
+        value2: 70,
+        step: 10,
+        isProgressBar: true,
+        isRange: true,
+        isVertical: false,
+        scaleOfValues: 5,
+        tooltipOfValue: false,
+        description: 'Test slider',
+        postfix: 'C',
+      };
+
+      const view = new View({
+        values: [30, 60],
+        selector,
+        parent,
+        cfg,
+      });
+
+      mockGetValue.mockReturnValue([30, 60]);
+
+      view.init();
+
+      const mockCalculateHandler = jest.fn();
+
+      view.on(ViewEvents.CALCULATE_VALUE, mockCalculateHandler);
+
+      view.outputs.getIOInputs().forEach((output) => {
+        output.dispatchEvent(new Event('change'));
+      });
+
+      view.scale.getScaleDivisions().forEach((scaleDivision) => {
+        scaleDivision.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+
+      for (let i = 0; i < view.thumbs.getLength(); i++) {
+        view.thumbs.getThumb(i).dispatchEvent(new MouseEvent('pointerdown', {
+          clientX: (i + 3) * 10,
+          clientY: (i + 3) * 10,
+        }));
+
+        document.dispatchEvent(new MouseEvent('pointermove', {
+          clientX: (i + 2) * 10,
+          clientY: (i + 2) * 10,
+        }));
+
+        document.dispatchEvent(new Event('pointerup'));
+      }
+
+      expect(mockCalculateHandler).toHaveBeenCalledTimes(
+        view.outputs.getIOInputs().length
+        + view.scale.getScaleDivisions().length
+        + view.thumbs.getLength(),
+      );
     });
   });
 });
