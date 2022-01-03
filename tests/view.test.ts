@@ -150,9 +150,28 @@ describe('***VIEW***', () => {
         count: 5,
         isVertical: true,
       });
+
+      scale.update({
+        thumbsParent: document.createElement('div'),
+        thumbSize: 25,
+        axis: {
+          styleSelector: 'bottom',
+          axis: 'y',
+          eventAxis: 'clientY',
+          sizeParent: 'height',
+          start: 'top',
+          end: 'bottom',
+          dPos: 1,
+        },
+        min: 0,
+        max: 100,
+        step: 5,
+      });
+
+      scale.initEvents();
     });
 
-    test('should init with different parameters', () => {
+    test('must init with different parameters', () => {
       const scaleDefault = new Scale({
         localeProps: {},
       });
@@ -171,11 +190,11 @@ describe('***VIEW***', () => {
       expect(scaleDivisions.length).toBe(7);
     });
 
-    test('should return scale', () => {
+    test('must return scale', () => {
       expect(scale.getScale()).toBeInstanceOf(HTMLDivElement);
     });
 
-    test('should return scale divisions', () => {
+    test('must return scale divisions', () => {
       const scaleDivisions = scale.getScaleDivisions();
 
       scaleDivisions.forEach((item) => {
@@ -185,7 +204,7 @@ describe('***VIEW***', () => {
       expect(scaleDivisions.length).toBe(5);
     });
 
-    test('should update scale data', () => {
+    test('must update scale data', () => {
       const thumbsParent = document.createElement('div');
       const result = [-100, -50, 0, 50, 100];
 
@@ -211,7 +230,7 @@ describe('***VIEW***', () => {
       });
     });
 
-    test('should init "click" events on scale', () => {
+    test('must init "click" events on scale', () => {
       const gradientArray = [[-50, 50], [20, 70], [-100, -100], [20, 80], [-50, 50]];
       const mockGetValue = jest.fn();
       const mockHandle = jest.fn();
@@ -246,6 +265,36 @@ describe('***VIEW***', () => {
       });
 
       expect(mockHandle).toHaveBeenCalledTimes(scale.getScaleDivisions().length + 1);
+    });
+
+    test('must emit a calculate event and invoke the handler', () => {
+      const mockHandlerCalculate = jest.fn();
+
+      scale.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
+
+      scale.getScaleDivisions().forEach((scaleDivision) => {
+        scaleDivision.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+
+      expect(mockHandlerCalculate).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
+    });
+
+    test('must emit a change event and invoke the handler', () => {
+      const mockHandlerChange = jest.fn();
+      const mockHandlerCalculate = jest.fn(({ handler }) => {
+        handler([15, 100]);
+      });
+
+      scale.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
+      scale.on(SubViewEvents.CHANGE_VALUE, mockHandlerChange);
+
+      scale.getScaleDivisions().forEach((scaleDivision) => {
+        scaleDivision.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+
+      scale.getScale().dispatchEvent(new Event('click', { bubbles: true }));
+
+      expect(mockHandlerChange).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
     });
   });
 
