@@ -268,25 +268,25 @@ describe('***VIEW***', () => {
     });
 
     test('must emit a calculate event and invoke the handler', () => {
-      const mockHandlerCalculate = jest.fn();
+      const mockCalculateHandler = jest.fn();
 
-      scale.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
+      scale.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
 
       scale.getScaleDivisions().forEach((scaleDivision) => {
         scaleDivision.dispatchEvent(new Event('click', { bubbles: true }));
       });
 
-      expect(mockHandlerCalculate).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
+      expect(mockCalculateHandler).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
     });
 
     test('must emit a change event and invoke the handler', () => {
-      const mockHandlerChange = jest.fn();
-      const mockHandlerCalculate = jest.fn(({ handler }) => {
+      const mockChangeHandler = jest.fn();
+      const mockCalculateHandler = jest.fn(({ handler }) => {
         handler([15, 100]);
       });
 
-      scale.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
-      scale.on(SubViewEvents.CHANGE_VALUE, mockHandlerChange);
+      scale.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
+      scale.on(SubViewEvents.CHANGE_VALUE, mockChangeHandler);
 
       scale.getScaleDivisions().forEach((scaleDivision) => {
         scaleDivision.dispatchEvent(new Event('click', { bubbles: true }));
@@ -294,7 +294,7 @@ describe('***VIEW***', () => {
 
       scale.getScale().dispatchEvent(new Event('click', { bubbles: true }));
 
-      expect(mockHandlerChange).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
+      expect(mockChangeHandler).toHaveBeenCalledTimes(scale.getScaleDivisions().length);
     });
   });
 
@@ -376,9 +376,9 @@ describe('***VIEW***', () => {
       });
 
       test('must emit a calculate event and invoke the handler', () => {
-        const mockHandlerCalculate = jest.fn();
+        const mockCalculateHandler = jest.fn();
 
-        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
+        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
 
         for (let i = 0; i < thumbs.getLength(); i++) {
           thumbs.getThumb(i).dispatchEvent(new MouseEvent('pointerdown', {
@@ -394,17 +394,17 @@ describe('***VIEW***', () => {
           document.dispatchEvent(new Event('pointerup'));
         }
 
-        expect(mockHandlerCalculate).toHaveBeenCalledTimes(thumbs.getLength());
+        expect(mockCalculateHandler).toHaveBeenCalledTimes(thumbs.getLength());
       });
 
       test('must emit a change event and invoke the handler', () => {
-        const mockHandlerChange = jest.fn();
-        const mockHandlerCalculate = jest.fn(({ handler }) => {
+        const mockChangeHandler = jest.fn();
+        const mockCalculateHandler = jest.fn(({ handler }) => {
           handler([50, 50]);
         });
 
-        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockHandlerCalculate);
-        thumbs.on(SubViewEvents.CHANGE_VALUE, mockHandlerChange);
+        thumbs.on(SubViewEvents.CALCULATE_VALUE, mockCalculateHandler);
+        thumbs.on(SubViewEvents.CHANGE_VALUE, mockChangeHandler);
 
         for (let i = 0; i < thumbs.getLength(); i++) {
           thumbs.getThumb(i).dispatchEvent(new MouseEvent('pointerdown', {
@@ -419,6 +419,8 @@ describe('***VIEW***', () => {
 
           document.dispatchEvent(new Event('pointerup'));
         }
+
+        expect(mockChangeHandler).toHaveBeenCalledTimes(thumbs.getLength());
       });
     });
   });
